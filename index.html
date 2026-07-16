@@ -455,13 +455,9 @@
     .work-project:nth-of-type(2) .work-project-carousel { transform: rotate(.35deg); }
     .work-project-carousel:hover,
     .work-project-carousel:focus-within { transform: rotate(0); filter: drop-shadow(0 18px 24px rgba(48,55,55,.18)); }
-    .personal-card {
-      overflow: hidden; transition: transform .25s ease, box-shadow .25s ease;
-    }
-    .personal-card:nth-child(1) { border-radius: 58px 8px 38px 8px; transform: rotate(-.45deg); }
-    .personal-card:nth-child(2) { border-radius: 8px 58px 8px 38px; transform: rotate(.45deg); }
-    .personal-card:hover,
-    .personal-card:focus-within { transform: rotate(0) translateY(-4px); box-shadow: var(--shadow); }
+    .personal-card { overflow: hidden; }
+    .personal-card:nth-child(1) { border-radius: 58px 8px 38px 8px; }
+    .personal-card:nth-child(2) { border-radius: 8px 58px 8px 38px; }
     .item-dialog {
       width: min(900px, calc(100% - 32px)); max-height: 90vh; margin: auto; padding: 0;
       color: var(--ink); background: var(--paper); border: 1px solid var(--ink);
@@ -772,7 +768,6 @@
     <div class="nav-right">
       <a class="nav-link" href="#main-work">Main work</a>
       <a class="nav-link" href="#method">Method</a>
-      <a class="nav-link" href="#log">Build log</a>
       <button class="nav-contact" type="button" onclick="openContact()">Contact</button>
       <button class="theme-toggle" type="button" aria-label="Toggle color theme" onclick="toggleTheme()">
         <span>Theme</span><b aria-hidden="true">◐</b>
@@ -810,7 +805,7 @@
 
     <section class="visual-case" id="main-work">
       <div class="wrap">
-        <div class="sec-head"><span class="sec-label">Main work</span><span class="sec-index">01 / 06</span></div>
+        <div class="sec-head"><span class="sec-label">Main work</span><span class="sec-index">01 / 05</span></div>
         <div class="main-work-intro">
           <h2 class="section-title">The pictures first. The process follows.</h2>
           <p>These are the two main bodies of work behind Olimazi. Method Effects shows where I learned to build a brand and operating process from the ground up. Schedule E/C connects prior tax experience to the current work of learning AI through a real family problem.</p>
@@ -881,7 +876,7 @@
         </article>
 
         <div class="thread-list" aria-label="Experience feeding the current work">
-          <article class="range-item"><span class="range-num">03</span><div><h3>Tax and accounting operations</h3><p>US Review Manager at SurePrep from 2010–2014. The work included a Grant Thornton business-tax pilot, federal and state return preparation, partnership and 8825 work, client coordination, software QA, and managing 75 temporary staff processing roughly 500 returns a day. This is the experience behind the Schedule E/C idea.</p></div><span class="range-tag">SurePrep<br>2010–2014</span></article>
+          <article class="range-item"><span class="range-num">03</span><div><h3>Tax and accounting operations</h3><p>US Review Manager at SurePrep from 2010–2014. The work included a Grant Thornton business-tax pilot, federal and state return preparation, partnership and 8825 work, client coordination, and software QA. I also managed 75 temporary staff while processing 500 returns a day. This is the experience behind the Schedule E/C idea.</p></div><span class="range-tag">SurePrep<br>2010–2014</span></article>
           <article class="range-item"><span class="range-num">04</span><div><h3>Restaurant operations</h3><p>Experience across Romano’s Macaroni Grill and Mimi’s Café, including management and interim-GM responsibilities. The work covered training, staffing, scheduling, inventory, P&amp;L review, and day-to-day operating decisions. More detail will be added after the next pass.</p></div><span class="range-tag">Operations<br>under pressure</span></article>
           <article class="range-item"><span class="range-num">05</span><div><h3>Content and automation experiments</h3><p>Cologne, recipes, and other interests are becoming small tests for research, attribution, drafting, and eventual Facebook or Instagram publishing flows. The point is to learn the system through subjects I already care about.</p></div><span class="range-tag">AI-assisted<br>publishing</span></article>
         </div>
@@ -890,7 +885,7 @@
 
     <section class="section" id="method">
       <div class="wrap">
-        <div class="sec-head"><span class="sec-label">Learning in public</span><span class="sec-index">02 / 06</span></div>
+        <div class="sec-head"><span class="sec-label">Learning in public</span><span class="sec-index">02 / 05</span></div>
         <div class="method-grid">
           <h2 class="method-statement">Context first.<br><span>Then the tool.</span></h2>
           <div class="steps">
@@ -905,7 +900,7 @@
 
     <section class="section" id="mind">
       <div class="wrap">
-        <div class="sec-head"><span class="sec-label">Current state of mind</span><span class="sec-index">03 / 06</span></div>
+        <div class="sec-head"><span class="sec-label">Current state of mind</span><span class="sec-index">03 / 05</span></div>
         <h2 class="section-title">Scattered, connected, and hopefully improving.</h2>
         <p class="section-note">This is the current state of my Obsidian vault: working notes, experiments, projects, useful connections, and plenty of loose ends. It is not a finished knowledge system. Part of learning in public is figuring out what deserves structure, what should connect, and what is only noise.</p>
         <div class="mind-graph">
@@ -1094,23 +1089,9 @@
       </div>
     </section>
 
-    <section class="section" id="log">
-      <div class="wrap">
-        <div class="sec-head"><span class="sec-label">Build log</span><span class="sec-index">04 / 06</span></div>
-        <h2 class="section-title">The record stays honest.</h2>
-        <p class="section-note">Progress is more credible with the rough edges left in. These are notes from the bench, not launch announcements.</p>
-        <div class="log">
-          <article class="log-entry"><time class="log-date" datetime="2026-07-10">2026-07-10</time><div><div class="log-title">969 files, exact arithmetic.</div><p class="log-body">Restructured the knowledge vault, rewrote references before moving anything, and verified the live tax workflow still ran clean afterward.</p></div></article>
-          <article class="log-entry"><time class="log-date" datetime="2026-07-08">2026-07-08</time><div><div class="log-title">Graded my own homework.</div><p class="log-body">A structured critique found a blank no-JavaScript page, placeholder copy, weak mobile navigation, and a contrast miss. All four became backlog.</p></div></article>
-          <article class="log-entry"><time class="log-date" datetime="2026-07-04">2026-07-04</time><div><div class="log-title">The encoding tax.</div><p class="log-body">Found Windows silently corrupting punctuation and moved every file edit to explicit UTF-8. Tuition paid.</p></div></article>
-          <article class="log-entry"><time class="log-date" datetime="2026-06-30">2026-06-30</time><div><div class="log-title">Bug caught before shipping.</div><p class="log-body">A workspace scaffolder’s keyword filter created false positives. Fixed it, retested to zero, then shipped.</p></div></article>
-        </div>
-      </div>
-    </section>
-
     <section class="section" aria-labelledby="tested-title">
       <div class="wrap">
-        <div class="sec-head"><span class="sec-label">Content experiments</span><span class="sec-index">05 / 06</span></div>
+        <div class="sec-head"><span class="sec-label">Content experiments</span><span class="sec-index">04 / 05</span></div>
         <h2 class="section-title" id="tested-title">Learn the workflow through things I like.</h2>
         <p class="section-note">Cologne, desserts, recipes, and other interests become manageable experiments in research, attribution, drafting, and eventually publishing to Facebook or Instagram. Select an item to open its notes and sources.</p>
         <div class="personal-grid">
