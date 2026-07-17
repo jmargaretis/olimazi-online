@@ -1,30 +1,27 @@
-# SOL completion report — packet #1
+# SOL completion report — packet #2
 
 ## What changed
 
-- `AGENTS.md` — added the short operating contract for future SOL packets.
-- `index.html` — reframed Olimazi as a personal concept exploring what one person can build with AI; expanded the Schedule E/C work into the first concrete Olimazi build; added the local-first ownership story, deterministic/no-running-cost positioning, all three existing tracker screenshots, a free-download placeholder, tester-interest email link, and tax-advice honesty line.
-- `sol/REPORT.md` — replaced the empty report with this completion record.
+- `PRODUCT.md` — captured the locked brand register, users, purpose, personality, anti-references, strategic principles, and existing accessibility commitments.
+- `DESIGN.md` — captured the live visual system in the DESIGN.md format: active mint light/dark tokens, typography, elevation, components, and guardrails.
+- `.impeccable/design.json` — added the generated design-system sidecar for future impeccable tooling.
+- `.impeccable/live/config.json` — configured the plain-HTML entry point for future impeccable live sessions; CSP detection found no policy to patch.
+- `sol/REPORT.md` — replaced packet #1’s report with this packet #2 completion record.
 
-## Preview
+## Future context location
 
-https://jmargaretis.github.io/olimazi-online/
+Future packets should read `PRODUCT.md` for who/what/why and `DESIGN.md` for the current visual system. `.impeccable/design.json` and `.impeccable/live/config.json` support impeccable’s tooling.
 
-## Verification
+## Framing
 
-- Checked desktop at 1440 × 1000 and mobile at 390 × 844.
-- Confirmed no horizontal page overflow.
-- Confirmed all three Schedule E screenshots load.
-- Confirmed the tracker carousel advances and dark mode renders correctly.
+The “personal concept, proof over pitch” framing is recorded as locked. No provisional framing remains in the context files.
 
-## Skipped
+## Site changes
 
-Nothing in packet scope was skipped.
+None. `index.html`, `olimazi-assets/`, copy, visuals, behavior, and dependencies were left unchanged.
 
-## Framing note
+## Proposals for a future scoped packet
 
-The standing recommendation materially changed the page title, metadata, hero, main-work introduction, and tracker copy. The site now explicitly presents Olimazi as a personal concept and says it is not a tools platform or finished product company. This can be confirmed or reversed in the next packet.
-
-## Out-of-scope proposals
-
-None.
+1. **Audit accessibility and contrast.** Verify every active mint light/dark pairing and the contact controls against a stated WCAG target.
+2. **Consolidate token history.** `index.html` contains the original palette plus the active mint overrides; a future cleanup could reduce ambiguity while preserving rendered output.
+3. **Review display scale.** The captured hero ceiling is 104px; test whether a slightly lower cap improves wide-screen balance without weakening the current identity.
