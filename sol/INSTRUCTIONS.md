@@ -1,23 +1,31 @@
 # SOL work packet — active
 
-**Packet:** #2 · issued 2026-07-17 · authored by Claude (planning side)
+**Packet:** #3 · issued 2026-07-17 · authored by Claude (planning side)
 **Protocol:** see `AGENTS.md`. Direct-change authority within scope only; out-of-scope ideas → proposals in `sol/REPORT.md`.
 
-## Packet #2 scope
+## Context
 
-### 1. Framing is LOCKED
-The owner has confirmed the "presenting a concept" framing you shipped in packet #1. Remove any hedging this enables (if you left placeholder or provisional wording anywhere tied to that uncertainty, finalize it). No copy rewrites beyond that — the owner's standing preference is momentum over polish.
+Owner feedback on the live site: **a bit too busy, still lacking some focus.** This packet is a streamlining pass — the goal is subtraction and hierarchy, not new material. Read `PRODUCT.md` and `DESIGN.md` (your packet #2 capture) before touching anything; every change must stay inside the locked framing (personal concept, proof over pitch) and the existing token system.
 
-### 2. Run `impeccable init` — capture only
-Run impeccable's init to capture the site's product and design context into the repo. Constraints:
-- **Capture, don't restyle.** Commit the generated context files as-is. Make zero visual or copy changes as part of this step.
-- Any design findings, inconsistencies, or improvement ideas the process surfaces go in `sol/REPORT.md` as proposals — a short prioritized list is welcome; implementing them is not in scope.
-- The captured context must reflect the locked framing (personal concept, proof over pitch) and the existing design tokens. If the tool wants input on brand intent, use the live site and `sol/` history as the source — invent nothing new.
+## Packet #3 scope
+
+### 1. Focus pass on `index.html`
+Reduce visual competition so each section reads with one clear focal point:
+- Tighten hierarchy: one dominant element per section; demote or trim anything competing with it.
+- Where a section shows several images at similar weight, pick a lead and reduce the rest (smaller, fewer, or grouped) — do **not** delete image files or add new ones (see out of scope).
+- Trim copy only where it directly serves de-busying (shorter intros, cut redundant lines). No rewrites of meaning or voice.
+- **Whole-section removal is not authorized.** If you believe a section should go entirely, make the case in `REPORT.md` as a proposal instead.
+
+### 2. Your packet #2 proposals — two are approved as part of this pass
+- **Display scale (your proposal 3):** test a lower hero ceiling than 104px for wide-screen balance; ship the value you judge best, note before/after in the report.
+- **Token consolidation (your proposal 2):** collapse the original-palette-plus-mint-override layering in `index.html` into one clean token set, **preserving rendered output exactly**. This is a refactor, not a restyle.
+- (Proposal 1, the accessibility/contrast audit, is deferred to a future packet — don't start it.)
 
 ### 3. Report
-Overwrite `sol/REPORT.md`: files added, where the context lives for future packets, and the proposal list (if any).
+Overwrite `sol/REPORT.md`: what was cut/demoted and why, the hero-scale decision, confirmation the token consolidation is render-identical, and any proposals (including sections you'd remove outright).
 
 ## Out of scope
-- Visual redesigns, copy rewrites, new sections, new dependencies
-- `olimazi-assets/`, payment/download links
+- `olimazi-assets/` — no additions, deletions, or swaps. Image curation is underway on the owner's side (a vault image bucket with per-image notes and permissions); a future packet will carry any asset changes.
+- New sections, new content, new dependencies, copy rewrites beyond trims
+- Payment/download links
 - This file
