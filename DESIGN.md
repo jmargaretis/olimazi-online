@@ -130,9 +130,12 @@ The active palette is the `data-variant="mint"` token set in `index.html`; light
 
 ## Typography
 
-**Display Font:** Satoshi (with Segoe UI and system sans fallbacks)  
-**Body Font:** Satoshi (with Segoe UI and system sans fallbacks)  
-**Label/Mono Font:** IBM Plex Mono (with Consolas and monospace fallbacks)  
+**Display Font:** Satoshi (with Segoe UI and system sans fallbacks)
+
+**Body Font:** Satoshi (with Segoe UI and system sans fallbacks)
+
+**Label/Mono Font:** IBM Plex Mono (with Consolas and monospace fallbacks)
+
 **Annotation Font:** Architects Daughter (with Segoe Print and cursive fallbacks)
 
 **Character:** Satoshi provides direct, modern confidence; IBM Plex Mono makes operational detail feel recorded and inspectable; Architects Daughter is reserved for the background working-notebook layer.
