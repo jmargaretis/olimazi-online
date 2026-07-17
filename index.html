@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Olimazi builds practical operating systems for landlords and small operators—and shows the work.">
-  <title>Olimazi — Practical systems, built in public</title>
+  <meta name="description" content="Olimazi is a personal brand exploring what one person can build with AI, real context, and files they own.">
+  <title>Olimazi — What one person can build with AI</title>
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Architects+Daughter&display=swap" rel="stylesheet">
   <style>
@@ -403,6 +403,7 @@
     .nav-brand span { color: var(--ink); }
     .nav-brand em { color: var(--ink-muted); font-style: normal; font-weight: 700; }
     .synthesis-hero .hero-kicker { color: var(--olive); }
+    .synthesis-hero h1 .accent { white-space: normal; }
     .main-work-intro { display:grid; grid-template-columns:.42fr 1fr; gap:40px; margin-bottom:54px; }
     .main-work-intro p { max-width:620px; color:var(--ink-muted); font-size:16px; line-height:1.75; }
     .work-project { padding:40px 0 54px; border-top:1px solid var(--ink); }
@@ -413,13 +414,25 @@
     .work-project-copy h3 { margin-bottom:18px; font-size:clamp(30px,4.4vw,48px); line-height:1.02; letter-spacing:-.025em; }
     .work-project-copy p { margin-bottom:16px; color:var(--ink-muted); font-size:15px; line-height:1.75; }
     .work-project-copy .spec { margin-top:28px; }
+    .tracker-lede { max-width: 18ch; color: var(--ink); font-size: clamp(21px, 2.5vw, 29px); font-weight: 700; line-height: 1.22; letter-spacing: -.015em; text-wrap: balance; }
+    .tracker-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 28px; }
+    .tracker-coming {
+      min-height: 50px; display: inline-flex; align-items: center; padding: 14px 18px;
+      color: var(--ink); background: var(--paper-deep); border: 1px solid var(--line);
+      font: 600 10px/1.4 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .12em; text-transform: uppercase;
+    }
+    .tracker-honesty {
+      margin-top: 22px; padding-top: 14px; color: var(--ink-muted);
+      border-top: 1px solid var(--line); font-size: 12px; line-height: 1.6;
+    }
+    .tracker-honesty strong { color: var(--ink); }
     .work-project-carousel { overflow:hidden; border:1px solid var(--line); background:var(--card); box-shadow:var(--shadow); }
     .thread-list { margin-top:54px; border-top:1px solid var(--ink); }
     @media(max-width:860px){ .main-work-intro,.work-project-grid,.work-project-grid.reverse{grid-template-columns:1fr;} .work-project-copy{position:static;} .work-project-grid.reverse .work-project-copy{order:0;} .work-project-grid.reverse .work-project-carousel{order:1;} }
     @media(max-width:560px){
       .main-work-intro{gap:16px;}
       .synthesis-hero h1{font-size:clamp(44px,13.5vw,56px);}
-      .synthesis-hero h1 .accent{white-space:normal;}
       .synthesis-hero .hero-grid,
       .synthesis-hero .hero-grid > *{min-width:0;max-width:100%;}
       .synthesis-hero .spec-row{grid-template-columns:96px minmax(0,1fr);}
@@ -779,9 +792,9 @@
     <header class="hero synthesis-hero" id="top">
       <div class="wrap hero-grid">
         <div>
-          <div class="hero-kicker">Personal build practice · learning AI in public</div>
-          <h1>Learning AI with <span class="accent">real context.</span></h1>
-          <p class="hero-sub">Olimazi is where I connect experience in tax operations, restaurants, and building Method Effects with new AI experiments—sharing what works, what does not, and the context I wish I had when I started.</p>
+          <div class="hero-kicker">A personal brand · building with AI in public</div>
+          <h1>What can one person <span class="accent">build with AI?</span></h1>
+          <p class="hero-sub">Olimazi is an ongoing answer: practical experiments shaped by experience in tax operations, restaurants, and building Method Effects. It presents the work, what I learn, and what still needs refining—not a tools platform or a finished product company.</p>
           <a class="btn" href="#main-work">See the main work <span class="arr" aria-hidden="true">→</span></a>
         </div>
         <aside class="spec" aria-label="Olimazi overview">
@@ -808,7 +821,7 @@
         <div class="sec-head"><span class="sec-label">Main work</span><span class="sec-index">01 / 05</span></div>
         <div class="main-work-intro">
           <h2 class="section-title">The pictures first. The process follows.</h2>
-          <p>These are the two main bodies of work behind Olimazi. Method Effects shows where I learned to build a brand and operating process from the ground up. Schedule E/C connects prior tax experience to the current work of learning AI through a real family problem.</p>
+          <p>These are the two main bodies of work behind the Olimazi concept. Method Effects shows where I learned to build a brand and operating process from the ground up. The finance tracker shows what one person can now turn into a working system with AI and real subject-matter context.</p>
         </div>
 
         <article class="work-project" id="method-effects">
@@ -854,15 +867,22 @@
         <article class="work-project" id="schedule-e">
           <div class="work-project-grid reverse">
             <div class="work-project-copy">
-              <div class="proof-status"><i></i> Current experiment · learning in public</div>
-              <h3>Schedule E/C project</h3>
-              <p>This began with managing my mother’s rental property. She does not use a computer, so I wanted a low-friction way to keep records organized and make filing dates and missing information easier to see.</p>
-              <p>The Schedule E workflow has been tested and is working, but I am still refining it. A Schedule C version is queued for testing in Claude. The larger question is whether the setup can become useful for small family trusts, limited-unit owners, or a small operator who needs something straightforward.</p>
+              <div class="proof-status"><i></i> First Olimazi build · working prototype</div>
+              <h3>A finance tracker you own</h3>
+              <p class="tracker-lede">Built with AI in days, not months—and designed to keep the books in your hands.</p>
+              <p>This began with managing my mother’s rental property. She does not use a computer, so I wanted a low-friction way to organize records, surface missing information, and prepare cleaner Schedule E figures.</p>
+              <p>Instead of another bookkeeping subscription, the tracker lives in local files the user owns. Its math is deterministic and costs nothing to run. The same AI assistant that helps keep the books can also work across the rest of life, without trapping the records inside a single-purpose service.</p>
+              <p>The rental workflow is tested and still being refined. A Schedule C version will adapt the same local-first approach for small-business bookkeeping.</p>
               <div class="spec">
-                <div class="spec-row"><span class="spec-key">Origin</span><span class="spec-val">A real family property and a low-friction need</span></div>
-                <div class="spec-row"><span class="spec-key">Tax context</span><span class="spec-val">SurePrep corporate-tax review · partnership and 8825 work</span></div>
-                <div class="spec-row"><span class="spec-key">Status</span><span class="spec-val">Schedule E tested · refining · Schedule C queued</span></div>
+                <div class="spec-row"><span class="spec-key">Own it</span><span class="spec-val">Local files · portable records · no subscription required</span></div>
+                <div class="spec-row"><span class="spec-key">Trust it</span><span class="spec-val">Deterministic calculations · source notes · visible open items</span></div>
+                <div class="spec-row"><span class="spec-key">Use it</span><span class="spec-val">Rental Schedule E now · small-business Schedule C next</span></div>
               </div>
+              <div class="tracker-actions">
+                <span class="tracker-coming">Free download coming soon</span>
+                <a class="btn" href="mailto:hello@olimazi.online?subject=Olimazi%20finance%20tracker%20tester">I’m interested in testing <span class="arr" aria-hidden="true">→</span></a>
+              </div>
+              <p class="tracker-honesty"><strong>A practical organizer, not tax advice.</strong> Confirm figures with your tax preparer.</p>
             </div>
             <div class="work-project-carousel carousel" data-carousel tabindex="0" aria-label="Schedule E and C project views" aria-roledescription="carousel">
               <div class="carousel-stage">
