@@ -22,5 +22,13 @@ entry following the established dialog mechanic:
 Change the '67 classic Bug entry's category chip from "PERSONAL" to "AUTOMOTIVE".
 Chip label only — title, caption, image, and dialog unchanged.
 
+### 3. Merge the two restaurant entries into "Restaurant Operations"
+Combine the two restaurant entries into a single entry, same dialog mechanic:
+
+- Tile: `library-restaurant-02.jpg` as the thumbnail, titled "Restaurant Operations".
+- Dialog: `library-restaurant-01.jpg` plus both existing captions (the
+  chaos/high-stress line stays with its image).
+- Library entry count after both merges: 5.
+
 ## Out of scope
 - Everything else. No other file, caption, or style changes.
