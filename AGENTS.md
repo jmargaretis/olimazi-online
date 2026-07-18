@@ -1,6 +1,6 @@
 # SOL operating contract
 
-When the owner says “check GitHub for instructions,” read the active packet in `sol/INSTRUCTIONS.md`.
+When the owner says “check the site for instructions” (or names the olimazi-online repo), read the active packet in `sol/INSTRUCTIONS.md`.
 
 Execute only that packet’s stated scope, commit the completed work to `main`, then overwrite `sol/REPORT.md` with the required completion report.
 
