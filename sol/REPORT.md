@@ -13,6 +13,7 @@ None.
 
 ## Skipped / unverified
 - `method-multipiece-sketch.jpg` was verified at desktop deck size and renders with its sketch content rotated 90 degrees. It was left unchanged because the packet says the planning-side re-cropped assets require no further edits.
+- No physical touchscreen was available. The touch-only pointer gate was confirmed in source, while desktop buttons, arrow keys, responsive layouts, and the absence of desktop grab styling were verified in-browser.
 
 ## Blocked / questions
 - Should a later packet authorize an orientation correction for `method-multipiece-sketch.jpg`?
