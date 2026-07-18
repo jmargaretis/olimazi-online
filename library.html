@@ -133,6 +133,35 @@
     .personal-card h2 { margin-bottom: 8px; font-size: 17px; line-height: 1.3; }
     .personal-card p { color: var(--ink-muted); font-size: 14px; line-height: 1.7; }
     .personal-card p a { color: var(--red-text); text-underline-offset: 3px; }
+    .personal-open {
+      align-self: flex-start; margin-top: auto; padding: 12px 0 0;
+      color: var(--red-text); background: transparent; border: 0; cursor: pointer;
+      font: 700 13px/1.4 "Satoshi", sans-serif;
+    }
+    .personal-open:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .item-dialog {
+      width: min(900px, calc(100% - 32px)); max-height: 90vh; margin: auto; padding: 0;
+      color: var(--ink); background: var(--paper); border: 1px solid var(--ink);
+      box-shadow: 0 24px 70px rgba(0,0,0,.32); overflow: auto;
+    }
+    .item-dialog::backdrop { background: rgba(24,29,28,.76); }
+    .dialog-grid { display: grid; grid-template-columns: minmax(260px,.72fr) minmax(0,1.28fr); }
+    .dialog-grid > img {
+      width: 100%; height: 100%; min-height: 520px; object-fit: cover;
+      border-right: 1px solid var(--line);
+    }
+    .dialog-body { position: relative; padding: 48px 42px 42px; }
+    .dialog-body h2 {
+      margin-bottom: 18px; font-size: clamp(30px,4.4vw,46px);
+      line-height: 1.02; text-wrap: balance;
+    }
+    .dialog-body p { color: var(--ink-muted); font-size: 15px; line-height: 1.7; }
+    .dialog-body p + p { margin-top: 16px; }
+    .dialog-body a { color: var(--red-text); text-underline-offset: 3px; }
+    .dialog-close {
+      position: absolute; top: 12px; right: 12px; width: 44px; height: 44px;
+      color: var(--ink); background: transparent; border: 1px solid var(--line); cursor: pointer;
+    }
     .footer { padding: 30px 0 40px; border-top: 1px solid var(--line); }
     .footer-top, .footer-meta {
       display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;
@@ -159,6 +188,14 @@
       .personal-thumb.orientation-cw img {
         width: 150px; height: calc(100vw - 57px); max-height: none;
       }
+    }
+    @media (max-width: 700px) {
+      .dialog-grid { grid-template-columns: 1fr; }
+      .dialog-grid > img {
+        min-height: 260px; max-height: 340px; border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .dialog-body { padding: 42px 24px 30px; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition-duration: .001ms !important; }
@@ -190,31 +227,20 @@
     <section class="library-section" aria-label="Library entries">
       <div class="wrap">
         <div class="personal-grid">
-          <!-- LIBRARY ENTRY 01 — Edit the image, label, title, and caption in this block. -->
+          <!-- LIBRARY ENTRY 01 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb orientation-cw">
               <img src="olimazi-assets/mind-ribeye-process.jpg" alt="Bone-in ribeye dry-brining on a rack before cooking">
             </div>
             <div class="personal-body">
               <span class="chip">Cooking</span>
-              <h2>Ribeye process</h2>
-              <p>Following <a href="https://youtu.be/lVcTvHTn6Dw" target="_blank" rel="noopener">this YouTube video</a>: “funny guy to watch; the drying/brining was definitely a home run!”</p>
+              <h2>Ribeye</h2>
+              <p>The dry-brine process and finished result, with notes from the cook.</p>
+              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('ribeye-dialog')">Open notes →</button>
             </div>
           </article>
 
-          <!-- LIBRARY ENTRY 02 — Edit the image, label, title, and caption in this block. -->
-          <article class="personal-card">
-            <div class="personal-thumb">
-              <img src="olimazi-assets/mind-ribeye-result.jpg" alt="Cooked bone-in ribeyes resting with shallots and herbs">
-            </div>
-            <div class="personal-body">
-              <span class="chip">Cooking</span>
-              <h2>Ribeye result</h2>
-              <p>“Was a bit harder than I wanted it to be—should've known a bone-in ribeye is much harder to get even temps.”</p>
-            </div>
-          </article>
-
-          <!-- LIBRARY ENTRY 03 — Edit the image, label, title, and caption in this block. -->
+          <!-- LIBRARY ENTRY 02 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
               <img src="olimazi-assets/library-67-bug.jpg" alt="White 1967 Volkswagen Beetle restored by the owner">
@@ -222,11 +248,12 @@
             <div class="personal-body">
               <span class="chip">Personal</span>
               <h2>'67 classic Bug</h2>
-              <p>Personal-use '67 classic Bug, restored by the owner—shared simply because it's worth sharing.</p>
+              <p>Restored by the owner and shared simply because it's worth sharing.</p>
+              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('bug-dialog')">Open notes →</button>
             </div>
           </article>
 
-          <!-- LIBRARY ENTRY 04 — Edit the image, label, title, and caption in this block. -->
+          <!-- LIBRARY ENTRY 03 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
               <img src="olimazi-assets/library-art-sketch.jpg" alt="Owner's hand-drawn character artwork">
@@ -235,10 +262,11 @@
               <span class="chip">Art</span>
               <h2>Sketch</h2>
               <p>A sample of the owner's own art.</p>
+              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('art-sketch-dialog')">Open notes →</button>
             </div>
           </article>
 
-          <!-- LIBRARY ENTRY 05 — Edit the image, label, title, and caption in this block. -->
+          <!-- LIBRARY ENTRY 04 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
               <img src="olimazi-assets/library-art-vector.jpg" alt="Owner's character artwork converted from sketch to vector">
@@ -246,11 +274,12 @@
             <div class="personal-body">
               <span class="chip">Art</span>
               <h2>Sketch to vector</h2>
-              <p>Same art thread: taken from sketch to vector the old-school way.</p>
+              <p>Same art thread, taken from sketch to vector the old-school way.</p>
+              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('art-vector-dialog')">Open notes →</button>
             </div>
           </article>
 
-          <!-- LIBRARY ENTRY 06 — Edit the image, label, title, and caption in this block. -->
+          <!-- LIBRARY ENTRY 05 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
               <img src="olimazi-assets/library-brothers-truck.jpg" alt="Owner's brother's customized pickup truck">
@@ -258,11 +287,12 @@
             <div class="personal-body">
               <span class="chip">Automotive</span>
               <h2>My brother's truck</h2>
-              <p>“My brother's truck.” More pictures and a parts-added detail coming later.</p>
+              <p>More pictures and a parts-added detail are coming later.</p>
+              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('truck-dialog')">Open notes →</button>
             </div>
           </article>
 
-          <!-- LIBRARY ENTRY 07 — Edit the image, label, title, and caption in this block. -->
+          <!-- LIBRARY ENTRY 06 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
               <img src="olimazi-assets/library-restaurant-01.jpg" alt="Busy restaurant interior showing maintenance work above the kitchen">
@@ -270,11 +300,12 @@
             <div class="personal-body">
               <span class="chip">Operations</span>
               <h2>Restaurant operations</h2>
-              <p>From restaurant operations years: represents chaos and the ability to confront and manage high-stress environments.</p>
+              <p>Chaos and the ability to confront and manage high-stress environments.</p>
+              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('restaurant-01-dialog')">Open notes →</button>
             </div>
           </article>
 
-          <!-- LIBRARY ENTRY 08 — Edit the image, label, title, and caption in this block. -->
+          <!-- LIBRARY ENTRY 07 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
               <img src="olimazi-assets/library-restaurant-02.jpg" alt="Restaurant food-safety temperature check">
@@ -282,12 +313,105 @@
             <div class="personal-body">
               <span class="chip">Operations</span>
               <h2>Restaurant operations</h2>
-              <p>Restaurant operations, held for future context.</p>
+              <p>A food-safety record held for future context.</p>
+              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('restaurant-02-dialog')">Open notes →</button>
             </div>
           </article>
         </div>
       </div>
     </section>
+
+    <!-- LIBRARY DIALOG 01 — Detailed notes for the Ribeye entry. -->
+    <dialog class="item-dialog" id="ribeye-dialog" aria-labelledby="ribeye-title">
+      <div class="dialog-grid">
+        <img src="olimazi-assets/mind-ribeye-result.jpg" alt="Cooked bone-in ribeyes resting with shallots and herbs">
+        <div class="dialog-body">
+          <form method="dialog"><button class="dialog-close" aria-label="Close ribeye notes">✕</button></form>
+          <span class="chip">Cooking notes</span>
+          <h2 id="ribeye-title">Ribeye</h2>
+          <p>Following <a href="https://youtu.be/lVcTvHTn6Dw" target="_blank" rel="noopener">this YouTube video</a>: “funny guy to watch; the drying/brining was definitely a home run!”</p>
+          <p>“Was a bit harder than I wanted it to be—should've known a bone-in ribeye is much harder to get even temps.”</p>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- LIBRARY DIALOG 02 — Detailed notes for the '67 Bug entry. -->
+    <dialog class="item-dialog" id="bug-dialog" aria-labelledby="bug-title">
+      <div class="dialog-grid">
+        <img src="olimazi-assets/library-67-bug.jpg" alt="White 1967 Volkswagen Beetle restored by the owner">
+        <div class="dialog-body">
+          <form method="dialog"><button class="dialog-close" aria-label="Close classic Bug notes">✕</button></form>
+          <span class="chip">Personal archive</span>
+          <h2 id="bug-title">'67 classic Bug</h2>
+          <p>Personal-use '67 classic Bug, restored by the owner—shared simply because it's worth sharing.</p>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- LIBRARY DIALOG 03 — Detailed notes for the art sketch entry. -->
+    <dialog class="item-dialog" id="art-sketch-dialog" aria-labelledby="art-sketch-title">
+      <div class="dialog-grid">
+        <img src="olimazi-assets/library-art-sketch.jpg" alt="Owner's hand-drawn character artwork">
+        <div class="dialog-body">
+          <form method="dialog"><button class="dialog-close" aria-label="Close art sketch notes">✕</button></form>
+          <span class="chip">Art notes</span>
+          <h2 id="art-sketch-title">Sketch</h2>
+          <p>A sample of the owner's own art.</p>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- LIBRARY DIALOG 04 — Detailed notes for the vector art entry. -->
+    <dialog class="item-dialog" id="art-vector-dialog" aria-labelledby="art-vector-title">
+      <div class="dialog-grid">
+        <img src="olimazi-assets/library-art-vector.jpg" alt="Owner's character artwork converted from sketch to vector">
+        <div class="dialog-body">
+          <form method="dialog"><button class="dialog-close" aria-label="Close vector art notes">✕</button></form>
+          <span class="chip">Art notes</span>
+          <h2 id="art-vector-title">Sketch to vector</h2>
+          <p>Same art thread: taken from sketch to vector the old-school way.</p>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- LIBRARY DIALOG 05 — Detailed notes for the truck entry. -->
+    <dialog class="item-dialog" id="truck-dialog" aria-labelledby="truck-title">
+      <div class="dialog-grid">
+        <img src="olimazi-assets/library-brothers-truck.jpg" alt="Owner's brother's customized pickup truck">
+        <div class="dialog-body">
+          <form method="dialog"><button class="dialog-close" aria-label="Close truck notes">✕</button></form>
+          <span class="chip">Automotive notes</span>
+          <h2 id="truck-title">My brother's truck</h2>
+          <p>“My brother's truck.” More pictures and a parts-added detail coming later.</p>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- LIBRARY DIALOG 06 — Detailed notes for the first restaurant entry. -->
+    <dialog class="item-dialog" id="restaurant-01-dialog" aria-labelledby="restaurant-01-title">
+      <div class="dialog-grid">
+        <img src="olimazi-assets/library-restaurant-01.jpg" alt="Busy restaurant interior showing maintenance work above the kitchen">
+        <div class="dialog-body">
+          <form method="dialog"><button class="dialog-close" aria-label="Close restaurant operations notes">✕</button></form>
+          <span class="chip">Operations notes</span>
+          <h2 id="restaurant-01-title">Restaurant operations</h2>
+          <p>From restaurant operations years: represents chaos and the ability to confront and manage high-stress environments.</p>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- LIBRARY DIALOG 07 — Detailed notes for the second restaurant entry. -->
+    <dialog class="item-dialog" id="restaurant-02-dialog" aria-labelledby="restaurant-02-title">
+      <div class="dialog-grid">
+        <img src="olimazi-assets/library-restaurant-02.jpg" alt="Restaurant food-safety temperature check">
+        <div class="dialog-body">
+          <form method="dialog"><button class="dialog-close" aria-label="Close restaurant food-safety notes">✕</button></form>
+          <span class="chip">Operations notes</span>
+          <h2 id="restaurant-02-title">Restaurant operations</h2>
+          <p>Restaurant operations, held for future context.</p>
+        </div>
+      </div>
+    </dialog>
   </main>
 
   <footer class="footer">
@@ -298,6 +422,18 @@
   </footer>
 
   <script>
+    function openItem(id) {
+      const dialog = document.getElementById(id);
+      if (dialog && typeof dialog.showModal === "function") dialog.showModal();
+    }
+    document.querySelectorAll(".item-dialog").forEach((dialog) => {
+      dialog.addEventListener("click", (event) => {
+        const box = dialog.getBoundingClientRect();
+        const inside = event.clientX >= box.left && event.clientX <= box.right &&
+          event.clientY >= box.top && event.clientY <= box.bottom;
+        if (!inside) dialog.close();
+      });
+    });
     function toggleTheme() {
       const root = document.documentElement;
       const next = root.dataset.theme === "dark" ? "light" : "dark";

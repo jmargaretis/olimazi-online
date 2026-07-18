@@ -1,22 +1,23 @@
-# SOL completion report — packet #6
+# SOL completion report — packet #7
 
 ## Status
-PARTIAL — Packet #6 implementation is complete, but the supplied multipiece sketch renders sideways and was left unchanged per the packet.
+COMPLETE — Applied the owner’s 14-slide Method Effects order, caption and So-Cal corrections, seven-entry library dialog mechanic, and standard main-page card form.
 
 ## Changes
-- `index.html` — limited drag handling to touch pointers, removed desktop grab cursors, moved the V1/V2 comparison directly before the multipiece sketch, restored the named Akra Plastics tooling-buck caption, shortened the Schedule E lead-in and moved owner detail into its three captions, joined the Section 3 flow with a reduced-motion-safe faded arrow, removed the ribeye deck, and added Section 3 and footer links to the library.
-- `library.html` — added the dependency-free themed learning archive with eight individually commented entries, main-page card presentation, the retained ribeye orientation correction, owner captions and named video link, responsive layout, theme persistence, navigation, and footer; browser verification confirmed all six library assets render upright.
-- `sol/REPORT.md` — replaced the prior report with this packet #6 completion and verification record.
+- `index.html` — rebuilt the Method Effects deck in the owner’s exact 14-slide sequence, removed the two owner-cut slides, corrected the bracing-jig and teaser captions, changed display-text “SoCal” to “So-Cal,” updated the source slide count, and aligned the locked cologne/bougatsa card containers with the library’s standard 20px frame and thumbnail sizing without changing their markup or content.
+- `library.html` — consolidated ribeye into one of seven thumbnail cards, added a uniform “Open notes →” action and native dialog for every entry, kept the result photo and both owner quotes inside the ribeye dialog, and preserved responsive layout, theme behavior, and existing font stacks.
+- `olimazi-assets/method-hero-4.jpg` — deleted per the owner’s cut list.
+- `olimazi-assets/method-workshop-detail.jpg` — deleted per the owner’s cut list.
+- `sol/REPORT.md` — replaced the prior report with this packet #7 completion and verification record.
 
 ## Deviations
 None.
 
 ## Skipped / unverified
-- `method-multipiece-sketch.jpg` was verified at desktop deck size and renders with its sketch content rotated 90 degrees. It was left unchanged because the packet says the planning-side re-cropped assets require no further edits.
-- No physical touchscreen was available. The touch-only pointer gate was confirmed in source, while desktop buttons, arrow keys, responsive layouts, and the absence of desktop grab styling were verified in-browser.
+None.
 
 ## Blocked / questions
-- Should a later packet authorize an orientation correction for `method-multipiece-sketch.jpg`?
+None.
 
 ## Proposals
-None.
+- A future packet could combine the sketch and vector entries into one “Art thread” card, with the sketch thumbnail and vector image inside the dialog, if the owner prefers the tighter subject grouping.
