@@ -1,94 +1,70 @@
 # SOL work packet — active
 
-**Packet:** #6 · issued 2026-07-18 · authored by Claude (planning side)
+**Packet:** #7 · issued 2026-07-18 · authored by Claude (planning side)
 **Protocol:** see `AGENTS.md`; report in the required REPORT.md format.
 
-Owner reviewed packet #5 live. The deck mechanic stays; this packet corrects the
-items below. Read `PRODUCT.md` and `DESIGN.md` first; locked framing and tokens.
+Owner-directed revision from a full slide-order review plus library functionality
+alignment. Read `PRODUCT.md` and `DESIGN.md` first; locked framing and tokens.
 
-## Packet #6 scope
+## Packet #7 scope
 
-### 1. Drag becomes touch-only
-Keep swipe on touch devices; remove mouse dragging on desktop entirely (check
-`event.pointerType` — only `"touch"` engages the drag path). Buttons and arrow keys
-remain everywhere. Remove the `cursor: grab` styling on desktop.
+### 1. Method Effects deck — owner's exact order (16 → 14 slides)
+Rebuild the deck in exactly this sequence:
 
-### 2. Method Effects deck — one reorder + captions
-Keep the existing slide order EXCEPT: move `method-v1-v2-comparison.png` (currently
-slide 04) directly in front of `method-multipiece-sketch.jpg` (currently slide 03).
-No other order changes — the owner will direct further reordering in later packets.
+1. method-splitter-product.jpg
+2. method-promo-campaign.jpg
+3. method-rs3-cad-render.png
+4. method-v1-aero-start.jpg
+5. method-v1-v2-comparison.png
+6. method-rubber-contact-points.jpg
+7. method-multipiece-sketch.jpg
+8. method-abs-coating.jpg
+9. method-tooling-buck.jpg
+10. method-garage-front.jpg
+11. method-splitter-mural.jpg
+12. method-japan-first-order.jpg
+13. method-japan-order-support.png
+14. method-hero-3.jpg
 
-**Caption fix (owner's note was dropped in #5):** the tooling-buck slide caption must
-carry the owner's words: "[Akra Plastics](https://akra-plastics.com/) — SoCal
-manufacturer who were extremely helpful in dealing with me as a small player. Awesome
-outfit and easy to work with. This was my aluminum 'Buck' for my RS3 splitter."
-Named link required.
+**Removed by the owner:** `method-workshop-detail.jpg` and `method-hero-4.jpg` —
+remove both slides AND delete both asset files from `olimazi-assets/`.
 
-Note: `method-rs3-cad-render.png`, `method-japan-order-support.png`, and
-`method-multipiece-sketch.jpg` were re-cropped planning-side (phone chrome removed)
-and are already committed — verify they render well at deck size; no further edits.
+### 2. Caption corrections (owner's words)
+- **method-abs-coating.jpg** — current caption describes coating; the photo is a
+  bracing jig. Replace body with the owner's wording: "Custom solution to brace aero
+  parts, maintaining form as the parts 'baked' to cure paint." Keep the vendor credit
+  as a short trailing sentence with the named link:
+  "Finishing by So-Cal vendor [Shmaze](https://shmaze.com/)."
+- **method-japan-order-support.png** — add the owner's line "Teaser post before
+  launch" as the caption's bold lead (the `<b>` element), keeping the existing
+  descriptive text after it.
 
-### 3. Schedule E project (desktop) — copy into slides
-The prose outside the deck bleeds too long on desktop. Cut it to a short lead-in;
-the detail moves into the slide captions. Replace the three generic dashboard captions
-with the owner's words (light tightening allowed, meaning intact):
+### 3. So-Cal spelling audit (site-wide)
+Replace every "SoCal"/"SOCAL" with "So-Cal" across `index.html` and `library.html`
+(the owner finds "SoCal" reads like a typo for "social"). Do not change the URLs,
+only display text.
 
-- `schedule-e-summary.jpg` — "While doing work with business tax prep, I serviced a
-  client who needed maintenance for a partnership group in the real estate industry
-  (Form 8825 activity). Applied that to my real-world active management of a couple
-  rental properties — an easy-to-use system with activity sorted in real time, ready
-  to pass off to an accountant or bookkeeper."
-- `schedule-e-expenses.jpg` — "Running list of attention items, coded, works with an
-  engine under the hood back and forth. Instead of diving deep into an Excel file —
-  easier to visualize for most."
-- `schedule-e-open-items.jpg` — "System considers PY activity, creating an expected
-  drip of information or truth going forward. Built with alerts for what might be
-  missing and for deadlines."
+### 4. Library entries — cologne/bougatsa functionality
+Rework every library entry to match the main page's cologne/bougatsa mechanic:
+- ONE thumbnail per entry, with an "Open notes →" action that opens a native
+  `<dialog>` (same pattern as the main page's "Open notes and sources →").
+- Multiple images for one subject live INSIDE the dialog, not as separate tiles:
+  the two ribeye shots collapse into a single "Ribeye" entry — process shot as the
+  tile thumb, result shot + both quotes inside the dialog.
+- Thin entries (truck, art, restaurant) follow the SAME structure with short
+  dialogs — structure is uniform even when content is light.
+- Entry count after rework: 7 (ribeye, '67 Bug, art sketch, art vector, brother's
+  truck, restaurant 01, restaurant 02). If the two art entries read better as one
+  "Art thread" entry (sketch thumb, vector inside the dialog), you may propose that
+  in REPORT.md — do not implement without asking.
 
-### 4. Section 3 flow
-The break between "Current state of mind" and the small-subjects material reads as
-two separate sections. Remove the hard rule/page-break feel and make it flow as one;
-add a subtle faded downward arrow (existing tokens, low opacity, respects
-reduced-motion) leading the eye to the cologne and bougatsa blocks.
-
-### 5. Ribeye — off the main page
-Remove the ribeye deck from `index.html` entirely. Its two images move to the
-library page (see §6). The main page's small-subjects area keeps only the cologne
-and bougatsa blocks (locked, untouched).
-
-### 6. New page: `library.html` (minimal)
-A simple secondary page matching the site's tokens/typography/theme toggle, linked
-from the end of Section 3 (something like "More in the library →") and from the
-footer if one exists. Purpose line at top: an archive of ongoing learning material —
-things worth keeping that aren't headline work. No CMS, no dependencies; each entry
-one commented block, same editing pattern as the decks. **Presentation: entry
-thumbnails mimic the cologne/bougatsa blocks on the main page — same thumb size,
-frame treatment, and caption pattern.** Entries (images already in
-`olimazi-assets/`), owner's captions:
-
-- `mind-ribeye-process.jpg` — Cooking process shot, following
-  [this YouTube video](https://youtu.be/lVcTvHTn6Dw): "funny guy to watch; the
-  drying/brining was definitely a home run!" (Keep the orientation correction it
-  had on the main page.)
-- `mind-ribeye-result.jpg` — "Was a bit harder than I wanted it to be — should've
-  known a bone-in ribeye is much harder to get even temps."
-
-- `library-67-bug.jpg` — Personal-use '67 classic Bug, restored by the owner —
-  shared simply because it's worth sharing.
-- `library-art-sketch.jpg` — A sample of the owner's own art.
-- `library-art-vector.jpg` — Same art thread: taken from sketch to vector the
-  old-school way.
-- `library-brothers-truck.jpg` — "My brother's truck." More pictures and a
-  parts-added detail coming later.
-- `library-restaurant-01.jpg` — From restaurant operations years: represents chaos
-  and the ability to confront and manage high-stress environments.
-- `library-restaurant-02.jpg` — Restaurant operations, held for future context.
-
-Restaurant items live ONLY here — still zero restaurant mention on `index.html`.
-Verify orientation of all six (several are phone photos); flag any that render
-sideways in REPORT.md.
+### 5. Main-page cologne/bougatsa card form
+Match the cologne and bougatsa cards' outer form (frame, corner treatment, thumb
+sizing) to the standard card view used on the library page, resolving the current
+rounded-vs-squared corner mismatch. Copy, images, captions, and dialog contents of
+these two blocks stay EXACTLY as they are — this is a container-styling change only.
 
 ## Out of scope
-- Any change to the bougatsa / Eau d'Ombre blocks (locked).
+- Fonts/typography (separate decision in progress — do not touch font stacks).
+- Any content change to the cologne/bougatsa copy or dialogs.
 - New dependencies, payment/download links, this file.
-- Any image not named above.
