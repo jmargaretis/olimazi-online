@@ -252,7 +252,15 @@
     .log-title { margin-bottom: 5px; font-weight: 700; }
     .log-body { max-width: 640px; color: var(--ink-muted); font-size: 15px; line-height: 1.65; }
 
-    .learning-samples { margin-top: 50px; padding-top: 24px; border-top: 1px solid var(--ink); }
+    .learning-flow {
+      margin: 24px 0 10px; color: var(--red-text); opacity: .28;
+      font: 500 clamp(34px, 5vw, 52px)/1 "IBM Plex Mono", Consolas, monospace;
+      text-align: center; animation: learning-flow 2.8s ease-in-out infinite;
+    }
+    @keyframes learning-flow {
+      50% { transform: translateY(6px); }
+    }
+    .learning-samples { margin-top: 0; }
     .learning-intro {
       display: grid; grid-template-columns: minmax(0, .8fr) minmax(280px, 1.2fr);
       gap: 40px; align-items: end; margin-bottom: 22px;
@@ -277,6 +285,11 @@
     }
     .personal-card h3 { margin-bottom: 8px; font-size: 17px; line-height: 1.3; }
     .personal-card p { color: var(--ink-muted); font-size: 14px; line-height: 1.7; }
+    .library-link {
+      min-height: 44px; display: inline-flex; align-items: center; margin-top: 24px;
+      color: var(--red-text); font: 600 11px/1.4 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .12em; text-transform: uppercase; text-underline-offset: 5px;
+    }
 
     .closing {
       padding: 120px 0; color: #E9F0ED; background: #303737; text-align: center;
@@ -337,13 +350,12 @@
       *, *::before, *::after { animation: none !important; transition-duration: .001ms !important; }
     }
     .carousel { position: relative; min-width: 0; }
-    .carousel-stage { position: relative; overflow: hidden; cursor: grab; touch-action: pan-y; }
+    .carousel-stage { position: relative; overflow: hidden; touch-action: pan-y; }
     .carousel-slide {
       margin: 0; transition: transform .18s cubic-bezier(.22, 1, .36, 1), opacity .18s ease;
       will-change: transform;
     }
     .carousel-slide[hidden] { display: none; }
-    .carousel.is-dragging .carousel-stage { cursor: grabbing; }
     .carousel.is-dragging .carousel-slide { user-select: none; transition: none; }
     .carousel-media { display: block; width: 100%; height: 500px; object-fit: cover; background: var(--paper-deep); }
     .carousel-media.dashboard { height: 390px; object-fit: contain; }
@@ -375,19 +387,6 @@
     .narrative-slide p {
       max-width: 690px; color: var(--ink-muted); font-size: clamp(16px, 2vw, 20px);
       line-height: 1.65; text-wrap: pretty;
-    }
-    .practice-deck { max-width: 880px; }
-    .practice-media-frame {
-      height: clamp(300px, 64vw, 500px); display: grid; place-items: center;
-      overflow: hidden; background: var(--paper-deep);
-    }
-    .practice-media-frame img {
-      display: block; width: 100%; height: 100%; min-width: 0; min-height: 0;
-      max-width: 100%; max-height: 100%; object-fit: cover;
-    }
-    .practice-media-frame img.orientation-cw {
-      width: clamp(300px, 64vw, 500px); height: auto; max-width: none; max-height: none;
-      object-fit: contain; transform: rotate(90deg);
     }
     .mint-hero { padding: 124px 0 84px; }
     .mint-hero-grid { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(340px,.8fr); align-items:stretch; border:1px solid var(--ink); background:var(--card); }
@@ -853,14 +852,14 @@
 
                 <!-- METHOD EFFECTS SLIDE 03 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media cad" src="olimazi-assets/method-multipiece-sketch.jpg" alt="Advanced sketch for a three-piece Method Effects splitter design">
-                  <figcaption class="carousel-caption"><b>Multipiece study</b>An advanced sketch from the owner’s rough render, by <a href="https://www.instagram.com/the_kevinator/" target="_blank" rel="noopener">Kevin Grant (@the_kevinator)</a>. Early planning that did not make launch: a one-of-a-kind design flow whose three-piece construction could reduce shipping costs.</figcaption>
+                  <img class="carousel-media cad" src="olimazi-assets/method-v1-v2-comparison.png" alt="Dimension layout comparing V1 and V2 support mounting struts for the S3 splitter">
+                  <figcaption class="carousel-caption"><b>Support strut dimensions</b>Dimension layout of a support mounting strut for the S3 splitter by <a href="https://www.instagram.com/the_kevinator/" target="_blank" rel="noopener">Kevin Grant</a>; it added integrity to the center aero.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 04 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media cad" src="olimazi-assets/method-v1-v2-comparison.png" alt="Dimension layout comparing V1 and V2 support mounting struts for the S3 splitter">
-                  <figcaption class="carousel-caption"><b>Support strut dimensions</b>Dimension layout of a support mounting strut for the S3 splitter by <a href="https://www.instagram.com/the_kevinator/" target="_blank" rel="noopener">Kevin Grant</a>; it added integrity to the center aero.</figcaption>
+                  <img class="carousel-media cad" src="olimazi-assets/method-multipiece-sketch.jpg" alt="Advanced sketch for a three-piece Method Effects splitter design">
+                  <figcaption class="carousel-caption"><b>Multipiece study</b>An advanced sketch from the owner’s rough render, by <a href="https://www.instagram.com/the_kevinator/" target="_blank" rel="noopener">Kevin Grant (@the_kevinator)</a>. Early planning that did not make launch: a one-of-a-kind design flow whose three-piece construction could reduce shipping costs.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 05 — Edit the image, alt text, and caption in this block. -->
@@ -884,7 +883,7 @@
                 <!-- METHOD EFFECTS SLIDE 08 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
                   <img class="carousel-media" src="olimazi-assets/method-tooling-buck.jpg" alt="Composite tooling buck for the Method Effects splitter">
-                  <figcaption class="carousel-caption"><b>Tooling</b>The manufacturing tool used during product development.</figcaption>
+                  <figcaption class="carousel-caption"><b>Tooling buck</b><a href="https://akra-plastics.com/" target="_blank" rel="noopener">Akra Plastics</a> — SoCal manufacturer who were extremely helpful in dealing with me as a small player. Awesome outfit and easy to work with. This was my aluminum 'Buck' for my RS3 splitter.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 09 — Edit the image and alt text in this block. -->
@@ -966,9 +965,7 @@
               <div class="proof-status"><i></i> First Olimazi build · working prototype</div>
               <h3>A finance tracker you own</h3>
               <p class="tracker-lede">Built with AI in days, not months—and designed to keep the books in your hands.</p>
-              <p>This began with managing my mother’s rental property. She does not use a computer, so I wanted a low-friction way to organize records, surface missing information, and prepare cleaner Schedule E figures.</p>
-              <p>Instead of another bookkeeping subscription, the tracker lives in local files the user owns. Its math is deterministic and costs nothing to run. The same AI assistant that helps keep the books can also work across the rest of life, without trapping the records inside a single-purpose service.</p>
-              <p>The rental workflow is tested and still being refined. A Schedule C version will adapt the same local-first approach for small-business bookkeeping.</p>
+              <p>A local-file organizer shaped by business-tax work and active rental-property management: portable records, deterministic math, and open items kept visible.</p>
               <div class="spec">
                 <div class="spec-row"><span class="spec-key">Own it</span><span class="spec-val">Local files · portable records · no subscription required</span></div>
                 <div class="spec-row"><span class="spec-key">Trust it</span><span class="spec-val">Deterministic calculations · source notes · visible open items</span></div>
@@ -983,11 +980,11 @@
             <div class="work-project-carousel carousel" data-carousel tabindex="0" aria-label="Schedule E and C project views" aria-roledescription="carousel">
               <div class="carousel-stage">
                 <!-- FINANCE TRACKER SLIDE 01 — Edit the image, alt text, and caption in this block. -->
-                <figure class="carousel-slide" data-slide><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-summary.jpg" alt="Redacted Schedule E rental property summary"><figcaption class="carousel-caption"><b>Summary view</b>A current working view of the rental-property information.</figcaption></figure>
+                <figure class="carousel-slide" data-slide><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-summary.jpg" alt="Redacted Schedule E rental property summary"><figcaption class="carousel-caption"><b>Summary view</b>While doing work with business tax prep, I serviced a client who needed maintenance for a partnership group in the real estate industry (Form 8825 activity). I applied that to my real-world active management of a couple rental properties—an easy-to-use system with activity sorted in real time, ready to pass off to an accountant or bookkeeper.</figcaption></figure>
                 <!-- FINANCE TRACKER SLIDE 02 — Edit the image, alt text, and caption in this block. -->
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-expenses.jpg" alt="Redacted Schedule E expense detail"><figcaption class="carousel-caption"><b>Expense detail</b>Transactions, tax lines, and source-document notes.</figcaption></figure>
+                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-expenses.jpg" alt="Redacted Schedule E expense detail"><figcaption class="carousel-caption"><b>Expense detail</b>A running list of attention items, coded, working back and forth with an engine under the hood. Instead of diving deep into an Excel file, it is easier for most people to visualize.</figcaption></figure>
                 <!-- FINANCE TRACKER SLIDE 03 — Edit the image, alt text, and caption in this block. -->
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-open-items.jpg" alt="Redacted Schedule E open item queue"><figcaption class="carousel-caption"><b>Open items</b>Questions and missing information still requiring attention.</figcaption></figure>
+                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-open-items.jpg" alt="Redacted Schedule E open item queue"><figcaption class="carousel-caption"><b>Open items</b>The system considers PY activity, creating an expected drip of information or truth going forward. It is built with alerts for what might be missing and for deadlines.</figcaption></figure>
               </div>
               <div class="carousel-controls"><button type="button" data-prev aria-label="Previous Schedule E view">← Previous</button><span class="carousel-status" data-status aria-live="polite">1 / 3</span><button type="button" data-next aria-label="Next Schedule E view">Next →</button></div>
             </div>
@@ -1227,6 +1224,7 @@
           <span><i class="graph-dot" style="background:#99621E"></i>Method Effects</span>
           <span><i class="graph-dot" style="background:var(--ink-muted)"></i>Everything else</span>
         </div>
+        <div class="learning-flow" aria-hidden="true">↓</div>
         <div class="learning-samples" aria-labelledby="tested-title">
           <div class="learning-intro">
             <h3 id="tested-title">Small subjects, useful practice.</h3>
@@ -1242,26 +1240,7 @@
               <div class="personal-body"><span class="chip">Recipe</span><h3>Bougatsa — Greek custard pie</h3><p>Part of learning classic custard techniques, controlling ingredients, and making food worth sharing with family.</p><button class="personal-open" type="button" onclick="openItem('bougatsa-dialog')">Open notes and recipe →</button></div>
             </article>
           </div>
-          <div class="section-deck practice-deck carousel" data-carousel tabindex="0" aria-label="Ribeye cooking practice" aria-roledescription="carousel">
-            <div class="carousel-stage">
-              <!-- MIND / PRACTICE SLIDE 01 — Edit the image, alt text, and caption in this block. -->
-              <figure class="carousel-slide" data-slide>
-                <div class="practice-media-frame">
-                  <img class="orientation-cw" src="olimazi-assets/mind-ribeye-process.jpg" alt="Bone-in ribeye dry-brining on a rack before cooking">
-                </div>
-                <figcaption class="carousel-caption"><b>Ribeye process</b>Following <a href="https://youtu.be/lVcTvHTn6Dw" target="_blank" rel="noopener">this YouTube video</a>: “funny guy to watch; the drying/brining was definitely a home run!”</figcaption>
-              </figure>
-
-              <!-- MIND / PRACTICE SLIDE 02 — Edit the image, alt text, and caption in this block. -->
-              <figure class="carousel-slide" data-slide hidden>
-                <div class="practice-media-frame">
-                  <img src="olimazi-assets/mind-ribeye-result.jpg" alt="Cooked bone-in ribeyes resting with shallots and herbs">
-                </div>
-                <figcaption class="carousel-caption"><b>Ribeye result</b>“Was a bit harder than I wanted it to be—should’ve known a bone-in ribeye is much harder to get even temps.”</figcaption>
-              </figure>
-            </div>
-            <div class="carousel-controls"><button type="button" data-prev aria-label="Previous ribeye practice photo">← Previous</button><span class="carousel-status" data-status aria-live="polite">1 / 2</span><button type="button" data-next aria-label="Next ribeye practice photo">Next →</button></div>
-          </div>
+          <a class="library-link" href="library.html">More in the library →</a>
         </div>
       </div>
     </section>
@@ -1359,7 +1338,7 @@
   <footer class="footer">
     <div class="wrap">
       <div class="footer-top"><span class="footer-wordmark">olimazi<i>.</i>online</span><span class="phonetic">oh-lee · mah-zee</span></div>
-      <div class="footer-meta"><span>© 2026 Olimazi · built in public</span><a href="mailto:hello@olimazi.online">hello@olimazi.online</a></div>
+      <div class="footer-meta"><span>© 2026 Olimazi · built in public</span><span><a href="library.html">Library</a> · <a href="mailto:hello@olimazi.online">hello@olimazi.online</a></span></div>
     </div>
   </footer>
 
@@ -1401,7 +1380,7 @@
       slides.forEach((slide) => slide.querySelectorAll("img").forEach((image) => { image.draggable = false; }));
 
       stage?.addEventListener("pointerdown", (event) => {
-        if (!event.isPrimary || event.button !== 0) return;
+        if (!event.isPrimary || event.pointerType !== "touch") return;
         pointerId = event.pointerId;
         startX = lastX = event.clientX;
         startY = lastY = event.clientY;

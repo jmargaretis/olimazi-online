@@ -1,23 +1,21 @@
-# SOL completion report — packet #5
+# SOL completion report — packet #6
 
 ## Status
-COMPLETE — Replaced the rejected detail tiles with section-integrated draggable slide decks, added the approved imagery and copy, removed the three owner-cut assets, and verified the result across layouts, themes, and interactions.
+PARTIAL — Packet #6 implementation is complete, but the supplied multipiece sketch renders sideways and was left unchanged per the packet.
 
 ## Changes
-- `index.html` — removed all packet #4 detail-tile markup and CSS; expanded the Method Effects deck to 16 clearly commented slides; converted the four-part method into a clearly commented Section 2 deck; added a two-slide ribeye practice deck after the unchanged cologne and bougatsa blocks; added named owner links; and extended all four carousels with mouse/touch Pointer Events dragging while retaining buttons and arrow keys. The source `mind-ribeye-process.jpg` is stored sideways without EXIF orientation, so its slide applies a 90-degree clockwise presentation correction; desktop and mobile browser checks confirmed it renders upright. The result image renders upright without correction.
-- `olimazi-assets/method-cad-iso.png` — deleted per the owner’s cut list.
-- `olimazi-assets/method-hero-1.jpg` — deleted per the owner’s cut list.
-- `olimazi-assets/method-hero-2.jpg` — deleted per the owner’s cut list.
-- `sol/REPORT.md` — overwritten with the packet #5 completion report required by `AGENTS.md`.
+- `index.html` — limited drag handling to touch pointers, removed desktop grab cursors, moved the V1/V2 comparison directly before the multipiece sketch, restored the named Akra Plastics tooling-buck caption, shortened the Schedule E lead-in and moved owner detail into its three captions, joined the Section 3 flow with a reduced-motion-safe faded arrow, removed the ribeye deck, and added Section 3 and footer links to the library.
+- `library.html` — added the dependency-free themed learning archive with eight individually commented entries, main-page card presentation, the retained ribeye orientation correction, owner captions and named video link, responsive layout, theme persistence, navigation, and footer; browser verification confirmed all six library assets render upright.
+- `sol/REPORT.md` — replaced the prior report with this packet #6 completion and verification record.
 
 ## Deviations
 None.
 
 ## Skipped / unverified
-- No physical touchscreen was available. Pointer dragging was verified with a measured desktop mouse drag and again at a 390px mobile viewport; the touch path uses the same Pointer Events handlers with `touch-action: pan-y`.
+- `method-multipiece-sketch.jpg` was verified at desktop deck size and renders with its sketch content rotated 90 degrees. It was left unchanged because the packet says the planning-side re-cropped assets require no further edits.
 
 ## Blocked / questions
-None.
+- Should a later packet authorize an orientation correction for `method-multipiece-sketch.jpg`?
 
 ## Proposals
 None.

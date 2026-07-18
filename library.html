@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="The Olimazi library: ongoing learning material worth keeping outside the headline work.">
+  <title>Library — Olimazi</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper: #D9DEDC;
+      --paper-deep: #BFD5CC;
+      --card: #EEF3F1;
+      --ink: #303737;
+      --ink-muted: #56615E;
+      --line: rgba(48,55,55,.20);
+      --line-soft: rgba(48,55,55,.10);
+      --red: #70C9AA;
+      --red-deep: #2A745D;
+      --red-text: #226D57;
+      --olive: #46534F;
+      --nav-bg: rgba(217,222,220,.92);
+    }
+    html[data-theme="dark"] {
+      --paper: #282E2D;
+      --paper-deep: #34463F;
+      --card: #313A37;
+      --ink: #E4ECE9;
+      --ink-muted: #B5C1BD;
+      --line: rgba(228,236,233,.19);
+      --line-soft: rgba(228,236,233,.09);
+      --red-text: #8DE0C1;
+      --olive: #A8C1B7;
+      --nav-bg: rgba(40,46,45,.92);
+    }
+    html { background: var(--paper); }
+    body {
+      min-width: 320px; color: var(--ink); background: var(--paper);
+      font-family: "Satoshi", "Segoe UI", system-ui, sans-serif;
+      transition: background-color .35s, color .35s;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(48,55,55,.042) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(48,55,55,.042) 1px, transparent 1px);
+      background-size: 14px 14px;
+    }
+    html[data-theme="dark"] body::before {
+      background-image:
+        linear-gradient(rgba(228,236,233,.034) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(228,236,233,.034) 1px, transparent 1px);
+    }
+    main, footer { position: relative; z-index: 1; }
+    a { color: inherit; }
+    ::selection { color: #F4EFE3; background: var(--red); }
+    :focus-visible { outline: 3px solid var(--red); outline-offset: 4px; }
+    .skip {
+      position: fixed; top: 10px; left: 10px; z-index: 300;
+      padding: 10px 14px; color: #F4F8F6; background: var(--red-deep);
+      transform: translateY(-160%); transition: transform .2s;
+    }
+    .skip:focus { transform: none; }
+    .wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding-inline: 28px; }
+    .nav {
+      position: fixed; inset: 0 0 auto; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 40px; background: var(--nav-bg);
+      border-bottom: 1px solid var(--line); backdrop-filter: blur(12px);
+    }
+    .nav-brand {
+      color: var(--ink); font-size: 24px; font-weight: 900;
+      line-height: 1; letter-spacing: -.02em; text-decoration: none;
+    }
+    .nav-brand i { color: var(--red-text); font-style: normal; }
+    .nav-brand em { color: var(--ink-muted); font-style: normal; font-weight: 700; }
+    .nav-right { display: flex; align-items: center; gap: 22px; }
+    .nav-link {
+      color: var(--ink-muted); font: 500 11px/1 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
+    }
+    .nav-link:hover { color: var(--red-text); }
+    .theme-toggle {
+      min-height: 35px; display: flex; align-items: center; gap: 7px;
+      padding: 7px 12px; color: var(--ink-muted); background: transparent;
+      border: 1px solid var(--line); border-radius: 2px; cursor: pointer;
+      font: 500 10px/1 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .14em; text-transform: uppercase;
+    }
+    .theme-toggle:hover { color: var(--red-text); border-color: var(--red); }
+    .library-hero { padding: 154px 0 60px; }
+    .eyebrow {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 30px;
+      color: var(--olive); font: 600 11px/1 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .18em; text-transform: uppercase;
+    }
+    .eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+    h1 {
+      margin-bottom: 22px; font-size: clamp(52px, 9vw, 92px); font-weight: 900;
+      line-height: .98; letter-spacing: -.035em;
+    }
+    .purpose {
+      max-width: 660px; color: var(--ink-muted);
+      font-size: clamp(17px, 2vw, 20px); line-height: 1.65; text-wrap: pretty;
+    }
+    .library-section { padding: 28px 0 96px; }
+    .personal-grid {
+      max-width: 880px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+    }
+    .personal-card {
+      overflow: hidden; display: grid; grid-template-columns: 150px 1fr;
+      min-height: 200px; background: var(--card);
+      border: 1px solid var(--line); border-radius: 20px;
+    }
+    .personal-thumb {
+      position: relative; width: 150px; height: 200px; display: grid; place-items: center;
+      overflow: hidden; background: var(--paper-deep);
+    }
+    .personal-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .personal-thumb.orientation-cw img {
+      position: absolute; top: 50%; left: 50%; width: 200px; height: 150px;
+      max-width: none; transform: translate(-50%, -50%) rotate(90deg);
+    }
+    .personal-body { display: flex; flex-direction: column; padding: 18px 18px 20px; }
+    .chip {
+      align-self: flex-start; margin-bottom: 13px; padding: 4px 9px;
+      color: var(--olive); border: 1px solid var(--olive); border-radius: 2px;
+      font: 600 9px/1 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .18em; text-transform: uppercase;
+    }
+    .personal-card h2 { margin-bottom: 8px; font-size: 17px; line-height: 1.3; }
+    .personal-card p { color: var(--ink-muted); font-size: 14px; line-height: 1.7; }
+    .personal-card p a { color: var(--red-text); text-underline-offset: 3px; }
+    .footer { padding: 30px 0 40px; border-top: 1px solid var(--line); }
+    .footer-top, .footer-meta {
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px;
+    }
+    .footer-top { align-items: center; margin-bottom: 18px; }
+    .footer-wordmark { font-size: 20px; font-weight: 900; letter-spacing: -.02em; }
+    .footer-wordmark i { color: var(--red-text); font-style: normal; }
+    .footer-meta, .phonetic {
+      color: var(--ink-muted); font: 400 10px/1.5 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .14em; text-transform: uppercase;
+    }
+    .footer-meta a { color: var(--red-text); text-decoration: none; }
+    @media (max-width: 860px) {
+      .nav { padding: 12px 20px; }
+      .personal-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .wrap { padding-inline: 20px; }
+      .nav-link { display: none; }
+      .theme-toggle span { display: none; }
+      .library-hero { padding-top: 120px; }
+      .personal-card { grid-template-columns: 1fr; }
+      .personal-thumb { width: 100%; height: 150px; }
+      .personal-thumb.orientation-cw img {
+        width: 150px; height: calc(100vw - 57px); max-height: none;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <nav class="nav" aria-label="Library navigation">
+    <a class="nav-brand" href="index.html"><span>olimazi</span><i>.</i><em>online</em></a>
+    <div class="nav-right">
+      <a class="nav-link" href="index.html#method">Back to main</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" onclick="toggleTheme()">
+        <span>Theme</span><b aria-hidden="true">◐</b>
+      </button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="library-hero">
+      <div class="wrap">
+        <div class="eyebrow">Ongoing learning archive</div>
+        <h1>Library</h1>
+        <p class="purpose">An archive of ongoing learning material—things worth keeping that aren't headline work.</p>
+      </div>
+    </header>
+
+    <section class="library-section" aria-label="Library entries">
+      <div class="wrap">
+        <div class="personal-grid">
+          <!-- LIBRARY ENTRY 01 — Edit the image, label, title, and caption in this block. -->
+          <article class="personal-card">
+            <div class="personal-thumb orientation-cw">
+              <img src="olimazi-assets/mind-ribeye-process.jpg" alt="Bone-in ribeye dry-brining on a rack before cooking">
+            </div>
+            <div class="personal-body">
+              <span class="chip">Cooking</span>
+              <h2>Ribeye process</h2>
+              <p>Following <a href="https://youtu.be/lVcTvHTn6Dw" target="_blank" rel="noopener">this YouTube video</a>: “funny guy to watch; the drying/brining was definitely a home run!”</p>
+            </div>
+          </article>
+
+          <!-- LIBRARY ENTRY 02 — Edit the image, label, title, and caption in this block. -->
+          <article class="personal-card">
+            <div class="personal-thumb">
+              <img src="olimazi-assets/mind-ribeye-result.jpg" alt="Cooked bone-in ribeyes resting with shallots and herbs">
+            </div>
+            <div class="personal-body">
+              <span class="chip">Cooking</span>
+              <h2>Ribeye result</h2>
+              <p>“Was a bit harder than I wanted it to be—should've known a bone-in ribeye is much harder to get even temps.”</p>
+            </div>
+          </article>
+
+          <!-- LIBRARY ENTRY 03 — Edit the image, label, title, and caption in this block. -->
+          <article class="personal-card">
+            <div class="personal-thumb">
+              <img src="olimazi-assets/library-67-bug.jpg" alt="White 1967 Volkswagen Beetle restored by the owner">
+            </div>
+            <div class="personal-body">
+              <span class="chip">Personal</span>
+              <h2>'67 classic Bug</h2>
+              <p>Personal-use '67 classic Bug, restored by the owner—shared simply because it's worth sharing.</p>
+            </div>
+          </article>
+
+          <!-- LIBRARY ENTRY 04 — Edit the image, label, title, and caption in this block. -->
+          <article class="personal-card">
+            <div class="personal-thumb">
+              <img src="olimazi-assets/library-art-sketch.jpg" alt="Owner's hand-drawn character artwork">
+            </div>
+            <div class="personal-body">
+              <span class="chip">Art</span>
+              <h2>Sketch</h2>
+              <p>A sample of the owner's own art.</p>
+            </div>
+          </article>
+
+          <!-- LIBRARY ENTRY 05 — Edit the image, label, title, and caption in this block. -->
+          <article class="personal-card">
+            <div class="personal-thumb">
+              <img src="olimazi-assets/library-art-vector.jpg" alt="Owner's character artwork converted from sketch to vector">
+            </div>
+            <div class="personal-body">
+              <span class="chip">Art</span>
+              <h2>Sketch to vector</h2>
+              <p>Same art thread: taken from sketch to vector the old-school way.</p>
+            </div>
+          </article>
+
+          <!-- LIBRARY ENTRY 06 — Edit the image, label, title, and caption in this block. -->
+          <article class="personal-card">
+            <div class="personal-thumb">
+              <img src="olimazi-assets/library-brothers-truck.jpg" alt="Owner's brother's customized pickup truck">
+            </div>
+            <div class="personal-body">
+              <span class="chip">Automotive</span>
+              <h2>My brother's truck</h2>
+              <p>“My brother's truck.” More pictures and a parts-added detail coming later.</p>
+            </div>
+          </article>
+
+          <!-- LIBRARY ENTRY 07 — Edit the image, label, title, and caption in this block. -->
+          <article class="personal-card">
+            <div class="personal-thumb">
+              <img src="olimazi-assets/library-restaurant-01.jpg" alt="Busy restaurant interior showing maintenance work above the kitchen">
+            </div>
+            <div class="personal-body">
+              <span class="chip">Operations</span>
+              <h2>Restaurant operations</h2>
+              <p>From restaurant operations years: represents chaos and the ability to confront and manage high-stress environments.</p>
+            </div>
+          </article>
+
+          <!-- LIBRARY ENTRY 08 — Edit the image, label, title, and caption in this block. -->
+          <article class="personal-card">
+            <div class="personal-thumb">
+              <img src="olimazi-assets/library-restaurant-02.jpg" alt="Restaurant food-safety temperature check">
+            </div>
+            <div class="personal-body">
+              <span class="chip">Operations</span>
+              <h2>Restaurant operations</h2>
+              <p>Restaurant operations, held for future context.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-top"><span class="footer-wordmark">olimazi<i>.</i>online</span><span class="phonetic">oh-lee · mah-zee</span></div>
+      <div class="footer-meta"><span>© 2026 Olimazi · built in public</span><span><a href="index.html">Main page</a> · <a href="mailto:hello@olimazi.online">hello@olimazi.online</a></span></div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      const root = document.documentElement;
+      const next = root.dataset.theme === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      try { localStorage.setItem("olimazi-theme", next); } catch (_) {}
+    }
+    try {
+      const saved = localStorage.getItem("olimazi-theme");
+      if (saved) document.documentElement.dataset.theme = saved;
+    } catch (_) {}
+  </script>
+</body>
+</html>
