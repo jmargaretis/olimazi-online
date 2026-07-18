@@ -18,5 +18,9 @@ entry following the established dialog mechanic:
   old-school way."
 - Library entry count after merge: 6.
 
+### 2. '67 classic Bug category chip
+Change the '67 classic Bug entry's category chip from "PERSONAL" to "AUTOMOTIVE".
+Chip label only — title, caption, image, and dialog unchanged.
+
 ## Out of scope
 - Everything else. No other file, caption, or style changes.
