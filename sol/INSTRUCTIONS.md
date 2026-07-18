@@ -13,25 +13,10 @@ Keep swipe on touch devices; remove mouse dragging on desktop entirely (check
 `event.pointerType` — only `"touch"` engages the drag path). Buttons and arrow keys
 remain everywhere. Remove the `cursor: grab` styling on desktop.
 
-### 2. Method Effects deck — reorder + captions
-Reorder the 16 slides into this narrative sequence (concept → build → launch → sales):
-
-1. method-rs3-cad-render.png
-2. method-multipiece-sketch.jpg
-3. method-v1-aero-start.jpg
-4. method-v1-v2-comparison.png
-5. method-rubber-contact-points.jpg
-6. method-tooling-buck.jpg
-7. method-abs-coating.jpg
-8. method-workshop-detail.jpg
-9. method-splitter-product.jpg
-10. method-splitter-mural.jpg
-11. method-garage-front.jpg
-12. method-hero-3.jpg
-13. method-hero-4.jpg
-14. method-japan-first-order.jpg
-15. method-japan-order-support.png
-16. method-promo-campaign.jpg
+### 2. Method Effects deck — one reorder + captions
+Keep the existing slide order EXCEPT: move `method-v1-v2-comparison.png` (currently
+slide 04) directly in front of `method-multipiece-sketch.jpg` (currently slide 03).
+No other order changes — the owner will direct further reordering in later packets.
 
 **Caption fix (owner's note was dropped in #5):** the tooling-buck slide caption must
 carry the owner's words: "[Akra Plastics](https://akra-plastics.com/) — SoCal
