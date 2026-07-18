@@ -51,18 +51,27 @@ two separate sections. Remove the hard rule/page-break feel and make it flow as 
 add a subtle faded downward arrow (existing tokens, low opacity, respects
 reduced-motion) leading the eye to the cologne and bougatsa blocks.
 
-### 5. Ribeye deck
-Thumbnails are far too large — reduce to modest thumbnail scale consistent with the
-other small-subject imagery. Exactly two entries, never more; this deck is capped by
-design (future adds go to the library, not here).
+### 5. Ribeye — off the main page
+Remove the ribeye deck from `index.html` entirely. Its two images move to the
+library page (see §6). The main page's small-subjects area keeps only the cologne
+and bougatsa blocks (locked, untouched).
 
 ### 6. New page: `library.html` (minimal)
 A simple secondary page matching the site's tokens/typography/theme toggle, linked
 from the end of Section 3 (something like "More in the library →") and from the
 footer if one exists. Purpose line at top: an archive of ongoing learning material —
 things worth keeping that aren't headline work. No CMS, no dependencies; each entry
-one commented block, same editing pattern as the decks. Entries (images already in
+one commented block, same editing pattern as the decks. **Presentation: entry
+thumbnails mimic the cologne/bougatsa blocks on the main page — same thumb size,
+frame treatment, and caption pattern.** Entries (images already in
 `olimazi-assets/`), owner's captions:
+
+- `mind-ribeye-process.jpg` — Cooking process shot, following
+  [this YouTube video](https://youtu.be/lVcTvHTn6Dw): "funny guy to watch; the
+  drying/brining was definitely a home run!" (Keep the orientation correction it
+  had on the main page.)
+- `mind-ribeye-result.jpg` — "Was a bit harder than I wanted it to be — should've
+  known a bone-in ribeye is much harder to get even temps."
 
 - `library-67-bug.jpg` — Personal-use '67 classic Bug, restored by the owner —
   shared simply because it's worth sharing.
