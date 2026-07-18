@@ -24,7 +24,7 @@ colors:
 typography:
   display:
     fontFamily: "Satoshi, Segoe UI, system-ui, sans-serif"
-    fontSize: "clamp(54px, 9vw, 104px)"
+    fontSize: "clamp(54px, 9vw, 96px)"
     fontWeight: 900
     lineHeight: 0.98
     letterSpacing: "-0.035em"
@@ -107,7 +107,7 @@ The visual system supports the locked “personal concept” framing and the lin
 
 ## Colors
 
-The active palette is the `data-variant="mint"` token set in `index.html`; light and dark values are paired deliberately and must travel together.
+The active palette is the single root token set in `index.html`; light and dark values are paired deliberately and must travel together.
 
 ### Primary
 

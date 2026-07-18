@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="light" data-variant="mint">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -10,39 +10,38 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --paper: #EDE7D9;
-      --paper-deep: #E6DECB;
-      --card: #F4EFE3;
-      --ink: #2B2A26;
-      --ink-muted: #5C574B;
-      --line: rgba(43,42,38,0.18);
-      --line-soft: rgba(43,42,38,0.09);
-      --red: #C0392B;
-      --red-deep: #A81C22;
-      --red-text: #A81C22;
-      --olive: #565B3E;
-      --sand: #CBC5B6;
-      --btn-text: #F4EFE3;
-      --nav-bg: rgba(237,231,217,0.92);
-      --shadow: 0 14px 34px rgba(43,42,38,0.14);
+      --paper: #D9DEDC;
+      --paper-deep: #BFD5CC;
+      --card: #EEF3F1;
+      --ink: #303737;
+      --ink-muted: #56615E;
+      --line: rgba(48,55,55,.20);
+      --line-soft: rgba(48,55,55,.10);
+      --red: #70C9AA;
+      --red-deep: #2A745D;
+      --red-text: #226D57;
+      --olive: #46534F;
+      --sand: #AAB8B3;
+      --btn-text: #F4F8F6;
+      --nav-bg: rgba(217,222,220,.92);
+      --shadow: 0 14px 34px rgba(48,55,55,.16);
     }
     html[data-theme="dark"] {
-      --paper: #211E19;
-      --paper-deep: #1B1915;
-      --card: #2A2620;
-      --ink: #EDE6D6;
-      --ink-muted: #B8AE9C;
-      --line: rgba(237,230,214,0.18);
-      --line-soft: rgba(237,230,214,0.08);
-      --red-text: #E0705C;
-      --olive: #9AA37E;
-      --sand: #57503F;
-      --nav-bg: rgba(33,30,25,0.92);
-      --shadow: 0 14px 34px rgba(0,0,0,0.45);
+      --paper: #282E2D;
+      --paper-deep: #34463F;
+      --card: #313A37;
+      --ink: #E4ECE9;
+      --ink-muted: #B5C1BD;
+      --line: rgba(228,236,233,.19);
+      --line-soft: rgba(228,236,233,.09);
+      --red-text: #8DE0C1;
+      --olive: #A8C1B7;
+      --sand: #65736E;
+      --nav-bg: rgba(40,46,45,.92);
+      --shadow: 0 14px 34px rgba(0,0,0,.42);
     }
     html { scroll-behavior: smooth; background: var(--paper); }
     body {
-      min-width: 320px;
       color: var(--ink);
       background: var(--paper);
       font-family: "Satoshi", "Segoe UI", system-ui, sans-serif;
@@ -64,17 +63,17 @@
 
     .bg-sheet {
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      color: rgba(43,42,38,.15);
+      color: rgba(48,55,55,.18);
       background-image:
-        linear-gradient(rgba(43,42,38,.032) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(43,42,38,.032) 1px, transparent 1px);
+        linear-gradient(rgba(48,55,55,.042) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(48,55,55,.042) 1px, transparent 1px);
       background-size: 14px 14px;
     }
     html[data-theme="dark"] .bg-sheet {
-      color: rgba(237,230,214,.11);
+      color: rgba(228,236,233,.12);
       background-image:
-        linear-gradient(rgba(237,230,214,.028) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(237,230,214,.028) 1px, transparent 1px);
+        linear-gradient(rgba(228,236,233,.034) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(228,236,233,.034) 1px, transparent 1px);
     }
     .bg-sheet .bg-gears { opacity: .75; }
     .bg-sheet svg {
@@ -121,7 +120,7 @@
     .hero-kicker::after { content: ""; flex: 1; height: 1px; background: var(--line); }
     h1 {
       max-width: 880px; margin-bottom: 34px;
-      font-size: clamp(54px, 9vw, 104px); font-weight: 900;
+      font-size: clamp(54px, 9vw, 96px); font-weight: 900;
       line-height: .98; letter-spacing: -.035em; text-wrap: balance;
     }
     h1 .accent { position: relative; color: var(--red); white-space: nowrap; }
@@ -159,7 +158,7 @@
     .spec-val strong { color: var(--red-text); }
 
     .marquee {
-      overflow: hidden; padding: 13px 0; background: var(--paper-deep);
+      overflow: hidden; padding: 13px 0; background: var(--red);
       border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink);
     }
     .marquee-track {
@@ -167,11 +166,11 @@
       animation: marquee 36s linear infinite;
     }
     .marquee span {
-      padding-right: 18px; color: var(--ink-muted); white-space: nowrap;
+      padding-right: 18px; color: #24473C; white-space: nowrap;
       font: 500 12px/1 "IBM Plex Mono", Consolas, monospace;
       letter-spacing: .22em; text-transform: uppercase;
     }
-    .marquee b { color: var(--red-text); font-weight: 600; }
+    .marquee b { color: #18352C; font-weight: 600; }
     @keyframes marquee { to { transform: translateX(-50%); } }
 
     .section { padding: 96px 0 90px; }
@@ -231,20 +230,6 @@
       letter-spacing: .12em; text-transform: uppercase;
     }
 
-    .range-list { border-top: 1px solid var(--ink); }
-    .range-item {
-      display: grid; grid-template-columns: 72px minmax(0, 1fr) 210px;
-      gap: 30px; align-items: center; padding: 32px 0; border-bottom: 1px solid var(--line);
-    }
-    .range-num { color: var(--ink-muted); font: 400 13px/1 "IBM Plex Mono", Consolas, monospace; letter-spacing: .1em; }
-    .range-item h3 { margin-bottom: 8px; font-size: clamp(21px, 2.6vw, 28px); letter-spacing: -.015em; }
-    .range-item p { max-width: 560px; color: var(--ink-muted); font-size: 14.5px; line-height: 1.75; }
-    .range-tag {
-      justify-self: end; color: var(--olive); text-align: right;
-      font: 500 10px/1.5 "IBM Plex Mono", Consolas, monospace;
-      letter-spacing: .14em; text-transform: uppercase;
-    }
-
     .method-grid {
       display: grid; grid-template-columns: minmax(280px, .8fr) minmax(0, 1.4fr);
       gap: 64px; align-items: start;
@@ -254,14 +239,70 @@
       line-height: 1; letter-spacing: -.02em; text-wrap: balance;
     }
     .method-statement span { color: var(--red); }
-    .steps { border-top: 1px solid var(--ink); }
-    .step {
-      display: grid; grid-template-columns: 72px 1fr; gap: 18px;
-      padding: 20px 0; border-bottom: 1px solid var(--line);
+    .method-lede {
+      max-width: 590px; color: var(--ink-muted);
+      font-size: clamp(17px, 2vw, 20px); line-height: 1.65; text-wrap: pretty;
     }
-    .step-no { color: var(--red-text); font: 500 12px/1.5 "IBM Plex Mono", Consolas, monospace; }
-    .step h3 { margin-bottom: 5px; font-size: 18px; }
-    .step p { max-width: 580px; color: var(--ink-muted); font-size: 15px; line-height: 1.65; }
+    .detail-area { margin-top: 54px; }
+    .detail-area-head {
+      display: flex; align-items: end; justify-content: space-between; gap: 24px;
+      margin-bottom: 18px; padding-top: 14px; border-top: 1px solid var(--ink);
+    }
+    .detail-area-head h3 {
+      max-width: 570px; font-size: clamp(22px, 3vw, 30px);
+      line-height: 1.1; letter-spacing: -.02em; text-wrap: balance;
+    }
+    .detail-area-head p {
+      max-width: 370px; color: var(--ink-muted); font-size: 13px; line-height: 1.6;
+    }
+    .detail-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      align-items: start; gap: 1px; padding: 1px; background: var(--line);
+    }
+    .detail-tile { min-width: 0; background: var(--card); }
+    .detail-tile summary {
+      min-height: 320px; display: flex; flex-direction: column; padding: 14px;
+      cursor: pointer; list-style: none;
+    }
+    .detail-tile summary::-webkit-details-marker { display: none; }
+    .detail-tile-media {
+      width: 100%; height: 154px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 18px; padding: 20px; color: var(--olive); text-align: center;
+      border: 1px solid var(--line);
+      object-fit: cover;
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(var(--line-soft) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+      background-size: 14px 14px;
+    }
+    .detail-tile-media span {
+      padding: 7px 9px; background: var(--card); border: 1px solid var(--line);
+      font: 600 9px/1.4 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .14em; text-transform: uppercase;
+    }
+    .detail-tile-kicker {
+      margin-bottom: 7px; color: var(--olive);
+      font: 600 9px/1.4 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .14em; text-transform: uppercase;
+    }
+    .detail-tile h3 {
+      margin-bottom: 18px; font-size: clamp(18px, 2.2vw, 22px);
+      line-height: 1.2; letter-spacing: -.015em;
+    }
+    .detail-tile-prompt {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: auto; padding-top: 12px; color: var(--red-text);
+      border-top: 1px solid var(--line-soft);
+      font: 600 9px/1 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .12em; text-transform: uppercase;
+    }
+    .detail-tile-prompt::after { content: "+"; font-size: 17px; }
+    .detail-tile[open] .detail-tile-prompt::after { content: "−"; }
+    .detail-tile-body {
+      padding: 16px 18px 20px; color: var(--ink-muted);
+      border-top: 1px solid var(--line); font-size: 14px; line-height: 1.65;
+    }
 
     .log { border-top: 1px solid var(--ink); }
     .log-entry {
@@ -272,13 +313,23 @@
     .log-title { margin-bottom: 5px; font-weight: 700; }
     .log-body { max-width: 640px; color: var(--ink-muted); font-size: 15px; line-height: 1.65; }
 
-    .personal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
-    .personal-card {
-      overflow: hidden; display: grid; grid-template-columns: 42% 1fr;
-      min-height: 260px; background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+    .learning-samples { margin-top: 50px; padding-top: 24px; border-top: 1px solid var(--ink); }
+    .learning-intro {
+      display: grid; grid-template-columns: minmax(0, .8fr) minmax(280px, 1.2fr);
+      gap: 40px; align-items: end; margin-bottom: 22px;
     }
-    .personal-card img { width: 100%; height: 100%; object-fit: cover; }
-    .personal-body { display: flex; flex-direction: column; padding: 20px 22px 24px; }
+    .learning-intro h3 {
+      font-size: clamp(22px, 3vw, 30px); line-height: 1.1;
+      letter-spacing: -.02em; text-wrap: balance;
+    }
+    .learning-intro p { color: var(--ink-muted); font-size: 14px; line-height: 1.65; }
+    .personal-grid { max-width: 880px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .personal-card {
+      overflow: hidden; display: grid; grid-template-columns: 150px 1fr;
+      min-height: 200px; background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+    }
+    .personal-card img { width: 100%; height: 200px; object-fit: cover; }
+    .personal-body { display: flex; flex-direction: column; padding: 18px 18px 20px; }
     .chip {
       align-self: flex-start; margin-bottom: 13px; padding: 4px 9px;
       color: var(--olive); border: 1px solid var(--olive); border-radius: 2px;
@@ -289,9 +340,8 @@
     .personal-card p { color: var(--ink-muted); font-size: 14px; line-height: 1.7; }
 
     .closing {
-      padding: 120px 0; color: var(--paper); background: var(--ink); text-align: center;
+      padding: 120px 0; color: #E9F0ED; background: #303737; text-align: center;
     }
-    html[data-theme="dark"] .closing { color: var(--ink); background: #171512; }
     .closing-label {
       margin-bottom: 26px; color: #E0705C;
       font: 400 11px/1 "IBM Plex Mono", Consolas, monospace;
@@ -319,8 +369,7 @@
       .hero { padding-top: 120px; }
       .hero-grid, .proof-feature, .method-grid { grid-template-columns: 1fr; gap: 40px; }
       .proof-image { max-width: 620px; }
-      .range-item { grid-template-columns: 44px minmax(0, 1fr); }
-      .range-tag { grid-column: 2; justify-self: start; text-align: left; }
+      .detail-area-head, .learning-intro { display: grid; grid-template-columns: 1fr; gap: 10px; }
       .personal-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 560px) {
@@ -331,39 +380,24 @@
       .theme-toggle span { display: none; }
       .outcomes { grid-template-columns: 1fr; }
       .outcome { padding: 14px 0; border-bottom: 1px solid var(--line-soft); }
-      .range-item { grid-template-columns: 1fr; gap: 10px; }
-      .range-tag { grid-column: auto; }
       .method-statement { font-size: 44px; }
-      .step, .log-entry { grid-template-columns: 1fr; gap: 4px; }
+      .log-entry { grid-template-columns: 1fr; gap: 4px; }
+      .detail-grid { grid-template-columns: 1fr; }
       .personal-card { grid-template-columns: 1fr; }
-      .personal-card img { height: 220px; }
+      .personal-card img { height: 150px; }
       .closing { padding: 96px 0; }
+    }
+    @media (max-width: 360px) {
+      .nav { padding-inline: 12px; }
+      .nav-brand { font-size: 20px; }
+      .nav-right { gap: 6px; }
+      .nav-contact { padding-inline: 8px; font-size: 9px; }
+      .theme-toggle { padding-inline: 9px; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation: none !important; transition-duration: .001ms !important; }
     }
-      /* Alternative B: grey-anchor / mint working lab */
-    html[data-variant="mint"] {
-      --paper: #D9DEDC; --paper-deep: #BFD5CC; --card: #EEF3F1;
-      --ink: #303737; --ink-muted: #56615E;
-      --line: rgba(48,55,55,.20); --line-soft: rgba(48,55,55,.10);
-      --red: #70C9AA; --red-deep: #2A745D; --red-text: #226D57;
-      --olive: #46534F; --sand: #AAB8B3; --btn-text: #F4F8F6;
-      --nav-bg: rgba(217,222,220,.92); --shadow: 0 14px 34px rgba(48,55,55,.16);
-    }
-    html[data-variant="mint"][data-theme="dark"] {
-      --paper: #282E2D; --paper-deep: #34463F; --card: #313A37;
-      --ink: #E4ECE9; --ink-muted: #B5C1BD;
-      --line: rgba(228,236,233,.19); --line-soft: rgba(228,236,233,.09);
-      --red-text: #8DE0C1; --olive: #A8C1B7; --sand: #65736E;
-      --nav-bg: rgba(40,46,45,.92); --shadow: 0 14px 34px rgba(0,0,0,.42);
-    }
-    html[data-variant="mint"] .bg-sheet { color: rgba(48,55,55,.18); background-image: linear-gradient(rgba(48,55,55,.042) 1px,transparent 1px),linear-gradient(90deg,rgba(48,55,55,.042) 1px,transparent 1px); }
-    html[data-variant="mint"][data-theme="dark"] .bg-sheet { color: rgba(228,236,233,.12); background-image: linear-gradient(rgba(228,236,233,.034) 1px,transparent 1px),linear-gradient(90deg,rgba(228,236,233,.034) 1px,transparent 1px); }
-    html[data-variant="mint"] .marquee { background: var(--red); }
-    html[data-variant="mint"] .marquee span { color: #24473C; }
-    html[data-variant="mint"] .marquee b { color: #18352C; }
     .carousel { position: relative; min-width: 0; }
     .carousel-slide { margin: 0; }
     .carousel-slide[hidden] { display: none; }
@@ -396,7 +430,6 @@
     .visual-case-copy h2 { margin-bottom:20px; font-size:clamp(34px,5vw,58px); line-height:.98; letter-spacing:-.03em; }
     .visual-case-copy p { margin-bottom:18px; color:var(--ink-muted); font-size:15px; line-height:1.75; }
     .visual-case-copy .spec { margin-top:30px; }
-    html[data-variant="mint"] .closing { background:#303737; color:#E9F0ED; }
     @media(max-width:860px){ .mint-hero-grid,.visual-case-grid{grid-template-columns:1fr;} .mint-hero-media{border-right:0;border-bottom:1px solid var(--ink);} .mint-hero-media .carousel-media,.carousel-media{height:clamp(300px,64vw,540px);} .visual-case-copy{position:static;} }
     @media(max-width:560px){ .mint-hero{padding-top:100px;} .mint-hero-grid,.mint-hero-media,.mint-hero-copy,.carousel,.carousel-stage,.carousel-slide{width:100%;min-width:0;max-width:100%;overflow-wrap:anywhere;} .mint-hero-media .carousel-media{height:300px;min-height:0;object-position:center;} .mint-hero-copy{padding:30px 24px;} .mint-hero-copy h1{font-size:clamp(44px,13.5vw,56px);overflow-wrap:anywhere;} .carousel-media.dashboard{height:260px;} .carousel-caption{min-height:78px;overflow-wrap:anywhere;} }
       /* Synthesis: calm introduction + image-first main work */
@@ -428,7 +461,6 @@
     }
     .tracker-honesty strong { color: var(--ink); }
     .work-project-carousel { overflow:hidden; border:1px solid var(--line); background:var(--card); box-shadow:var(--shadow); }
-    .thread-list { margin-top:54px; border-top:1px solid var(--ink); }
     @media(max-width:860px){ .main-work-intro,.work-project-grid,.work-project-grid.reverse{grid-template-columns:1fr;} .work-project-copy{position:static;} .work-project-grid.reverse .work-project-copy{order:0;} .work-project-grid.reverse .work-project-carousel{order:1;} }
     @media(max-width:560px){
       .main-work-intro{gap:16px;}
@@ -794,7 +826,7 @@
         <div>
           <div class="hero-kicker">A personal brand · building with AI in public</div>
           <h1>What can one person <span class="accent">build with AI?</span></h1>
-          <p class="hero-sub">Olimazi is an ongoing answer: practical experiments shaped by experience in tax operations, restaurants, and building Method Effects. It presents the work, what I learn, and what still needs refining—not a tools platform or a finished product company.</p>
+          <p class="hero-sub">Olimazi is an ongoing answer: practical experiments shaped by experience in operations, product work, and building Method Effects. It presents the work, what I learn, and what still needs refining—not a tools platform or a finished product company.</p>
           <a class="btn" href="#main-work">See the main work <span class="arr" aria-hidden="true">→</span></a>
         </div>
         <aside class="spec" aria-label="Olimazi overview">
@@ -818,7 +850,7 @@
 
     <section class="visual-case" id="main-work">
       <div class="wrap">
-        <div class="sec-head"><span class="sec-label">Main work</span><span class="sec-index">01 / 05</span></div>
+        <div class="sec-head"><span class="sec-label">Main work</span><span class="sec-index">01 / 03</span></div>
         <div class="main-work-intro">
           <h2 class="section-title">The pictures first. The process follows.</h2>
           <p>These are the two main bodies of work behind the Olimazi concept. Method Effects shows where I learned to build a brand and operating process from the ground up. The finance tracker shows what one person can now turn into a working system with AI and real subject-matter context.</p>
@@ -895,24 +927,115 @@
           </div>
         </article>
 
-        <div class="thread-list" aria-label="Experience feeding the current work">
-          <article class="range-item"><span class="range-num">03</span><div><h3>Tax and accounting operations</h3><p>US Review Manager at SurePrep from 2010–2014. The work included a Grant Thornton business-tax pilot, federal and state return preparation, partnership and 8825 work, client coordination, and software QA. This is the experience behind the Schedule E/C idea.</p></div><span class="range-tag">SurePrep<br>2010–2014</span></article>
-          <article class="range-item"><span class="range-num">04</span><div><h3>Restaurant operations</h3><p>Experience across Romano’s Macaroni Grill and Mimi’s Café, including management and interim-GM responsibilities. The work covered training, staffing, scheduling, inventory, P&amp;L review, and day-to-day operating decisions. More detail will be added after the next pass.</p></div><span class="range-tag">Operations<br>under pressure</span></article>
-          <article class="range-item"><span class="range-num">05</span><div><h3>Content and automation experiments</h3><p>Cologne, recipes, and other interests are becoming small tests for research, attribution, drafting, and eventual Facebook or Instagram publishing flows. The point is to learn the system through subjects I already care about.</p></div><span class="range-tag">AI-assisted<br>publishing</span></article>
+        <div class="detail-area" aria-labelledby="main-detail-title">
+          <div class="detail-area-head">
+            <h3 id="main-detail-title">Details, when they’re ready.</h3>
+            <p>These frames are reserved for owner-authored context. Each opens independently, so the first view stays focused on the work.</p>
+          </div>
+          <div class="detail-grid">
+            <!-- SECTION 1 TILE 1 — Edit the kicker, title, body, and optional image in this block.
+                 To add an image, replace .detail-tile-media with:
+                 <img class="detail-tile-media" src="olimazi-assets/FILE.jpg" alt="DESCRIPTION"> -->
+            <details class="detail-tile is-placeholder">
+              <summary>
+                <div class="detail-tile-media" aria-hidden="true"><span>Owner content slot 01</span></div>
+                <span class="detail-tile-kicker">Method Effects</span>
+                <h3>Build notes</h3>
+                <span class="detail-tile-prompt">Detail</span>
+              </summary>
+              <div class="detail-tile-body"><p>This frame is intentionally reserved for the owner’s next document.</p></div>
+            </details>
+
+            <!-- SECTION 1 TILE 2 — Edit the kicker, title, body, and optional image in this block.
+                 To add an image, replace .detail-tile-media with:
+                 <img class="detail-tile-media" src="olimazi-assets/FILE.jpg" alt="DESCRIPTION"> -->
+            <details class="detail-tile is-placeholder">
+              <summary>
+                <div class="detail-tile-media" aria-hidden="true"><span>Owner content slot 02</span></div>
+                <span class="detail-tile-kicker">Finance tracker</span>
+                <h3>Field notes</h3>
+                <span class="detail-tile-prompt">Detail</span>
+              </summary>
+              <div class="detail-tile-body"><p>This frame is intentionally reserved for the owner’s next document.</p></div>
+            </details>
+
+            <!-- SECTION 1 TILE 3 — Edit the kicker, title, body, and optional image in this block.
+                 To add an image, replace .detail-tile-media with:
+                 <img class="detail-tile-media" src="olimazi-assets/FILE.jpg" alt="DESCRIPTION"> -->
+            <details class="detail-tile is-placeholder">
+              <summary>
+                <div class="detail-tile-media" aria-hidden="true"><span>Owner content slot 03</span></div>
+                <span class="detail-tile-kicker">Working thread</span>
+                <h3>The through-line</h3>
+                <span class="detail-tile-prompt">Detail</span>
+              </summary>
+              <div class="detail-tile-body"><p>This frame is intentionally reserved for the owner’s next document.</p></div>
+            </details>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="section" id="method">
       <div class="wrap">
-        <div class="sec-head"><span class="sec-label">Learning in public</span><span class="sec-index">02 / 05</span></div>
+        <div class="sec-head"><span class="sec-label">Learning in public</span><span class="sec-index">02 / 03</span></div>
         <div class="method-grid">
           <h2 class="method-statement">Context first.<br><span>Then the tool.</span></h2>
-          <div class="steps">
-            <article class="step"><span class="step-no">01</span><div><h3>Begin with something I understand.</h3><p>A rental-property filing problem, a product process, or an interest I can judge for myself gives the AI work real context.</p></div></article>
-            <article class="step"><span class="step-no">02</span><div><h3>Learn by building around constraints.</h3><p>I started lightly with Gemini in November 2025 and became serious with Claude in April 2026, using YouTube, Claude Code planning, and practical workarounds to fill gaps in technical background.</p></div></article>
-            <article class="step"><span class="step-no">03</span><div><h3>Use a working handoff.</h3><p>The current loop is planned in Fable, executed in Sol, and reviewed in Fable. Around it, I’m experimenting with MCP setups, Zapier, Outlook workarounds, intake flows, and early Facebook and Instagram publishing systems.</p></div></article>
-            <article class="step"><span class="step-no">04</span><div><h3>Share the missing context.</h3><p>The goal is a roughly weekly record of what worked, what did not, and details that tutorials often leave out—without pretending the learning is finished.</p></div></article>
+          <p class="method-lede">I start with lived context, build around real constraints, and keep the handoff between planning, execution, and review visible.</p>
+        </div>
+        <div class="detail-area" aria-labelledby="method-detail-title">
+          <div class="detail-area-head">
+            <h3 id="method-detail-title">Open the layer you need.</h3>
+            <p>The method stays compact until a visitor chooses the context behind it.</p>
+          </div>
+          <div class="detail-grid">
+            <!-- SECTION 2 TILE 1 — Edit the kicker, title, body, and optional image in this block.
+                 Replace .detail-tile-media with an image using the pattern documented in Section 1. -->
+            <details class="detail-tile">
+              <summary>
+                <div class="detail-tile-media" aria-hidden="true"><span>Context</span></div>
+                <span class="detail-tile-kicker">Start here</span>
+                <h3>Something I understand</h3>
+                <span class="detail-tile-prompt">Detail</span>
+              </summary>
+              <div class="detail-tile-body"><p>A rental-property filing problem, a product process, or an interest I can judge for myself gives the AI work real context.</p></div>
+            </details>
+
+            <!-- SECTION 2 TILE 2 — Edit the kicker, title, body, and optional image in this block.
+                 Replace .detail-tile-media with an image using the pattern documented in Section 1. -->
+            <details class="detail-tile">
+              <summary>
+                <div class="detail-tile-media" aria-hidden="true"><span>Constraints</span></div>
+                <span class="detail-tile-kicker">Build</span>
+                <h3>Work around the gaps</h3>
+                <span class="detail-tile-prompt">Detail</span>
+              </summary>
+              <div class="detail-tile-body"><p>I started lightly with Gemini in November 2025 and became serious with Claude in April 2026, using YouTube, Claude Code planning, and practical workarounds to fill gaps in technical background.</p></div>
+            </details>
+
+            <!-- SECTION 2 TILE 3 — Edit the kicker, title, body, and optional image in this block.
+                 Replace .detail-tile-media with an image using the pattern documented in Section 1. -->
+            <details class="detail-tile">
+              <summary>
+                <div class="detail-tile-media" aria-hidden="true"><span>Handoff</span></div>
+                <span class="detail-tile-kicker">Current loop</span>
+                <h3>Plan, execute, review</h3>
+                <span class="detail-tile-prompt">Detail</span>
+              </summary>
+              <div class="detail-tile-body"><p>The current loop is planned in Fable, executed in Sol, and reviewed in Fable. Around it, I’m experimenting with MCP setups, Zapier, Outlook workarounds, intake flows, and early Facebook and Instagram publishing systems.</p></div>
+            </details>
+
+            <!-- SECTION 2 TILE 4 — Edit the kicker, title, body, and optional image in this block.
+                 Replace .detail-tile-media with an image using the pattern documented in Section 1. -->
+            <details class="detail-tile">
+              <summary>
+                <div class="detail-tile-media" aria-hidden="true"><span>Record</span></div>
+                <span class="detail-tile-kicker">Share</span>
+                <h3>Keep the missing context</h3>
+                <span class="detail-tile-prompt">Detail</span>
+              </summary>
+              <div class="detail-tile-body"><p>The goal is a roughly weekly record of what worked, what did not, and details that tutorials often leave out—without pretending the learning is finished.</p></div>
+            </details>
           </div>
         </div>
       </div>
@@ -920,9 +1043,9 @@
 
     <section class="section" id="mind">
       <div class="wrap">
-        <div class="sec-head"><span class="sec-label">Current state of mind</span><span class="sec-index">03 / 05</span></div>
+        <div class="sec-head"><span class="sec-label">Current state of mind</span><span class="sec-index">03 / 03</span></div>
         <h2 class="section-title">Scattered, connected, and hopefully improving.</h2>
-        <p class="section-note">This is the current state of my Obsidian vault: working notes, experiments, projects, useful connections, and plenty of loose ends. It is not a finished knowledge system. Part of learning in public is figuring out what deserves structure, what should connect, and what is only noise.</p>
+        <p class="section-note">My Obsidian vault holds working notes, experiments, useful connections, and loose ends. It is not a finished knowledge system; I’m still learning what deserves structure and what is only noise.</p>
         <div class="mind-graph">
           <svg class="vault-graph" viewBox="0 0 1080 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Current, evolving knowledge graph of the Olimazi vault">
 <g stroke="var(--ink)" stroke-opacity="0.16" stroke-width="1">
@@ -1106,23 +1229,21 @@
           <span><i class="graph-dot" style="background:#99621E"></i>Method Effects</span>
           <span><i class="graph-dot" style="background:var(--ink-muted)"></i>Everything else</span>
         </div>
-      </div>
-    </section>
-
-    <section class="section" aria-labelledby="tested-title">
-      <div class="wrap">
-        <div class="sec-head"><span class="sec-label">Content experiments</span><span class="sec-index">04 / 05</span></div>
-        <h2 class="section-title" id="tested-title">Learn the workflow through things I like.</h2>
-        <p class="section-note">Cologne, desserts, recipes, and other interests become manageable experiments in research, attribution, drafting, and eventually publishing to Facebook or Instagram. Select an item to open its notes and sources.</p>
-        <div class="personal-grid">
-          <article class="personal-card">
-            <img src="olimazi-assets/eau-dombre.jpg" alt="Tom Ford Eau d’Ombre Leather bottle">
-            <div class="personal-body"><span class="chip">Cologne</span><h3>Tom Ford — Eau d’Ombre Leather</h3><p>A deeper scent I discovered after following an online review trail and trying it in person.</p><button class="personal-open" type="button" onclick="openItem('cologne-dialog')">Open notes and sources →</button></div>
-          </article>
-          <article class="personal-card">
-            <img src="olimazi-assets/bougatsa.jpg" alt="Homemade bougatsa dusted with icing sugar and cinnamon">
-            <div class="personal-body"><span class="chip">Recipe</span><h3>Bougatsa — Greek custard pie</h3><p>Part of learning classic custard techniques, controlling ingredients, and making food worth sharing with family.</p><button class="personal-open" type="button" onclick="openItem('bougatsa-dialog')">Open notes and recipe →</button></div>
-          </article>
+        <div class="learning-samples" aria-labelledby="tested-title">
+          <div class="learning-intro">
+            <h3 id="tested-title">Small subjects, useful practice.</h3>
+            <p>Interests I already care about become low-stakes tests for research, source tracking, drafting, and eventual publishing. They matter to the learning, but they are not the headline.</p>
+          </div>
+          <div class="personal-grid">
+            <article class="personal-card">
+              <img src="olimazi-assets/eau-dombre.jpg" alt="Tom Ford Eau d’Ombre Leather bottle">
+              <div class="personal-body"><span class="chip">Cologne</span><h3>Tom Ford — Eau d’Ombre Leather</h3><p>A deeper scent I discovered after following an online review trail and trying it in person.</p><button class="personal-open" type="button" onclick="openItem('cologne-dialog')">Open notes and sources →</button></div>
+            </article>
+            <article class="personal-card">
+              <img src="olimazi-assets/bougatsa.jpg" alt="Homemade bougatsa dusted with icing sugar and cinnamon">
+              <div class="personal-body"><span class="chip">Recipe</span><h3>Bougatsa — Greek custard pie</h3><p>Part of learning classic custard techniques, controlling ingredients, and making food worth sharing with family.</p><button class="personal-open" type="button" onclick="openItem('bougatsa-dialog')">Open notes and recipe →</button></div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
