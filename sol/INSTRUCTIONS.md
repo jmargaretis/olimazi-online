@@ -1,78 +1,100 @@
 # SOL work packet — active
 
-**Packet:** #5 · issued 2026-07-18 · authored by Claude (planning side)
-**Protocol:** see `AGENTS.md` — including the required REPORT.md format, which
-governs your report (this packet defines no report outline of its own).
+**Packet:** #6 · issued 2026-07-18 · authored by Claude (planning side)
+**Protocol:** see `AGENTS.md`; report in the required REPORT.md format.
 
-Owner reviewed packet #4 live and rejected the detail-tile approach. This packet
-corrects course. Read `PRODUCT.md` and `DESIGN.md` first; stay inside the locked
-framing and existing tokens.
+Owner reviewed packet #5 live. The deck mechanic stays; this packet corrects the
+items below. Read `PRODUCT.md` and `DESIGN.md` first; locked framing and tokens.
 
-## Owner's verdict on packet #4 (the why)
+## Packet #6 scope
 
-- The standalone "Details, when they're ready" section **should not exist**. Detail
-  belongs INSIDE each section, as slides — not as a separate tile block.
-- Sections 2 and 3 are **broken up too much** — the Context/Constraints/Handoff/Record
-  tile grid fragments the method instead of presenting it.
-- The owner's selected images were missing (they were out of scope for #4; they are
-  in scope now — already committed to `olimazi-assets/`).
-- The owner wants detail delivered as a **slide presentation he can drag**.
+### 1. Drag becomes touch-only
+Keep swipe on touch devices; remove mouse dragging on desktop entirely (check
+`event.pointerType` — only `"touch"` engages the drag path). Buttons and arrow keys
+remain everywhere. Remove the `cursor: grab` styling on desktop.
 
-## Packet #5 scope
+### 2. Method Effects deck — reorder + captions
+Reorder the 16 slides into this narrative sequence (concept → build → launch → sales):
 
-### 1. Remove the detail-tile mechanic entirely
-- Delete the "Details, when they're ready" section (the three owner-content-slot
-  placeholder frames) completely.
-- Delete the Section 2 detail-tile grid (Context / Constraints / Handoff / Record
-  tiles). Their copy moves into slides per §2.
-- No `<details>`-based detail tiles remain anywhere. (The pre-existing
-  `process-notes` element may stay if it still fits the new layout naturally.)
+1. method-rs3-cad-render.png
+2. method-multipiece-sketch.jpg
+3. method-v1-aero-start.jpg
+4. method-v1-v2-comparison.png
+5. method-rubber-contact-points.jpg
+6. method-tooling-buck.jpg
+7. method-abs-coating.jpg
+8. method-workshop-detail.jpg
+9. method-splitter-product.jpg
+10. method-splitter-mural.jpg
+11. method-garage-front.jpg
+12. method-hero-3.jpg
+13. method-hero-4.jpg
+14. method-japan-first-order.jpg
+15. method-japan-order-support.png
+16. method-promo-campaign.jpg
 
-### 2. Draggable slide decks (the replacement mechanic)
-- Extend the existing carousel pattern (as used by Method Effects) with
-  **pointer/touch drag**: mouse-drag and swipe advance slides, with the existing
-  prev/next buttons and Left/Right arrow keys kept for accessibility. No
-  dependencies — vanilla JS, Pointer Events.
-- Detail now lives as **slides inside each section's deck**: a section leads with its
-  presentation, and deeper context is further slides in the same deck, not a separate
-  block. Method copy (context-first / constraints / handoff / record) becomes slides
-  in the Section 2 deck.
-- Keep each slide's content a single clearly-commented block in `index.html` so the
-  owner can drop in future content the same way as before.
+**Caption fix (owner's note was dropped in #5):** the tooling-buck slide caption must
+carry the owner's words: "[Akra Plastics](https://akra-plastics.com/) — SoCal
+manufacturer who were extremely helpful in dealing with me as a small player. Awesome
+outfit and easy to work with. This was my aluminum 'Buck' for my RS3 splitter."
+Named link required.
 
-### 3. Integrate the owner's approved images (already in `olimazi-assets/`)
-Place the new images as slides in the appropriate decks, with captions drawn from the
-owner's notes below. Links must be rendered as named links, exactly as given.
+Note: `method-rs3-cad-render.png`, `method-japan-order-support.png`, and
+`method-multipiece-sketch.jpg` were re-cropped planning-side (phone chrome removed)
+and are already committed — verify they render well at deck size; no further edits.
 
-**Method Effects deck (10 new):**
-- `method-rs3-cad-render.png` — CAD render by [Kevin Grant (@the_kevinator)](https://www.instagram.com/the_kevinator/) for the Rs3 splitter: a true one-off, concept to reality — a single part crossing the front fascia for mounting stability with the most minimal application vs competitors.
-- `method-multipiece-sketch.jpg` — An advanced sketch from the owner's rough render, by [Kevin Grant (@the_kevinator)](https://www.instagram.com/the_kevinator/). Early planning; didn't make launch. Multipiece design for one-of-a-kind design flow; 3-piece construction would reduce shipping costs.
-- `method-v1-v2-comparison.png` — Dimension layout of a support mounting strut for the S3 splitter ([Kevin Grant](https://www.instagram.com/the_kevinator/)); added integrity to the center aero.
-- `method-v1-aero-start.jpg` — The beginnings of the V1/V2 comparison: added integrity to center aero, increasing sturdiness and longevity. Designed to modify only the existing aftermarket part, never the OEM fascia.
-- `method-rubber-contact-points.jpg` — 60-durometer rubber contact points protecting painted surfaces; single bolt with a cotter-pin fail-safe.
-- `method-abs-coating.jpg` — Baked custom finishing to keep ABS part integrity, via SoCal vendor [Shmaze](https://shmaze.com/) — an engaging group that works with anyone, big outfit or small start-up.
-- `method-japan-first-order.jpg` — The logistics: 8 advance purchases to Japan — first order for the brand, via [Hitotsuyama GmbH shop](https://hitotsuyamagmbh.shop-pro.jp/).
-- `method-japan-order-support.png` — Supporting shot for the Japan first order (place adjacent to it, or merge into one slide — your judgment).
-- `method-promo-campaign.jpg` — From an ad campaign testing a new logo.
-- `method-workshop-detail.jpg` — No caption; place where it fits visually.
+### 3. Schedule E project (desktop) — copy into slides
+The prose outside the deck bleeds too long on desktop. Cut it to a short lead-in;
+the detail moves into the slide captions. Replace the three generic dashboard captions
+with the owner's words (light tightening allowed, meaning intact):
 
-**Mind/Practice deck (2 new, attach to the existing cooking/practice material):**
-- `mind-ribeye-process.jpg` — Cooking process shot, following [this YouTube video](https://youtu.be/lVcTvHTn6Dw): "funny guy to watch; the drying/brining was definitely a home run!" Precedes the result shot.
-- `mind-ribeye-result.jpg` — "Was a bit harder than I wanted it to be — should've known a bone-in ribeye is much harder to get even temps."
-- These two photos were resized from phone originals; **verify their orientation
-  renders correctly** and flag in REPORT.md if either appears rotated.
+- `schedule-e-summary.jpg` — "While doing work with business tax prep, I serviced a
+  client who needed maintenance for a partnership group in the real estate industry
+  (Form 8825 activity). Applied that to my real-world active management of a couple
+  rental properties — an easy-to-use system with activity sorted in real time, ready
+  to pass off to an accountant or bookkeeper."
+- `schedule-e-expenses.jpg` — "Running list of attention items, coded, works with an
+  engine under the hood back and forth. Instead of diving deep into an Excel file —
+  easier to visualize for most."
+- `schedule-e-open-items.jpg` — "System considers PY activity, creating an expected
+  drip of information or truth going forward. Built with alerts for what might be
+  missing and for deadlines."
 
-**Removals (owner's cuts):** remove `method-cad-iso.png`, `method-hero-1.jpg`, and
-`method-hero-2.jpg` from the page AND delete the files from `olimazi-assets/`.
+### 4. Section 3 flow
+The break between "Current state of mind" and the small-subjects material reads as
+two separate sections. Remove the hard rule/page-break feel and make it flow as one;
+add a subtle faded downward arrow (existing tokens, low opacity, respects
+reduced-motion) leading the eye to the cologne and bougatsa blocks.
 
-### 4. Locked — do not touch
-- The bougatsa and Eau d'Ombre blocks: owner's words are "I don't want any changes to
-  how this was built. Leave as is in the current state."
-- `method-splitter-mural.jpg`, `method-splitter-product.jpg`, `method-garage-front.jpg`,
-  `method-hero-3.jpg`, `method-hero-4.jpg`, and the three schedule-e dashboard shots
-  stay on the site (captions may move into slides where their sections convert).
-- Tokens, framing, contact closer, navigation behavior.
+### 5. Ribeye deck
+Thumbnails are far too large — reduce to modest thumbnail scale consistent with the
+other small-subject imagery. Exactly two entries, never more; this deck is capped by
+design (future adds go to the library, not here).
+
+### 6. New page: `library.html` (minimal)
+A simple secondary page matching the site's tokens/typography/theme toggle, linked
+from the end of Section 3 (something like "More in the library →") and from the
+footer if one exists. Purpose line at top: an archive of ongoing learning material —
+things worth keeping that aren't headline work. No CMS, no dependencies; each entry
+one commented block, same editing pattern as the decks. Entries (images already in
+`olimazi-assets/`), owner's captions:
+
+- `library-67-bug.jpg` — Personal-use '67 classic Bug, restored by the owner —
+  shared simply because it's worth sharing.
+- `library-art-sketch.jpg` — A sample of the owner's own art.
+- `library-art-vector.jpg` — Same art thread: taken from sketch to vector the
+  old-school way.
+- `library-brothers-truck.jpg` — "My brother's truck." More pictures and a
+  parts-added detail coming later.
+- `library-restaurant-01.jpg` — From restaurant operations years: represents chaos
+  and the ability to confront and manage high-stress environments.
+- `library-restaurant-02.jpg` — Restaurant operations, held for future context.
+
+Restaurant items live ONLY here — still zero restaurant mention on `index.html`.
+Verify orientation of all six (several are phone photos); flag any that render
+sideways in REPORT.md.
 
 ## Out of scope
+- Any change to the bougatsa / Eau d'Ombre blocks (locked).
 - New dependencies, payment/download links, this file.
-- Any image not named above (more are banked owner-side for future packets).
+- Any image not named above.
