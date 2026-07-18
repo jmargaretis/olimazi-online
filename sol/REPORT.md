@@ -1,14 +1,11 @@
-# SOL completion report — packet #7
+# SOL completion report — packet #8
 
 ## Status
-COMPLETE — Applied the owner’s 14-slide Method Effects order, caption and So-Cal corrections, seven-entry library dialog mechanic, and standard main-page card form.
+COMPLETE — Merged the paired art and restaurant entries, updated the Bug category chip, and verified the five-entry library.
 
 ## Changes
-- `index.html` — rebuilt the Method Effects deck in the owner’s exact 14-slide sequence, removed the two owner-cut slides, corrected the bracing-jig and teaser captions, changed display-text “SoCal” to “So-Cal,” updated the source slide count, and aligned the locked cologne/bougatsa card containers with the library’s standard 20px frame and thumbnail sizing without changing their markup or content.
-- `library.html` — consolidated ribeye into one of seven thumbnail cards, added a uniform “Open notes →” action and native dialog for every entry, kept the result photo and both owner quotes inside the ribeye dialog, and preserved responsive layout, theme behavior, and existing font stacks.
-- `olimazi-assets/method-hero-4.jpg` — deleted per the owner’s cut list.
-- `olimazi-assets/method-workshop-detail.jpg` — deleted per the owner’s cut list.
-- `sol/REPORT.md` — replaced the prior report with this packet #7 completion and verification record.
+- `library.html` — merged the sketch/vector pair into one Art thread card and vector-backed dialog with both captions, changed the '67 classic Bug tile chip to Automotive without altering its other content, and merged the restaurant pair into one Restaurant Operations card and restaurant-01-backed dialog with both captions.
+- `sol/REPORT.md` — replaced the prior report with this packet #8 completion and verification record.
 
 ## Deviations
 None.
@@ -20,4 +17,4 @@ None.
 None.
 
 ## Proposals
-- A future packet could combine the sketch and vector entries into one “Art thread” card, with the sketch thumbnail and vector image inside the dialog, if the owner prefers the tighter subject grouping.
+None.

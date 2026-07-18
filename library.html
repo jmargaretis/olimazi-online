@@ -246,7 +246,7 @@
               <img src="olimazi-assets/library-67-bug.jpg" alt="White 1967 Volkswagen Beetle restored by the owner">
             </div>
             <div class="personal-body">
-              <span class="chip">Personal</span>
+              <span class="chip">Automotive</span>
               <h2>'67 classic Bug</h2>
               <p>Restored by the owner and shared simply because it's worth sharing.</p>
               <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('bug-dialog')">Open notes →</button>
@@ -260,26 +260,13 @@
             </div>
             <div class="personal-body">
               <span class="chip">Art</span>
-              <h2>Sketch</h2>
+              <h2>Art thread</h2>
               <p>A sample of the owner's own art.</p>
-              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('art-sketch-dialog')">Open notes →</button>
+              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('art-thread-dialog')">Open notes →</button>
             </div>
           </article>
 
           <!-- LIBRARY ENTRY 04 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
-          <article class="personal-card">
-            <div class="personal-thumb">
-              <img src="olimazi-assets/library-art-vector.jpg" alt="Owner's character artwork converted from sketch to vector">
-            </div>
-            <div class="personal-body">
-              <span class="chip">Art</span>
-              <h2>Sketch to vector</h2>
-              <p>Same art thread, taken from sketch to vector the old-school way.</p>
-              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('art-vector-dialog')">Open notes →</button>
-            </div>
-          </article>
-
-          <!-- LIBRARY ENTRY 05 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
               <img src="olimazi-assets/library-brothers-truck.jpg" alt="Owner's brother's customized pickup truck">
@@ -292,29 +279,16 @@
             </div>
           </article>
 
-          <!-- LIBRARY ENTRY 06 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
-          <article class="personal-card">
-            <div class="personal-thumb">
-              <img src="olimazi-assets/library-restaurant-01.jpg" alt="Busy restaurant interior showing maintenance work above the kitchen">
-            </div>
-            <div class="personal-body">
-              <span class="chip">Operations</span>
-              <h2>Restaurant operations</h2>
-              <p>Chaos and the ability to confront and manage high-stress environments.</p>
-              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('restaurant-01-dialog')">Open notes →</button>
-            </div>
-          </article>
-
-          <!-- LIBRARY ENTRY 07 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
+          <!-- LIBRARY ENTRY 05 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
               <img src="olimazi-assets/library-restaurant-02.jpg" alt="Restaurant food-safety temperature check">
             </div>
             <div class="personal-body">
               <span class="chip">Operations</span>
-              <h2>Restaurant operations</h2>
+              <h2>Restaurant Operations</h2>
               <p>A food-safety record held for future context.</p>
-              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('restaurant-02-dialog')">Open notes →</button>
+              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('restaurant-dialog')">Open notes →</button>
             </div>
           </article>
         </div>
@@ -348,33 +322,21 @@
       </div>
     </dialog>
 
-    <!-- LIBRARY DIALOG 03 — Detailed notes for the art sketch entry. -->
-    <dialog class="item-dialog" id="art-sketch-dialog" aria-labelledby="art-sketch-title">
-      <div class="dialog-grid">
-        <img src="olimazi-assets/library-art-sketch.jpg" alt="Owner's hand-drawn character artwork">
-        <div class="dialog-body">
-          <form method="dialog"><button class="dialog-close" aria-label="Close art sketch notes">✕</button></form>
-          <span class="chip">Art notes</span>
-          <h2 id="art-sketch-title">Sketch</h2>
-          <p>A sample of the owner's own art.</p>
-        </div>
-      </div>
-    </dialog>
-
-    <!-- LIBRARY DIALOG 04 — Detailed notes for the vector art entry. -->
-    <dialog class="item-dialog" id="art-vector-dialog" aria-labelledby="art-vector-title">
+    <!-- LIBRARY DIALOG 03 — Detailed notes for the Art thread entry. -->
+    <dialog class="item-dialog" id="art-thread-dialog" aria-labelledby="art-thread-title">
       <div class="dialog-grid">
         <img src="olimazi-assets/library-art-vector.jpg" alt="Owner's character artwork converted from sketch to vector">
         <div class="dialog-body">
-          <form method="dialog"><button class="dialog-close" aria-label="Close vector art notes">✕</button></form>
+          <form method="dialog"><button class="dialog-close" aria-label="Close Art thread notes">✕</button></form>
           <span class="chip">Art notes</span>
-          <h2 id="art-vector-title">Sketch to vector</h2>
+          <h2 id="art-thread-title">Art thread</h2>
+          <p>A sample of the owner's own art.</p>
           <p>Same art thread: taken from sketch to vector the old-school way.</p>
         </div>
       </div>
     </dialog>
 
-    <!-- LIBRARY DIALOG 05 — Detailed notes for the truck entry. -->
+    <!-- LIBRARY DIALOG 04 — Detailed notes for the truck entry. -->
     <dialog class="item-dialog" id="truck-dialog" aria-labelledby="truck-title">
       <div class="dialog-grid">
         <img src="olimazi-assets/library-brothers-truck.jpg" alt="Owner's brother's customized pickup truck">
@@ -387,27 +349,15 @@
       </div>
     </dialog>
 
-    <!-- LIBRARY DIALOG 06 — Detailed notes for the first restaurant entry. -->
-    <dialog class="item-dialog" id="restaurant-01-dialog" aria-labelledby="restaurant-01-title">
+    <!-- LIBRARY DIALOG 05 — Detailed notes for the Restaurant Operations entry. -->
+    <dialog class="item-dialog" id="restaurant-dialog" aria-labelledby="restaurant-title">
       <div class="dialog-grid">
         <img src="olimazi-assets/library-restaurant-01.jpg" alt="Busy restaurant interior showing maintenance work above the kitchen">
         <div class="dialog-body">
           <form method="dialog"><button class="dialog-close" aria-label="Close restaurant operations notes">✕</button></form>
           <span class="chip">Operations notes</span>
-          <h2 id="restaurant-01-title">Restaurant operations</h2>
+          <h2 id="restaurant-title">Restaurant Operations</h2>
           <p>From restaurant operations years: represents chaos and the ability to confront and manage high-stress environments.</p>
-        </div>
-      </div>
-    </dialog>
-
-    <!-- LIBRARY DIALOG 07 — Detailed notes for the second restaurant entry. -->
-    <dialog class="item-dialog" id="restaurant-02-dialog" aria-labelledby="restaurant-02-title">
-      <div class="dialog-grid">
-        <img src="olimazi-assets/library-restaurant-02.jpg" alt="Restaurant food-safety temperature check">
-        <div class="dialog-body">
-          <form method="dialog"><button class="dialog-close" aria-label="Close restaurant food-safety notes">✕</button></form>
-          <span class="chip">Operations notes</span>
-          <h2 id="restaurant-02-title">Restaurant operations</h2>
           <p>Restaurant operations, held for future context.</p>
         </div>
       </div>
