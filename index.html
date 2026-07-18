@@ -243,67 +243,6 @@
       max-width: 590px; color: var(--ink-muted);
       font-size: clamp(17px, 2vw, 20px); line-height: 1.65; text-wrap: pretty;
     }
-    .detail-area { margin-top: 54px; }
-    .detail-area-head {
-      display: flex; align-items: end; justify-content: space-between; gap: 24px;
-      margin-bottom: 18px; padding-top: 14px; border-top: 1px solid var(--ink);
-    }
-    .detail-area-head h3 {
-      max-width: 570px; font-size: clamp(22px, 3vw, 30px);
-      line-height: 1.1; letter-spacing: -.02em; text-wrap: balance;
-    }
-    .detail-area-head p {
-      max-width: 370px; color: var(--ink-muted); font-size: 13px; line-height: 1.6;
-    }
-    .detail-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      align-items: start; gap: 1px; padding: 1px; background: var(--line);
-    }
-    .detail-tile { min-width: 0; background: var(--card); }
-    .detail-tile summary {
-      min-height: 320px; display: flex; flex-direction: column; padding: 14px;
-      cursor: pointer; list-style: none;
-    }
-    .detail-tile summary::-webkit-details-marker { display: none; }
-    .detail-tile-media {
-      width: 100%; height: 154px; display: flex; align-items: center; justify-content: center;
-      margin-bottom: 18px; padding: 20px; color: var(--olive); text-align: center;
-      border: 1px solid var(--line);
-      object-fit: cover;
-      background-color: var(--paper);
-      background-image:
-        linear-gradient(var(--line-soft) 1px, transparent 1px),
-        linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
-      background-size: 14px 14px;
-    }
-    .detail-tile-media span {
-      padding: 7px 9px; background: var(--card); border: 1px solid var(--line);
-      font: 600 9px/1.4 "IBM Plex Mono", Consolas, monospace;
-      letter-spacing: .14em; text-transform: uppercase;
-    }
-    .detail-tile-kicker {
-      margin-bottom: 7px; color: var(--olive);
-      font: 600 9px/1.4 "IBM Plex Mono", Consolas, monospace;
-      letter-spacing: .14em; text-transform: uppercase;
-    }
-    .detail-tile h3 {
-      margin-bottom: 18px; font-size: clamp(18px, 2.2vw, 22px);
-      line-height: 1.2; letter-spacing: -.015em;
-    }
-    .detail-tile-prompt {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-top: auto; padding-top: 12px; color: var(--red-text);
-      border-top: 1px solid var(--line-soft);
-      font: 600 9px/1 "IBM Plex Mono", Consolas, monospace;
-      letter-spacing: .12em; text-transform: uppercase;
-    }
-    .detail-tile-prompt::after { content: "+"; font-size: 17px; }
-    .detail-tile[open] .detail-tile-prompt::after { content: "−"; }
-    .detail-tile-body {
-      padding: 16px 18px 20px; color: var(--ink-muted);
-      border-top: 1px solid var(--line); font-size: 14px; line-height: 1.65;
-    }
-
     .log { border-top: 1px solid var(--ink); }
     .log-entry {
       display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 18px;
@@ -369,7 +308,7 @@
       .hero { padding-top: 120px; }
       .hero-grid, .proof-feature, .method-grid { grid-template-columns: 1fr; gap: 40px; }
       .proof-image { max-width: 620px; }
-      .detail-area-head, .learning-intro { display: grid; grid-template-columns: 1fr; gap: 10px; }
+      .learning-intro { display: grid; grid-template-columns: 1fr; gap: 10px; }
       .personal-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 560px) {
@@ -382,7 +321,6 @@
       .outcome { padding: 14px 0; border-bottom: 1px solid var(--line-soft); }
       .method-statement { font-size: 44px; }
       .log-entry { grid-template-columns: 1fr; gap: 4px; }
-      .detail-grid { grid-template-columns: 1fr; }
       .personal-card { grid-template-columns: 1fr; }
       .personal-card img { height: 150px; }
       .closing { padding: 96px 0; }
@@ -399,17 +337,58 @@
       *, *::before, *::after { animation: none !important; transition-duration: .001ms !important; }
     }
     .carousel { position: relative; min-width: 0; }
-    .carousel-slide { margin: 0; }
+    .carousel-stage { position: relative; overflow: hidden; cursor: grab; touch-action: pan-y; }
+    .carousel-slide {
+      margin: 0; transition: transform .18s cubic-bezier(.22, 1, .36, 1), opacity .18s ease;
+      will-change: transform;
+    }
     .carousel-slide[hidden] { display: none; }
+    .carousel.is-dragging .carousel-stage { cursor: grabbing; }
+    .carousel.is-dragging .carousel-slide { user-select: none; transition: none; }
     .carousel-media { display: block; width: 100%; height: 500px; object-fit: cover; background: var(--paper-deep); }
     .carousel-media.dashboard { height: 390px; object-fit: contain; }
     .carousel-media.cad { object-fit: contain; padding: 32px; background: var(--card); }
     .carousel-caption { min-height: 66px; padding: 12px 15px; color: var(--ink-muted); background: var(--card); border-top: 1px solid var(--line-soft); font: 400 10px/1.55 "IBM Plex Mono",Consolas,monospace; letter-spacing:.08em; text-transform:uppercase; }
     .carousel-caption b { display:block; margin-bottom:2px; color:var(--ink); font-weight:600; }
+    .carousel-caption a { color: var(--red-text); text-transform: none; text-underline-offset: 3px; }
     .carousel-controls { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 12px; background:var(--paper-deep); border-top:1px solid var(--line); }
     .carousel-controls button { min-height:38px; padding:7px 11px; color:var(--ink); background:transparent; border:1px solid var(--line); border-radius:2px; cursor:pointer; font:500 10px/1 "IBM Plex Mono",Consolas,monospace; letter-spacing:.1em; text-transform:uppercase; }
     .carousel-controls button:hover { color:var(--red-text); border-color:var(--red-deep); }
-    .carousel-status { color:var(--ink-muted); font:500 10px/1 "IBM Plex Mono",Consolas,monospace; letter-spacing:.12em; }
+    .carousel-status { color:var(--ink); font:500 10px/1 "IBM Plex Mono",Consolas,monospace; letter-spacing:.12em; }
+    .section-deck {
+      margin-top: 42px; overflow: hidden; background: var(--card);
+      border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .narrative-slide {
+      min-height: 360px; display: flex; flex-direction: column; justify-content: flex-end;
+      padding: clamp(30px, 6vw, 68px); background: var(--paper);
+    }
+    .narrative-slide .slide-number {
+      margin-bottom: auto; color: var(--red-text);
+      font: 600 11px/1.4 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .14em; text-transform: uppercase;
+    }
+    .narrative-slide h3 {
+      max-width: 16ch; margin-bottom: 16px; font-size: clamp(30px, 5vw, 52px);
+      line-height: 1.02; letter-spacing: -.025em; text-wrap: balance;
+    }
+    .narrative-slide p {
+      max-width: 690px; color: var(--ink-muted); font-size: clamp(16px, 2vw, 20px);
+      line-height: 1.65; text-wrap: pretty;
+    }
+    .practice-deck { max-width: 880px; }
+    .practice-media-frame {
+      height: clamp(300px, 64vw, 500px); display: grid; place-items: center;
+      overflow: hidden; background: var(--paper-deep);
+    }
+    .practice-media-frame img {
+      display: block; width: 100%; height: 100%; min-width: 0; min-height: 0;
+      max-width: 100%; max-height: 100%; object-fit: cover;
+    }
+    .practice-media-frame img.orientation-cw {
+      width: clamp(300px, 64vw, 500px); height: auto; max-width: none; max-height: none;
+      object-fit: contain; transform: rotate(90deg);
+    }
     .mint-hero { padding: 124px 0 84px; }
     .mint-hero-grid { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(340px,.8fr); align-items:stretch; border:1px solid var(--ink); background:var(--card); }
     .mint-hero-media { min-width:0; display:flex; flex-direction:column; border-right:1px solid var(--ink); }
@@ -860,17 +839,102 @@
           <div class="work-project-grid">
             <div class="work-project-carousel carousel" data-carousel tabindex="0" aria-label="Method Effects work archive" aria-roledescription="carousel">
               <div class="carousel-stage">
-                <figure class="carousel-slide" data-slide><img class="carousel-media" src="olimazi-assets/method-splitter-product.jpg" alt="Blue Audi RS3 with Method Effects front splitter"><figcaption class="carousel-caption"><b>Finished product</b>Method Effects front splitter installed on an Audi RS3.</figcaption></figure>
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media cad" src="olimazi-assets/method-cad-iso.png" alt="Isometric CAD drawing of the Method Effects splitter"><figcaption class="carousel-caption"><b>CAD</b>Product geometry from the development process.</figcaption></figure>
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media" src="olimazi-assets/method-tooling-buck.jpg" alt="Composite tooling buck for the Method Effects splitter"><figcaption class="carousel-caption"><b>Tooling</b>The manufacturing tool used during product development.</figcaption></figure>
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media" src="olimazi-assets/method-garage-front.jpg" alt="Dark Audi S3 centered in a parking garage"><figcaption class="carousel-caption"><b>Brand archive</b>Vehicle photography from the Method Effects period.</figcaption></figure>
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media" src="olimazi-assets/method-splitter-mural.jpg" alt="Blue Audi RS3 in front of a mural"><figcaption class="carousel-caption"><b>Customer fitment</b>A customer vehicle with the finished product installed.</figcaption></figure>
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media" src="olimazi-assets/method-hero-1.jpg" alt="Grey Audi S3 outside a modern building"><figcaption class="carousel-caption"><b>Photography 01</b>Method Effects vehicle and brand imagery.</figcaption></figure>
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media" src="olimazi-assets/method-hero-2.jpg" alt="Close Audi S3 front quarter"><figcaption class="carousel-caption"><b>Photography 02</b>Detail-focused vehicle imagery.</figcaption></figure>
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media" src="olimazi-assets/method-hero-3.jpg" alt="Audi S3 side profile in garage"><figcaption class="carousel-caption"><b>Photography 03</b>Side-profile campaign image.</figcaption></figure>
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media" src="olimazi-assets/method-hero-4.jpg" alt="Audi S3 front view in garage"><figcaption class="carousel-caption"><b>Photography 04</b>Front-view campaign image.</figcaption></figure>
+                <!-- METHOD EFFECTS SLIDE 01 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide>
+                  <img class="carousel-media" src="olimazi-assets/method-splitter-product.jpg" alt="Blue Audi RS3 with Method Effects front splitter">
+                  <figcaption class="carousel-caption"><b>Finished product</b>Method Effects front splitter installed on an Audi RS3.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 02 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media cad" src="olimazi-assets/method-rs3-cad-render.png" alt="CAD render of the one-piece Method Effects RS3 splitter crossing the front fascia">
+                  <figcaption class="carousel-caption"><b>RS3 CAD render</b>CAD render by <a href="https://www.instagram.com/the_kevinator/" target="_blank" rel="noopener">Kevin Grant (@the_kevinator)</a> for the RS3 splitter: a true one-off, concept to reality—a single part crossing the front fascia for mounting stability with the most minimal application versus competitors.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 03 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media cad" src="olimazi-assets/method-multipiece-sketch.jpg" alt="Advanced sketch for a three-piece Method Effects splitter design">
+                  <figcaption class="carousel-caption"><b>Multipiece study</b>An advanced sketch from the owner’s rough render, by <a href="https://www.instagram.com/the_kevinator/" target="_blank" rel="noopener">Kevin Grant (@the_kevinator)</a>. Early planning that did not make launch: a one-of-a-kind design flow whose three-piece construction could reduce shipping costs.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 04 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media cad" src="olimazi-assets/method-v1-v2-comparison.png" alt="Dimension layout comparing V1 and V2 support mounting struts for the S3 splitter">
+                  <figcaption class="carousel-caption"><b>Support strut dimensions</b>Dimension layout of a support mounting strut for the S3 splitter by <a href="https://www.instagram.com/the_kevinator/" target="_blank" rel="noopener">Kevin Grant</a>; it added integrity to the center aero.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 05 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media" src="olimazi-assets/method-v1-aero-start.jpg" alt="Early fabrication work for the Method Effects V1 and V2 center aero support">
+                  <figcaption class="carousel-caption"><b>V1 / V2 beginnings</b>The beginnings of the V1/V2 comparison: added integrity to center aero, increasing sturdiness and longevity. Designed to modify only the existing aftermarket part, never the OEM fascia.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 06 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media" src="olimazi-assets/method-rubber-contact-points.jpg" alt="Rubber contact points and cotter-pin hardware for the Method Effects splitter">
+                  <figcaption class="carousel-caption"><b>Protected contact points</b>60-durometer rubber contact points protecting painted surfaces; a single bolt with a cotter-pin fail-safe.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 07 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media" src="olimazi-assets/method-abs-coating.jpg" alt="Custom baked finish being applied to an ABS Method Effects component">
+                  <figcaption class="carousel-caption"><b>ABS finishing</b>Baked custom finishing to keep ABS part integrity, via SoCal vendor <a href="https://shmaze.com/" target="_blank" rel="noopener">Shmaze</a>—an engaging group that works with anyone, big outfit or small start-up.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 08 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media" src="olimazi-assets/method-tooling-buck.jpg" alt="Composite tooling buck for the Method Effects splitter">
+                  <figcaption class="carousel-caption"><b>Tooling</b>The manufacturing tool used during product development.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 09 — Edit the image and alt text in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media" src="olimazi-assets/method-workshop-detail.jpg" alt="Close workshop detail from Method Effects product development">
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 10 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media" src="olimazi-assets/method-garage-front.jpg" alt="Dark Audi S3 centered in a parking garage">
+                  <figcaption class="carousel-caption"><b>Brand archive</b>Vehicle photography from the Method Effects period.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 11 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media" src="olimazi-assets/method-splitter-mural.jpg" alt="Blue Audi RS3 in front of a mural">
+                  <figcaption class="carousel-caption"><b>Customer fitment</b>A customer vehicle with the finished product installed.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 12 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media" src="olimazi-assets/method-japan-first-order.jpg" alt="Eight Method Effects splitters prepared for the brand’s first order to Japan">
+                  <figcaption class="carousel-caption"><b>First order: Japan</b>The logistics: eight advance purchases to Japan—the first order for the brand—via <a href="https://hitotsuyamagmbh.shop-pro.jp/" target="_blank" rel="noopener">Hitotsuyama GmbH shop</a>.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 13 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media cad" src="olimazi-assets/method-japan-order-support.png" alt="Supporting documentation for the first Method Effects order to Japan">
+                  <figcaption class="carousel-caption"><b>Japan order support</b>Supporting record for the first eight advance purchases shipped to Japan.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 14 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media" src="olimazi-assets/method-promo-campaign.jpg" alt="Method Effects promotional campaign testing a new logo">
+                  <figcaption class="carousel-caption"><b>Campaign test</b>From an ad campaign testing a new logo.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 15 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media" src="olimazi-assets/method-hero-3.jpg" alt="Audi S3 side profile in garage">
+                  <figcaption class="carousel-caption"><b>Photography 03</b>Side-profile campaign image.</figcaption>
+                </figure>
+
+                <!-- METHOD EFFECTS SLIDE 16 — Edit the image, alt text, and caption in this block. -->
+                <figure class="carousel-slide" data-slide hidden>
+                  <img class="carousel-media" src="olimazi-assets/method-hero-4.jpg" alt="Audi S3 front view in garage">
+                  <figcaption class="carousel-caption"><b>Photography 04</b>Front-view campaign image.</figcaption>
+                </figure>
               </div>
-              <div class="carousel-controls"><button type="button" data-prev aria-label="Previous Method Effects image">← Previous</button><span class="carousel-status" data-status aria-live="polite">1 / 9</span><button type="button" data-next aria-label="Next Method Effects image">Next →</button></div>
+              <div class="carousel-controls"><button type="button" data-prev aria-label="Previous Method Effects image">← Previous</button><span class="carousel-status" data-status aria-live="polite">1 / 16</span><button type="button" data-next aria-label="Next Method Effects image">Next →</button></div>
             </div>
             <div class="work-project-copy">
               <div class="proof-status"><i></i> Previous work · details being added</div>
@@ -918,8 +982,11 @@
             </div>
             <div class="work-project-carousel carousel" data-carousel tabindex="0" aria-label="Schedule E and C project views" aria-roledescription="carousel">
               <div class="carousel-stage">
+                <!-- FINANCE TRACKER SLIDE 01 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-summary.jpg" alt="Redacted Schedule E rental property summary"><figcaption class="carousel-caption"><b>Summary view</b>A current working view of the rental-property information.</figcaption></figure>
+                <!-- FINANCE TRACKER SLIDE 02 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-expenses.jpg" alt="Redacted Schedule E expense detail"><figcaption class="carousel-caption"><b>Expense detail</b>Transactions, tax lines, and source-document notes.</figcaption></figure>
+                <!-- FINANCE TRACKER SLIDE 03 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-open-items.jpg" alt="Redacted Schedule E open item queue"><figcaption class="carousel-caption"><b>Open items</b>Questions and missing information still requiring attention.</figcaption></figure>
               </div>
               <div class="carousel-controls"><button type="button" data-prev aria-label="Previous Schedule E view">← Previous</button><span class="carousel-status" data-status aria-live="polite">1 / 3</span><button type="button" data-next aria-label="Next Schedule E view">Next →</button></div>
@@ -927,52 +994,6 @@
           </div>
         </article>
 
-        <div class="detail-area" aria-labelledby="main-detail-title">
-          <div class="detail-area-head">
-            <h3 id="main-detail-title">Details, when they’re ready.</h3>
-            <p>These frames are reserved for owner-authored context. Each opens independently, so the first view stays focused on the work.</p>
-          </div>
-          <div class="detail-grid">
-            <!-- SECTION 1 TILE 1 — Edit the kicker, title, body, and optional image in this block.
-                 To add an image, replace .detail-tile-media with:
-                 <img class="detail-tile-media" src="olimazi-assets/FILE.jpg" alt="DESCRIPTION"> -->
-            <details class="detail-tile is-placeholder">
-              <summary>
-                <div class="detail-tile-media" aria-hidden="true"><span>Owner content slot 01</span></div>
-                <span class="detail-tile-kicker">Method Effects</span>
-                <h3>Build notes</h3>
-                <span class="detail-tile-prompt">Detail</span>
-              </summary>
-              <div class="detail-tile-body"><p>This frame is intentionally reserved for the owner’s next document.</p></div>
-            </details>
-
-            <!-- SECTION 1 TILE 2 — Edit the kicker, title, body, and optional image in this block.
-                 To add an image, replace .detail-tile-media with:
-                 <img class="detail-tile-media" src="olimazi-assets/FILE.jpg" alt="DESCRIPTION"> -->
-            <details class="detail-tile is-placeholder">
-              <summary>
-                <div class="detail-tile-media" aria-hidden="true"><span>Owner content slot 02</span></div>
-                <span class="detail-tile-kicker">Finance tracker</span>
-                <h3>Field notes</h3>
-                <span class="detail-tile-prompt">Detail</span>
-              </summary>
-              <div class="detail-tile-body"><p>This frame is intentionally reserved for the owner’s next document.</p></div>
-            </details>
-
-            <!-- SECTION 1 TILE 3 — Edit the kicker, title, body, and optional image in this block.
-                 To add an image, replace .detail-tile-media with:
-                 <img class="detail-tile-media" src="olimazi-assets/FILE.jpg" alt="DESCRIPTION"> -->
-            <details class="detail-tile is-placeholder">
-              <summary>
-                <div class="detail-tile-media" aria-hidden="true"><span>Owner content slot 03</span></div>
-                <span class="detail-tile-kicker">Working thread</span>
-                <h3>The through-line</h3>
-                <span class="detail-tile-prompt">Detail</span>
-              </summary>
-              <div class="detail-tile-body"><p>This frame is intentionally reserved for the owner’s next document.</p></div>
-            </details>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -983,60 +1004,37 @@
           <h2 class="method-statement">Context first.<br><span>Then the tool.</span></h2>
           <p class="method-lede">I start with lived context, build around real constraints, and keep the handoff between planning, execution, and review visible.</p>
         </div>
-        <div class="detail-area" aria-labelledby="method-detail-title">
-          <div class="detail-area-head">
-            <h3 id="method-detail-title">Open the layer you need.</h3>
-            <p>The method stays compact until a visitor chooses the context behind it.</p>
+        <div class="section-deck carousel" data-carousel tabindex="0" aria-label="Learning in public method" aria-roledescription="carousel">
+          <div class="carousel-stage">
+            <!-- LEARNING IN PUBLIC SLIDE 01 — Edit the label, title, and body in this block. -->
+            <article class="carousel-slide narrative-slide" data-slide>
+              <span class="slide-number">01 · Context</span>
+              <h3>Something I understand</h3>
+              <p>A rental-property filing problem, a product process, or an interest I can judge for myself gives the AI work real context.</p>
+            </article>
+
+            <!-- LEARNING IN PUBLIC SLIDE 02 — Edit the label, title, and body in this block. -->
+            <article class="carousel-slide narrative-slide" data-slide hidden>
+              <span class="slide-number">02 · Constraints</span>
+              <h3>Work around the gaps</h3>
+              <p>I started lightly with Gemini in November 2025 and became serious with Claude in April 2026, using YouTube, Claude Code planning, and practical workarounds to fill gaps in technical background.</p>
+            </article>
+
+            <!-- LEARNING IN PUBLIC SLIDE 03 — Edit the label, title, and body in this block. -->
+            <article class="carousel-slide narrative-slide" data-slide hidden>
+              <span class="slide-number">03 · Handoff</span>
+              <h3>Plan, execute, review</h3>
+              <p>The current loop is planned in Fable, executed in Sol, and reviewed in Fable. Around it, I’m experimenting with MCP setups, Zapier, Outlook workarounds, intake flows, and early Facebook and Instagram publishing systems.</p>
+            </article>
+
+            <!-- LEARNING IN PUBLIC SLIDE 04 — Edit the label, title, and body in this block. -->
+            <article class="carousel-slide narrative-slide" data-slide hidden>
+              <span class="slide-number">04 · Record</span>
+              <h3>Keep the missing context</h3>
+              <p>The goal is a roughly weekly record of what worked, what did not, and details that tutorials often leave out—without pretending the learning is finished.</p>
+            </article>
           </div>
-          <div class="detail-grid">
-            <!-- SECTION 2 TILE 1 — Edit the kicker, title, body, and optional image in this block.
-                 Replace .detail-tile-media with an image using the pattern documented in Section 1. -->
-            <details class="detail-tile">
-              <summary>
-                <div class="detail-tile-media" aria-hidden="true"><span>Context</span></div>
-                <span class="detail-tile-kicker">Start here</span>
-                <h3>Something I understand</h3>
-                <span class="detail-tile-prompt">Detail</span>
-              </summary>
-              <div class="detail-tile-body"><p>A rental-property filing problem, a product process, or an interest I can judge for myself gives the AI work real context.</p></div>
-            </details>
-
-            <!-- SECTION 2 TILE 2 — Edit the kicker, title, body, and optional image in this block.
-                 Replace .detail-tile-media with an image using the pattern documented in Section 1. -->
-            <details class="detail-tile">
-              <summary>
-                <div class="detail-tile-media" aria-hidden="true"><span>Constraints</span></div>
-                <span class="detail-tile-kicker">Build</span>
-                <h3>Work around the gaps</h3>
-                <span class="detail-tile-prompt">Detail</span>
-              </summary>
-              <div class="detail-tile-body"><p>I started lightly with Gemini in November 2025 and became serious with Claude in April 2026, using YouTube, Claude Code planning, and practical workarounds to fill gaps in technical background.</p></div>
-            </details>
-
-            <!-- SECTION 2 TILE 3 — Edit the kicker, title, body, and optional image in this block.
-                 Replace .detail-tile-media with an image using the pattern documented in Section 1. -->
-            <details class="detail-tile">
-              <summary>
-                <div class="detail-tile-media" aria-hidden="true"><span>Handoff</span></div>
-                <span class="detail-tile-kicker">Current loop</span>
-                <h3>Plan, execute, review</h3>
-                <span class="detail-tile-prompt">Detail</span>
-              </summary>
-              <div class="detail-tile-body"><p>The current loop is planned in Fable, executed in Sol, and reviewed in Fable. Around it, I’m experimenting with MCP setups, Zapier, Outlook workarounds, intake flows, and early Facebook and Instagram publishing systems.</p></div>
-            </details>
-
-            <!-- SECTION 2 TILE 4 — Edit the kicker, title, body, and optional image in this block.
-                 Replace .detail-tile-media with an image using the pattern documented in Section 1. -->
-            <details class="detail-tile">
-              <summary>
-                <div class="detail-tile-media" aria-hidden="true"><span>Record</span></div>
-                <span class="detail-tile-kicker">Share</span>
-                <h3>Keep the missing context</h3>
-                <span class="detail-tile-prompt">Detail</span>
-              </summary>
-              <div class="detail-tile-body"><p>The goal is a roughly weekly record of what worked, what did not, and details that tutorials often leave out—without pretending the learning is finished.</p></div>
-            </details>
-          </div>
+          <div class="carousel-controls"><button type="button" data-prev aria-label="Previous learning method slide">← Previous</button><span class="carousel-status" data-status aria-live="polite">1 / 4</span><button type="button" data-next aria-label="Next learning method slide">Next →</button></div>
         </div>
       </div>
     </section>
@@ -1244,6 +1242,26 @@
               <div class="personal-body"><span class="chip">Recipe</span><h3>Bougatsa — Greek custard pie</h3><p>Part of learning classic custard techniques, controlling ingredients, and making food worth sharing with family.</p><button class="personal-open" type="button" onclick="openItem('bougatsa-dialog')">Open notes and recipe →</button></div>
             </article>
           </div>
+          <div class="section-deck practice-deck carousel" data-carousel tabindex="0" aria-label="Ribeye cooking practice" aria-roledescription="carousel">
+            <div class="carousel-stage">
+              <!-- MIND / PRACTICE SLIDE 01 — Edit the image, alt text, and caption in this block. -->
+              <figure class="carousel-slide" data-slide>
+                <div class="practice-media-frame">
+                  <img class="orientation-cw" src="olimazi-assets/mind-ribeye-process.jpg" alt="Bone-in ribeye dry-brining on a rack before cooking">
+                </div>
+                <figcaption class="carousel-caption"><b>Ribeye process</b>Following <a href="https://youtu.be/lVcTvHTn6Dw" target="_blank" rel="noopener">this YouTube video</a>: “funny guy to watch; the drying/brining was definitely a home run!”</figcaption>
+              </figure>
+
+              <!-- MIND / PRACTICE SLIDE 02 — Edit the image, alt text, and caption in this block. -->
+              <figure class="carousel-slide" data-slide hidden>
+                <div class="practice-media-frame">
+                  <img src="olimazi-assets/mind-ribeye-result.jpg" alt="Cooked bone-in ribeyes resting with shallots and herbs">
+                </div>
+                <figcaption class="carousel-caption"><b>Ribeye result</b>“Was a bit harder than I wanted it to be—should’ve known a bone-in ribeye is much harder to get even temps.”</figcaption>
+              </figure>
+            </div>
+            <div class="carousel-controls"><button type="button" data-prev aria-label="Previous ribeye practice photo">← Previous</button><span class="carousel-status" data-status aria-live="polite">1 / 2</span><button type="button" data-next aria-label="Next ribeye practice photo">Next →</button></div>
+          </div>
         </div>
       </div>
     </section>
@@ -1349,15 +1367,101 @@
     document.querySelectorAll("[data-carousel]").forEach((carousel) => {
       const slides = Array.from(carousel.querySelectorAll("[data-slide]"));
       const status = carousel.querySelector("[data-status]");
+      const stage = carousel.querySelector(".carousel-stage");
       let index = 0;
+      let pointerId = null;
+      let startX = 0;
+      let startY = 0;
+      let lastX = 0;
+      let lastY = 0;
+      let isHorizontalDrag = false;
+      let suppressClick = false;
+
+      function clearSlideOffset() {
+        slides.forEach((slide) => {
+          slide.style.removeProperty("transform");
+          slide.style.removeProperty("opacity");
+        });
+      }
+
       function show(next) {
         index = (next + slides.length) % slides.length;
+        clearSlideOffset();
         slides.forEach((slide, i) => { slide.hidden = i !== index; slide.setAttribute("aria-hidden", String(i !== index)); });
         if (status) status.textContent = `${index + 1} / ${slides.length}`;
       }
+
       carousel.querySelector("[data-prev]")?.addEventListener("click", () => show(index - 1));
       carousel.querySelector("[data-next]")?.addEventListener("click", () => show(index + 1));
-      carousel.addEventListener("keydown", (event) => { if (event.key === "ArrowLeft") show(index - 1); if (event.key === "ArrowRight") show(index + 1); });
+      carousel.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft") { event.preventDefault(); show(index - 1); }
+        if (event.key === "ArrowRight") { event.preventDefault(); show(index + 1); }
+      });
+
+      slides.forEach((slide) => slide.querySelectorAll("img").forEach((image) => { image.draggable = false; }));
+
+      stage?.addEventListener("pointerdown", (event) => {
+        if (!event.isPrimary || event.button !== 0) return;
+        pointerId = event.pointerId;
+        startX = lastX = event.clientX;
+        startY = lastY = event.clientY;
+        isHorizontalDrag = false;
+      });
+
+      stage?.addEventListener("pointermove", (event) => {
+        if (event.pointerId !== pointerId) return;
+        lastX = event.clientX;
+        lastY = event.clientY;
+        const deltaX = lastX - startX;
+        const deltaY = lastY - startY;
+
+        if (!isHorizontalDrag && Math.hypot(deltaX, deltaY) > 10) {
+          if (Math.abs(deltaX) <= Math.abs(deltaY)) {
+            pointerId = null;
+            return;
+          }
+          isHorizontalDrag = true;
+          stage.setPointerCapture(event.pointerId);
+          carousel.classList.add("is-dragging");
+        }
+
+        if (!isHorizontalDrag) return;
+        event.preventDefault();
+        const activeSlide = slides[index];
+        activeSlide.style.transform = `translate3d(${deltaX}px, 0, 0)`;
+        activeSlide.style.opacity = String(Math.max(.62, 1 - Math.abs(deltaX) / stage.clientWidth * .45));
+      });
+
+      function finishDrag(event, cancelled = false) {
+        if (event.pointerId !== pointerId) return;
+        const deltaX = lastX - startX;
+        const threshold = Math.max(48, stage.clientWidth * .12);
+
+        if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+        carousel.classList.remove("is-dragging");
+
+        if (isHorizontalDrag && !cancelled && Math.abs(deltaX) >= threshold) {
+          show(index + (deltaX < 0 ? 1 : -1));
+        } else {
+          clearSlideOffset();
+        }
+
+        if (isHorizontalDrag) {
+          suppressClick = true;
+          setTimeout(() => { suppressClick = false; }, 0);
+        }
+        pointerId = null;
+        isHorizontalDrag = false;
+      }
+
+      stage?.addEventListener("pointerup", (event) => finishDrag(event));
+      stage?.addEventListener("pointercancel", (event) => finishDrag(event, true));
+      stage?.addEventListener("click", (event) => {
+        if (!suppressClick) return;
+        event.preventDefault();
+        event.stopPropagation();
+      }, true);
+
       show(0);
     });
     function openItem(id) {
