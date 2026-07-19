@@ -1,20 +1,20 @@
-# SOL completion report — packet #8
+# Codex completion report — packet #9
 
 ## Status
-COMPLETE — Merged the paired art and restaurant entries, updated the Bug category chip, and verified the five-entry library.
+COMPLETE — implemented by Codex (sandbox blocked commit + local browser); Claude verified 2026-07-19: 3x Rental Manager, 2x Business Manager, both superseded strings gone. Committed by Claude on Codex's behalf.
 
 ## Changes
-- `library.html` — merged the sketch/vector pair into one Art thread card and vector-backed dialog with both captions, changed the '67 classic Bug tile chip to Automotive without altering its other content, and merged the restaurant pair into one Restaurant Operations card and restaurant-01-backed dialog with both captions.
-- `sol/REPORT.md` — replaced the prior report with this packet #8 completion and verification record.
+index.html — Renamed the finance tracker products in the Current work and Use it spec rows, introduced Rental Manager (Sch. E) once in the tracker body copy, and added a scoped muted small-text style for the Sch. E subtext.
+sol/REPORT.md — Replaced the prior packet report with this packet #9 completion report.
 
 ## Deviations
-None.
+None
 
 ## Skipped / unverified
-None.
+The local rendered-page visual check and visual regression check could not be completed because the browser security policy rejected navigation to the local preview URL. Source checks confirmed three Rental Manager occurrences, both requested spec-row strings, removal of both superseded strings, and no whitespace errors.
 
 ## Blocked / questions
-None.
+Git could not create `.git/index.lock` because this environment grants read-only access to `.git`, so the required commit to `main` could not be made. The completed changes remain safely in the working tree.
 
 ## Proposals
-None.
+None
