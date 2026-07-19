@@ -1,34 +1,39 @@
-# SOL work packet — active
+# Codex work packet — active
 
-**Packet:** #8 · issued 2026-07-18 · authored by Claude (planning side)
+**Packet:** #9 · issued 2026-07-19 · authored by Claude (planning side)
 **Protocol:** see `AGENTS.md`; report in the required REPORT.md format.
 
-Single-item packet: the owner approved your packet #7 proposal.
+**Packet #8 (library merges): ACCEPTED.** Note: the operating contract is now
+titled "Codex" (formerly "SOL") — same protocol, same file paths.
 
-## Packet #8 scope
+## Packet #9 scope — finance tracker product naming
 
-### 1. Merge the two art entries into one "Art thread" card
-On `library.html`, combine the "Sketch" and "Sketch to vector" entries into a single
-entry following the established dialog mechanic:
+The tracker product now has official names (decided 2026-07-19):
+- **Rental Manager** — subtext **Sch. E** (the current rental tracker)
+- **Business Manager** — subtext **Sch. C** (the upcoming counterpart)
 
-- Tile: sketch image (`library-art-sketch.jpg`) as the thumbnail, titled "Art thread",
-  ART category chip.
-- Dialog: the vector image (`library-art-vector.jpg`) plus both captions — "A sample
-  of the owner's own art." and "Same art thread: taken from sketch to vector the
-  old-school way."
-- Library entry count after merge: 6.
+Apply on `index.html` only, in the finance-tracker section:
 
-### 2. '67 classic Bug category chip
-Change the '67 classic Bug entry's category chip from "PERSONAL" to "AUTOMOTIVE".
-Chip label only — title, caption, image, and dialog unchanged.
+1. The "Use it" spec row (~line 957): `Rental Schedule E now · small-business
+   Schedule C next` → `Rental Manager (Sch. E) now · Business Manager (Sch. C) next`.
+2. The "Current work" spec row (~line 809): `Schedule E/C · tested, still being
+   refined` → `Rental Manager (Sch. E) / Business Manager (Sch. C) · tested, still
+   being refined`.
+3. In the tracker card, introduce the product name once in the visible copy —
+   e.g. the lede or the paragraph under the `<h3>` gains "Rental Manager" as the
+   product's name with "Sch. E" in a smaller/muted treatment consistent with the
+   site's existing type system. Keep the h3 "A finance tracker you own" as-is
+   (it's the hook, not the name).
+4. Leave unchanged: carousel captions and alt text (they describe Schedule E tax
+   content — correct terminology), the honesty disclaimer, the mailto CTA, and
+   everything outside the finance-tracker section.
 
-### 3. Merge the two restaurant entries into "Restaurant Operations"
-Combine the two restaurant entries into a single entry, same dialog mechanic:
-
-- Tile: `library-restaurant-02.jpg` as the thumbnail, titled "Restaurant Operations".
-- Dialog: `library-restaurant-01.jpg` plus both existing captions (the
-  chaos/high-stress line stays with its image).
-- Library entry count after both merges: 5.
+## Acceptance
+1. Open `index.html` locally; the tracker section shows the Rental Manager /
+   Business Manager naming in the two spec rows and once in body copy.
+2. `grep -c "Rental Manager" index.html` ≥ 3; no occurrences outside the
+   finance-tracker section.
+3. No visual regression to the section layout (spec rows still align).
 
 ## Out of scope
-- Everything else. No other file, caption, or style changes.
+- Any other page or section; library.html; fonts; colors; this file.

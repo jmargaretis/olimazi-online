@@ -1,4 +1,4 @@
-# SOL operating contract
+# Codex operating contract (formerly "SOL")
 
 When the owner says “check the site for instructions” (or names the olimazi-online repo), read the active packet in `sol/INSTRUCTIONS.md`.
 
@@ -11,7 +11,7 @@ Direct changes are authorized only within the packet. Put any out-of-scope idea 
 Every report uses exactly these sections, in this order. Write "None" under a section rather than omitting it — the reviewer checks your claims against the diff, so a missing section reads as a hidden change.
 
 ```markdown
-# SOL completion report — packet #N
+# Codex completion report — packet #N
 
 ## Status
 COMPLETE | PARTIAL | BLOCKED — one line of summary.
