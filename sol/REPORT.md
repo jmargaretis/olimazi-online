@@ -1,20 +1,21 @@
-# Codex completion report — packet #9
+# Codex completion report — packet #10
 
 ## Status
-COMPLETE — implemented by Codex (sandbox blocked commit + local browser); Claude verified 2026-07-19: 3x Rental Manager, 2x Business Manager, both superseded strings gone. Committed by Claude on Codex's behalf.
+COMPLETE — implemented by Codex (sandbox blocks .git); Claude verified acceptance 2026-07-19 (6x Rental Manager, CTA rewired, prefilled Sch. E + Sch. C mailtos, palette/nav/viewport present, landlord-voice copy) and committed on Codex's behalf. Live-page visual check after Pages deploy.
 
 ## Changes
-index.html — Renamed the finance tracker products in the Current work and Use it spec rows, introduced Rental Manager (Sch. E) once in the tracker body copy, and added a scoped muted small-text style for the Sch. E subtext.
-sol/REPORT.md — Replaced the prior packet report with this packet #9 completion report.
+index.html — Changed only the finance tracker testing CTA destination from a bare email link to tester.html.
+tester.html — Added the responsive Rental Manager tester page with site navigation and footer, audience guidance, product explanation, testing milestones, privacy and ownership disclosure, and prefilled Sch. E and Sch. C email links.
+sol/REPORT.md — Replaced the prior packet report with this packet #10 completion report.
 
 ## Deviations
 None
 
 ## Skipped / unverified
-The local rendered-page visual check and visual regression check could not be completed because the browser security policy rejected navigation to the local preview URL. Source checks confirmed three Rental Manager occurrences, both requested spec-row strings, removal of both superseded strings, and no whitespace errors.
+The required commit to main was not created because Git could not create .git/index.lock. Visual rendering was not browser-tested; responsive behavior, theme behavior, document structure, and links were verified from the source.
 
 ## Blocked / questions
-Git could not create `.git/index.lock` because this environment grants read-only access to `.git`, so the required commit to `main` could not be made. The completed changes remain safely in the working tree.
+The workspace permission profile makes .git read-only. Running git add or git commit fails with "Unable to create '.git/index.lock': Permission denied." The completed files need to be committed from an environment that permits Git metadata writes.
 
 ## Proposals
 None

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Help test Rental Manager, a local-file organizer for self-managing rental owners.">
+  <title>Test Rental Manager — Olimazi</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper:#D9DEDC; --paper-deep:#BFD5CC; --card:#EEF3F1; --ink:#303737;
+      --ink-muted:#56615E; --line:rgba(48,55,55,.20); --line-soft:rgba(48,55,55,.10);
+      --red:#70C9AA; --red-deep:#2A745D; --red-text:#226D57; --olive:#46534F;
+      --btn-text:#F4F8F6; --nav-bg:rgba(217,222,220,.92);
+    }
+    html[data-theme="dark"] {
+      --paper:#282E2D; --paper-deep:#34463F; --card:#313A37; --ink:#E4ECE9;
+      --ink-muted:#B5C1BD; --line:rgba(228,236,233,.19); --line-soft:rgba(228,236,233,.09);
+      --red-text:#8DE0C1; --olive:#A8C1B7; --nav-bg:rgba(40,46,45,.92);
+    }
+    html { scroll-behavior:smooth; background:var(--paper); }
+    body { color:var(--ink); background:var(--paper); font-family:"Satoshi","Segoe UI",system-ui,sans-serif; overflow-x:hidden; transition:background-color .35s,color .35s; }
+    body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.7; background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px); background-size:14px 14px; }
+    main,.footer { position:relative; z-index:1; }
+    a { color:inherit; }
+    :focus-visible { outline:3px solid var(--red); outline-offset:4px; }
+    .skip { position:fixed; top:10px; left:10px; z-index:300; padding:10px 14px; color:var(--btn-text); background:var(--red-deep); transform:translateY(-160%); transition:transform .2s; }
+    .skip:focus { transform:none; }
+    .wrap { width:100%; max-width:1080px; margin:0 auto; padding-inline:28px; }
+    .nav { position:fixed; inset:0 0 auto; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:14px 40px; background:var(--nav-bg); border-bottom:1px solid var(--line); backdrop-filter:blur(12px); }
+    .nav-brand { color:var(--ink); font-size:24px; font-weight:900; line-height:1; letter-spacing:-.02em; text-decoration:none; }
+    .nav-brand i,.footer-wordmark i { color:var(--red-text); font-style:normal; }
+    .nav-right { display:flex; align-items:center; gap:18px; }
+    .nav-link,.theme-toggle { color:var(--ink-muted); font:500 10px/1 "IBM Plex Mono",Consolas,monospace; letter-spacing:.14em; text-transform:uppercase; }
+    .nav-link { text-decoration:none; }
+    .theme-toggle { min-height:35px; display:flex; align-items:center; gap:7px; padding:7px 12px; background:transparent; border:1px solid var(--line); border-radius:2px; cursor:pointer; }
+    .nav-link:hover,.theme-toggle:hover { color:var(--red-text); }
+    .hero { padding:clamp(132px,17vw,190px) 0 clamp(72px,10vw,116px); }
+    .hero-grid { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr); gap:clamp(38px,7vw,84px); align-items:end; }
+    .product-name { display:block; margin-bottom:30px; font-size:clamp(18px,2.2vw,24px); font-weight:900; }
+    .product-name small { color:var(--ink-muted); font:500 .55em/1 "IBM Plex Mono",Consolas,monospace; letter-spacing:.05em; }
+    h1 { max-width:850px; font-size:clamp(44px,7.6vw,82px); font-weight:900; line-height:.98; letter-spacing:-.035em; text-wrap:balance; }
+    .hero-copy { max-width:560px; }
+    .hero-copy p { color:var(--ink-muted); font-size:clamp(16px,2vw,19px); line-height:1.7; text-wrap:pretty; }
+    .hero-copy p + p { margin-top:18px; }
+    .rule-note { margin-top:28px; padding-top:18px; border-top:1px solid var(--ink); color:var(--olive); font:500 11px/1.65 "IBM Plex Mono",Consolas,monospace; }
+    .section { padding:clamp(70px,10vw,112px) 0; border-top:1px solid var(--ink); }
+    .section-grid { display:grid; grid-template-columns:minmax(210px,.42fr) minmax(0,1fr); gap:clamp(34px,8vw,100px); }
+    h2 { font-size:clamp(30px,4.5vw,48px); line-height:1.05; letter-spacing:-.025em; text-wrap:balance; }
+    .section-body { max-width:690px; }
+    .section-body > p { color:var(--ink-muted); font-size:16px; line-height:1.75; text-wrap:pretty; }
+    .split { display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,5vw,56px); }
+    .split h3,.steps h3 { margin-bottom:14px; font-size:18px; }
+    .plain-list { list-style:none; }
+    .plain-list li { padding:13px 0; border-top:1px solid var(--line); color:var(--ink-muted); font-size:15px; line-height:1.55; }
+    .plain-list li::before { content:"\2192"; margin-right:10px; color:var(--red-text); }
+    .steps { margin-top:34px; }
+    .steps ol { list-style:none; counter-reset:step; }
+    .steps li { counter-increment:step; display:grid; grid-template-columns:42px 1fr; gap:14px; padding:20px 0; border-top:1px solid var(--line); color:var(--ink-muted); line-height:1.65; }
+    .steps li::before { content:counter(step,decimal-leading-zero); color:var(--red-text); font:600 11px/1.65 "IBM Plex Mono",Consolas,monospace; }
+    .steps strong { display:block; color:var(--ink); }
+    .honesty { padding:clamp(64px,9vw,96px) 0; color:#E4ECE9; background:#303737; }
+    .honesty .section-grid { align-items:start; }
+    .honesty h2 { color:#E4ECE9; }
+    .honesty p { color:#BFCBC7; }
+    .honesty-list { margin-top:24px; display:flex; flex-wrap:wrap; gap:8px; }
+    .honesty-list span { padding:8px 10px; border:1px solid rgba(228,236,233,.3); font:500 10px/1.3 "IBM Plex Mono",Consolas,monospace; letter-spacing:.06em; }
+    .signup { background:var(--paper-deep); }
+    .apply-box { padding:clamp(24px,5vw,44px); background:var(--card); border:1px solid var(--ink); }
+    .apply-box p { max-width:580px; color:var(--ink-muted); font-size:16px; line-height:1.7; }
+    .apply-box ul { margin:22px 0 30px; list-style:none; font:500 11px/1.8 "IBM Plex Mono",Consolas,monospace; color:var(--olive); }
+    .apply-box li::before { content:"[ ]"; margin-right:10px; color:var(--red-text); }
+    .btn { min-height:50px; display:inline-flex; align-items:center; justify-content:center; padding:15px 32px; color:var(--btn-text); background:var(--red-deep); border:0; border-radius:2px; font-weight:700; text-decoration:none; transition:transform .2s,background .2s; }
+    .btn:hover { background:var(--ink); transform:translateY(-2px); }
+    .business-next { padding:52px 0; border-top:1px solid var(--ink); }
+    .business-next .wrap { display:flex; align-items:center; justify-content:space-between; gap:26px; }
+    .business-next p { max-width:700px; font-size:clamp(18px,2.6vw,26px); font-weight:700; line-height:1.35; }
+    .business-next a { flex:0 0 auto; color:var(--red-text); font:600 11px/1.4 "IBM Plex Mono",Consolas,monospace; letter-spacing:.1em; text-transform:uppercase; text-underline-offset:5px; }
+    .footer { padding:30px 0 40px; border-top:1px solid var(--line); }
+    .footer-top,.footer-meta { display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px; }
+    .footer-top { align-items:center; margin-bottom:18px; }
+    .footer-wordmark { font-size:20px; font-weight:900; letter-spacing:-.02em; }
+    .footer-meta,.phonetic { color:var(--ink-muted); font:400 10px/1.5 "IBM Plex Mono",Consolas,monospace; letter-spacing:.14em; text-transform:uppercase; }
+    .footer-meta a { color:var(--red-text); text-decoration:none; }
+    @media (max-width:760px) {
+      .nav { padding:12px 20px; }
+      .hero-grid,.section-grid { grid-template-columns:1fr; }
+      .hero-copy { max-width:650px; }
+      .section-grid { gap:26px; }
+      .split { grid-template-columns:1fr; }
+      .business-next .wrap { align-items:flex-start; flex-direction:column; }
+    }
+    @media (max-width:420px) {
+      .wrap { padding-inline:20px; }
+      .nav { padding-inline:12px; }
+      .nav-brand { font-size:20px; }
+      .nav-link { display:none; }
+      .theme-toggle span { display:none; }
+      h1 { font-size:clamp(42px,14vw,56px); overflow-wrap:anywhere; }
+      .btn { width:100%; padding-inline:18px; }
+    }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.001ms !important; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="nav-brand" href="index.html">olimazi<i>.</i>online</a>
+    <div class="nav-right">
+      <a class="nav-link" href="index.html#main-work">Main work</a>
+      <button class="theme-toggle" type="button" aria-label="Toggle color theme" onclick="toggleTheme()"><span>Theme</span><b aria-hidden="true">◐</b></button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <header class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <span class="product-name">Rental Manager <small>Sch. E</small></span>
+          <h1>Your rental books already have a life. Let’s make them easier to finish.</h1>
+        </div>
+        <div class="hero-copy">
+          <p>Rent comes in by Zelle. The plumber got paid half in cash. A hardware-store receipt is still in the truck. Then spring arrives and you rebuild the whole year from bank statements.</p>
+          <p>I’m looking for a few self-managing rental owners to test a simpler way to keep those records together.</p>
+          <div class="rule-note">A working prototype for 1–5 properties. No account. No cloud. No subscription.</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="wrap section-grid">
+        <h2>Built for a particular kind of owner.</h2>
+        <div class="section-body split">
+          <div><h3>This may be for you if…</h3><ul class="plain-list"><li>You manage one to five rental properties yourself.</li><li>You want clearer books without giving up control of your files.</li><li>You currently use spreadsheets, folders, notes, or a mix of all three.</li></ul></div>
+          <div><h3>It is not for…</h3><ul class="plain-list"><li>Large portfolios or property managers already using full management software.</li><li>Anyone looking for tax advice or a tax-return service.</li><li>Someone who wants every record stored in an online account.</li></ul></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap section-grid">
+        <h2>One local place for the year’s loose ends.</h2>
+        <div class="section-body">
+          <p><strong>Rental Manager <span style="color:var(--ink-muted)">(Sch. E)</span></strong> is a local-file organizer. It brings income, expenses, notes, and still-unresolved items into one dashboard. The calculations follow fixed rules, so the same inputs produce the same totals. Anything that still needs an answer stays visible instead of being quietly guessed.</p>
+          <div class="steps"><ol><li><div><strong>Files stay on your machine.</strong> Your working records remain portable and under your control.</div></li><li><div><strong>The math stays predictable.</strong> Totals come from clear rules, not generated estimates.</div></li><li><div><strong>Open questions stay open.</strong> Missing categories, unclear payments, and follow-ups remain on the dashboard until you resolve them.</div></li></ol></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap section-grid">
+        <h2>Testing means using it, then checking in.</h2>
+        <div class="section-body">
+          <p>You can load your own records or start with the included sample. Use Rental Manager for a few weeks, then answer short, structured check-ins at useful moments. I’m looking for specific feedback: what imported cleanly, what was confusing, where you got stuck, and whether the final files made sense.</p>
+          <div class="steps"><ol><li><div><strong>First run</strong>Load the sample or your own records and report setup problems.</div></li><li><div><strong>Working check-in</strong>Use the dashboard during normal bookkeeping and flag unclear steps.</div></li><li><div><strong>End-of-test review</strong>Confirm what helped, what failed, and what would make the organizer worth keeping.</div></li></ol></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="honesty">
+      <div class="wrap section-grid">
+        <h2>Your books stay yours.</h2>
+        <div class="section-body">
+          <p>There is no cloud service and no account to create. Rental Manager works with files on your machine. I never see your books unless you choose to share a redacted screenshot—one with names, addresses, account numbers, and other identifying details removed.</p>
+          <p style="margin-top:18px"><strong style="color:#E4ECE9">This is an organizer, not tax advice.</strong> Confirm figures and tax treatment with your tax preparer.</p>
+          <div class="honesty-list" aria-label="Privacy summary"><span>NO CLOUD</span><span>NO ACCOUNT</span><span>FILES ARE YOURS</span><span>SHARING IS OPTIONAL</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section signup" id="apply">
+      <div class="wrap section-grid">
+        <h2>Interested in testing it?</h2>
+        <div class="apply-box">
+          <p>The button opens a prepared email. Fill in four short answers so I can understand whether the test fits how you work today.</p>
+          <ul><li>Your name</li><li>Number of rental properties</li><li>How you track income and expenses today</li><li>Your comfort level working with local files</li></ul>
+          <a class="btn" href="mailto:hello@olimazi.online?subject=TESTER%20APPLICATION%3A%20Rental%20Manager%20%28Sch.%20E%29&amp;body=Hi%20John%2C%0A%0AI%27m%20interested%20in%20testing%20Rental%20Manager.%0A%0AName%3A%20%0ANumber%20of%20rental%20properties%3A%20%0AHow%20I%20track%20income%20and%20expenses%20today%3A%20%0AMy%20comfort%20level%20working%20with%20local%20files%3A%20%0A%0AAnything%20else%20you%20should%20know%3A%20">Open the tester application <span aria-hidden="true">&nbsp;→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="business-next">
+      <div class="wrap">
+        <p>Business Manager <span style="color:var(--ink-muted)">(Sch. C)</span> is next — same approach for small-business books.</p>
+        <a href="mailto:hello@olimazi.online?subject=INTEREST%3A%20SCH%20C&amp;body=Hi%20John%2C%0A%0AI%27m%20interested%20in%20Business%20Manager%20%28Sch.%20C%29.%0A%0AName%3A%20%0AType%20of%20business%3A%20%0AHow%20I%20track%20income%20and%20expenses%20today%3A%20%0AMy%20comfort%20level%20working%20with%20local%20files%3A%20">Flag my interest →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-top"><span class="footer-wordmark">olimazi<i>.</i>online</span><span class="phonetic">oh-lee · mah-zee</span></div>
+      <div class="footer-meta"><span>© 2026 Olimazi · built in public</span><span><a href="index.html">Home</a> · <a href="library.html">Library</a> · <a href="mailto:hello@olimazi.online">hello@olimazi.online</a></span></div>
+    </div>
+  </footer>
+  <script>
+    function toggleTheme(){const root=document.documentElement;const next=root.dataset.theme==="dark"?"light":"dark";root.dataset.theme=next;try{localStorage.setItem("olimazi-theme",next)}catch(_){}}
+    try{const saved=localStorage.getItem("olimazi-theme");if(saved)document.documentElement.dataset.theme=saved}catch(_){}
+  </script>
+</body>
+</html>
