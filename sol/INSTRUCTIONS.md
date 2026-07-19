@@ -1,39 +1,50 @@
 # Codex work packet — active
 
-**Packet:** #9 · issued 2026-07-19 · authored by Claude (planning side)
-**Protocol:** see `AGENTS.md`; report in the required REPORT.md format.
+**Packet:** #10 · issued 2026-07-19 · authored by Claude (planning side)
+**Packet #9 (product naming): ACCEPTED** — commit 66d3d17.
+**Protocol:** AGENTS.md (Codex operating contract); report in required REPORT.md format.
 
-**Packet #8 (library merges): ACCEPTED.** Note: the operating contract is now
-titled "Codex" (formerly "SOL") — same protocol, same file paths.
+## Packet #10 scope — Rental Manager tester page
 
-## Packet #9 scope — finance tracker product naming
+A dedicated tester-recruitment page: `tester.html` (linked from the finance-tracker
+section's CTA on index.html, replacing the bare mailto as the primary path).
 
-The tracker product now has official names (decided 2026-07-19):
-- **Rental Manager** — subtext **Sch. E** (the current rental tracker)
-- **Business Manager** — subtext **Sch. C** (the upcoming counterpart)
+### 1. The page — speak to ONE person
+The self-managing rental owner: 1-5 properties, does their own books, dreads
+rebuilding Schedule E from bank statements every spring. Copy leads with THEIR
+day ("rent comes in by Zelle, the plumber got paid half in cash..."), not with AI.
+Sections, using the site's existing type/palette system:
+1. **Who this is for / not for** — for: self-managing landlords wanting their books
+   in files they own; not for: large portfolios, property managers with existing
+   software, anyone wanting tax advice.
+2. **What Rental Manager is** — local-file organizer: deterministic math, open
+   items kept visible, one dashboard, everything stays on your machine. Product
+   name treatment: "Rental Manager" with muted "Sch. E" subtext (matches #9).
+3. **What testing involves** — honest effort statement: load your data (or the
+   included sample), run it for a few weeks, answer structured check-ins;
+   feedback milestones, not vibes.
+4. **Privacy & ownership** — no cloud, no account, files are yours, John never
+   sees your books unless you share a redacted screenshot; not tax advice —
+   confirm figures with your preparer (reuse the honesty-strip styling).
+5. **Sign-up** — a short mailto-based application with a structured subject and
+   prefilled body template (name, # of properties, how you track today, comfort
+   with local files). Keep mailto for now — John's call on a form service later —
+   but the prefilled body makes it one click + fill-blanks, not compose-from-scratch.
+6. Footer note: "Business Manager (Sch. C) is next — same approach for
+   small-business books." with the same mailto template flagged INTEREST: SCH C.
 
-Apply on `index.html` only, in the finance-tracker section:
+### 2. index.html touch
+Change the tracker card's CTA from the raw mailto to `tester.html`
+("I'm interested in testing →" keeps its label). No other index changes.
 
-1. The "Use it" spec row (~line 957): `Rental Schedule E now · small-business
-   Schedule C next` → `Rental Manager (Sch. E) now · Business Manager (Sch. C) next`.
-2. The "Current work" spec row (~line 809): `Schedule E/C · tested, still being
-   refined` → `Rental Manager (Sch. E) / Business Manager (Sch. C) · tested, still
-   being refined`.
-3. In the tracker card, introduce the product name once in the visible copy —
-   e.g. the lede or the paragraph under the `<h3>` gains "Rental Manager" as the
-   product's name with "Sch. E" in a smaller/muted treatment consistent with the
-   site's existing type system. Keep the h3 "A finance tracker you own" as-is
-   (it's the hook, not the name).
-4. Leave unchanged: carousel captions and alt text (they describe Schedule E tax
-   content — correct terminology), the honesty disclaimer, the mailto CTA, and
-   everything outside the finance-tracker section.
+### Acceptance
+1. `tester.html` renders with site nav/footer, palette, and type; readable on
+   mobile width.
+2. CTA on index.html routes to it; the page's apply link opens a prefilled email.
+3. Copy contains zero unexplained jargon (a landlord who has never heard of
+   Olimazi can follow it); "Rental Manager" naming consistent with #9.
 
-## Acceptance
-1. Open `index.html` locally; the tracker section shows the Rental Manager /
-   Business Manager naming in the two spec rows and once in body copy.
-2. `grep -c "Rental Manager" index.html` ≥ 3; no occurrences outside the
-   finance-tracker section.
-3. No visual regression to the section layout (spec rows still align).
+### Out of scope
+- The "Trace the transaction" interactive hero → future packet #11.
+- Forms services, email-list tooling, analytics.
 
-## Out of scope
-- Any other page or section; library.html; fonts; colors; this file.
