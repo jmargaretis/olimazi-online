@@ -1,50 +1,58 @@
 # Codex work packet — active
 
-**Packet:** #10 · issued 2026-07-19 · authored by Claude (planning side)
-**Packet #9 (product naming): ACCEPTED** — commit 66d3d17.
+**Packet:** #11 · issued 2026-07-21 · authored by Claude (planning side)
+**Packet #10 (tester page): ACCEPTED** — tester.html live at olimazi.online/tester.html.
+**Numbering note:** "Trace the transaction" (reserved as #11 in the #10 notes) shifts
+to packet #12 — this small gallery packet takes #11 since it ships first.
 **Protocol:** AGENTS.md (Codex operating contract); report in required REPORT.md format.
 
-## Packet #10 scope — Rental Manager tester page
+## Packet #11 scope — Rental Manager carousel: Organizer + Management slides
 
-A dedicated tester-recruitment page: `tester.html` (linked from the finance-tracker
-section's CTA on index.html, replacing the bare mailto as the primary path).
+The tracker product now has four surfaces; the site's Rental Manager section only
+shows the old summary view. Add the two new product pages to the existing
+carousel in index.html.
 
-### 1. The page — speak to ONE person
-The self-managing rental owner: 1-5 properties, does their own books, dreads
-rebuilding Schedule E from bank statements every spring. Copy leads with THEIR
-day ("rent comes in by Zelle, the plumber got paid half in cash..."), not with AI.
-Sections, using the site's existing type/palette system:
-1. **Who this is for / not for** — for: self-managing landlords wanting their books
-   in files they own; not for: large portfolios, property managers with existing
-   software, anyone wanting tax advice.
-2. **What Rental Manager is** — local-file organizer: deterministic math, open
-   items kept visible, one dashboard, everything stays on your machine. Product
-   name treatment: "Rental Manager" with muted "Sch. E" subtext (matches #9).
-3. **What testing involves** — honest effort statement: load your data (or the
-   included sample), run it for a few weeks, answer structured check-ins;
-   feedback milestones, not vibes.
-4. **Privacy & ownership** — no cloud, no account, files are yours, John never
-   sees your books unless you share a redacted screenshot; not tax advice —
-   confirm figures with your preparer (reuse the honesty-strip styling).
-5. **Sign-up** — a short mailto-based application with a structured subject and
-   prefilled body template (name, # of properties, how you track today, comfort
-   with local files). Keep mailto for now — John's call on a form service later —
-   but the prefilled body makes it one click + fill-blanks, not compose-from-scratch.
-6. Footer note: "Business Manager (Sch. C) is next — same approach for
-   small-business books." with the same mailto template flagged INTEREST: SCH C.
+### 1. New assets (already in olimazi-assets/ — do NOT regenerate)
+- `rental-manager-organizer.png` (952×1190) — the Client Organizer page: filing
+  flags with confirmed/unconfirmed chips, extension callout, owner/preparer cards.
+- `rental-manager-management.png` (952×1190) — the Management page: issue board
+  (AC repair sample case), documents table with expiry badge.
+Both are framed fixture screenshots (fake "12 Sample Street" data only — same
+family as `rental-manager-dashboard.png`).
 
-### 2. index.html touch
-Change the tracker card's CTA from the raw mailto to `tester.html`
-("I'm interested in testing →" keeps its label). No other index changes.
+### 2. Carousel slides (index.html, Rental Manager section)
+Add two `figure.carousel-slide` entries after the existing summary/dashboard
+slides, matching the existing slide markup pattern exactly (img.carousel-media +
+figcaption.carousel-caption with a <b> lead):
+- **Organizer slide** — caption lead "Client Organizer". Body (match the site's
+  first-person operator voice, 2–3 sentences): the trust layer — the page shows
+  what the workbook believes (addresses, contacts, filing status) so the owner
+  confirms it before trusting the numbers; built in the spirit of a CPA client
+  organizer, ready to hand to a preparer.
+- **Management slide** — caption lead "Management view". Body: the day-to-day side
+  of the same records — tenant issues, vendors, and documents with expiry
+  warnings, kept next to the books instead of in a separate app.
+If the carousel uses dot/arrow controls driven by slide count, confirm they pick
+up the new slides automatically; adjust only what the existing mechanism requires.
 
-### Acceptance
-1. `tester.html` renders with site nav/footer, palette, and type; readable on
-   mobile width.
-2. CTA on index.html routes to it; the page's apply link opens a prefilled email.
-3. Copy contains zero unexplained jargon (a landlord who has never heard of
-   Olimazi can follow it); "Rental Manager" naming consistent with #9.
+### 3. Alt text
+Meaningful alts: "Client Organizer page — filing flags and preparer card, sample
+property" / "Management page — tenant issue board and documents, sample property".
 
-### Out of scope
-- The "Trace the transaction" interactive hero → future packet #11.
-- Forms services, email-list tooling, analytics.
+## Out of scope
+Any copy change outside the two new captions (hero copy is a separate pending
+decision); tester.html; any other section; image regeneration; new dependencies;
+this file.
 
+## Acceptance test (results → REPORT.md)
+1. index.html contains exactly two new carousel-slide figures referencing the two
+   new PNGs, matching existing markup pattern; git diff confined to the carousel
+   block.
+2. Slide count/controls work with the added slides (inspect the carousel JS/CSS
+   mechanism and state how it handles the count).
+3. Alt text present on both images.
+4. No real personal data in captions (fixture/sample framing only).
+5. Serve locally (python -m http.server) and confirm the section renders with the
+   new slides reachable via the carousel controls.
+You cannot commit (read-only .git — expected); leave working-tree changes for
+Claude to verify, John to accept, then commit/push.

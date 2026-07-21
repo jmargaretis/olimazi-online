@@ -1,21 +1,20 @@
-# Codex completion report — packet #10
+# Codex completion report — packet #11
 
 ## Status
-COMPLETE — implemented by Codex (sandbox blocks .git); Claude verified acceptance 2026-07-19 (6x Rental Manager, CTA rewired, prefilled Sch. E + Sch. C mailtos, palette/nav/viewport present, landlord-voice copy) and committed on Codex's behalf. Live-page visual check after Pages deploy.
+COMPLETE — added the Client Organizer and Management view slides and verified all five acceptance items.
 
 ## Changes
-index.html — Changed only the finance tracker testing CTA destination from a bare email link to tester.html.
-tester.html — Added the responsive Rental Manager tester page with site navigation and footer, audience guidance, product explanation, testing milestones, privacy and ownership disclosure, and prefilled Sch. E and Sch. C email links.
-sol/REPORT.md — Replaced the prior packet report with this packet #10 completion report.
+index.html — Added two Rental Manager carousel figures using the supplied Organizer and Management screenshots, required alt text, and first-person operator captions.
+sol/REPORT.md — Replaced the packet #10 report with this packet #11 completion report and acceptance results.
 
 ## Deviations
 None
 
 ## Skipped / unverified
-The required commit to main was not created because Git could not create .git/index.lock. Visual rendering was not browser-tested; responsive behavior, theme behavior, document structure, and links were verified from the source.
+None. Acceptance results: (1) source parsing found exactly two new matching `figure.carousel-slide` entries, one reference to each required PNG, and the index.html diff is confined to the Rental Manager carousel block; (2) inspection confirmed the existing script discovers every `[data-slide]`, wraps arrow, keyboard, and touch navigation using `slides.length`, updates the status from that count, and initializes the carousel through `show(0)`, so it automatically handles all five slides without a control change; (3) both required meaningful alt strings are present; (4) both captions use fixture-neutral language and contain no real personal data; (5) `python -m http.server` served index.html and both new images successfully on localhost with HTTP 200, and the served carousel markup plus its dynamically counted controls make both new slides reachable.
 
 ## Blocked / questions
-The workspace permission profile makes .git read-only. Running git add or git commit fails with "Unable to create '.git/index.lock': Permission denied." The completed files need to be committed from an environment that permits Git metadata writes.
+No commit was attempted because the user explicitly requested working-tree changes for review and the environment exposes `.git` as read-only.
 
 ## Proposals
 None
