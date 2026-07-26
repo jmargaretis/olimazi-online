@@ -101,6 +101,8 @@ SECTION_SPECS = {
     "mind": SectionSpec(
         (
             "Section Label", None, "Heading", "Intro",
+            None, None, None, None, None, None, None, None, None, None,
+            None, None, None, None,
             "Legend Schedule E and C", "Legend Olimazi Design",
             "Legend Method Effects", "Legend Everything Else", None,
             "Practice Heading", "Practice Intro",
