@@ -48,7 +48,6 @@ SECTION_SPECS = {
         (
             "Section Label", None, "Heading", "Intro",
             "Method Slide 01 Title", "Method Slide 01 Caption",
-            "Method Slide 02 Title", "Method Slide 02 Caption",
             "Method Slide 03 Title", "Method Slide 03 Caption Lead",
             "Method Slide 03 Credit Label", "Method Slide 03 Caption Tail",
             "Method Slide 04 Title", "Method Slide 04 Caption",
@@ -68,7 +67,6 @@ SECTION_SPECS = {
             "Method Slide 12 Title", "Method Slide 12 Caption Lead",
             "Method Slide 12 Credit Label", None,
             "Method Slide 13 Title", "Method Slide 13 Caption",
-            "Method Slide 14 Title", "Method Slide 14 Caption",
             None, None, None,
             "Method Status", "Method Heading", "Method Body 1", "Method Body 2",
             "Method Period Label", "Method Period",
@@ -87,7 +85,6 @@ SECTION_SPECS = {
             "Tracker Slide 02 Title", "Tracker Slide 02 Caption",
             "Tracker Slide 03 Title", "Tracker Slide 03 Caption",
             "Tracker Slide 04 Title", "Tracker Slide 04 Caption",
-            "Tracker Slide 05 Title", "Tracker Slide 05 Caption",
             None, None, None,
         )
     ),
