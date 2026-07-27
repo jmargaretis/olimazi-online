@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Olimazi Launchpad</title>
+<style>
+  :root { --paper:#eef1ec; --card:#f6f8f4; --ink:#232a26; --muted:#4d554f; --line:#d5dad2; --mint:#63c298; --green:#2f6b52; }
+  @media (prefers-color-scheme: dark) {
+    :root { --paper:#22282a; --card:#2b3234; --ink:#e8ece8; --muted:#a8b0aa; --line:#3a4244; --green:#7fd0ab; }
+  }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:"Segoe UI",system-ui,sans-serif; padding:2.5rem clamp(1rem,5vw,4rem); }
+  h1 { font-weight:900; font-size:clamp(34px,5vw,52px); margin:0 0 .2em; }
+  h1 .accent { color:var(--mint); }
+  .tag { font-family:Consolas,monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--green); }
+  p.lead { color:var(--muted); max-width:60ch; margin:.4em 0 2em; }
+  h2 { font-size:15px; letter-spacing:.1em; text-transform:uppercase; color:var(--green); border-bottom:1px solid var(--line); padding-bottom:.4em; margin:2.2em 0 .9em; font-family:Consolas,monospace; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:14px; }
+  a.card { display:block; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.2rem; text-decoration:none; color:var(--ink); transition:border-color .15s, transform .15s; }
+  a.card:hover { border-color:var(--mint); transform:translateY(-2px); }
+  .card b { display:block; font-size:17px; margin-bottom:4px; }
+  .card span { font-size:13px; color:var(--muted); line-height:1.5; display:block; }
+  .chip { display:inline-block; font-family:Consolas,monospace; font-size:10px; letter-spacing:.1em; border:1px solid var(--line); border-radius:4px; padding:2px 7px; margin-top:9px; color:var(--green); }
+  .chip.warn, .chip.unknown { color:#a4642a; border-color:#a4642a; }
+  .chip.running { color:var(--green); border-color:var(--mint); }
+  .chip.wrong-service, .chip.stopped, .chip.unresponsive { color:#b44b42; border-color:#b44b42; }
+  .service-actions { margin-top:9px; }
+  button { font:600 11px Consolas,monospace; padding:5px 9px; border:1px solid var(--green); border-radius:5px; background:transparent; color:var(--green); cursor:pointer; }
+  button:disabled { opacity:.5; cursor:default; }
+  .starter { margin:1rem 0; padding:1rem; border:1px solid var(--line); border-radius:8px; background:var(--card); }
+  .starter code { display:block; margin:.6rem 0; overflow-wrap:anywhere; }
+  .state-card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.2rem; }
+  .state-card b { display:block; font-size:17px; }
+  .state-value { font-size:15px; line-height:1.45; margin:.5rem 0; overflow-wrap:anywhere; }
+  .freshness, .state-detail { color:var(--muted); font-size:12px; line-height:1.45; }
+  .state-open { display:inline-block; margin-top:.7rem; color:var(--green); font:600 11px Consolas,monospace; }
+  .state-card.error { border-color:#b44b42; }
+  .hero-actions { display:flex; flex-wrap:wrap; gap:7px; margin-top:.8rem; }
+  .hero-confirm { margin-top:.8rem; padding:.7rem; border:1px solid #a4642a; border-radius:6px; }
+  .hero-result { margin-top:.7rem; color:var(--muted); font-size:12px; overflow-wrap:anywhere; }
+</style>
+</head>
+<body>
+<div class="tag">Command center · everything visual, one click</div>
+<h1>Olimazi <span class="accent">Launchpad</span></h1>
+<p class="lead">Cards marked ALWAYS WORKS open directly. Cards marked NEEDS STARTER require a double-click on <b>start-local-servers.bat</b> (same folder as this page) first.</p>
+
+<div class="starter"><b>Cold start</b><code id="cold-command">C:\Users\jmarg\OneDrive\Documents\Claude OS\inbox\launchpad\start-local-servers.bat</code><button type="button" id="copy-command">Copy command</button></div>
+
+<h2>Site — Home hero</h2>
+<div class="grid">
+  <div class="state-card" id="hero-control"><b>Home hero</b><div class="state-value">Start Mission Control to check hero status.</div><div class="freshness">Status UNKNOWN</div><div class="hero-actions"><button type="button" data-hero-action="open">Open</button><button type="button" data-hero-action="preview">Preview</button><button type="button" data-hero-action="build">Build</button><button type="button" id="hero-deploy-arm">Deploy</button></div><div class="hero-confirm" id="hero-confirm" hidden><div class="state-detail">Deploy stages all of index.html, including packet-#11 carousel changes, commits, pushes origin/main, and verifies the live hero.</div><button type="button" data-hero-action="deploy">Confirm deploy</button> <button type="button" id="hero-deploy-cancel">Cancel</button></div><div class="hero-result" aria-live="polite"></div></div>
+</div>
+
+<h2>Site copy sections</h2>
+<div class="grid" id="site-section-controls">
+  <div class="state-card" id="section-hero-spec" data-site-section="hero-spec"><b>Site â€” Hero spec</b><div class="state-value">Start Mission Control to check section status.</div><div class="freshness">Status UNKNOWN</div><div class="hero-actions"><button type="button" data-section-action="open">Open</button><button type="button" data-section-action="preview">Preview</button><button type="button" data-section-action="build">Build</button><button type="button" data-section-arm>Deploy</button></div><div class="hero-confirm" hidden><div class="state-detail">Deploy stages index.html and this section's content hash, commits, pushes origin/main, and live-verifies the longest current field value.</div><button type="button" data-section-action="deploy">Confirm deploy</button> <button type="button" data-section-cancel>Cancel</button></div><div class="hero-result" aria-live="polite"></div></div>
+  <div class="state-card" id="section-main-work" data-site-section="main-work"><b>Site â€” Main work</b><div class="state-value">Start Mission Control to check section status.</div><div class="freshness">Status UNKNOWN</div><div class="hero-actions"><button type="button" data-section-action="open">Open</button><button type="button" data-section-action="preview">Preview</button><button type="button" data-section-action="build">Build</button><button type="button" data-section-arm>Deploy</button></div><div class="hero-confirm" hidden><div class="state-detail">Deploy stages index.html and this section's content hash, commits, pushes origin/main, and live-verifies the longest current field value.</div><button type="button" data-section-action="deploy">Confirm deploy</button> <button type="button" data-section-cancel>Cancel</button></div><div class="hero-result" aria-live="polite"></div></div>
+  <div class="state-card" id="section-method" data-site-section="method"><b>Site â€” Method</b><div class="state-value">Start Mission Control to check section status.</div><div class="freshness">Status UNKNOWN</div><div class="hero-actions"><button type="button" data-section-action="open">Open</button><button type="button" data-section-action="preview">Preview</button><button type="button" data-section-action="build">Build</button><button type="button" data-section-arm>Deploy</button></div><div class="hero-confirm" hidden><div class="state-detail">Deploy stages index.html and this section's content hash, commits, pushes origin/main, and live-verifies the longest current field value.</div><button type="button" data-section-action="deploy">Confirm deploy</button> <button type="button" data-section-cancel>Cancel</button></div><div class="hero-result" aria-live="polite"></div></div>
+  <div class="state-card" id="section-mind" data-site-section="mind"><b>Site â€” Mind</b><div class="state-value">Start Mission Control to check section status.</div><div class="freshness">Status UNKNOWN</div><div class="hero-actions"><button type="button" data-section-action="open">Open</button><button type="button" data-section-action="preview">Preview</button><button type="button" data-section-action="build">Build</button><button type="button" data-section-arm>Deploy</button></div><div class="hero-confirm" hidden><div class="state-detail">Deploy stages index.html and this section's content hash, commits, pushes origin/main, and live-verifies the longest current field value.</div><button type="button" data-section-action="deploy">Confirm deploy</button> <button type="button" data-section-cancel>Cancel</button></div><div class="hero-result" aria-live="polite"></div></div>
+  <div class="state-card" id="section-contact" data-site-section="contact"><b>Site â€” Contact</b><div class="state-value">Start Mission Control to check section status.</div><div class="freshness">Status UNKNOWN</div><div class="hero-actions"><button type="button" data-section-action="open">Open</button><button type="button" data-section-action="preview">Preview</button><button type="button" data-section-action="build">Build</button><button type="button" data-section-arm>Deploy</button></div><div class="hero-confirm" hidden><div class="state-detail">Deploy stages index.html and this section's content hash, commits, pushes origin/main, and live-verifies the longest current field value.</div><button type="button" data-section-action="deploy">Confirm deploy</button> <button type="button" data-section-cancel>Cancel</button></div><div class="hero-result" aria-live="polite"></div></div>
+  <div class="state-card" id="section-dialogs" data-site-section="dialogs"><b>Site â€” Dialogs</b><div class="state-value">Start Mission Control to check section status.</div><div class="freshness">Status UNKNOWN</div><div class="hero-actions"><button type="button" data-section-action="open">Open</button><button type="button" data-section-action="preview">Preview</button><button type="button" data-section-action="build">Build</button><button type="button" data-section-arm>Deploy</button></div><div class="hero-confirm" hidden><div class="state-detail">Deploy stages index.html and this section's content hash, commits, pushes origin/main, and live-verifies the longest current field value.</div><button type="button" data-section-action="deploy">Confirm deploy</button> <button type="button" data-section-cancel>Cancel</button></div><div class="hero-result" aria-live="polite"></div></div>
+</div>
+
+<h2>Live on the web</h2>
+<div class="grid">
+  <a class="card" href="https://olimazi.online" target="_blank"><b>olimazi.online</b><span>The live site — hero, Method Effects deck, finance tracker, small subjects.</span><em class="chip">ALWAYS WORKS</em></a>
+  <a class="card" href="https://olimazi.online/library.html" target="_blank"><b>Library</b><span>The learning archive — ribeye, art thread, '67 Bug, restaurant operations.</span><em class="chip">ALWAYS WORKS</em></a>
+  <a class="card" href="https://github.com/jmargaretis/olimazi-online" target="_blank"><b>Site repo (GitHub)</b><span>Source, SOL packets, and reports for the site lane.</span><em class="chip">ALWAYS WORKS</em></a>
+  <a class="card" href="https://github.com/jmargaretis/olimazi-tracker/releases/tag/v0.1.0" target="_blank"><b>Tracker v0.1.0 release</b><span>The shipped release page — what a tester downloads.</span><em class="chip">ALWAYS WORKS</em></a>
+</div>
+
+<h2>Schedule E tracker — see it working</h2>
+<div class="grid">
+  <a class="card" href="http://localhost:8744/SchE_Dashboard.html" target="_blank"><b>Sample dashboard</b><span>The full Schedule E dashboard for fake "12 Sample Street" — summary, expenses, open items, and the red 1 BREAK(S) badge showing a caught error. This is the thing to judge.</span><em class="chip warn">NEEDS STARTER</em></a>
+  <a class="card" href="http://localhost:8744/SchE_Management.html" target="_blank"><b>Management page</b><span>Issue cards for the property — tenant/vendor contacts, dated notes, linked emails. Shipped in tracker packet #7.</span><em class="chip warn">NEEDS STARTER</em></a>
+  <a class="card" href="http://localhost:8744/SchE_Reconciliation.md" target="_blank"><b>Reconciliation report</b><span>The plain-English check report the engine writes alongside the dashboard.</span><em class="chip warn">NEEDS STARTER</em></a>
+  <a class="card" href="http://localhost:8744/MatchProposals.md" target="_blank"><b>Receipt match proposals</b><span>The propose-only receipt matcher's output — suggestions, never auto-booked.</span><em class="chip warn">NEEDS STARTER</em></a>
+  <a class="card" href="https://github.com/jmargaretis/olimazi-tracker/blob/main/docs/SETUP.md" target="_blank"><b>SETUP.md</b><span>The non-technical install guide — the human-test gate document (viewed on GitHub).</span><em class="chip">ALWAYS WORKS</em></a>
+</div>
+
+<div class="grid" id="tracker-discovered">
+  <a class="card" data-tracker-stem="SchE_Organizer" href="http://localhost:8744/SchE_Organizer.html" target="_blank"><b>Organizer</b><span>The tracker organizer output for the sample property.</span><em class="chip warn">NEEDS STARTER</em></a>
+</div>
+
+<h2>Local previews (work in progress)</h2>
+<div class="grid">
+  <a class="card" href="http://localhost:8399" target="_blank"><b>Site — local working copy</b><span>The repo as it sits on this machine, including unpushed work.</span><em class="chip warn">NEEDS STARTER</em></a>
+  <a class="card" href="http://localhost:8399/font-preview.html" target="_blank"><b>Font preview</b><span>Section-header candidates under the Satoshi hero (never deploys).</span><em class="chip warn">NEEDS STARTER</em></a>
+  <a class="card" href="http://localhost:8642/picker.html" target="_blank"><b>Image picker</b><span>The bucket review tool used for image ratings and notes.</span><em class="chip warn">NEEDS STARTER</em></a>
+</div>
+<h2>What needs me</h2>
+<div class="grid" id="vault-state">
+  <div class="state-card" data-widget="handoff"><b>Next action</b><div class="state-value">Start Mission Control to read the handoff.</div><div class="freshness">Live state unavailable</div><a class="state-open" href="file:///C:/Users/jmarg/OneDrive/Documents/Claude%20OS/inbox/handoff.md">Open handoff.md</a></div>
+  <div class="state-card" data-widget="review"><b>Review queue</b><div class="state-value">Start Mission Control to count proposals.</div><div class="freshness">Live state unavailable</div><a class="state-open" href="file:///C:/Users/jmarg/OneDrive/Documents/Claude%20OS/Review.md">Open Review.md</a></div>
+  <div class="state-card" data-widget="drop"><b>Olimazi Drop</b><div class="state-value">Start Mission Control to count pending files.</div><div class="freshness">Live state unavailable</div><a class="state-open" href="file:///C:/Users/jmarg/My%20Drive/Olimazi%20Drop/">Open Drop</a></div>
+  <div class="state-card" data-widget="applications"><b>Applications</b><div class="state-value">Start Mission Control to read the tracker.</div><div class="freshness">Live state unavailable</div><a class="state-open" href="file:///C:/Users/jmarg/OneDrive/Documents/Claude%20OS/projects/resume-tailoring/applications/applications-tracker.md">Open tracker</a></div>
+</div>
+<h2>Service status</h2>
+<div class="grid" id="services">
+  <div class="card" data-service="site"><b>Site</b><em class="chip unknown">UNKNOWN — STARTER MAY BE REQUIRED</em></div>
+  <div class="card" data-service="image-picker"><b>Image picker</b><em class="chip unknown">UNKNOWN — STARTER MAY BE REQUIRED</em></div>
+  <div class="card" data-service="mission-control"><b>Mission Control</b><em class="chip unknown">UNKNOWN — STARTER MAY BE REQUIRED</em></div>
+  <div class="card" data-service="tracker-sample"><b>Tracker sample</b><em class="chip unknown">UNKNOWN — STARTER MAY BE REQUIRED</em></div>
+</div>
+<script>
+(() => {
+  const base = location.protocol === 'file:' ? 'http://127.0.0.1:8643' : '';
+  const labels = {running:'RUNNING','wrong-service':'WRONG SERVICE',stopped:'STOPPED',unresponsive:'UNRESPONSIVE',unknown:'UNKNOWN — STARTER MAY BE REQUIRED'};
+  async function refresh() {
+    try {
+      const response = await fetch(base + '/api/services');
+      if (!response.ok) throw new Error();
+      for (const service of (await response.json()).services) {
+        const tile = document.querySelector(`[data-service="${service.id}"]`);
+        const chip = tile.querySelector('.chip');
+        chip.className = 'chip ' + service.status; chip.textContent = labels[service.status] || labels.unknown;
+        let button = tile.querySelector('button');
+        if (!button && service.startable) {
+          const actions = document.createElement('div'); actions.className = 'service-actions';
+          button = document.createElement('button'); button.type = 'button'; button.textContent = 'Start';
+          button.onclick = () => start(service.id, button); actions.appendChild(button); tile.appendChild(actions);
+        }
+        if (button) button.disabled = service.status === 'running';
+      }
+    } catch (_) { /* Preserve static UNKNOWN fallback. */ }
+  }
+  async function start(id, button) {
+    button.disabled = true; button.textContent = 'Starting…';
+    try {
+      const response = await fetch(base + '/api/services/' + encodeURIComponent(id) + '/start', {method:'POST'});
+      if (!response.ok) throw new Error(); setTimeout(refresh,800); setTimeout(refresh,1800);
+    } catch (_) { button.disabled = false; }
+    finally { button.textContent = 'Start'; }
+  }
+  async function trackerPages() {
+    try {
+      const response = await fetch(base + '/api/tracker-pages'); if (!response.ok) return;
+      const stems = new Set((await response.json()).pages.map(page => page.stem));
+      document.querySelectorAll('[data-tracker-stem]').forEach(card => card.hidden = !stems.has(card.dataset.trackerStem));
+    } catch (_) { /* Keep static links when API is absent. */ }
+  }
+  function readTime(widget) {
+    if (!widget.read_at) return 'No successful read';
+    const label = new Date(widget.read_at).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+    return widget.stale ? `Last good read ${label} (stale)` : `Read ${label}`;
+  }
+  async function vaultState() {
+    try {
+      const response = await fetch(base + '/api/state'); if (!response.ok) throw new Error();
+      const state = await response.json();
+      for (const [name,widget] of Object.entries(state)) {
+        const card=document.querySelector(`[data-widget="${name}"]`); if (!card) continue;
+        const value=card.querySelector('.state-value'), freshness=card.querySelector('.freshness');
+        card.classList.toggle('error',widget.status==='error'); freshness.textContent=readTime(widget);
+        if (!widget.value) { value.textContent=widget.error || 'UNAVAILABLE'; continue; }
+        const v=widget.value;
+        if (name==='handoff') value.textContent=v.next_action || 'No open to-do found';
+        if (name==='review') value.textContent=`${v.awaiting_john_blocks} proposal block${v.awaiting_john_blocks===1?'':'s'} · ${v.unresolved_items} unresolved item${v.unresolved_items===1?'':'s'}${v.review_this_count?' · REVIEW THIS COUNT':''}`;
+        if (name==='drop') value.textContent=v.status==='AVAILABLE' ? `${v.pending} pending file${v.pending===1?'':'s'}` : 'UNAVAILABLE';
+        if (name==='applications') {
+          const overdue=v.overdue_follow_ups.length ? ` · ${v.overdue_follow_ups.length} OVERDUE` : '';
+          const warning=v.warnings.length ? ` · ${v.warnings.length} warning${v.warnings.length===1?'':'s'}` : '';
+          value.textContent=`${v.active_total} active · next ${v.nearest_follow_up || 'none'}${overdue}${warning}`;
+        }
+        if (widget.status==='error') value.textContent += ` · STALE (${widget.error})`;
+      }
+    } catch (_) { /* Preserve the static, useful links and API-down labels. */ }
+  }
+  async function heroStatus() {
+    const card=document.getElementById('hero-control'), value=card.querySelector('.state-value'), freshness=card.querySelector('.freshness');
+    try {
+      const response=await fetch(base+'/api/hero/status'); if (!response.ok) throw new Error();
+      const hero=await response.json(); value.textContent=hero.status+(hero.reason?' — '+hero.reason:'');
+      freshness.textContent=hero.content_mtime ? `Content updated ${new Date(hero.content_mtime*1000).toLocaleString()} · last build ${hero.last_build_time?new Date(hero.last_build_time*1000).toLocaleString():'unknown'}` : 'File times unavailable';
+      card.classList.toggle('error',hero.status==='UNKNOWN'||hero.status==='DRIFT');
+    } catch (_) { value.textContent='Mission Control unavailable'; freshness.textContent='Status UNKNOWN'; card.classList.add('error'); }
+  }
+  async function heroAction(action,button) {
+    const result=document.querySelector('#hero-control .hero-result'); button.disabled=true; result.textContent=action[0].toUpperCase()+action.slice(1)+' in progress…';
+    try {
+      const options={method:'POST',headers:action==='deploy'?{'X-Confirm-Deploy':'yes'}:{}};
+      const response=await fetch(base+'/api/hero/'+action,options), data=await response.json();
+      if (!response.ok) throw new Error(data.error+(data.detail?' — '+data.detail:''));
+      if (action==='preview'&&data.preview_url) window.open(data.preview_url,'_blank');
+      result.textContent=action==='build' ? `Built; changed fields: ${data.changed_fields.length?data.changed_fields.join(', '):'none'}` : action==='deploy' ? `${data.status}; ${data.live_url||data.reason||''}` : action==='preview' ? `Preview ready: ${data.preview_url}` : `Opened ${data.path}`;
+      document.getElementById('hero-confirm').hidden=true; heroStatus();
+    } catch (error) { result.textContent=error.message||'Action failed; Mission Control may be unavailable.'; }
+    finally { button.disabled=false; }
+  }
+  async function sectionStatus(card) {
+    const section=card.dataset.siteSection, value=card.querySelector('.state-value'), freshness=card.querySelector('.freshness');
+    try {
+      const response=await fetch(base+'/api/sections/'+encodeURIComponent(section)+'/status'); if (!response.ok) throw new Error();
+      const state=await response.json(); value.textContent=state.status+(state.reason?' â€” '+state.reason:'');
+      freshness.textContent=state.content_mtime ? `Content updated ${new Date(state.content_mtime*1000).toLocaleString()} Â· last build ${state.last_build_time?new Date(state.last_build_time*1000).toLocaleString():'unknown'}` : 'File times unavailable';
+      card.classList.toggle('error',state.status==='UNKNOWN'||state.status==='DRIFT');
+    } catch (_) { value.textContent='Mission Control unavailable'; freshness.textContent='Status UNKNOWN'; card.classList.add('error'); }
+  }
+  async function sectionAction(card,action,button) {
+    const section=card.dataset.siteSection, result=card.querySelector('.hero-result'); button.disabled=true; result.textContent=action[0].toUpperCase()+action.slice(1)+' in progressâ€¦';
+    try {
+      const options={method:'POST',headers:action==='deploy'?{'X-Confirm-Deploy':'yes'}:{}};
+      const response=await fetch(base+'/api/sections/'+encodeURIComponent(section)+'/'+action,options), data=await response.json();
+      if (!response.ok) throw new Error(data.error+(data.detail?' â€” '+data.detail:''));
+      if (action==='preview'&&data.preview_url) window.open(data.preview_url,'_blank');
+      result.textContent=action==='build' ? `Built; changed fields: ${data.changed_fields.length?data.changed_fields.join(', '):'none'}` : action==='deploy' ? `${data.status}; ${data.live_url||data.reason||''}` : action==='preview' ? `Preview ready: ${data.preview_url}` : `Opened ${data.path}`;
+      card.querySelector('.hero-confirm').hidden=true; sectionStatus(card);
+    } catch (error) { result.textContent=error.message||'Action failed; Mission Control may be unavailable.'; }
+    finally { button.disabled=false; }
+  }
+  document.getElementById('copy-command').onclick = async event => {
+    try { await navigator.clipboard.writeText(document.getElementById('cold-command').textContent); event.target.textContent='Copied'; }
+    catch (_) { event.target.textContent='Select command above'; }
+  };
+  document.querySelectorAll('[data-hero-action]').forEach(button => button.onclick=()=>heroAction(button.dataset.heroAction,button));
+  document.getElementById('hero-deploy-arm').onclick=()=>document.getElementById('hero-confirm').hidden=false;
+  document.getElementById('hero-deploy-cancel').onclick=()=>document.getElementById('hero-confirm').hidden=true;
+  const sectionCards=[...document.querySelectorAll('[data-site-section]')];
+  sectionCards.forEach(card => {
+    card.querySelectorAll('[data-section-action]').forEach(button => button.onclick=()=>sectionAction(card,button.dataset.sectionAction,button));
+    card.querySelector('[data-section-arm]').onclick=()=>card.querySelector('.hero-confirm').hidden=false;
+    card.querySelector('[data-section-cancel]').onclick=()=>card.querySelector('.hero-confirm').hidden=true;
+  });
+  function sectionStatuses() { sectionCards.forEach(sectionStatus); }
+  refresh(); trackerPages(); vaultState(); heroStatus(); sectionStatuses(); setInterval(refresh,5000); setInterval(vaultState,10000); setInterval(heroStatus,10000); setInterval(sectionStatuses,10000);
+})();
+</script>
+</body>
+</html>

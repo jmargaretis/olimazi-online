@@ -242,7 +242,19 @@
     .method-lede {
       max-width: 590px; color: var(--ink-muted);
       font-size: clamp(17px, 2vw, 20px); line-height: 1.65; text-wrap: pretty;
+      list-style: none; display: grid; gap: 14px;
     }
+    ul.method-lede li { position: relative; padding-left: 22px; }
+    ul.method-lede li::before {
+      content: ""; position: absolute; left: 0; top: .62em;
+      width: 8px; height: 1px; background: var(--red);
+    }
+    .method-credit {
+      margin-top: 18px; color: var(--ink-muted);
+      font: 400 10px/1.4 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .16em; text-transform: uppercase;
+    }
+    .method-credit a { color: inherit; }
     .log { border-top: 1px solid var(--ink); }
     .log-entry {
       display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 18px;
@@ -272,11 +284,20 @@
     .learning-intro p { color: var(--ink-muted); font-size: 14px; line-height: 1.65; }
     .personal-grid { max-width: 880px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .personal-card {
-      overflow: hidden; display: grid; grid-template-columns: 150px 1fr;
-      min-height: 200px; background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+      display: grid; grid-template-columns: 168px 1fr; gap: 22px; align-items: start;
+      min-height: 200px; background: transparent; border: 0; border-radius: 0;
     }
-    .personal-card img { width: 100%; height: 200px; object-fit: cover; }
-    .personal-body { display: flex; flex-direction: column; padding: 18px 18px 20px; }
+    .personal-card img {
+      width: 100%; height: 200px; object-fit: cover; border-radius: 22px;
+      box-shadow: 0 2px 4px rgba(48,55,55,.07), 0 18px 40px rgba(48,55,55,.17);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .personal-card:hover img,
+    .personal-card:focus-within img {
+      transform: translateY(-4px);
+      box-shadow: 0 3px 6px rgba(48,55,55,.08), 0 26px 56px rgba(48,55,55,.22);
+    }
+    .personal-body { display: flex; flex-direction: column; padding: 2px 4px 0 0; }
     .chip {
       align-self: flex-start; margin-bottom: 13px; padding: 4px 9px;
       color: var(--olive); border: 1px solid var(--olive); border-radius: 2px;
@@ -334,8 +355,9 @@
       .outcome { padding: 14px 0; border-bottom: 1px solid var(--line-soft); }
       .method-statement { font-size: 44px; }
       .log-entry { grid-template-columns: 1fr; gap: 4px; }
-      .personal-card { grid-template-columns: 1fr; }
-      .personal-card img { height: 150px; }
+      .personal-card { grid-template-columns: 1fr; gap: 14px; }
+      .personal-card img { height: 150px; border-radius: 16px; }
+      .personal-body { padding: 0 2px; }
       .closing { padding: 96px 0; }
     }
     @media (max-width: 360px) {
@@ -353,10 +375,9 @@
     .carousel-stage { position: relative; overflow: hidden; touch-action: pan-y; }
     .carousel-slide {
       margin: 0; transition: transform .18s cubic-bezier(.22, 1, .36, 1), opacity .18s ease;
-      will-change: transform;
     }
     .carousel-slide[hidden] { display: none; }
-    .carousel.is-dragging .carousel-slide { user-select: none; transition: none; }
+    .carousel.is-dragging .carousel-slide { user-select: none; transition: none; will-change: transform; }
     .carousel-media { display: block; width: 100%; height: 500px; object-fit: cover; background: var(--paper-deep); }
     .carousel-media.dashboard { height: 390px; object-fit: contain; }
     .carousel-media.cad { object-fit: contain; padding: 32px; background: var(--card); }
@@ -439,7 +460,7 @@
       border-top: 1px solid var(--line); font-size: 12px; line-height: 1.6;
     }
     .tracker-honesty strong { color: var(--ink); }
-    .work-project-carousel { overflow:hidden; border:1px solid var(--line); background:var(--card); box-shadow:var(--shadow); }
+    .work-project-carousel { min-width:0; }
     @media(max-width:860px){ .main-work-intro,.work-project-grid,.work-project-grid.reverse{grid-template-columns:1fr;} .work-project-copy{position:static;} .work-project-grid.reverse .work-project-copy{order:0;} .work-project-grid.reverse .work-project-carousel{order:1;} }
     @media(max-width:560px){
       .main-work-intro{gap:16px;}
@@ -471,15 +492,60 @@
       letter-spacing: .12em; text-transform: uppercase;
     }
     .nav-contact:hover { background: var(--ink); border-color: var(--ink); }
-    .work-project-carousel {
-      clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 28px 100%, 0 calc(100% - 28px));
-      transition: transform .25s ease, filter .25s ease;
+    /* ---- floating-plate tile framing (both work carousels) ---- */
+    .work-project-carousel .carousel-stage { padding: 26px 26px 6px; }
+    .work-project-carousel .carousel-slide { position: relative; isolation: isolate; }
+    .work-project-carousel .carousel-media {
+      border-radius: 22px; box-shadow: 0 2px 4px rgba(48,55,55,.07), 0 18px 40px rgba(48,55,55,.17);
+      transition: transform .3s ease, box-shadow .3s ease;
     }
-    .work-project:nth-of-type(1) .work-project-carousel { transform: rotate(-.35deg); }
-    .work-project:nth-of-type(2) .work-project-carousel { transform: rotate(.35deg); }
-    .work-project-carousel:hover,
-    .work-project-carousel:focus-within { transform: rotate(0); filter: drop-shadow(0 18px 24px rgba(48,55,55,.18)); }
-    .personal-card { overflow: hidden; }
+    .work-project-carousel .carousel-media.cad,
+    .work-project-carousel .carousel-media.dashboard { padding: 26px; background: var(--card); }
+    .work-project-carousel .carousel-stage:hover .carousel-media,
+    .work-project-carousel .carousel-stage:focus-within .carousel-media {
+      transform: translateY(-4px);
+      box-shadow: 0 3px 6px rgba(48,55,55,.08), 0 26px 56px rgba(48,55,55,.22);
+    }
+    .work-project-carousel .carousel-caption {
+      min-height: 58px; padding: 14px 8px 4px; text-align: center;
+      background: transparent; border-top: 0;
+    }
+    .work-project-carousel .carousel-controls { background: transparent; border-top: 0; justify-content: center; }
+    /* ---- grid mode (Method Effects "View all") ---- */
+    .work-project.is-open .work-project-grid { grid-template-columns: 1fr; }
+    .work-project.is-open .work-project-copy { position: static; }
+    .work-project-carousel.is-grid .carousel-stage {
+      display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px 20px; overflow: visible;
+    }
+    .work-project-carousel.is-grid .carousel-slide { animation: tileIn .42s cubic-bezier(.22,1,.36,1) both; }
+    .work-project-carousel.is-grid .carousel-slide:nth-child(2){animation-delay:.03s}
+    .work-project-carousel.is-grid .carousel-slide:nth-child(3){animation-delay:.06s}
+    .work-project-carousel.is-grid .carousel-slide:nth-child(4){animation-delay:.09s}
+    .work-project-carousel.is-grid .carousel-slide:nth-child(5){animation-delay:.12s}
+    .work-project-carousel.is-grid .carousel-slide:nth-child(6){animation-delay:.15s}
+    .work-project-carousel.is-grid .carousel-slide:nth-child(7){animation-delay:.18s}
+    .work-project-carousel.is-grid .carousel-slide:nth-child(8){animation-delay:.21s}
+    .work-project-carousel.is-grid .carousel-slide:nth-child(9){animation-delay:.24s}
+    .work-project-carousel.is-grid .carousel-slide:nth-child(10){animation-delay:.27s}
+    .work-project-carousel.is-grid .carousel-slide:nth-child(11){animation-delay:.30s}
+    .work-project-carousel.is-grid .carousel-slide:nth-child(12){animation-delay:.33s}
+    @keyframes tileIn { from { opacity:0; transform: translateY(14px) scale(.96); } to { opacity:1; transform:none; } }
+    .work-project-carousel.is-grid .carousel-media {
+      height: 200px; border-radius: 16px; cursor: pointer;
+      box-shadow: 0 1px 3px rgba(48,55,55,.06), 0 10px 22px rgba(48,55,55,.13);
+    }
+    .work-project-carousel.is-grid .carousel-slide::before { height: 236px; }
+    .work-project-carousel.is-grid .carousel-media.cad { padding: 14px; }
+    .work-project-carousel.is-grid .carousel-media:hover { transform: translateY(-5px); }
+    .work-project-carousel.is-grid .carousel-caption { min-height: 0; padding: 9px 4px 0; font-size: 0; }
+    .work-project-carousel.is-grid .carousel-caption b { font-size: 9px; letter-spacing: .07em; }
+    @media(max-width:1040px){ .work-project-carousel.is-grid .carousel-stage { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+    @media(max-width:620px){
+      .work-project-carousel.is-grid .carousel-stage { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px 12px; }
+      .work-project-carousel.is-grid .carousel-media { height: 128px; border-radius: 12px; }
+      .work-project-carousel.is-grid .carousel-slide::before { top: -10px; left: -10px; width: calc(100% + 20px); height: 148px; }
+      .work-project-carousel .carousel-stage { padding: 16px 12px 4px; }
+    }
     .item-dialog {
       width: min(900px, calc(100% - 32px)); max-height: 90vh; margin: auto; padding: 0;
       color: var(--ink); background: var(--paper); border: 1px solid var(--ink);
@@ -800,9 +866,9 @@
       <div class="wrap hero-grid">
         <div>
           <!-- content:home-hero:start -->
-          <div class="hero-kicker">A personal brand · building with AI in public</div>
-          <h1>What can one person <span class="accent">build with AI?</span></h1>
-          <p class="hero-sub">Olimazi is an ongoing answer: practical experiments shaped by experience in operations, product work, and building Method Effects. It presents the work, what I learn, and what still needs refining—not a tools platform or a finished product company.</p>
+          <div class="hero-kicker">Presenting my experiences</div>
+          <h1>Sharing vision <span class="accent">aided by AI?</span></h1>
+          <p class="hero-sub">Olimazi is an ongoing growing personal brand that&#x27;s meant to share past experiences along with builds from a non-technical scope. Using AI as a tool to express human elements and hopefully express missing context from getting &quot;in it&quot;.</p>
           <a class="btn" href="#main-work">See the main work <span class="arr" aria-hidden="true">→</span></a>
           <!-- content:home-hero:end -->
         </div>
@@ -848,72 +914,72 @@
 
                 <!-- METHOD EFFECTS SLIDE 03 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media cad" src="olimazi-assets/method-rs3-cad-render.png" alt="CAD render of the one-piece Method Effects RS3 splitter crossing the front fascia">
+                  <img class="carousel-media cad" src="olimazi-assets/method-rs3-cad-render.png" decoding="async" alt="CAD render of the one-piece Method Effects RS3 splitter crossing the front fascia">
                   <figcaption class="carousel-caption"><b>RS3 CAD render</b>CAD render by <a href="https://www.instagram.com/the_kevinator/" target="_blank" rel="noopener">Kevin Grant (@the_kevinator)</a> for the RS3 splitter: a true one-off, concept to reality—a single part crossing the front fascia for maximum contact.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 04 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media" src="olimazi-assets/method-v1-aero-start.jpg" alt="Early fabrication work for the Method Effects V1 and V2 center aero support">
+                  <img class="carousel-media" src="olimazi-assets/method-v1-aero-start.jpg" decoding="async" alt="Early fabrication work for the Method Effects V1 and V2 center aero support">
                   <figcaption class="carousel-caption"><b>Mocking Concept: Splitter support struts</b>The beginnings of the V1/V2 comparison: added integrity to center aero, increasing sturdiness and longevity. Designed to modify only the existing aftermarket part, never the OEM fascia.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 05 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media cad" src="olimazi-assets/method-v1-v2-comparison.png" alt="Dimension layout comparing V1 and V2 support mounting struts for the S3 splitter">
+                  <img class="carousel-media cad" src="olimazi-assets/method-v1-v2-comparison.png" decoding="async" alt="Dimension layout comparing V1 and V2 support mounting struts for the S3 splitter">
                   <figcaption class="carousel-caption"><b>Support strut dimensions</b>Dimension layout of a support mounting strut for the S3 splitter by <a href="https://www.instagram.com/the_kevinator/" target="_blank" rel="noopener">Kevin Grant</a>; it added integrity to the center aero.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 06 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media" src="olimazi-assets/method-rubber-contact-points.jpg" alt="Rubber contact points and cotter-pin hardware for the Method Effects splitter">
+                  <img class="carousel-media" src="olimazi-assets/method-rubber-contact-points.jpg" decoding="async" alt="Rubber contact points and cotter-pin hardware for the Method Effects splitter">
                   <figcaption class="carousel-caption"><b>Protected contact points</b>60-durometer rubber contact points protecting painted surfaces; a single bolt with a cotter-pin fail-safe. This was an additional feature that was scoped to possibly be universal for other brands.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 07 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media cad" src="olimazi-assets/method-multipiece-sketch.jpg" alt="Advanced sketch for a three-piece Method Effects splitter design">
+                  <img class="carousel-media cad" src="olimazi-assets/method-multipiece-sketch.jpg" decoding="async" alt="Advanced sketch for a three-piece Method Effects splitter design">
                   <figcaption class="carousel-caption"><b>Multipiece study</b>An advanced sketch from the owner’s rough render, by <a href="https://www.instagram.com/the_kevinator/" target="_blank" rel="noopener">Kevin Grant (@the_kevinator)</a>. Early planning that did not make launch: a one-of-a-kind design flow whose three-piece construction could reduce shipping costs.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 08 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media" src="olimazi-assets/method-abs-coating.jpg" alt="Custom bracing jig holding Method Effects aero parts in shape during paint curing">
+                  <img class="carousel-media" src="olimazi-assets/method-abs-coating.jpg" decoding="async" alt="Custom bracing jig holding Method Effects aero parts in shape during paint curing">
                   <figcaption class="carousel-caption"><b>ABS finishing</b>Custom solution to brace aero parts, maintaining form as the parts: one of 8 to a rack. 'baked' to cure paint. Finishing by So-Cal vendor <a href="https://shmaze.com/" target="_blank" rel="noopener">Shmaze</a>.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 09 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media" src="olimazi-assets/method-tooling-buck.jpg" alt="Composite tooling buck for the Method Effects splitter">
+                  <img class="carousel-media" src="olimazi-assets/method-tooling-buck.jpg" decoding="async" alt="Composite tooling buck for the Method Effects splitter">
                   <figcaption class="carousel-caption"><b>Tooling buck</b><a href="https://akra-plastics.com/" target="_blank" rel="noopener">Akra Plastics</a> — So-Cal / Ontario CA manufacturer. A straightforward outfit to work with. Second version (refined crossing sections) 'Buck' for the RS3 splitter.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 10 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media" src="olimazi-assets/method-garage-front.jpg" alt="Dark Audi S3 centered in a parking garage">
+                  <img class="carousel-media" src="olimazi-assets/method-garage-front.jpg" decoding="async" alt="Dark Audi S3 centered in a parking garage">
                   <figcaption class="carousel-caption"><b>Brand archive</b>Professional photography: quality in mind.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 11 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media" src="olimazi-assets/method-splitter-mural.jpg" alt="Blue Audi RS3 in front of a mural">
+                  <img class="carousel-media" src="olimazi-assets/method-splitter-mural.jpg" decoding="async" alt="Blue Audi RS3 in front of a mural">
                   <figcaption class="carousel-caption"><b>Free Marketing</b>An example of leveraging free marketing: being tagged in posts.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 12 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media" src="olimazi-assets/method-japan-first-order.jpg" alt="Eight Method Effects splitters prepared for the brand’s first order to Japan">
+                  <img class="carousel-media" src="olimazi-assets/method-japan-first-order.jpg" decoding="async" alt="Eight Method Effects splitters prepared for the brand’s first order to Japan">
                   <figcaption class="carousel-caption"><b>First order / first to market: Japan</b>The logistics: eight advance purchases to Japan—the first order for the brand—via <a href="https://hitotsuyamagmbh.shop-pro.jp/" target="_blank" rel="noopener">Hitotsuyama GmbH shop</a>.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 13 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
-                  <img class="carousel-media cad" src="olimazi-assets/method-japan-order-support.png" alt="Supporting documentation for the first Method Effects order to Japan">
+                  <img class="carousel-media cad" src="olimazi-assets/method-japan-order-support.png" decoding="async" alt="Supporting documentation for the first Method Effects order to Japan">
                   <figcaption class="carousel-caption"><b>Teaser post before launch</b>Supporting record for the first eight advance purchases shipped to Japan.</figcaption>
                 </figure>
 
               </div>
-              <div class="carousel-controls"><button type="button" data-prev aria-label="Previous Method Effects image">← Previous</button><span class="carousel-status" data-status aria-live="polite">1 / 12</span><button type="button" data-next aria-label="Next Method Effects image">Next →</button></div>
+              <div class="carousel-controls"><button type="button" data-prev aria-label="Previous Method Effects image">← Previous</button><span class="carousel-status" data-status aria-live="polite">1 / 12</span><button type="button" data-next aria-label="Next Method Effects image">Next →</button><button type="button" data-grid-toggle aria-expanded="false" aria-label="View all Method Effects images">View all</button></div>
             </div>
             <div class="work-project-copy">
               <div class="proof-status"><i></i> Previous work · details being added</div>
@@ -962,11 +1028,11 @@
                 <!-- FINANCE TRACKER SLIDE 01 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide><img class="carousel-media dashboard" src="olimazi-assets/rental-manager-organizer.png" alt="Rental Organizer page — filing flags and preparer card, sample property"><figcaption class="carousel-caption"><b>Rental Organizer</b>Trust layer to show what the workbook believes about addresses, contacts, and filing status so the owner can confirm it before trusting the numbers. Built in the spirit of a CPA client organizer, ready to hand to a preparer.</figcaption></figure>
                 <!-- FINANCE TRACKER SLIDE 02 — Edit the image, alt text, and caption in this block. -->
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-expenses.jpg" alt="Redacted Schedule E expense detail"><figcaption class="carousel-caption"><b>Expense detail</b>A running list of attention items, coded, working back and forth with an engine under the hood. Instead of diving deep into an Excel file, making for easier tracing and updating.</figcaption></figure>
+                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-expenses.jpg" decoding="async" alt="Redacted Schedule E expense detail"><figcaption class="carousel-caption"><b>Expense detail</b>A running list of attention items, coded, working back and forth with an engine under the hood. Instead of diving deep into an Excel file, making for easier tracing and updating.</figcaption></figure>
                 <!-- FINANCE TRACKER SLIDE 03 — Edit the image, alt text, and caption in this block. -->
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-open-items.jpg" alt="Redacted Schedule E open item queue"><figcaption class="carousel-caption"><b>Open items</b>The system considers PY activity, creating an expected drip of information or truth going forward. It is built with alerts for what might be missing and for deadlines.</figcaption></figure>
+                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-open-items.jpg" decoding="async" alt="Redacted Schedule E open item queue"><figcaption class="carousel-caption"><b>Open items</b>The system considers PY activity, creating an expected drip of information or truth going forward. It is built with alerts for what might be missing and for deadlines.</figcaption></figure>
                 <!-- FINANCE TRACKER SLIDE 04 — Edit the image, alt text, and caption in this block. -->
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/rental-manager-management.png" alt="Management page — tenant issue board and documents, sample property"><figcaption class="carousel-caption"><b>Management view</b>Feature to view for the day-to-day side of the same records: tenant issues, vendors, and documents with expiry warnings. It keeps that work next to the books instead of in a separate app.</figcaption></figure>
+                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/rental-manager-management.png" decoding="async" alt="Management page — tenant issue board and documents, sample property"><figcaption class="carousel-caption"><b>Management view</b>Feature to view for the day-to-day side of the same records: tenant issues, vendors, and documents with expiry warnings. It keeps that work next to the books instead of in a separate app.</figcaption></figure>
               </div>
               <div class="carousel-controls"><button type="button" data-prev aria-label="Previous Schedule E view">← Previous</button><span class="carousel-status" data-status aria-live="polite">1 / 4</span><button type="button" data-next aria-label="Next Schedule E view">Next →</button></div>
             </div>
@@ -982,8 +1048,15 @@
       <div class="wrap">
         <div class="sec-head"><span class="sec-label">Learning in public</span><span class="sec-index">02 / 03</span></div>
         <div class="method-grid">
-          <h2 class="method-statement">Context first.<br><span>Then the tool.</span></h2>
-          <p class="method-lede">I find the missing context, build around real constraints, and keep the handoff between planning, execution, and review visible.</p>
+          <h2 class="method-statement">I reached for tools first.<br><span>Context came later.</span></h2>
+          <ul class="method-lede">
+            <li>Chasing every new tool is window-shopping — pick one hub and plug everything into it.</li>
+            <li>Nothing is hands-off from day one — you earn automation by working one system in absurd detail.</li>
+            <li>More agents is more output, not more value — measure impact, not volume.</li>
+            <li>A hundred downloaded skills is testing debt — building one against your own context is the point.</li>
+            <li>There is no autopilot income — AI fulfills the work; it does not market it.</li>
+          </ul>
+          <p class="method-credit">Framed from <a href="https://www.youtube.com/watch?v=yGRtK08BdIs" target="_blank" rel="noopener">Austin Marchese ↗</a></p>
         </div>
         <div class="section-deck carousel" data-carousel tabindex="0" aria-label="Learning in public method" aria-roledescription="carousel">
           <div class="carousel-stage">
@@ -1025,8 +1098,8 @@
     <section class="section" id="mind">
       <div class="wrap">
         <div class="sec-head"><span class="sec-label">Current state of mind</span><span class="sec-index">03 / 03</span></div>
-        <h2 class="section-title">Scattered, connected, and hopefully improving.</h2>
-        <p class="section-note">My Obsidian vault holds working notes, experiments, useful connections, and loose ends. It is not a finished knowledge system; I’m still learning what deserves structure and what is only noise.</p>
+        <h2 class="section-title">A record kept while the work is still in progress.</h2>
+        <p class="section-note">My Obsidian vault holds working notes, experiments, useful connections, and loose ends. Everything here is caught mid-process — the sources I followed, the parts that worked, and the parts I abandoned. The unfinished state is the record, not a gap in it.</p>
         <div class="mind-graph">
 <svg class="vault-graph" viewBox="0 0 1080 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Current, evolving knowledge graph of the Olimazi vault">
 <g stroke="var(--ink)" stroke-opacity="0.16" stroke-width="1">
@@ -1291,8 +1364,8 @@
 <circle cx="481.6" cy="70.6" r="3.0" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="606.5" cy="63.2" r="3.0" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="500.9" cy="30.0" r="3.0" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="531.8" cy="546.0" r="3.2" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="797.2" cy="432.7" r="3.2" fill="var(--ink-muted)" fill-opacity="0.88"/>
+<circle cx="531.8" cy="546.0" r="3.2" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="797.2" cy="432.7" r="3.2" fill="var(--red)" fill-opacity="0.88"/>
 <circle cx="292.5" cy="553.4" r="3.2" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="350.4" cy="531.2" r="3.2" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="253.7" cy="525.6" r="3.2" fill="var(--ink-muted)" fill-opacity="0.88"/>
@@ -1331,60 +1404,60 @@
 <circle cx="371.2" cy="94.9" r="3.2" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="728.6" cy="91.3" r="3.2" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="542.7" cy="42.7" r="3.2" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="537.4" cy="590.0" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="664.9" cy="582.6" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="621.2" cy="581.0" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="560.1" cy="569.0" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="516.3" cy="568.7" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="687.0" cy="561.7" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="643.5" cy="560.0" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="487.0" cy="550.7" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="710.4" cy="541.2" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="666.7" cy="539.5" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="502.2" cy="527.8" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="545.0" cy="522.9" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="691.2" cy="519.4" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="647.8" cy="517.1" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="597.1" cy="509.8" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="514.7" cy="504.6" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="557.3" cy="499.5" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="675.2" cy="496.8" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="591.9" cy="484.7" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="393.7" cy="410.3" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="350.0" cy="409.4" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="313.5" cy="395.7" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="416.9" cy="389.8" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="373.1" cy="388.9" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="336.9" cy="375.3" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="293.3" cy="374.3" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="338.7" cy="351.0" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="295.2" cy="350.1" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="320.9" cy="328.9" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="431.2" cy="328.3" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="397.2" cy="313.0" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="353.5" cy="312.7" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="847.5" cy="489.5" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="840.9" cy="432.3" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="877.4" cy="418.8" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="571.8" cy="417.4" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="895.8" cy="396.8" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="872.4" cy="376.3" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="254.9" cy="336.1" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="138.1" cy="329.7" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="975.9" cy="318.1" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="277.0" cy="314.1" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="115.4" cy="304.0" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="125.9" cy="279.7" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="208.6" cy="269.2" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="162.0" cy="265.9" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="1045.4" cy="264.7" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="42.2" cy="255.0" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="1007.0" cy="253.1" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="164.2" cy="219.9" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="222.5" cy="210.1" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="114.2" cy="187.2" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="586.6" cy="174.9" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="181.9" cy="127.7" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
+<circle cx="537.4" cy="590.0" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="664.9" cy="582.6" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="621.2" cy="581.0" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="560.1" cy="569.0" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="516.3" cy="568.7" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="687.0" cy="561.7" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="643.5" cy="560.0" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="487.0" cy="550.7" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="710.4" cy="541.2" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="666.7" cy="539.5" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="502.2" cy="527.8" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="545.0" cy="522.9" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="691.2" cy="519.4" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="647.8" cy="517.1" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="597.1" cy="509.8" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="514.7" cy="504.6" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="557.3" cy="499.5" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="675.2" cy="496.8" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="591.9" cy="484.7" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="393.7" cy="410.3" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="350.0" cy="409.4" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="313.5" cy="395.7" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="416.9" cy="389.8" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="373.1" cy="388.9" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="336.9" cy="375.3" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="293.3" cy="374.3" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="338.7" cy="351.0" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="295.2" cy="350.1" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="320.9" cy="328.9" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="431.2" cy="328.3" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="397.2" cy="313.0" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="353.5" cy="312.7" r="3.4" fill="#99621E" fill-opacity="0.88"/>
+<circle cx="847.5" cy="489.5" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="840.9" cy="432.3" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="877.4" cy="418.8" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="571.8" cy="417.4" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="895.8" cy="396.8" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="872.4" cy="376.3" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="254.9" cy="336.1" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="138.1" cy="329.7" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="975.9" cy="318.1" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="277.0" cy="314.1" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="115.4" cy="304.0" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="125.9" cy="279.7" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="208.6" cy="269.2" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="162.0" cy="265.9" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="1045.4" cy="264.7" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="42.2" cy="255.0" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="1007.0" cy="253.1" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="164.2" cy="219.9" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="222.5" cy="210.1" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="114.2" cy="187.2" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="586.6" cy="174.9" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="181.9" cy="127.7" r="3.4" fill="var(--red)" fill-opacity="0.88"/>
 <circle cx="198.9" cy="537.0" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="254.0" cy="484.2" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="206.7" cy="463.2" r="3.4" fill="var(--ink-muted)" fill-opacity="0.88"/>
@@ -1414,16 +1487,16 @@
 <circle cx="477.9" cy="163.8" r="3.8" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="552.6" cy="142.7" r="3.8" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="524.1" cy="84.8" r="4.0" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="400.5" cy="190.2" r="4.2" fill="var(--olive)" fill-opacity="0.88"/>
+<circle cx="400.5" cy="190.2" r="4.2" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="467.9" cy="104.1" r="4.2" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="538.4" cy="112.9" r="4.9" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="704.4" cy="253.1" r="5.7" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="545.4" cy="193.9" r="5.7" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="355.5" cy="167.8" r="6.3" fill="var(--red)" fill-opacity="0.88"/>
-<circle cx="629.8" cy="309.5" r="6.7" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="355.5" cy="167.8" r="6.3" fill="var(--ink-muted)" fill-opacity="0.88"/>
+<circle cx="629.8" cy="309.5" r="6.7" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="669.6" cy="153.7" r="6.9" fill="var(--ink-muted)" fill-opacity="0.88"/>
-<circle cx="597.6" cy="541.1" r="7.6" fill="var(--red)" fill-opacity="0.88"/>
-<circle cx="388.9" cy="355.0" r="7.8" fill="var(--red)" fill-opacity="0.88"/>
+<circle cx="597.6" cy="541.1" r="7.6" fill="var(--ink-muted)" fill-opacity="0.88"/>
+<circle cx="388.9" cy="355.0" r="7.8" fill="var(--ink-muted)" fill-opacity="0.88"/>
 <circle cx="528.6" cy="170.5" r="9.0" fill="var(--ink-muted)" fill-opacity="0.88"/>
 </g>
 <g font-family="IBM Plex Mono, Consolas, monospace" font-size="11" fill="var(--ink-muted)">
@@ -1445,16 +1518,15 @@
 </svg>
         </div>
         <div class="graph-legend" aria-label="Vault graph categories">
-          <span><i class="graph-dot" style="background:var(--olive)"></i>Schedule E &amp; C</span>
-          <span><i class="graph-dot" style="background:var(--red)"></i>Olimazi design</span>
-          <span><i class="graph-dot" style="background:#99621E"></i>Method Effects</span>
-          <span><i class="graph-dot" style="background:var(--ink-muted)"></i>Everything else</span>
+          <span><i class="graph-dot" style="background:var(--ink-muted)"></i>Notes</span>
+          <span><i class="graph-dot" style="background:#99621E"></i>Files and images</span>
+          <span><i class="graph-dot" style="background:var(--red)"></i>Tags</span>
         </div>
         <div class="learning-flow" aria-hidden="true">↓</div>
         <div class="learning-samples" aria-labelledby="tested-title">
           <div class="learning-intro">
             <h3 id="tested-title">Small subjects, useful practice.</h3>
-            <p>Interests I already care about become low-stakes tests for research, source tracking, drafting, and eventual publishing. They matter to the learning, but they are not the headline.</p>
+            <p>Interests I already care about are where I practice research, source tracking, drafting, and publishing. A scent and a custard pie are small enough to get wrong cheaply — and how I work on them is how I work on everything else.</p>
           </div>
           <!-- content:mind:end -->
           <!-- content:library-feature:start -->
@@ -1468,8 +1540,10 @@
               <div class="personal-body"><span class="chip">Recipe</span><h3>Bougatsa — Greek custard pie</h3><p>Part of learning classic custard techniques, controlling ingredients, and making food worth sharing with family.</p><button class="personal-open" type="button" onclick="openItem('bougatsa-dialog')">Open notes and recipe →</button></div>
             </article>
           </div>
-          <a class="library-link" href="library.html">More in the library →</a>
           <!-- content:library-feature:end -->
+          <!-- content:mind-tail:start -->
+          <a class="library-link" href="library.html">More in the library →</a>
+          <!-- content:mind-tail:end -->
         </div>
       </div>
     </section>
@@ -1507,8 +1581,8 @@
           <p>I love desserts, but making them myself gives me more control over sugar and ingredients while teaching me the techniques behind them. Bougatsa is part of a larger goal: understand the three primary custard styles well enough to make them deliberately rather than simply follow instructions.</p>
           <h3>Why it belongs here</h3>
           <p>Recipes are also a way to share something with family. They make a useful test for saving the original source, recording substitutions, drafting a post, and keeping the personal reason intact instead of producing generic food content.</p>
-          <h3>Next additions</h3>
-          <ul><li>Technique notes and changes from the first attempt.</li><li>A small custard-learning series.</li><li>Draft and published Facebook or Instagram posts.</li></ul>
+          <h3>Galaktoboureko is King</h3>
+          <ul><li>I tried this again to maintain the slightly lighter filling, but did add a quick syrup similar to galaktoboureko to set it off more.</li><li>A small custard-learning series.</li><li>Draft and published Facebook or Instagram posts.</li></ul>
           <div class="dialog-links">
             <a href="https://miakouppa.com/bougatsa/#recipe" target="_blank" rel="noopener">Original Mia Kouppa recipe ↗</a>
             <a href="mailto:hello@olimazi.online?subject=Olimazi%20comment%3A%20Bougatsa">Comment privately →</a>
@@ -1608,14 +1682,46 @@
       carousel.querySelector("[data-prev]")?.addEventListener("click", () => show(index - 1));
       carousel.querySelector("[data-next]")?.addEventListener("click", () => show(index + 1));
       carousel.addEventListener("keydown", (event) => {
+        if (isGrid()) return;
         if (event.key === "ArrowLeft") { event.preventDefault(); show(index - 1); }
         if (event.key === "ArrowRight") { event.preventDefault(); show(index + 1); }
       });
 
+      const gridToggle = carousel.querySelector("[data-grid-toggle]");
+      const isGrid = () => carousel.classList.contains("is-grid");
+      if (gridToggle) {
+        const project = carousel.closest(".work-project");
+        const stepButtons = carousel.querySelectorAll("[data-prev],[data-next]");
+        const setGrid = (on) => {
+          carousel.classList.toggle("is-grid", on);
+          project?.classList.toggle("is-open", on);
+          gridToggle.textContent = on ? "Show one" : "View all";
+          gridToggle.setAttribute("aria-expanded", String(on));
+          stepButtons.forEach((button) => { button.disabled = on; });
+          if (on) {
+            slides.forEach((slide) => { slide.hidden = false; slide.removeAttribute("aria-hidden"); });
+            if (status) status.textContent = `${slides.length} images`;
+          } else {
+            show(index);
+          }
+        };
+        gridToggle.addEventListener("click", () => {
+          const opening = !isGrid();
+          setGrid(opening);
+          if (opening) carousel.scrollIntoView({ block: "start", behavior: "smooth" });
+        });
+        slides.forEach((slide, i) => slide.addEventListener("click", () => {
+          if (!isGrid()) return;
+          index = i;
+          setGrid(false);
+          carousel.scrollIntoView({ block: "center", behavior: "smooth" });
+        }));
+      }
+
       slides.forEach((slide) => slide.querySelectorAll("img").forEach((image) => { image.draggable = false; }));
 
       stage?.addEventListener("pointerdown", (event) => {
-        if (!event.isPrimary || event.pointerType !== "touch") return;
+        if (!event.isPrimary || event.pointerType !== "touch" || isGrid()) return;
         pointerId = event.pointerId;
         startX = lastX = event.clientX;
         startY = lastY = event.clientY;

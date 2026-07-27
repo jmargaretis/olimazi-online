@@ -29,6 +29,16 @@ class SectionSpec:
 
 
 SECTION_SPECS = {
+    "home-hero": SectionSpec(
+        (
+            "Kicker",
+            "Headline Lead",
+            "Headline Accent",
+            "Sub",
+            "CTA Label",
+            None,  # the fixed arrow glyph
+        )
+    ),
     "hero-spec": SectionSpec(
         (
             "Name Label",
@@ -67,7 +77,7 @@ SECTION_SPECS = {
             "Method Slide 12 Title", "Method Slide 12 Caption Lead",
             "Method Slide 12 Credit Label", None,
             "Method Slide 13 Title", "Method Slide 13 Caption",
-            None, None, None,
+            None, None, None, None,
             "Method Status", "Method Heading", "Method Body 1", "Method Body 2",
             "Method Period Label", "Method Period",
             "Method Built Label", "Method Built",
@@ -90,7 +100,9 @@ SECTION_SPECS = {
     ),
     "method": SectionSpec(
         (
-            "Section Label", None, "Heading Lead", "Heading Accent", "Lede",
+            "Section Label", None, "Heading Lead", "Heading Accent",
+            "Lie 1", "Lie 2", "Lie 3", "Lie 4", "Lie 5",
+            None, "Credit Name",
             "Slide 01 Label", "Slide 01 Title", "Slide 01 Body",
             "Slide 02 Label", "Slide 02 Title", "Slide 02 Body",
             "Slide 03 Label", "Slide 03 Title", "Slide 03 Body",
@@ -103,9 +115,13 @@ SECTION_SPECS = {
             "Section Label", None, "Heading", "Intro",
             None, None, None, None, None, None, None, None, None, None,
             None, None, None, None,
-            "Legend Schedule E and C", "Legend Olimazi Design",
-            "Legend Method Effects", "Legend Everything Else", None,
+            "Legend Notes", "Legend Files", "Legend Tags", None,
             "Practice Heading", "Practice Intro",
+        )
+    ),
+    "mind-tail": SectionSpec(
+        (
+            "Library CTA",
         )
     ),
     "dialogs": SectionSpec(

@@ -226,6 +226,7 @@
 
     <section class="library-section" aria-label="Library entries">
       <div class="wrap">
+        <!-- content:library:start -->
         <div class="personal-grid">
           <!-- LIBRARY ENTRY 01 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
@@ -236,7 +237,7 @@
               <span class="chip">Cooking</span>
               <h2>Ribeye</h2>
               <p>The dry-brine process and finished result, with notes from the cook.</p>
-              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('ribeye-dialog')">Open notes →</button>
+              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('ribeye-dialog')">Open notes and sources →</button>
             </div>
           </article>
 
@@ -247,8 +248,8 @@
             </div>
             <div class="personal-body">
               <span class="chip">Automotive</span>
-              <h2>'67 classic Bug</h2>
-              <p>Restored by the owner and shared simply because it's worth sharing.</p>
+              <h2>'67 classic Bug: Father's first car since</h2>
+              <p>Body off pan restoration. All original body and bumpers: Genuine Fuchs</p>
               <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('bug-dialog')">Open notes →</button>
             </div>
           </article>
@@ -256,12 +257,12 @@
           <!-- LIBRARY ENTRY 03 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
-              <img src="olimazi-assets/library-art-sketch.jpg" alt="Owner's hand-drawn character artwork">
+              <img src="olimazi-assets/library-art-sketch.jpg" alt="&quot;Humina&quot; branding from days past.">
             </div>
             <div class="personal-body">
               <span class="chip">Art</span>
               <h2>Art thread</h2>
-              <p>A sample of the owner's own art.</p>
+              <p>Sample of Art taken to Vector</p>
               <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('art-thread-dialog')">Open notes →</button>
             </div>
           </article>
@@ -269,7 +270,7 @@
           <!-- LIBRARY ENTRY 04 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
-              <img src="olimazi-assets/library-brothers-truck.jpg" alt="Owner's brother's customized pickup truck">
+              <img src="olimazi-assets/library-brothers-truck.jpg" alt="&quot;Cool Dad's&quot; Truck">
             </div>
             <div class="personal-body">
               <span class="chip">Automotive</span>
@@ -292,9 +293,11 @@
             </div>
           </article>
         </div>
+        <!-- content:library:end -->
       </div>
     </section>
 
+    <!-- content:library-dialogs:start -->
     <!-- LIBRARY DIALOG 01 — Detailed notes for the Ribeye entry. -->
     <dialog class="item-dialog" id="ribeye-dialog" aria-labelledby="ribeye-title">
       <div class="dialog-grid">
@@ -303,21 +306,24 @@
           <form method="dialog"><button class="dialog-close" aria-label="Close ribeye notes">✕</button></form>
           <span class="chip">Cooking notes</span>
           <h2 id="ribeye-title">Ribeye</h2>
-          <p>Following <a href="https://youtu.be/lVcTvHTn6Dw" target="_blank" rel="noopener">this YouTube video</a>: “funny guy to watch; the drying/brining was definitely a home run!”</p>
+          <p>Followed the video below: “funny guy to watch; the drying/brining was definitely a home run!”</p>
           <p>“Was a bit harder than I wanted it to be—should've known a bone-in ribeye is much harder to get even temps.”</p>
+          <div class="dialog-links">
+            <a href="https://youtu.be/lVcTvHTn6Dw" target="_blank" rel="noopener">The dry-brine video I followed ↗</a>
+          </div>
         </div>
       </div>
     </dialog>
 
-    <!-- LIBRARY DIALOG 02 — Detailed notes for the '67 Bug entry. -->
+    <!-- LIBRARY DIALOG 02 — Detailed notes for the '67 Bug: Father's first car since entry. -->
     <dialog class="item-dialog" id="bug-dialog" aria-labelledby="bug-title">
       <div class="dialog-grid">
         <img src="olimazi-assets/library-67-bug.jpg" alt="White 1967 Volkswagen Beetle restored by the owner">
         <div class="dialog-body">
           <form method="dialog"><button class="dialog-close" aria-label="Close classic Bug notes">✕</button></form>
           <span class="chip">Personal archive</span>
-          <h2 id="bug-title">'67 classic Bug</h2>
-          <p>Personal-use '67 classic Bug, restored by the owner—shared simply because it's worth sharing.</p>
+          <h2 id="bug-title">'67 classic Bug: Father's first car since</h2>
+          <p>Rebuilt around early 2000s</p>
         </div>
       </div>
     </dialog>
@@ -328,10 +334,12 @@
         <img src="olimazi-assets/library-art-vector.jpg" alt="Owner's character artwork converted from sketch to vector">
         <div class="dialog-body">
           <form method="dialog"><button class="dialog-close" aria-label="Close Art thread notes">✕</button></form>
-          <span class="chip">Art notes</span>
+          <span class="chip">Art archive</span>
           <h2 id="art-thread-title">Art thread</h2>
-          <p>A sample of the owner's own art.</p>
+          <p>Raw Art &gt; Vectored </p>
           <p>Same art thread: taken from sketch to vector the old-school way.</p>
+          <h3>How it was made</h3>
+          <p>Was a colorful abstract painting that I traced with a projector, to turn black and white to later vector. Old school. Trying not to date myself.</p>
         </div>
       </div>
     </dialog>
@@ -342,9 +350,11 @@
         <img src="olimazi-assets/library-brothers-truck.jpg" alt="Owner's brother's customized pickup truck">
         <div class="dialog-body">
           <form method="dialog"><button class="dialog-close" aria-label="Close truck notes">✕</button></form>
-          <span class="chip">Automotive notes</span>
+          <span class="chip">Personal Vehicle</span>
           <h2 id="truck-title">My brother's truck</h2>
-          <p>“My brother's truck.” More pictures and a parts-added detail coming later.</p>
+          <p>Fox 2.0 shocks: Some overly aggressive offset wheels: Sub upgrade in decision</p>
+          <h3>Parts and specs</h3>
+          <ul><li>Fuel Off-Road Covert Wheels: Matte Black 18x9 et -1</li><li>Fox 2.0 Performance Series shocks on all 4 corners</li><li>Tires : description needed</li><li>10" JBL w3 wedge</li></ul>
         </div>
       </div>
     </dialog>
@@ -359,9 +369,12 @@
           <h2 id="restaurant-title">Restaurant Operations</h2>
           <p>From restaurant operations years: represents chaos and the ability to confront and manage high-stress environments.</p>
           <p>Restaurant operations, held for future context.</p>
+          <h3>What it taught me</h3>
+          <p>Long time work with concepts under Brinker International &amp; LeDuff America. It's a brutal industry, but I learned a lot, like how operations can run smoothly vs terribly. Most importantly, that management style and structure are paramount in deciding personal sanity.</p>
         </div>
       </div>
     </dialog>
+    <!-- content:library-dialogs:end -->
   </main>
 
   <footer class="footer">
