@@ -191,6 +191,37 @@
     .section-note { max-width: 620px; margin-bottom: 44px; color: var(--ink-muted); font-size: 15px; line-height: 1.7; }
     .mind-graph { margin-top: 10px; }
     .mind-graph svg { display: block; width: 100%; height: auto; }
+    /* ---- vault graph: one-shot reveal + hover focus (classes applied by script) ---- */
+    .vault-graph line, .vault-graph circle, .vault-graph text {
+      transition: stroke-opacity .22s, fill-opacity .22s, opacity .22s, r .22s;
+    }
+    .vault-graph circle { transform-box: fill-box; transform-origin: center; }
+    .vault-graph.vg-armed line { stroke-dashoffset: var(--len); }
+    .vault-graph.vg-armed circle { opacity: 0; transform: scale(.2); }
+    .vault-graph.vg-armed text { opacity: 0; }
+    .vault-graph.vg-run line {
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset .9s cubic-bezier(.4,0,.2,1) var(--d);
+    }
+    .vault-graph.vg-run circle {
+      opacity: 1; transform: scale(1);
+      transition: opacity .4s var(--d), transform .5s cubic-bezier(.2,1.5,.4,1) var(--d);
+    }
+    .vault-graph.vg-run text { opacity: 1; transition: opacity .5s var(--d); }
+    .vault-graph .vg-hub { filter: drop-shadow(0 0 5px var(--red)); }
+    .vault-graph.vg-focus line { stroke-opacity: .04; }
+    .vault-graph.vg-focus circle { fill-opacity: .16; }
+    .vault-graph.vg-focus text { opacity: .18; }
+    .vault-graph.vg-focus line.vg-hot { stroke: var(--red-deep); stroke-opacity: .85; }
+    .vault-graph.vg-focus circle.vg-hot { fill: var(--red-deep); fill-opacity: 1; }
+    .vault-graph.vg-focus circle.vg-lead { r: 7; filter: drop-shadow(0 0 7px var(--red)); }
+    .vault-graph.vg-focus text.vg-hot { opacity: 1; fill: var(--red-text); }
+    @media (prefers-reduced-motion: reduce) {
+      .vault-graph.vg-armed line, .vault-graph.vg-armed circle, .vault-graph.vg-armed text {
+        stroke-dashoffset: 0; opacity: 1; transform: none;
+      }
+      .vault-graph line, .vault-graph circle, .vault-graph text { transition: none; }
+    }
     .graph-legend { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 18px; }
     .graph-legend span {
       display: flex; align-items: center; gap: 8px; color: var(--ink-muted);
@@ -493,80 +524,33 @@
     }
     .nav-contact:hover { background: var(--ink); border-color: var(--ink); }
     /* ---- floating-plate tile framing (both work carousels) ---- */
-    .work-project-carousel .carousel-stage { padding: 26px 26px 6px; overflow: visible; }
-    /* The stage clips by default so a swipe stays inside its own box. These
-       carousels need it unclipped for the ink bleed to reach past the photo, so
-       the clip comes back only while a drag is actually in progress. */
-    .work-project-carousel.is-dragging .carousel-stage { overflow: hidden; }
+    .work-project-carousel .carousel-stage { padding: 20px 20px 6px; }
     .work-project-carousel .carousel-slide { position: relative; isolation: isolate; }
     .work-project-carousel .carousel-media {
-      border-radius: 22px; box-shadow: 0 2px 4px rgba(48,55,55,.07), 0 18px 40px rgba(48,55,55,.17);
+      border-radius: 22px;
+      box-shadow: 0 1px 2px rgba(48,55,55,.12), 0 5px 12px rgba(48,55,55,.16), 0 14px 30px rgba(48,55,55,.14);
       transition: transform .3s ease, box-shadow .3s ease;
     }
+    html[data-theme="dark"] .work-project-carousel .carousel-media {
+      box-shadow: 0 1px 2px rgba(0,0,0,.30), 0 10px 26px rgba(0,0,0,.38);
+    }
     .work-project-carousel .carousel-media.cad,
-    .work-project-carousel .carousel-media.dashboard { padding: 26px; background: var(--card); }
+    .work-project-carousel .carousel-media.dashboard { padding: 12px; background: var(--card); }
     .work-project-carousel .carousel-stage:hover .carousel-media,
     .work-project-carousel .carousel-stage:focus-within .carousel-media {
-      transform: translateY(-4px);
-      box-shadow: 0 3px 6px rgba(48,55,55,.08), 0 26px 56px rgba(48,55,55,.22);
+      transform: translateY(-3px);
+      box-shadow: 0 2px 4px rgba(48,55,55,.14), 0 8px 18px rgba(48,55,55,.18), 0 22px 44px rgba(48,55,55,.16);
+    }
+    html[data-theme="dark"] .work-project-carousel .carousel-stage:hover .carousel-media,
+    html[data-theme="dark"] .work-project-carousel .carousel-stage:focus-within .carousel-media {
+      box-shadow: 0 2px 4px rgba(0,0,0,.34), 0 16px 34px rgba(0,0,0,.44);
     }
     .work-project-carousel .carousel-caption {
       min-height: 58px; padding: 14px 8px 4px; text-align: center;
       background: transparent; border-top: 0;
     }
     .work-project-carousel .carousel-controls { background: transparent; border-top: 0; justify-content: center; }
-    /* ---- ink bleed (option D) ----
-       An oversized copy of the slide's own image sits behind it, clipped by a
-       ragged blot. The raggedness and its falloff are baked into the mask, so
-       nothing about the shape is computed at paint time. The image URL is
-       stamped onto the figure as --bleed by script, because CSS cannot read an
-       <img> src. Drop the `filter` line below and the effect still works, but
-       reads as a duplicate photo rather than ink. */
-    :root {
-      --blot: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20400%20300%22%20preserveAspectRatio%3D%22none%22%3E%3Cfilter%20id%3D%22b%22%20x%3D%22-30%25%22%20y%3D%22-30%25%22%20width%3D%22160%25%22%20height%3D%22160%25%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.010%22%20numOctaves%3D%224%22%20seed%3D%229%22%20result%3D%22n%22%2F%3E%3CfeDisplacementMap%20in%3D%22SourceGraphic%22%20in2%3D%22n%22%20scale%3D%2234%22%20xChannelSelector%3D%22R%22%20yChannelSelector%3D%22G%22%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%2211%22%2F%3E%3C%2Ffilter%3E%3Crect%20x%3D%2226%22%20y%3D%2226%22%20width%3D%22348%22%20height%3D%22248%22%20rx%3D%2244%22%20fill%3D%22%23fff%22%20filter%3D%22url%28%23b%29%22%2F%3E%3C%2Fsvg%3E");
-    }
-    .work-project-carousel .carousel-slide[style*="--bleed"]::before {
-      content: ""; position: absolute; inset: -11% -9%; z-index: -1;
-      background: var(--bleed) center/cover no-repeat;
-      -webkit-mask-image: var(--blot); mask-image: var(--blot);
-      -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
-      -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-      filter: blur(16px) saturate(.75);
-      opacity: .5; pointer-events: none;
-    }
-    /* ---- grid mode (Method Effects "View all") ---- */
-    .work-project.is-open .work-project-grid { grid-template-columns: 1fr; }
-    .work-project.is-open .work-project-copy { position: static; }
-    .work-project-carousel.is-grid .carousel-stage {
-      display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px 20px; overflow: visible;
-    }
-    .work-project-carousel.is-grid .carousel-slide { animation: tileIn .42s cubic-bezier(.22,1,.36,1) both; }
-    .work-project-carousel.is-grid .carousel-slide:nth-child(2){animation-delay:.03s}
-    .work-project-carousel.is-grid .carousel-slide:nth-child(3){animation-delay:.06s}
-    .work-project-carousel.is-grid .carousel-slide:nth-child(4){animation-delay:.09s}
-    .work-project-carousel.is-grid .carousel-slide:nth-child(5){animation-delay:.12s}
-    .work-project-carousel.is-grid .carousel-slide:nth-child(6){animation-delay:.15s}
-    .work-project-carousel.is-grid .carousel-slide:nth-child(7){animation-delay:.18s}
-    .work-project-carousel.is-grid .carousel-slide:nth-child(8){animation-delay:.21s}
-    .work-project-carousel.is-grid .carousel-slide:nth-child(9){animation-delay:.24s}
-    .work-project-carousel.is-grid .carousel-slide:nth-child(10){animation-delay:.27s}
-    .work-project-carousel.is-grid .carousel-slide:nth-child(11){animation-delay:.30s}
-    .work-project-carousel.is-grid .carousel-slide:nth-child(12){animation-delay:.33s}
-    @keyframes tileIn { from { opacity:0; transform: translateY(14px) scale(.96); } to { opacity:1; transform:none; } }
-    .work-project-carousel.is-grid .carousel-media {
-      height: 200px; border-radius: 16px; cursor: pointer;
-      box-shadow: 0 1px 3px rgba(48,55,55,.06), 0 10px 22px rgba(48,55,55,.13);
-    }
-    .work-project-carousel.is-grid .carousel-slide::before { height: 236px; }
-    .work-project-carousel.is-grid .carousel-media.cad { padding: 14px; }
-    .work-project-carousel.is-grid .carousel-media:hover { transform: translateY(-5px); }
-    .work-project-carousel.is-grid .carousel-caption { min-height: 0; padding: 9px 4px 0; font-size: 0; }
-    .work-project-carousel.is-grid .carousel-caption b { font-size: 9px; letter-spacing: .07em; }
-    @media(max-width:1040px){ .work-project-carousel.is-grid .carousel-stage { grid-template-columns: repeat(3, minmax(0,1fr)); } }
     @media(max-width:620px){
-      .work-project-carousel.is-grid .carousel-stage { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px 12px; }
-      .work-project-carousel.is-grid .carousel-media { height: 128px; border-radius: 12px; }
-      .work-project-carousel.is-grid .carousel-slide::before { top: -10px; left: -10px; width: calc(100% + 20px); height: 148px; }
       .work-project-carousel .carousel-stage { padding: 16px 12px 4px; }
     }
     .item-dialog {
@@ -909,7 +893,7 @@
                 <!-- METHOD EFFECTS SLIDE 04 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden>
                   <img class="carousel-media" src="olimazi-assets/method-v1-aero-start.jpg" decoding="async" alt="Early fabrication work for the Method Effects V1 and V2 center aero support">
-                  <figcaption class="carousel-caption"><b>Mocking Concept: Splitter support struts</b>The beginnings of the V1/V2 comparison: added integrity to center aero, increasing sturdiness and longevity. Designed to modify only the existing aftermarket part, never the OEM fascia.</figcaption>
+                  <figcaption class="carousel-caption"><b>Mock-up Concept: Splitter support struts</b>Added integrity to center aero, increasing sturdiness and longevity. Designed to modify only the existing aftermarket part, never the OEM fascia.</figcaption>
                 </figure>
 
                 <!-- METHOD EFFECTS SLIDE 05 — Edit the image, alt text, and caption in this block. -->
@@ -967,15 +951,15 @@
                 </figure>
 
               </div>
-              <div class="carousel-controls"><button type="button" data-prev aria-label="Previous Method Effects image">← Previous</button><span class="carousel-status" data-status aria-live="polite">1 / 12</span><button type="button" data-next aria-label="Next Method Effects image">Next →</button><button type="button" data-grid-toggle aria-expanded="false" aria-label="View all Method Effects images">View all</button></div>
+              <div class="carousel-controls"><button type="button" data-prev aria-label="Previous Method Effects image">← Previous</button><span class="carousel-status" data-status aria-live="polite">1 / 12</span><button type="button" data-next aria-label="Next Method Effects image">Next →</button></div>
             </div>
             <div class="work-project-copy">
-              <div class="proof-status"><i></i> Previous work · details being added</div>
+              <div class="proof-status"><i></i> Previous work : Brand Build</div>
               <h3>Method Effects</h3>
               <p>Method Effects was a ground-up, organically grown and first to market automotive aero parts company that facilitated a need for creativity and creation. It was a self marketing (pull) product that emphasized quality and control. The product was designed and manufactured in the U.S. while still realizing ~50% margins. Although unable to scale on a Cash-Basis, the brand earned high marks and a respected brand equity.</p>
               <p>The work included fitment constraints, OEM mounting points, custom tooling and packaging, ecommerce, customer support, logistics, and content for Facebook, Instagram, and enthusiast forums.</p>
               <div class="spec">
-                <div class="spec-row"><span class="spec-key">Period</span><span class="spec-val">2017–2023</span></div>
+                <div class="spec-row"><span class="spec-key">Period</span><span class="spec-val">2017–2024</span></div>
                 <div class="spec-row"><span class="spec-key">Built</span><span class="spec-val">Brand · product · suppliers · commerce · logistics</span></div>
                 <div class="spec-row"><span class="spec-key">Reach</span><span class="spec-val">Domestic and international direct-to-consumer sales</span></div>
               </div>
@@ -1637,16 +1621,6 @@
   </footer>
 
   <script>
-    // Ink bleed: hand each slide its own image URL so the ::before behind it can
-    // paint an oversized, blot-masked copy. CSS can't read an <img> src, and the
-    // slide markup is content-managed, so it's stamped here instead of inline.
-    // Skipped for .cad/.dashboard — those sit contained on a card, and a bleed
-    // would spill past the plate rather than out of the photo.
-    document.querySelectorAll(".work-project-carousel [data-slide] > img.carousel-media").forEach((img) => {
-      if (img.classList.contains("cad") || img.classList.contains("dashboard")) return;
-      img.parentElement.style.setProperty("--bleed", 'url("' + img.getAttribute("src") + '")');
-    });
-
     document.querySelectorAll("[data-carousel]").forEach((carousel) => {
       const slides = Array.from(carousel.querySelectorAll("[data-slide]"));
       const status = carousel.querySelector("[data-status]");
@@ -1677,46 +1651,14 @@
       carousel.querySelector("[data-prev]")?.addEventListener("click", () => show(index - 1));
       carousel.querySelector("[data-next]")?.addEventListener("click", () => show(index + 1));
       carousel.addEventListener("keydown", (event) => {
-        if (isGrid()) return;
         if (event.key === "ArrowLeft") { event.preventDefault(); show(index - 1); }
         if (event.key === "ArrowRight") { event.preventDefault(); show(index + 1); }
       });
 
-      const gridToggle = carousel.querySelector("[data-grid-toggle]");
-      const isGrid = () => carousel.classList.contains("is-grid");
-      if (gridToggle) {
-        const project = carousel.closest(".work-project");
-        const stepButtons = carousel.querySelectorAll("[data-prev],[data-next]");
-        const setGrid = (on) => {
-          carousel.classList.toggle("is-grid", on);
-          project?.classList.toggle("is-open", on);
-          gridToggle.textContent = on ? "Show one" : "View all";
-          gridToggle.setAttribute("aria-expanded", String(on));
-          stepButtons.forEach((button) => { button.disabled = on; });
-          if (on) {
-            slides.forEach((slide) => { slide.hidden = false; slide.removeAttribute("aria-hidden"); });
-            if (status) status.textContent = `${slides.length} images`;
-          } else {
-            show(index);
-          }
-        };
-        gridToggle.addEventListener("click", () => {
-          const opening = !isGrid();
-          setGrid(opening);
-          if (opening) carousel.scrollIntoView({ block: "start", behavior: "smooth" });
-        });
-        slides.forEach((slide, i) => slide.addEventListener("click", () => {
-          if (!isGrid()) return;
-          index = i;
-          setGrid(false);
-          carousel.scrollIntoView({ block: "center", behavior: "smooth" });
-        }));
-      }
-
       slides.forEach((slide) => slide.querySelectorAll("img").forEach((image) => { image.draggable = false; }));
 
       stage?.addEventListener("pointerdown", (event) => {
-        if (!event.isPrimary || event.pointerType !== "touch" || isGrid()) return;
+        if (!event.isPrimary || event.pointerType !== "touch") return;
         pointerId = event.pointerId;
         startX = lastX = event.clientX;
         startY = lastY = event.clientY;
@@ -1779,6 +1721,104 @@
 
       show(0);
     });
+    // ---- vault graph: one-shot draw-in reveal + hover focus ----
+    (() => {
+      const svg = document.querySelector(".vault-graph");
+      if (!svg) return;
+      const lines = [...svg.querySelectorAll("line")];
+      const nodes = [...svg.querySelectorAll("circle")];
+      const labels = [...svg.querySelectorAll("text")];
+      const key = (x, y) => `${Math.round(x * 10)}:${Math.round(y * 10)}`;
+      const byPoint = new Map();
+      nodes.forEach((c, i) => {
+        const cx = +c.getAttribute("cx"), cy = +c.getAttribute("cy");
+        c._p = [cx, cy];
+        c._r = +c.getAttribute("r");
+        if (c._r >= 4.5) c.classList.add("vg-hub");
+        byPoint.set(key(cx, cy), i);
+        c._edges = [];
+      });
+      lines.forEach((l) => {
+        const ends = [
+          byPoint.get(key(+l.getAttribute("x1"), +l.getAttribute("y1"))),
+          byPoint.get(key(+l.getAttribute("x2"), +l.getAttribute("y2"))),
+        ];
+        l._ends = ends;
+        ends.forEach((i) => { if (i !== undefined) nodes[i]._edges.push(l); });
+      });
+      // labels sit just right of their node; bind each to the nearest circle
+      labels.forEach((t) => {
+        const tx = +t.getAttribute("x"), ty = +t.getAttribute("y");
+        let best = null, bd = Infinity;
+        nodes.forEach((c) => {
+          const d = Math.hypot(c._p[0] - tx, c._p[1] - ty);
+          if (d < bd) { bd = d; best = c; }
+        });
+        if (best) { t._node = best; best._label = t; }
+      });
+
+      // reveal, once, when the graph scrolls into view
+      const W = svg.viewBox.baseVal.width || 1080;
+      lines.forEach((l) => {
+        const len = l.getTotalLength();
+        l.style.strokeDasharray = len;
+        l.style.setProperty("--len", len);
+        l.style.setProperty("--d", `${((+l.getAttribute("x1") / W) * 0.5).toFixed(3)}s`);
+      });
+      [...nodes, ...labels].forEach((el) => {
+        const x = el._p ? el._p[0] : +el.getAttribute("x");
+        el.style.setProperty("--d", `${(0.25 + (x / W) * 0.55).toFixed(3)}s`);
+      });
+      svg.classList.add("vg-armed");
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          svg.classList.add("vg-run");
+          io.disconnect();
+        });
+      }, { threshold: 0.2 });
+      io.observe(svg);
+
+      // hover focus: nearest node within a generous radius lights its neighbourhood
+      let active = null;
+      const clear = () => {
+        if (!active) return;
+        svg.classList.remove("vg-focus");
+        svg.querySelectorAll(".vg-hot, .vg-lead")
+          .forEach((el) => el.classList.remove("vg-hot", "vg-lead"));
+        active = null;
+      };
+      const light = (node) => {
+        if (node === active) return;
+        clear();
+        active = node;
+        svg.classList.add("vg-focus");
+        node.classList.add("vg-hot", "vg-lead");
+        node._label?.classList.add("vg-hot");
+        node._edges.forEach((l) => {
+          l.classList.add("vg-hot");
+          l._ends.forEach((i) => {
+            if (i === undefined) return;
+            nodes[i].classList.add("vg-hot");
+            nodes[i]._label?.classList.add("vg-hot");
+          });
+        });
+      };
+      svg.addEventListener("pointermove", (event) => {
+        if (event.pointerType === "touch") return;
+        const box = svg.getBoundingClientRect();
+        const scale = W / box.width;
+        const px = (event.clientX - box.left) * scale + svg.viewBox.baseVal.x;
+        const py = (event.clientY - box.top) * scale + svg.viewBox.baseVal.y;
+        let best = null, bd = Infinity;
+        nodes.forEach((c) => {
+          const d = Math.hypot(c._p[0] - px, c._p[1] - py);
+          if (d < bd) { bd = d; best = c; }
+        });
+        if (best && bd < 26) light(best); else clear();
+      });
+      svg.addEventListener("pointerleave", clear);
+    })();
     function openItem(id) {
       const dialog = document.getElementById(id);
       if (dialog && typeof dialog.showModal === "function") dialog.showModal();

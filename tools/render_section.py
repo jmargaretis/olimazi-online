@@ -77,7 +77,7 @@ SECTION_SPECS = {
             "Method Slide 12 Title", "Method Slide 12 Caption Lead",
             "Method Slide 12 Credit Label", None,
             "Method Slide 13 Title", "Method Slide 13 Caption",
-            None, None, None, None,
+            None, None, None,  # Method carousel controls (View all removed 2026-07-27)
             "Method Status", "Method Heading", "Method Body 1", "Method Body 2",
             "Method Period Label", "Method Period",
             "Method Built Label", "Method Built",
