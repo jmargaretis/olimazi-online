@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tile framing, round 2 — not the site</title>
+<style>
+  :root {
+    --paper: #D9DEDC; --paper-deep: #BFD5CC; --card: #EEF3F1;
+    --ink: #303737; --ink-muted: #56615E;
+    --line: rgba(48,55,55,.20); --line-soft: rgba(48,55,55,.10);
+    --red: #70C9AA; --red-deep: #2A745D; --red-text: #226D57;
+    --sand: #AAB8B3;
+    --shadow: 0 14px 34px rgba(48,55,55,.16);
+  }
+  :root.dark {
+    --paper: #1B2321; --paper-deep: #223029; --card: #232D2A;
+    --ink: #E8EFEC; --ink-muted: #A3B2AD;
+    --line: rgba(232,239,236,.22); --line-soft: rgba(232,239,236,.10);
+    --sand: #4A5854;
+    --shadow: 0 14px 34px rgba(0,0,0,.5);
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--paper); color:var(--ink);
+    font:400 15px/1.6 "Inter","Segoe UI",system-ui,sans-serif; }
+  .wrap { max-width:1180px; margin:0 auto; padding:48px 28px 120px; }
+  .mono { font:400 10px/1.5 "IBM Plex Mono",Consolas,monospace; letter-spacing:.14em; text-transform:uppercase; }
+  .banner { border:1px dashed var(--line); padding:14px 18px; margin-bottom:20px; color:var(--ink-muted); }
+  .toolbar { display:flex; gap:10px; margin-bottom:44px; }
+  .toolbar button { font:600 10px/1 "IBM Plex Mono",Consolas,monospace; letter-spacing:.12em;
+    text-transform:uppercase; padding:9px 14px; border:1px solid var(--ink); border-radius:2px;
+    background:transparent; color:var(--ink); cursor:pointer; }
+  .toolbar button:hover { background:var(--ink); color:var(--paper); }
+  h1 { font-size:clamp(30px,4vw,44px); line-height:1.05; letter-spacing:-.025em; margin:0 0 10px; }
+  h2 { font-size:clamp(22px,3vw,30px); letter-spacing:-.02em; margin:0 0 6px; }
+  .opt { border-top:1px solid var(--ink); padding:38px 0 10px; margin-top:56px; }
+  .opt-head { display:flex; align-items:baseline; justify-content:space-between; gap:20px; margin-bottom:8px; }
+  .opt-note { max-width:72ch; color:var(--ink-muted); margin:0 0 12px; }
+  .cost { max-width:72ch; margin:0 0 30px; padding:11px 14px; border-left:3px solid var(--red-deep);
+    background:rgba(112,201,170,.10); color:var(--ink-muted); font-size:13px; line-height:1.55; }
+  .cost b { color:var(--ink); }
+  .pair { display:grid; grid-template-columns:1fr 1fr; gap:52px; align-items:start; }
+  @media(max-width:900px){ .pair { grid-template-columns:1fr; } }
+  .tag { display:block; margin-bottom:14px; color:var(--red-text); }
+  :root.dark .tag { color:var(--red); }
+  .cap { margin-top:15px; text-align:center; }
+  .cap b { display:block; font:600 11px/1.5 "IBM Plex Mono",Consolas,monospace;
+    letter-spacing:.07em; text-transform:uppercase; }
+  .cap span { display:block; color:var(--ink-muted); font-size:13px; }
+  .gridrow { margin-top:34px; }
+  .gridrow > .mono { display:block; margin-bottom:12px; color:var(--ink-muted); }
+  .g12 { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px 18px; }
+  @media(max-width:760px){ .g12 { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+
+  /* ============ D - ink bleed ============ */
+  /* Two layers: an oversized copy of the same image behind, clipped by a
+     ragged blot mask, and the crisp rounded image on top. The per-tile image
+     URL arrives as an inline --bleed custom property, because CSS cannot read
+     an <img> src. No filter, so grid mode costs nothing extra. */
+  .d-frame { position:relative; isolation:isolate; }
+  .d-frame::before {
+    content:""; position:absolute; inset:-11% -9%; z-index:-1;
+    background:var(--bleed) center/cover no-repeat;
+    -webkit-mask-image:var(--blot); mask-image:var(--blot);
+    -webkit-mask-size:100% 100%; mask-size:100% 100%;
+    -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+    opacity:.55;
+  }
+  /* The expensive half of the effect, isolated behind a toggle so you can see
+     what it buys. Without it the bleed is a legible copy of the photo; with it,
+     it reads as ink. This is the ONLY filter on the page. */
+  :root.blur .d-frame::before { filter:blur(16px) saturate(.75); opacity:.5; }
+  .d-frame img { display:block; width:100%; height:var(--h,420px); object-fit:cover;
+    border-radius:20px; box-shadow:0 2px 4px rgba(48,55,55,.07), 0 16px 34px rgba(48,55,55,.16); }
+  .d-frame.contain img { object-fit:contain; background:var(--card); padding:22px; }
+
+  /* ============ E - deckle edge ============ */
+  /* One layer. The image itself is masked by a torn-paper edge, so it stops in
+     a ragged line instead of a rounded rectangle. No shadow can follow a mask,
+     so the depth comes from a soft paper tone behind it. */
+  .e-frame { position:relative; }
+  .e-frame::before { content:""; position:absolute; inset:6px -4px -8px 6px; z-index:0;
+    background:var(--paper-deep);
+    -webkit-mask-image:var(--deckle); mask-image:var(--deckle);
+    -webkit-mask-size:100% 100%; mask-size:100% 100%; opacity:.85; }
+  .e-frame img { position:relative; z-index:1; display:block; width:100%; height:var(--h,420px);
+    object-fit:cover;
+    -webkit-mask-image:var(--deckle); mask-image:var(--deckle);
+    -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; }
+  .e-frame.contain img { object-fit:contain; background:var(--card); padding:22px; }
+
+  /* ============ F - blueprint plate ============ */
+  /* No masks, no filters. Hairline frame, corner registration ticks, and the
+     caption as a drafting callout. Reads as a figure on the schematic
+     background rather than a photo dropped on top of it. */
+  .f-frame { position:relative; padding:12px; border:1px solid var(--line); background:transparent; }
+  .f-frame::before, .f-frame::after {
+    content:""; position:absolute; width:13px; height:13px; border:1px solid var(--red-deep); }
+  .f-frame::before { top:-1px; left:-1px; border-right:0; border-bottom:0; }
+  .f-frame::after  { bottom:-1px; right:-1px; border-left:0; border-top:0; }
+  .f-frame img { display:block; width:100%; height:var(--h,420px); object-fit:cover; }
+  .f-frame.contain img { object-fit:contain; background:var(--card); }
+  .f-cap { display:flex; align-items:baseline; gap:10px; margin-top:14px;
+    font:400 10px/1.5 "IBM Plex Mono",Consolas,monospace; letter-spacing:.12em; text-transform:uppercase; }
+  .f-cap .rule { flex:1; height:1px; background:var(--line); }
+  .f-cap .idx { color:var(--red-text); }
+  :root.dark .f-cap .idx { color:var(--red); }
+  .f-sub { margin-top:6px; color:var(--ink-muted); font-size:13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="banner mono">
+    Scratch page &mdash; this is <b>NOT</b> the site. Your site is still <b>localhost:8399/</b> and nothing
+    here has been applied to it. Round 1 (A / B / C) is at <b>/tile-options.html</b>; A shipped.
+    Pick by letter and I'll build it into index.html.
+  </div>
+  <div class="toolbar">
+    <button id="theme">Theme</button>
+    <button id="bg">Schematic background</button>
+    <button id="blur">D: blur the bleed</button>
+  </div>
+
+  <h1>Tile framing &mdash; round 2</h1>
+  <p class="opt-note">
+    Three directions that are actually different from the floating plate you're running now,
+    not variations of it. Each is shown on a Method Effects photo (left) and a Rental Manager
+    screenshot (right), then again as a 12-up grid, because &ldquo;View all&rdquo; is where the
+    last framing nearly locked the machine up.
+  </p>
+
+  <!-- ================= D ================= -->
+  <section class="opt">
+    <div class="opt-head">
+      <h2>D &middot; Ink bleed</h2>
+      <span class="mono">the reckon.house look</span>
+    </div>
+    <p class="opt-note">
+      The photo keeps its clean rounded edge, but a slightly larger copy of the same image
+      sits behind it, clipped to a ragged blot. The picture appears to soak into the page.
+      On a screenshot it is quieter, because the screenshot's own edges are pale.
+    </p>
+    <p class="cost">
+      <b>Cost:</b> one extra painted layer per tile, one static mask, <b>zero <code>filter:</code>
+      calls</b> &mdash; the raggedness and its falloff are baked into the mask, not computed
+      at runtime. Twelve tiles in grid mode is twelve extra background paints, no compositor
+      layers, no animation.
+      <br><b>The decision:</b> as shipped that way, the bleed is a legible copy of the photo
+      rather than ink. Hit <b>D: blur the bleed</b> in the toolbar to see the real thing.
+      That version costs one live <code>filter: blur(16px)</code> per tile &mdash; twelve of
+      them in grid mode. Blur alone did not cause the earlier lockup (that was infinite
+      animation plus <code>will-change</code>), but it is the expensive half, and you should
+      pick it knowing that. Toggle it on and off over the 12-up grid below.
+      <br><b>Catch:</b> the image URL has to be repeated as an inline
+      <code>style="--bleed:url(...)"</code> on each slide, because CSS can't read an
+      <code>&lt;img&gt;</code> src. That's an attribute, so the content build is unaffected.
+    </p>
+    <div class="pair">
+      <div>
+        <span class="tag mono">Photo</span>
+        <div class="d-frame" style="--bleed:url(olimazi-assets/method-splitter-product.jpg)">
+          <img src="olimazi-assets/method-splitter-product.jpg" alt="">
+        </div>
+        <div class="cap"><b>Finished product</b><span>Front splitter installed on an Audi RS3.</span></div>
+      </div>
+      <div>
+        <span class="tag mono">Screenshot</span>
+        <div class="d-frame contain" style="--bleed:url(olimazi-assets/rental-manager-dashboard.png)">
+          <img src="olimazi-assets/rental-manager-dashboard.png" alt="">
+        </div>
+        <div class="cap"><b>Dashboard</b><span>Schedule E summary, generated locally.</span></div>
+      </div>
+    </div>
+    <div class="gridrow">
+      <span class="mono">Grid mode &mdash; 12 tiles</span>
+      <div class="g12" data-grid="d"></div>
+    </div>
+  </section>
+
+  <!-- ================= E ================= -->
+  <section class="opt">
+    <div class="opt-head">
+      <h2>E &middot; Deckle edge</h2>
+      <span class="mono">torn paper</span>
+    </div>
+    <p class="opt-note">
+      No frame at all. The image itself is torn out &mdash; a rough edge on all four sides, with a
+      paper-toned offset behind it doing the job the drop shadow used to do. More physical than D
+      and more opinionated: it says these are prints, not screens. Screenshots suffer slightly,
+      since a torn edge on a UI capture is a deliberate contradiction.
+    </p>
+    <p class="cost">
+      <b>Cost:</b> one mask on the image and one on the paper offset. <b>Zero filters.</b>
+      Cheapest of the three at 12 tiles.
+      <br><b>Catch:</b> a masked element cannot cast a CSS <code>box-shadow</code> &mdash; the shadow
+      would trace the original rectangle. So the drop shadow you said you wanted to keep
+      is gone here, replaced by the offset tone. That's the trade.
+    </p>
+    <div class="pair">
+      <div>
+        <span class="tag mono">Photo</span>
+        <div class="e-frame"><img src="olimazi-assets/method-garage-front.jpg" alt=""></div>
+        <div class="cap"><b>The shop</b><span>Where the first parts were laid up.</span></div>
+      </div>
+      <div>
+        <span class="tag mono">Screenshot</span>
+        <div class="e-frame contain"><img src="olimazi-assets/rental-manager-organizer.png" alt=""></div>
+        <div class="cap"><b>Organizer</b><span>Captured documents waiting on review.</span></div>
+      </div>
+    </div>
+    <div class="gridrow">
+      <span class="mono">Grid mode &mdash; 12 tiles</span>
+      <div class="g12" data-grid="e"></div>
+    </div>
+  </section>
+
+  <!-- ================= F ================= -->
+  <section class="opt">
+    <div class="opt-head">
+      <h2>F &middot; Blueprint plate</h2>
+      <span class="mono">uses the background you already have</span>
+    </div>
+    <p class="opt-note">
+      The opposite bet. Instead of dissolving the tile into the page, this treats each image as a
+      numbered plate in a drawing set: hairline rule, registration ticks at two corners, and the
+      caption as a drafting callout. It is the only one of the three that makes the equations
+      behind the tiles look intentional rather than decorative, and the only one that treats a
+      screenshot as well as it treats a photo.
+    </p>
+    <p class="cost">
+      <b>Cost:</b> nothing. No masks, no filters, no extra layers, no per-tile attributes.
+      Grid mode is exactly as expensive as an unstyled image. It also survives the theme
+      toggle for free, since every colour is already a token.
+      <br><b>Catch:</b> it's a step away from reckon.house, not toward it. If the ink look is
+      the actual goal, this isn't it.
+    </p>
+    <div class="pair">
+      <div>
+        <span class="tag mono">Photo</span>
+        <div class="f-frame"><img src="olimazi-assets/method-tooling-buck.jpg" alt=""></div>
+        <div class="f-cap"><span class="idx">Pl. 04</span><span class="rule"></span><span>Tooling buck</span></div>
+        <div class="f-sub">The mould the first splitters were pulled from.</div>
+      </div>
+      <div>
+        <span class="tag mono">Screenshot</span>
+        <div class="f-frame contain"><img src="olimazi-assets/rental-manager-management.png" alt=""></div>
+        <div class="f-cap"><span class="idx">Pl. 11</span><span class="rule"></span><span>Management</span></div>
+        <div class="f-sub">Open items and what each one is waiting on.</div>
+      </div>
+    </div>
+    <div class="gridrow">
+      <span class="mono">Grid mode &mdash; 12 tiles</span>
+      <div class="g12" data-grid="f"></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// ---- masks, generated once as data URIs -------------------------------------
+// feTurbulence + feDisplacementMap pushes the edge of a rounded rect around.
+// Baked into a mask image, so it costs one paint and never re-runs.
+// `soften` blurs INSIDE the mask SVG, so the falloff is rasterized once into
+// the mask bitmap. That is not the same thing as a CSS filter on the element,
+// which would re-run on every paint - the expensive version that caused the
+// earlier lockup.
+function maskURI(seed, scale, freq, inset, radius, soften) {
+  var svg =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" preserveAspectRatio="none">' +
+      '<filter id="f" x="-30%" y="-30%" width="160%" height="160%">' +
+        '<feTurbulence type="fractalNoise" baseFrequency="' + freq + '" numOctaves="4" seed="' + seed + '" result="n"/>' +
+        '<feDisplacementMap in="SourceGraphic" in2="n" scale="' + scale + '" xChannelSelector="R" yChannelSelector="G"/>' +
+        (soften ? '<feGaussianBlur stdDeviation="' + soften + '"/>' : '') +
+      '</filter>' +
+      '<rect x="' + inset + '" y="' + inset + '" width="' + (400 - inset * 2) + '" height="' + (300 - inset * 2) + '"' +
+        ' rx="' + radius + '" fill="#fff" filter="url(#f)"/>' +
+    '</svg>';
+  return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
+}
+var BLOT   = maskURI(9,  34, '0.010', 26, 44, 11);  // D - loose, soft-edged
+var DECKLE = maskURI(17, 13, '0.045', 10,  4,  0);  // E - tight, torn-paper
+document.documentElement.style.setProperty('--blot', BLOT);
+document.documentElement.style.setProperty('--deckle', DECKLE);
+
+// ---- 12-up grids ------------------------------------------------------------
+var SHOTS = [
+  'method-splitter-product.jpg','method-garage-front.jpg','method-tooling-buck.jpg',
+  'method-abs-coating.jpg','method-promo-campaign.jpg','method-v1-aero-start.jpg',
+  'method-japan-first-order.jpg','method-rubber-contact-points.jpg','method-splitter-mural.jpg',
+  'method-multipiece-sketch.jpg','method-hero-3.jpg','method-garage-front.jpg'
+];
+document.querySelectorAll('.g12').forEach(function (host) {
+  var kind = host.dataset.grid;
+  SHOTS.forEach(function (name, i) {
+    var src = 'olimazi-assets/' + name;
+    var cell = document.createElement('div');
+    cell.className = kind + '-frame';
+    cell.style.setProperty('--h', '104px');
+    if (kind === 'd') cell.style.setProperty('--bleed', 'url(' + src + ')');
+    cell.innerHTML = '<img src="' + src + '" alt="">' + (kind === 'f'
+      ? '<div class="f-cap"><span class="idx">Pl. ' + String(i + 1).padStart(2, '0') +
+        '</span><span class="rule"></span></div>'
+      : '');
+    host.appendChild(cell);
+  });
+});
+
+// ---- toggles ----------------------------------------------------------------
+document.getElementById('theme').onclick = function () {
+  document.documentElement.classList.toggle('dark');
+};
+document.getElementById('blur').onclick = function () {
+  document.documentElement.classList.toggle('blur');
+};
+document.getElementById('bg').onclick = function () {
+  var on = document.body.style.backgroundImage;
+  document.body.style.backgroundImage = on ? '' :
+    'url("data:image/svg+xml,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="420" height="320">' +
+      '<g fill="none" stroke="rgba(48,55,55,.16)" font-family="serif" font-style="italic" font-size="21">' +
+      '<text x="24" y="52" fill="rgba(48,55,55,.16)" stroke="none">dy/dx = dy/du &#183; du/dx</text>' +
+      '<text x="60" y="150" fill="rgba(48,55,55,.16)" stroke="none">P = &#964;&#969;</text>' +
+      '<text x="30" y="250" fill="rgba(48,55,55,.16)" stroke="none">f(x) = &#8747; f dx</text>' +
+      '<circle cx="330" cy="200" r="58"/><circle cx="330" cy="200" r="34"/>' +
+      '</g></svg>') + '")';
+};
+</script>
+</body>
+</html>

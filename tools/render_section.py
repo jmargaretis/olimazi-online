@@ -126,6 +126,15 @@ SECTION_SPECS = {
     ),
     "dialogs": SectionSpec(
         (
+            None, "Cologne Chip", "Cologne Title", "Cologne Intro",
+            "Cologne Heading 1", "Cologne Body 1", "Cologne Heading 2",
+            "Cologne Item 1", "Cologne Item 2", "Cologne Item 3",
+            "Cologne Link YouTube", "Cologne Link Fragrantica",
+            "Cologne Link Writeup", "Cologne Link Comment",
+            None, "Recipe Chip", "Recipe Title", "Recipe Intro",
+            "Recipe Heading 1", "Recipe Body 1", "Recipe Heading 2",
+            "Recipe Item 1", "Recipe Item 2", "Recipe Item 3",
+            "Recipe Link Source", "Recipe Link Comment",
             None, "Contact Chip", "Contact Heading", "Contact Intro",
             "Contact Form Label", "Contact Option Resume", "Contact Option Suggest",
             "Contact Option Explain", "Contact Option Collaborate",
