@@ -113,6 +113,7 @@ SECTION_SPECS = {
     "mind": SectionSpec(
         (
             "Section Label", None, "Heading", "Intro",
+            None,  # snapshot tab date stamp
             None, None, None, None, None, None, None, None, None, None,
             None, None, None, None,
             "Legend Notes", "Legend Files", "Legend Tags", None,

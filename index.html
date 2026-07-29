@@ -25,6 +25,19 @@
       --btn-text: #F4F8F6;
       --nav-bg: rgba(217,222,220,.92);
       --shadow: 0 14px 34px rgba(48,55,55,.16);
+      --tile-outline: #66736F;
+      --tile-outline-active: #2A745D;
+      --graph-surface: #F7FAF9;
+      --graph-border: #81918B;
+      --graph-edge: #4D6F64;
+      --graph-edge-opacity: .74;
+      --graph-note: #245E4D;
+      --graph-file: #46534F;
+      --graph-tag: #2D8067;
+      --graph-hub: #A33E2E;
+      --graph-halo: rgba(163,62,46,.32);
+      --warm: #A33E2E;
+      --warm-on-dark: #FF9A80;
     }
     html[data-theme="dark"] {
       --paper: #282E2D;
@@ -39,6 +52,18 @@
       --sand: #65736E;
       --nav-bg: rgba(40,46,45,.92);
       --shadow: 0 14px 34px rgba(0,0,0,.42);
+      --tile-outline: #8FA39B;
+      --tile-outline-active: #8DE0C1;
+      --graph-surface: #121816;
+      --graph-border: #789087;
+      --graph-edge: #86A99C;
+      --graph-edge-opacity: .58;
+      --graph-note: #A7E3CC;
+      --graph-file: #A8C1B7;
+      --graph-tag: #70C9AA;
+      --graph-hub: #FF9A80;
+      --graph-halo: rgba(255,154,128,.36);
+      --warm: #FF9A80;
     }
     html { scroll-behavior: smooth; background: var(--paper); }
     body {
@@ -182,20 +207,71 @@
       font: 600 11px/1 "IBM Plex Mono", Consolas, monospace;
       letter-spacing: .18em; text-transform: uppercase;
     }
-    .sec-index { color: var(--red-text); font-weight: 400; }
+    /* Section counter carries weight rather than reading as a footnote. */
+    .sec-index {
+      color: var(--warm); font-size: 13px; font-weight: 700; letter-spacing: .14em;
+    }
+    /* ---- lab-notebook index rail: sticky section header column (Method + Mind only) ---- */
+    @media (min-width: 861px) {
+      .section > .wrap { display: grid; grid-template-columns: 150px 1fr; column-gap: 44px; }
+      .section > .wrap > :not(.sec-head) { grid-column: 2; }
+      .section > .wrap > .sec-head {
+        grid-column: 1; grid-row: 1 / -1; align-self: start;
+        position: sticky; top: 84px;
+        flex-direction: column; align-items: flex-start; gap: 10px;
+        margin-bottom: 0;
+      }
+    }
     .section-title {
       max-width: 690px; margin-bottom: 12px;
       font-size: clamp(26px, 3.6vw, 40px); font-weight: 700;
       line-height: 1.15; letter-spacing: -.02em; text-wrap: balance;
     }
     .section-note { max-width: 620px; margin-bottom: 44px; color: var(--ink-muted); font-size: 15px; line-height: 1.7; }
-    .mind-graph { margin-top: 10px; }
+    .mind-graph {
+      margin-top: 10px; padding: 22px 24px; background: var(--graph-surface);
+      border: 1px solid var(--graph-border); border-radius: 14px; box-shadow: var(--shadow);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .mind-graph:hover, .mind-graph:focus-within {
+      transform: translateY(-3px);
+      box-shadow: 0 2px 4px rgba(48,55,55,.14), 0 8px 18px rgba(48,55,55,.18), 0 22px 44px rgba(48,55,55,.16);
+    }
+    html[data-theme="dark"] .mind-graph:hover,
+    html[data-theme="dark"] .mind-graph:focus-within {
+      box-shadow: 0 2px 4px rgba(0,0,0,.34), 0 16px 34px rgba(0,0,0,.44);
+    }
     .mind-graph svg { display: block; width: 100%; height: auto; }
+    .graph-tabs {
+      display: flex; gap: 6px; margin-bottom: 16px;
+      padding-bottom: 12px; border-bottom: 1px solid var(--line-soft);
+    }
+    .graph-tab {
+      min-height: 34px; padding: 7px 12px; color: var(--ink-muted);
+      background: transparent; border: 1px solid transparent; border-radius: 2px;
+      font: 600 9px/1 "IBM Plex Mono", Consolas, monospace;
+      letter-spacing: .18em; text-transform: uppercase; cursor: pointer;
+      transition: color .2s ease, border-color .2s ease;
+    }
+    .graph-tab:hover { color: var(--red-text); }
+    .graph-tab.is-active { color: var(--olive); border-color: var(--olive); }
+    .graph-snapshot { display: none; }
+    .graph-snapshot.is-active { display: block; }
+    @media (max-width: 860px) {
+      .mind-graph { padding: 14px 12px; border-radius: 12px; }
+      .graph-tabs { margin-bottom: 12px; padding-bottom: 10px; }
+    }
     /* ---- vault graph: one-shot reveal + hover focus (classes applied by script) ---- */
     .vault-graph line, .vault-graph circle, .vault-graph text {
       transition: stroke-opacity .22s, fill-opacity .22s, opacity .22s, r .22s;
     }
-    .vault-graph circle { transform-box: fill-box; transform-origin: center; }
+    .vault-graph circle {
+      transform-box: fill-box; transform-origin: center;
+      fill-opacity: 1; stroke: var(--graph-surface); stroke-width: 1.25; paint-order: stroke fill;
+    }
+    .vault-graph circle[fill="var(--red-deep)"] { fill: var(--graph-note); }
+    .vault-graph circle[fill="var(--olive)"] { fill: var(--graph-file); }
+    .vault-graph circle[fill="var(--red)"] { fill: var(--graph-tag); }
     .vault-graph.vg-armed line { stroke-dashoffset: var(--len); }
     .vault-graph.vg-armed circle { opacity: 0; transform: scale(.2); }
     .vault-graph.vg-armed text { opacity: 0; }
@@ -208,14 +284,17 @@
       transition: opacity .4s var(--d), transform .5s cubic-bezier(.2,1.5,.4,1) var(--d);
     }
     .vault-graph.vg-run text { opacity: 1; transition: opacity .5s var(--d); }
-    .vault-graph .vg-hub { filter: drop-shadow(0 0 5px var(--red)); }
+    .vault-graph .vg-hub {
+      stroke: var(--graph-hub); stroke-width: 2;
+      filter: drop-shadow(0 0 5px var(--graph-halo));
+    }
     .vault-graph.vg-focus line { stroke-opacity: .04; }
     .vault-graph.vg-focus circle { fill-opacity: .16; }
     .vault-graph.vg-focus text { opacity: .18; }
-    .vault-graph.vg-focus line.vg-hot { stroke: var(--red-deep); stroke-opacity: .85; }
-    .vault-graph.vg-focus circle.vg-hot { fill: var(--red-deep); fill-opacity: 1; }
-    .vault-graph.vg-focus circle.vg-lead { r: 7; filter: drop-shadow(0 0 7px var(--red)); }
-    .vault-graph.vg-focus text.vg-hot { opacity: 1; fill: var(--red-text); }
+    .vault-graph.vg-focus line.vg-hot { stroke: var(--graph-hub); stroke-opacity: .9; }
+    .vault-graph.vg-focus circle.vg-hot { fill: var(--graph-hub); fill-opacity: 1; }
+    .vault-graph.vg-focus circle.vg-lead { r: 7; filter: drop-shadow(0 0 7px var(--graph-halo)); }
+    .vault-graph.vg-focus text.vg-hot { opacity: 1; fill: var(--graph-hub); }
     @media (prefers-reduced-motion: reduce) {
       .vault-graph.vg-armed line, .vault-graph.vg-armed circle, .vault-graph.vg-armed text {
         stroke-dashoffset: 0; opacity: 1; transform: none;
@@ -315,18 +394,24 @@
     .learning-intro p { color: var(--ink-muted); font-size: 14px; line-height: 1.65; }
     .personal-grid { max-width: 880px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .personal-card {
-      display: grid; grid-template-columns: 168px 1fr; gap: 22px; align-items: start;
-      min-height: 200px; background: transparent; border: 0; border-radius: 0;
+      display: grid; grid-template-columns: 150px 1fr; gap: 20px; align-items: start;
+      min-height: 200px; padding: 18px; background: var(--card);
+      border: 1.5px solid var(--tile-outline); border-radius: 14px; box-shadow: var(--shadow);
+      transition: transform .2s cubic-bezier(.22,1,.36,1), border-color .2s ease,
+                  background-color .2s ease, box-shadow .2s ease;
     }
     .personal-card img {
-      width: 100%; height: 200px; object-fit: cover; border-radius: 22px;
-      box-shadow: 0 2px 4px rgba(48,55,55,.07), 0 18px 40px rgba(48,55,55,.17);
-      transition: transform .3s ease, box-shadow .3s ease;
+      width: 100%; height: 186px; object-fit: cover; border-radius: 10px;
     }
-    .personal-card:hover img,
-    .personal-card:focus-within img {
-      transform: translateY(-4px);
-      box-shadow: 0 3px 6px rgba(48,55,55,.08), 0 26px 56px rgba(48,55,55,.22);
+    .personal-card:hover,
+    .personal-card:focus-within {
+      transform: translateY(-3px);
+      border-color: var(--tile-outline-active);
+      box-shadow: 0 2px 4px rgba(48,55,55,.14), 0 8px 18px rgba(48,55,55,.18), 0 22px 44px rgba(48,55,55,.16);
+    }
+    html[data-theme="dark"] .personal-card:hover,
+    html[data-theme="dark"] .personal-card:focus-within {
+      box-shadow: 0 2px 4px rgba(0,0,0,.34), 0 16px 34px rgba(0,0,0,.44);
     }
     .personal-body { display: flex; flex-direction: column; padding: 2px 4px 0 0; }
     .chip {
@@ -347,7 +432,7 @@
       padding: 120px 0; color: #E9F0ED; background: #303737; text-align: center;
     }
     .closing-label {
-      margin-bottom: 26px; color: #E0705C;
+      margin-bottom: 26px; color: var(--warm-on-dark);
       font: 400 11px/1 "IBM Plex Mono", Consolas, monospace;
       letter-spacing: .2em; text-transform: uppercase;
     }
@@ -386,8 +471,8 @@
       .outcome { padding: 14px 0; border-bottom: 1px solid var(--line-soft); }
       .method-statement { font-size: 44px; }
       .log-entry { grid-template-columns: 1fr; gap: 4px; }
-      .personal-card { grid-template-columns: 1fr; gap: 14px; }
-      .personal-card img { height: 150px; border-radius: 16px; }
+      .personal-card { grid-template-columns: 108px 1fr; gap: 14px; min-height: 0; padding: 14px; border-radius: 12px; }
+      .personal-card img { height: 136px; border-radius: 12px; }
       .personal-body { padding: 0 2px; }
       .closing { padding: 96px 0; }
     }
@@ -428,8 +513,8 @@
       padding: clamp(30px, 6vw, 68px); background: var(--paper);
     }
     .narrative-slide .slide-number {
-      margin-bottom: auto; color: var(--red-text);
-      font: 600 11px/1.4 "IBM Plex Mono", Consolas, monospace;
+      align-self: flex-start; margin-bottom: auto; color: var(--warm);
+      font: 700 13px/1.4 "IBM Plex Mono", Consolas, monospace;
       letter-spacing: .14em; text-transform: uppercase;
     }
     .narrative-slide h3 {
@@ -1000,9 +1085,9 @@
                 <!-- FINANCE TRACKER SLIDE 01 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide><img class="carousel-media dashboard" src="olimazi-assets/rental-manager-organizer.png" alt="Rental Organizer page — filing flags and preparer card, sample property"><figcaption class="carousel-caption"><b>Rental Organizer</b>Trust layer to show what the workbook believes about addresses, contacts, and filing status so the owner can confirm it before trusting the numbers. Built in the spirit of a CPA client organizer, ready to hand to a preparer.</figcaption></figure>
                 <!-- FINANCE TRACKER SLIDE 02 — Edit the image, alt text, and caption in this block. -->
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-expenses.jpg" decoding="async" alt="Schedule E line trace — Line 14 repairs expanded to source documents, sample property"><figcaption class="carousel-caption"><b>Expense detail</b>A running list of attention items, coded, working back and forth with an engine under the hood. Instead of diving deep into an Excel file, making for easier tracing and updating.</figcaption></figure>
+                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-expenses.png" decoding="async" alt="Schedule E line trace — Line 14 repairs expanded to source documents, sample property"><figcaption class="carousel-caption"><b>Expense detail</b>A running list of attention items, coded, working back and forth with an engine under the hood. Instead of diving deep into an Excel file, making for easier tracing and updating.</figcaption></figure>
                 <!-- FINANCE TRACKER SLIDE 03 — Edit the image, alt text, and caption in this block. -->
-                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-open-items.jpg" decoding="async" alt="Schedule E open item queue, sample property"><figcaption class="carousel-caption"><b>Open items</b>The system considers PY activity, creating an expected drip of information or truth going forward. It is built with alerts for what might be missing and for deadlines.</figcaption></figure>
+                <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/schedule-e-anticipated.png" decoding="async" alt="Anticipated this year card — prior-year items shown booked, expected, or not applicable, with a filing deadline countdown, sample property"><figcaption class="carousel-caption"><b>Anticipated items</b>The system considers PY activity, creating an expected drip of information or truth going forward. It is built with alerts for what might be missing and for deadlines.</figcaption></figure>
                 <!-- FINANCE TRACKER SLIDE 04 — Edit the image, alt text, and caption in this block. -->
                 <figure class="carousel-slide" data-slide hidden><img class="carousel-media dashboard" src="olimazi-assets/rental-manager-management.png" decoding="async" alt="Management page — tenant issue board and documents, sample property"><figcaption class="carousel-caption"><b>Management view</b>Feature to view for the day-to-day side of the same records: tenant issues, vendors, and documents with expiry warnings. It keeps that work next to the books instead of in a separate app.</figcaption></figure>
               </div>
@@ -1073,8 +1158,12 @@
         <h2 class="section-title">A record kept while the work is still in progress.</h2>
         <p class="section-note">My Obsidian vault holds working notes, experiments, useful connections, and loose ends. Everything here is caught mid-process — the sources I followed, the parts that worked, and the parts I abandoned. The unfinished state is the record, not a gap in it.</p>
         <div class="mind-graph">
+          <div class="graph-tabs" role="tablist" aria-label="Vault graph snapshots">
+            <button class="graph-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="snap-2026-07-27" data-snap-tab="snap-2026-07-27">Current &#183; 27 Jul 2026</button>
+          </div>
+          <div class="graph-snapshot is-active" id="snap-2026-07-27" role="tabpanel" data-snapshot>
 <svg class="vault-graph" viewBox="0 16 1080 588" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Current, evolving knowledge graph of the Olimazi vault">
-<g stroke="var(--ink)" stroke-opacity="0.16" stroke-width="1">
+<g stroke="var(--graph-edge)" stroke-opacity="0.74" stroke-width="1.1">
 <line x1="528.6" y1="170.5" x2="669.6" y2="153.7"/>
 <line x1="528.6" y1="170.5" x2="629.8" y2="309.5"/>
 <line x1="528.6" y1="170.5" x2="355.5" y2="167.8"/>
@@ -1488,6 +1577,7 @@
 <text x="486.7" y="167.3">README</text>
 </g>
 </svg>
+          </div>
         </div>
         <div class="graph-legend" aria-label="Vault graph categories">
           <span><i class="graph-dot" style="background:var(--red-deep)"></i>Notes</span>
@@ -1721,9 +1811,22 @@
 
       show(0);
     });
+    // ---- vault graph: snapshot tabs ----
+    (() => {
+      const tabs = [...document.querySelectorAll("[data-snap-tab]")];
+      if (tabs.length < 2) return;
+      tabs.forEach(tab => tab.addEventListener("click", () => {
+        tabs.forEach(other => {
+          const on = other === tab;
+          other.classList.toggle("is-active", on);
+          other.setAttribute("aria-selected", String(on));
+          document.getElementById(other.dataset.snapTab)?.classList.toggle("is-active", on);
+        });
+      }));
+    })();
     // ---- vault graph: one-shot draw-in reveal + hover focus ----
     (() => {
-      const svg = document.querySelector(".vault-graph");
+      const svg = document.querySelector(".graph-snapshot.is-active .vault-graph");
       if (!svg) return;
       const lines = [...svg.querySelectorAll("line")];
       const nodes = [...svg.querySelectorAll("circle")];
