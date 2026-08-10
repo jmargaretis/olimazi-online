@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Crop tuner — library thumbs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { font: 14px/1.5 system-ui, sans-serif; background: #1b1812; color: #efe9dc; margin: 0; padding: 28px; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  p.help { color: #b7ad9c; margin: 0 0 24px; max-width: 62ch; }
+  .grid { display: flex; flex-wrap: wrap; gap: 28px; }
+  .tile { width: 190px; }
+  .frame { width: 190px; height: 128px; overflow: hidden; background: #000; cursor: crosshair; touch-action: none; }
+  .frame img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+  .name { font-weight: 700; font-size: 12px; margin: 8px 0 2px; word-break: break-all; }
+  .stackline { color: #b7ad9c; font-size: 11px; }
+  .pos { display: inline-block; margin-top: 6px; font: 12px/1 ui-monospace, monospace; background: #2a261e; border: 1px solid #4a4436; padding: 5px 8px; cursor: pointer; }
+  .pos.copied { background: #2a745d; border-color: #2a745d; color: #fff; }
+  .err { color: #e07a5f; }
+</style>
+</head>
+<body>
+<h1>Crop tuner — library stack thumbs (190&times;128, object-fit: cover)</h1>
+<p class="help">Each frame shows the exact crop the site uses. Drag inside a frame to move the focal point. Click the <code>"pos"</code> chip to copy it, then paste it into that item's line in the <code>library-manifest</code> JSON in <code>index.html</code> (or just tell Claude the values). Default when no pos is set: <code>50%&nbsp;50%</code>.</p>
+<div class="grid" id="grid"></div>
+<script>
+(function () {
+  var grid = document.getElementById("grid");
+  fetch("../index.html").then(function (r) { return r.text(); }).then(function (html) {
+    var m = html.match(/<script id="library-manifest"[^>]*>([\s\S]*?)<\/script>/);
+    if (!m) { grid.innerHTML = '<p class="err">Could not find library-manifest in paste-up-collage.html — open this page from the deployed site or a local server.</p>'; return; }
+    var manifest = JSON.parse(m[1]);
+    manifest.stacks.forEach(function (stack) {
+      stack.items.forEach(function (item, i) {
+        var tile = document.createElement("div");
+        tile.className = "tile";
+        var pos = item.pos || "50% 50%";
+        tile.innerHTML =
+          '<div class="frame"><img src="../' + item.src + '" style="object-position:' + pos + '" alt=""></div>' +
+          '<div class="name">' + item.src.replace("assets/", "") + (i === 0 ? " &mdash; visible thumb" : "") + "</div>" +
+          '<div class="stackline">stack: ' + stack.label + "</div>" +
+          '<button type="button" class="pos">"pos": "' + pos + '"</button>';
+        var frame = tile.querySelector(".frame");
+        var img = tile.querySelector("img");
+        var chip = tile.querySelector(".pos");
+        var current = pos;
+        function set(e) {
+          var r = frame.getBoundingClientRect();
+          var x = Math.round(Math.min(100, Math.max(0, (e.clientX - r.left) / r.width * 100)));
+          var y = Math.round(Math.min(100, Math.max(0, (e.clientY - r.top) / r.height * 100)));
+          current = x + "% " + y + "%";
+          img.style.objectPosition = current;
+          chip.textContent = '"pos": "' + current + '"';
+          chip.classList.remove("copied");
+        }
+        frame.addEventListener("pointerdown", function (e) {
+          set(e);
+          frame.setPointerCapture(e.pointerId);
+          frame.addEventListener("pointermove", set);
+        });
+        frame.addEventListener("pointerup", function () { frame.removeEventListener("pointermove", set); });
+        chip.addEventListener("click", function () {
+          navigator.clipboard.writeText('"pos": "' + current + '"').then(function () { chip.classList.add("copied"); });
+        });
+        grid.appendChild(tile);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
