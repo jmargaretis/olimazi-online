@@ -467,6 +467,19 @@
       <div class="wrap">
         <!-- content:library:start -->
         <div class="personal-grid">
+          <!-- LIBRARY ENTRY 00 — Learning AI in public: most recent published post. Edit card + dialog together. -->
+          <article class="personal-card">
+            <div class="personal-thumb">
+              <img src="olimazi-assets/library-ai-drift-1.png" alt="Chat exchange: the assistant's clock-in summary, then the reply 'not what I asked for when clocking in. You drifted 180 guy'" style="object-fit:contain;background:#1b1812">
+            </div>
+            <div class="personal-body">
+              <span class="chip">Learning AI, in public</span>
+              <h2>Opus 5 being Opus 5</h2>
+              <p>Asked for a clock-in that tells me what's running. Got one that interrogates me for a lane first. Posted 2026-08-12.</p>
+              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem('ai-drift-dialog')">Open the exchange →</button>
+            </div>
+          </article>
+
           <!-- LIBRARY ENTRY 01 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb orientation-cw">
@@ -537,6 +550,24 @@
     </section>
 
     <!-- content:library-dialogs:start -->
+    <!-- LIBRARY DIALOG 00 — Learning AI in public. -->
+    <dialog class="item-dialog" id="ai-drift-dialog" aria-labelledby="ai-drift-title">
+      <div class="dialog-grid">
+        <img src="olimazi-assets/library-ai-drift-2.png" alt="Chat exchange: the assistant admits it inverted the request and backs down" style="object-fit:contain;background:#1b1812">
+        <div class="dialog-body">
+          <form method="dialog"><button class="dialog-close" aria-label="Close notes">✕</button></form>
+          <span class="chip">Posted to Instagram + Facebook · 2026-08-12</span>
+          <h2 id="ai-drift-title">Opus 5 being Opus 5</h2>
+          <p>Asked for a clock-in that tells me what's running. Got one that interrogates me for a lane before I get anything.</p>
+          <p>Most of building with this stuff is catching the moment it inverts what you asked for. Say it plainly and it backs down.</p>
+          <div class="dialog-links">
+            <a href="https://www.instagram.com/olimazi.online/" target="_blank" rel="noopener">The post on Instagram ↗</a>
+            <a href="https://www.facebook.com/1276943032162101" target="_blank" rel="noopener">The post on Facebook ↗</a>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
     <!-- LIBRARY DIALOG 01 — Detailed notes for the Ribeye entry. -->
     <dialog class="item-dialog" id="ribeye-dialog" aria-labelledby="ribeye-title">
       <div class="dialog-grid">
