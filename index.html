@@ -511,6 +511,10 @@ button.stack:nth-of-type(3n+1) { rotate: -2deg; }
 button.stack:nth-of-type(3n+2) { rotate: 1.4deg; translate: 0 24px; }
 button.stack:nth-of-type(3n)   { rotate: 2.2deg; translate: 0 -8px; }
 button.stack:nth-of-type(2n)   { width: min(100%, 214px); }
+/* two front-facing stacks fill the row (2026-08-16) */
+.stack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 36px; max-width: 900px; margin-inline: auto; justify-items: stretch; }
+button.stack, button.stack:nth-of-type(2n) { width: 100%; }
+button.stack:nth-of-type(3n+2) { translate: 0 12px; }
 /* vault graph — blown up across the whole section like the other backdrops, with color */
 .graph-frame {
   position: absolute; inset: 0; z-index: 0;
@@ -559,6 +563,10 @@ button.stack:nth-of-type(2n)   { width: min(100%, 214px); }
   font: 900 12px/1 var(--display); box-shadow: 0 3px 8px rgba(0,0,0,.5);
 }
 .stack .label { display: block; margin-top: 12px; font-family: var(--hand); font-size: 14.5px; color: var(--ink); }
+.stack img { height: clamp(140px, 24vw, 280px); }
+/* stacks read like the Method Effects thumb: shallow tear only, no fanned cards, no shadow (2026-08-16) */
+.stack .card::before, .stack .card::after { display: none; }
+.stack .card { filter: none; }
 
 /* stack viewer — pages through one stack */
 .stackview {
