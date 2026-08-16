@@ -711,6 +711,31 @@ button.stack:nth-of-type(2n)   { width: min(100%, 214px); }
   .tracker-grid .ui-shot:first-child img, .tracker-grid .ui-shot:last-child img { aspect-ratio: 16 / 9; }
   .ui-shot .hint { display: none; }
   .ui-shot .cap { font-size: 12px; }
+  /* section rhythm: less air between blocks on a phone */
+  #main-work { padding: 64px 0 70px; }
+  .work-block { margin-bottom: 56px; }
+  .wall-sec { padding: 64px 0 70px; }
+  #mind { padding: 64px 0 70px; }
+  /* Learning in Public: five notes two-up, the loop two-up */
+  .method-statement { font-size: clamp(30px, 8.6vw, 38px); margin: 18px 0 6px; }
+  .method-credit { margin-bottom: 28px; }
+  .scrap-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 12px; margin-bottom: 40px; }
+  .scrap-note { max-width: none; padding: 14px 12px 16px; font-size: 14px; line-height: 1.4; }
+  .scrap-row .scrap-note:nth-child(2), .scrap-row .scrap-note:nth-child(4) { translate: 0 6px; }
+  .scrap-row .scrap-note:nth-child(5) { grid-column: 1 / -1; max-width: 300px; justify-self: center; }
+  .loop-list { grid-template-columns: 1fr 1fr; }
+  .loop-item { padding: 18px 12px 20px; border-bottom: 0; }
+  .loop-item:nth-child(odd) { border-right: 1px solid rgba(239,231,210,.16); }
+  .loop-item:nth-child(-n+2) { border-bottom: 1px solid rgba(239,231,210,.16); }
+  .loop-item h4 { font-size: 16px; }
+  .loop-item p { font-size: 13px; }
+  /* Current State of Mind: note hand-scrawl sits above the note, stacks two-up */
+  .vault-note { margin: 40px 0 30px; }
+  .stacks-title { margin-bottom: 18px; }
+  .stack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 20px; justify-items: center; }
+  button.stack, button.stack:nth-of-type(2n), button.stack:nth-of-type(3n+2), button.stack:nth-of-type(3n) { width: 100%; max-width: 170px; translate: 0 0; }
+  .stack img { height: 108px; }
+  .stack .label { margin-top: 10px; font-size: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
