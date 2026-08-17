@@ -802,3 +802,31 @@ button.stack, .closing .spray-line, .contact-stickers .sticker, .footer .say, .t
 h1 .aided { color: var(--coral); rotate: 0deg; }
 .wall-sec .bg-photo { opacity: .14; filter: grayscale(.85) contrast(1.05); }
 .wall-sec .sec-num { -webkit-text-stroke: 2.5px var(--kraft); }
+
+/* 8. Round 2 (John): thumbs get depth back; notepads become a ledger, not tabs. */
+.shot .frame, .pile .shot:nth-child(even) .frame,
+.ui-shot .frame, .tracker-grid .ui-shot:nth-child(even) .frame,
+.stack .frame, .stack-grid .stack:nth-of-type(2n) .frame {
+  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 8px 22px rgba(22,32,42,.18), 0 2px 4px rgba(22,32,42,.12);
+  transition: translate .18s ease, box-shadow .18s ease, border-color .15s ease;
+}
+.shot:hover .frame, .shot .enlarge:focus-visible .frame,
+.ui-shot:hover .frame, .ui-shot:focus-visible .frame,
+.stack:hover .card .frame, .stack:focus-visible .card .frame {
+  translate: 0 -3px !important; border-color: var(--coral);
+  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 14px 30px rgba(22,32,42,.24), 0 3px 6px rgba(22,32,42,.14);
+}
+/* one straight offset card behind each library stack — reads as a stack, not a fan */
+.stack .card::after { display: block !important; content: ""; position: absolute; inset: 0; z-index: -1; translate: 8px 8px; rotate: 0deg;
+  background: var(--kraft); border: 1px solid var(--kraft); -webkit-mask: none; mask: none; }
+.stack .card::before { display: none !important; }
+.stack .card { transition: none; }
+
+.scrap-row { display: block; margin-bottom: 64px; border-top: 1px solid var(--kraft); max-width: 900px; }
+.scrap-row .scrap-note {
+  display: grid; grid-template-columns: 72px 1fr; gap: 0 22px; align-items: baseline;
+  max-width: none; padding: 16px 0 17px; border-left: 0; border-bottom: 1px solid rgba(221,227,230,.22);
+  background: transparent; color: var(--paper); font-size: 15px; line-height: 1.5;
+}
+.scrap-row .scrap-note.kraft { background: transparent; }
+.scrap-row .scrap-note .no { margin: 0; color: var(--coral-bright); }
