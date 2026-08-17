@@ -26,8 +26,8 @@
   --ink-soft: #4E5C68;
   --plate: #E6EBEE;         /* light plate: sticker/tag fills        */
   --plate-2: #D8DFE3;
-  --coral: #C74A24;         /* accent on light — large type/marks    */
-  --coral-bright: #FF7A59;  /* accent on dark — links, words         */
+  --coral: #C23A2B;         /* accent on light — sign red              */
+  --coral-bright: #FF4A2E;  /* accent on dark — hot red                */
   --yellow: var(--coral-bright); /* legacy alias: yellow-as-text on dark */
   --red: var(--coral);           /* legacy alias: sign red -> coral       */
   --mint: var(--coral-bright);   /* legacy alias                          */
