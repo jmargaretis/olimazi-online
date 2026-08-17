@@ -830,3 +830,9 @@ h1 .aided { color: var(--coral); rotate: 0deg; }
 }
 .scrap-row .scrap-note.kraft { background: transparent; }
 .scrap-row .scrap-note .no { margin: 0; color: var(--coral-bright); }
+
+/* 9. Section 03 thumbs: smaller on desktop; mobile rules (max-width 620px) unchanged. */
+@media (min-width: 621px) {
+  .stack-grid { max-width: 620px; margin-inline: 0; gap: 34px 30px; }
+  .stack img { height: clamp(120px, 12vw, 170px); }
+}
