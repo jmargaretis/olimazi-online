@@ -836,3 +836,21 @@ h1 .aided { color: var(--coral); rotate: 0deg; }
   .stack-grid { max-width: 620px; margin-inline: 0; gap: 34px 30px; }
   .stack img { height: clamp(120px, 12vw, 170px); }
 }
+
+/* 10b. Thumbs as die-cut stickers (John, r5): rounded plate border, image inset, soft lift. Supersedes the square mounts in 5/8. */
+.shot .frame, .pile .shot:nth-child(even) .frame,
+.ui-shot .frame, .tracker-grid .ui-shot:nth-child(even) .frame,
+.stack .frame, .stack-grid .stack:nth-of-type(2n) .frame {
+  border: 0; border-radius: 16px; padding: 8px; overflow: hidden; background: var(--plate);
+  box-shadow: 0 0 0 1px rgba(22,32,42,.10), 0 1px 0 rgba(255,255,255,.7) inset, 0 8px 20px rgba(22,32,42,.16);
+}
+.shot .frame img, .ui-shot .frame img, .stack .frame img { border-radius: 9px; }
+.shot:hover .frame, .shot .enlarge:focus-visible .frame,
+.ui-shot:hover .frame, .ui-shot:focus-visible .frame,
+.stack:hover .card .frame, .stack:focus-visible .card .frame {
+  border-color: transparent;
+  box-shadow: 0 0 0 2px var(--coral), 0 1px 0 rgba(255,255,255,.7) inset, 0 14px 28px rgba(22,32,42,.22);
+}
+.stack .card::after { border-radius: 16px; border: 0; background: var(--kraft); translate: 7px 7px; }
+.stack .count { border-radius: 8px; top: 12px; right: 12px; }
+.shot .plus { border-radius: 50%; }
