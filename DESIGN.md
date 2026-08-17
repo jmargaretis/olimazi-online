@@ -70,7 +70,7 @@ Blue/orange happens when a saturated cool fill sits next to a saturated warm fil
 
 - **Tilt** — none. `.r-l1…r-r3` resolve to 0°. Grid-true everywhere.
 - **Cards** (typewriter cards, vault note) — `plate` fill, 1px `kraft` hairline, 3px `ink` rule on top, no shadow. Margin scrawl is a mono coral label above the text.
-- **Thumbs / tiles** (Method pile, RM shots, library stacks) — square-cut image inside a 6px `plate` mount with a 1px hairline; shallow drop shadow for depth; hover lifts 3px and turns the hairline coral. Count badge square. Captions mono. Library stacks show one straight offset card behind, never a fan.
+- **Thumbs / tiles** (Method pile, RM shots, library stacks) — die-cut sticker (r5/r6): image inset 8px in a `plate` mount, 16px outer / 9px inner radius, 1px hairline ring plus a shallow drop shadow for depth; no inset highlight; hover lifts 3px and the ring turns coral. Count badge 8px radius. Captions mono. No offset card or fan behind library stacks.
 - **Notepads** (the five in 02) — a ledger: one hairline-ruled list on the wall, two-column grid (mono coral-bright "NO. n" + system sans body). No tabs, no clip-path.
 - **Sheets** (01, 03) — straight edge, 1px hairline.
 - **Marquee** — ink band, paper hairlines, paper text; still crawls; level.
