@@ -880,7 +880,7 @@ h1 .aided { color: var(--coral); rotate: 0deg; }
 .tester-wrap { filter: none; rotate: 0deg; }
 .tester-card { background: var(--plate); border: 1px solid var(--kraft); border-top: 3px solid var(--ink); border-radius: 0;
   box-shadow: 0 8px 22px rgba(22,32,42,.18); padding: 40px 42px 38px; }
-.tester-card .badge-line { color: var(--ink-soft); rotate: 0deg; }
+.tester-card .badge-line { color: var(--ink-soft); rotate: 0deg; padding-right: 56px; }
 .tester-list li::before { color: var(--ink); }
 .tester-close { top: 14px; right: 14px; width: 40px; height: 40px; display: grid; place-items: center;
   background: var(--plate); border: 1px solid var(--kraft); border-radius: 0; font: 900 20px/1 var(--display); color: var(--ink); }
@@ -920,3 +920,5 @@ h1 .aided { color: var(--coral); rotate: 0deg; }
 .stack:hover .card .frame, .stack:focus-visible .card .frame {
   box-shadow: 0 0 0 2px var(--coral), 0 14px 28px rgba(22,32,42,.22);
 }
+/* r6b: .frame spans must be block for the sticker padding to wrap the image (the inline box was the "peel"). */
+.shot .frame, .ui-shot .frame, .stack .frame { display: block; }
