@@ -854,3 +854,69 @@ h1 .aided { color: var(--coral); rotate: 0deg; }
 .stack .card::after { border-radius: 16px; border: 0; background: var(--kraft); translate: 7px 7px; }
 .stack .count { border-radius: 8px; top: 12px; right: 12px; }
 .shot .plus { border-radius: 50%; }
+
+/* 10. LANE A — contact tail, footer, tester overlay, lightbox, stack viewer → steel. */
+/* contact tail: level, mono line, one red link */
+.closing { padding: 110px 0 100px; }
+.closing .spray-line { font: 700 12px/1 var(--type); letter-spacing: .24em; text-transform: uppercase; color: var(--kraft); rotate: 0deg; margin-bottom: 22px; text-shadow: none; }
+.closing p { color: var(--kraft); }
+.contact-stickers { gap: 10px; }
+.contact-stickers .sticker { border-radius: 2px; border: 1px solid var(--kraft); background: var(--plate); color: var(--ink); box-shadow: none; }
+.contact-stickers .sticker.yellow { background: var(--ink); color: var(--paper); border-color: var(--paper); }
+.contact-stickers .sticker:hover { translate: 0 -1px; box-shadow: none; border-color: var(--coral-bright); }
+.direct-line { color: var(--kraft); margin-top: 34px; }
+.direct-line a { color: var(--coral-bright); text-decoration: none; border-bottom: 1px solid currentColor; }
+
+/* footer: hairline top, mono say, neutral links (red on hover only) */
+.footer { border-top: 1px solid rgba(181,192,200,.35); color: var(--kraft); }
+.footer .say { font: 400 12px/1.6 var(--type); letter-spacing: .08em; color: var(--kraft); rotate: 0deg; }
+.footer .meta a { color: var(--paper); text-decoration: none; border-bottom: 1px solid rgba(221,227,230,.4); }
+.footer .meta a:hover { color: var(--coral-bright); border-bottom-color: currentColor; }
+.footer .social a { color: var(--paper); }
+.footer .social a:hover { color: var(--coral-bright); }
+
+/* tester overlay: .92 scrim, flat plate card, ink rule on top, square plate close */
+.testerview { background: rgba(22,32,42,.92); }
+.tester-wrap { filter: none; rotate: 0deg; }
+.tester-card { background: var(--plate); border: 1px solid var(--kraft); border-top: 3px solid var(--ink); border-radius: 0;
+  box-shadow: 0 8px 22px rgba(22,32,42,.18); padding: 40px 42px 38px; }
+.tester-card .badge-line { color: var(--ink-soft); rotate: 0deg; }
+.tester-list li::before { color: var(--ink); }
+.tester-close { top: 14px; right: 14px; width: 40px; height: 40px; display: grid; place-items: center;
+  background: var(--plate); border: 1px solid var(--kraft); border-radius: 0; font: 900 20px/1 var(--display); color: var(--ink); }
+.tester-close:hover { border-color: var(--coral); }
+
+/* lightbox: .92 scrim, square plate buttons, mono caption */
+.lightbox { background: rgba(22,32,42,.92); }
+.lightbox img { background: var(--plate); padding: 6px; border: 1px solid var(--kraft); box-shadow: 0 8px 22px rgba(22,32,42,.18); }
+.lightbox figcaption { color: var(--paper); font: 400 12.5px/1.6 var(--type); letter-spacing: .04em; }
+.lightbox-close, .lightbox-arrow { width: 44px; height: 44px; border-radius: 0; box-shadow: none;
+  background: var(--plate); color: var(--ink); border: 1px solid var(--kraft); font: 900 20px/1 var(--display); }
+.lightbox-close:hover, .lightbox-arrow:hover { background: var(--plate); border-color: var(--coral); }
+.lightbox-hint { color: var(--kraft); }
+
+/* stack viewer: .92 scrim, plate panel with ink rule, square plate buttons */
+.stackview { background: rgba(22,32,42,.92); }
+.sv-panel { border: 1px solid var(--kraft); border-top: 3px solid var(--ink); box-shadow: 0 8px 22px rgba(22,32,42,.18); }
+.sv-panel img { background: #fff; padding: 6px; border: 1px solid var(--kraft); box-shadow: none; }
+.sv-meta .sv-count { color: var(--coral); }
+.sv-meta .sv-cap { font: 400 13px/1.6 var(--type); color: var(--ink-soft); }
+.sv-meta .sv-links a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--kraft); }
+.sv-meta .sv-links a:hover { color: var(--coral); border-bottom-color: currentColor; }
+.sv-nav { border-top: 1px solid rgba(22,32,42,.12); padding-top: 14px; }
+.sv-btn { background: var(--plate); color: var(--ink); border: 1px solid var(--kraft); padding: 11px 16px; }
+.sv-btn:hover:not(:disabled) { border-color: var(--coral); }
+.sv-btn:disabled { opacity: .35; }
+
+/* 10c. r6: no offset card behind library stacks; no inset highlight ("peel") on any thumb. */
+.stack .card::after, .stack .card::before { display: none !important; content: none; }
+.shot .frame, .pile .shot:nth-child(even) .frame,
+.ui-shot .frame, .tracker-grid .ui-shot:nth-child(even) .frame,
+.stack .frame, .stack-grid .stack:nth-of-type(2n) .frame {
+  box-shadow: 0 0 0 1px rgba(22,32,42,.10), 0 8px 20px rgba(22,32,42,.16);
+}
+.shot:hover .frame, .shot .enlarge:focus-visible .frame,
+.ui-shot:hover .frame, .ui-shot:focus-visible .frame,
+.stack:hover .card .frame, .stack:focus-visible .card .frame {
+  box-shadow: 0 0 0 2px var(--coral), 0 14px 28px rgba(22,32,42,.22);
+}

@@ -1,89 +1,90 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description" content="Rental Manager is a local-file organizer for people who self-manage one to five rentals. Testers wanted. Built by Olimazi, in the open.">
   <title>Test Rental Manager — Olimazi</title>
-  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    @font-face { font-family:"Satoshi"; src:url("assets/Satoshi-Black.otf") format("opentype"); font-weight:900; font-style:normal; font-display:swap; }
+    @font-face { font-family:"Satoshi"; src:url("assets/Satoshi-Bold.otf") format("opentype"); font-weight:700; font-style:normal; font-display:swap; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --paper:#D9DEDC; --paper-deep:#BFD5CC; --card:#EEF3F1; --ink:#303737;
-      --ink-muted:#56615E; --line:rgba(48,55,55,.20); --line-soft:rgba(48,55,55,.10);
-      --red:#70C9AA; --red-deep:#2A745D; --red-text:#226D57; --olive:#46534F;
-      --btn-text:#F4F8F6; --nav-bg:rgba(217,222,220,.92);
-    }
-    html[data-theme="dark"] {
-      --paper:#282E2D; --paper-deep:#34463F; --card:#313A37; --ink:#E4ECE9;
-      --ink-muted:#B5C1BD; --line:rgba(228,236,233,.19); --line-soft:rgba(228,236,233,.09);
-      --red-text:#8DE0C1; --olive:#A8C1B7; --nav-bg:rgba(40,46,45,.92);
+      /* STEEL — same tokens as styles.css :root (2026-08-17) */
+      --wall: #16202A; --wall-2: #1C2731;
+      --paper: #DDE3E6; --paper-2: #D3DADE; --kraft: #B5C0C8;
+      --ink: #16202A; --ink-soft: #4E5C68;
+      --plate: #E6EBEE; --plate-2: #D8DFE3;
+      --coral: #C23A2B; --coral-bright: #FF4A2E;
+      --tape: rgba(220, 228, 232, .55); --stamp: rgba(22, 32, 42, .78);
+      --display: "Satoshi", "Segoe UI", system-ui, sans-serif;
+      --type: "Courier New", Courier, monospace;
+      --line: var(--kraft); --line-soft: rgba(22,32,42,.12);
     }
     html { scroll-behavior:smooth; background:var(--paper); }
-    body { color:var(--ink); background:var(--paper); font-family:"Satoshi","Segoe UI",system-ui,sans-serif; overflow-x:hidden; transition:background-color .35s,color .35s; }
-    body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.7; background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px); background-size:14px 14px; }
+    body { color:var(--ink); background:var(--paper); font-family:"Segoe UI",system-ui,sans-serif; overflow-x:hidden; }
     main,.footer { position:relative; z-index:1; }
     a { color:inherit; }
-    :focus-visible { outline:3px solid var(--red); outline-offset:4px; }
-    .skip { position:fixed; top:10px; left:10px; z-index:300; padding:10px 14px; color:var(--btn-text); background:var(--red-deep); transform:translateY(-160%); transition:transform .2s; }
+    ::selection { background:var(--coral-bright); color:var(--ink); }
+    :focus-visible { outline:3px solid var(--coral); outline-offset:4px; }
+    .skip { position:fixed; top:10px; left:10px; z-index:300; padding:10px 14px; color:var(--paper); background:var(--ink); font:700 12px/1 var(--display); text-transform:uppercase; letter-spacing:.1em; text-decoration:none; transform:translateY(-160%); transition:transform .2s; }
     .skip:focus { transform:none; }
     .wrap { width:100%; max-width:1080px; margin:0 auto; padding-inline:28px; }
-    .nav { position:fixed; inset:0 0 auto; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:14px 40px; background:var(--nav-bg); border-bottom:1px solid var(--line); }
-    .nav-brand { color:var(--ink); font-size:24px; font-weight:900; line-height:1; letter-spacing:-.02em; text-decoration:none; }
-    .nav-brand i,.footer-wordmark i { color:var(--red-text); font-style:normal; }
+    .nav { position:fixed; inset:0 0 auto; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:14px 40px; background:var(--paper); border-bottom:1px solid var(--line); }
+    .nav-brand { color:var(--ink); font:900 24px/1 var(--display); letter-spacing:-.02em; text-decoration:none; }
+    .nav-brand i,.footer-wordmark i { color:var(--coral); font-style:normal; }
     .nav-right { display:flex; align-items:center; gap:18px; }
-    .nav-link,.theme-toggle { color:var(--ink-muted); font:500 10px/1 "IBM Plex Mono",Consolas,monospace; letter-spacing:.14em; text-transform:uppercase; }
-    .nav-link { text-decoration:none; }
-    .theme-toggle { min-height:35px; display:flex; align-items:center; gap:7px; padding:7px 12px; background:transparent; border:1px solid var(--line); border-radius:2px; cursor:pointer; }
-    .nav-link:hover,.theme-toggle:hover { color:var(--red-text); }
+    .nav-link { color:var(--ink-soft); font:700 11px/1 var(--type); letter-spacing:.14em; text-transform:uppercase; text-decoration:none; }
+    .nav-link:hover { color:var(--ink); }
     .hero { padding:clamp(132px,17vw,190px) 0 clamp(72px,10vw,116px); }
     .hero-grid { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr); gap:clamp(38px,7vw,84px); align-items:end; }
-    .product-name { display:block; margin-bottom:30px; font-size:clamp(18px,2.2vw,24px); font-weight:900; }
-    .product-name small { color:var(--ink-muted); font:500 .55em/1 "IBM Plex Mono",Consolas,monospace; letter-spacing:.05em; }
-    h1 { max-width:850px; font-size:clamp(44px,7.6vw,82px); font-weight:900; line-height:.98; letter-spacing:-.035em; text-wrap:balance; }
+    .product-name { display:block; margin-bottom:30px; font:900 clamp(18px,2.2vw,24px)/1.2 var(--display); }
+    .product-name small { color:var(--ink-soft); font:700 .55em/1 var(--type); letter-spacing:.05em; }
+    h1 { max-width:850px; font:900 clamp(44px,7.6vw,82px)/.98 var(--display); letter-spacing:-.035em; text-wrap:balance; }
     .hero-copy { max-width:560px; }
-    .hero-copy p { color:var(--ink-muted); font-size:clamp(16px,2vw,19px); line-height:1.7; text-wrap:pretty; }
+    .hero-copy p { color:var(--ink-soft); font-size:clamp(16px,2vw,19px); line-height:1.7; text-wrap:pretty; }
     .hero-copy p + p { margin-top:18px; }
-    .rule-note { margin-top:28px; padding-top:18px; border-top:1px solid var(--ink); color:var(--olive); font:500 11px/1.65 "IBM Plex Mono",Consolas,monospace; }
-    .section { padding:clamp(70px,10vw,112px) 0; border-top:1px solid var(--ink); }
+    .rule-note { margin-top:28px; padding-top:18px; border-top:3px solid var(--ink); color:var(--ink-soft); font:700 11px/1.65 var(--type); letter-spacing:.06em; }
+    .section { padding:clamp(70px,10vw,112px) 0; border-top:1px solid var(--line); }
     .section-grid { display:grid; grid-template-columns:minmax(210px,.42fr) minmax(0,1fr); gap:clamp(34px,8vw,100px); }
-    h2 { font-size:clamp(30px,4.5vw,48px); line-height:1.05; letter-spacing:-.025em; text-wrap:balance; }
+    h2 { font:900 clamp(30px,4.5vw,48px)/1.05 var(--display); letter-spacing:-.025em; text-wrap:balance; }
+    h3 { font:700 18px/1.3 var(--display); }
     .section-body { max-width:690px; }
-    .section-body > p { color:var(--ink-muted); font-size:16px; line-height:1.75; text-wrap:pretty; }
+    .section-body > p { color:var(--ink-soft); font-size:16px; line-height:1.75; text-wrap:pretty; }
     .split { display:grid; grid-template-columns:1fr 1fr; gap:clamp(24px,5vw,56px); }
-    .split h3,.steps h3 { margin-bottom:14px; font-size:18px; }
+    .split h3,.steps h3 { margin-bottom:14px; }
     .plain-list { list-style:none; }
-    .plain-list li { padding:13px 0; border-top:1px solid var(--line); color:var(--ink-muted); font-size:15px; line-height:1.55; }
-    .plain-list li::before { content:"\2192"; margin-right:10px; color:var(--red-text); }
+    .plain-list li { padding:13px 0; border-top:1px solid var(--line-soft); color:var(--ink-soft); font-size:15px; line-height:1.55; }
+    .plain-list li::before { content:"\2192"; margin-right:10px; color:var(--ink); }
     .steps { margin-top:34px; }
     .steps ol { list-style:none; counter-reset:step; }
-    .steps li { counter-increment:step; display:grid; grid-template-columns:42px 1fr; gap:14px; padding:20px 0; border-top:1px solid var(--line); color:var(--ink-muted); line-height:1.65; }
-    .steps li::before { content:counter(step,decimal-leading-zero); color:var(--red-text); font:600 11px/1.65 "IBM Plex Mono",Consolas,monospace; }
+    .steps li { counter-increment:step; display:grid; grid-template-columns:42px 1fr; gap:14px; padding:20px 0; border-top:1px solid var(--line-soft); color:var(--ink-soft); line-height:1.65; }
+    .steps li::before { content:counter(step,decimal-leading-zero); color:var(--coral); font:700 11px/1.65 var(--type); letter-spacing:.1em; }
     .steps strong { display:block; color:var(--ink); }
-    .honesty { padding:clamp(64px,9vw,96px) 0; color:#E4ECE9; background:#303737; }
+    .honesty { padding:clamp(64px,9vw,96px) 0; color:var(--paper); background:var(--wall); border-top:1px solid var(--line); }
     .honesty .section-grid { align-items:start; }
-    .honesty h2 { color:#E4ECE9; }
-    .honesty p { color:#BFCBC7; }
+    .honesty h2 { color:var(--paper); }
+    .honesty p { color:var(--kraft); }
     .honesty-list { margin-top:24px; display:flex; flex-wrap:wrap; gap:8px; }
-    .honesty-list span { padding:8px 10px; border:1px solid rgba(228,236,233,.3); font:500 10px/1.3 "IBM Plex Mono",Consolas,monospace; letter-spacing:.06em; }
-    .signup { background:var(--paper-deep); }
-    .apply-box { padding:clamp(24px,5vw,44px); background:var(--card); border:1px solid var(--ink); }
-    .apply-box p { max-width:580px; color:var(--ink-muted); font-size:16px; line-height:1.7; }
-    .apply-box ul { margin:22px 0 30px; list-style:none; font:500 11px/1.8 "IBM Plex Mono",Consolas,monospace; color:var(--olive); }
-    .apply-box li::before { content:"[ ]"; margin-right:10px; color:var(--red-text); }
-    .btn { min-height:50px; display:inline-flex; align-items:center; justify-content:center; padding:15px 32px; color:var(--btn-text); background:var(--red-deep); border:0; border-radius:2px; font-weight:700; text-decoration:none; transition:transform .2s,background .2s; }
-    .btn:hover { background:var(--ink); transform:translateY(-2px); }
-    .business-next { padding:52px 0; border-top:1px solid var(--ink); }
+    .honesty-list span { padding:8px 10px; border:1px solid var(--kraft); color:var(--paper); font:700 10px/1.3 var(--type); letter-spacing:.06em; }
+    .signup { background:var(--paper-2); }
+    .apply-box { padding:clamp(24px,5vw,44px); background:var(--plate); border:1px solid var(--kraft); border-top:3px solid var(--ink); }
+    .apply-box p { max-width:580px; color:var(--ink-soft); font-size:16px; line-height:1.7; }
+    .apply-box ul { margin:22px 0 30px; list-style:none; font:700 11px/1.8 var(--type); letter-spacing:.06em; color:var(--ink-soft); }
+    .apply-box li::before { content:"[ ]"; margin-right:10px; color:var(--ink); }
+    .btn { min-height:50px; display:inline-flex; align-items:center; justify-content:center; padding:15px 32px; color:var(--paper); background:var(--ink); border:1px solid var(--ink); border-radius:2px; font:700 15px/1 var(--display); text-decoration:none; transition:transform .2s,background .2s,color .2s; }
+    .btn:hover { background:var(--paper); color:var(--ink); transform:translateY(-2px); }
+    .business-next { padding:52px 0; border-top:1px solid var(--line); }
     .business-next .wrap { display:flex; align-items:center; justify-content:space-between; gap:26px; }
-    .business-next p { max-width:700px; font-size:clamp(18px,2.6vw,26px); font-weight:700; line-height:1.35; }
-    .business-next a { flex:0 0 auto; color:var(--red-text); font:600 11px/1.4 "IBM Plex Mono",Consolas,monospace; letter-spacing:.1em; text-transform:uppercase; text-underline-offset:5px; }
+    .business-next p { max-width:700px; font:700 clamp(18px,2.6vw,26px)/1.35 var(--display); }
+    .business-next a { flex:0 0 auto; color:var(--coral); font:700 11px/1.4 var(--type); letter-spacing:.1em; text-transform:uppercase; text-underline-offset:5px; }
     .footer { padding:30px 0 40px; border-top:1px solid var(--line); }
     .footer-top,.footer-meta { display:flex; flex-wrap:wrap; justify-content:space-between; gap:10px; }
     .footer-top { align-items:center; margin-bottom:18px; }
-    .footer-wordmark { font-size:20px; font-weight:900; letter-spacing:-.02em; }
-    .footer-meta,.phonetic { color:var(--ink-muted); font:400 10px/1.5 "IBM Plex Mono",Consolas,monospace; letter-spacing:.14em; text-transform:uppercase; }
-    .footer-meta a { color:var(--red-text); text-decoration:none; }
+    .footer-wordmark { font:900 20px/1 var(--display); letter-spacing:-.02em; }
+    .footer-meta,.phonetic { color:var(--ink-soft); font:400 10px/1.5 var(--type); letter-spacing:.14em; text-transform:uppercase; }
+    .footer-meta a { color:var(--ink); text-decoration:none; }
+    .footer-meta a:hover { color:var(--coral); }
     @media (max-width:760px) {
       .nav { padding:12px 20px; }
       .hero-grid,.section-grid { grid-template-columns:1fr; }
@@ -97,7 +98,6 @@
       .nav { padding-inline:12px; }
       .nav-brand { font-size:20px; }
       .nav-link { display:none; }
-      .theme-toggle span { display:none; }
       h1 { font-size:clamp(42px,14vw,56px); overflow-wrap:anywhere; }
       .btn { width:100%; padding-inline:18px; }
     }
@@ -110,7 +110,6 @@
     <a class="nav-brand" href="index.html">olimazi<i>.</i>online</a>
     <div class="nav-right">
       <a class="nav-link" href="index.html#main-work">Main work</a>
-      <button class="theme-toggle" type="button" aria-label="Toggle color theme" onclick="toggleTheme()"><span>Theme</span><b aria-hidden="true">◐</b></button>
     </div>
   </nav>
 
@@ -143,7 +142,7 @@
       <div class="wrap section-grid">
         <h2>One local place for the year’s loose ends.</h2>
         <div class="section-body">
-          <p><strong>Rental Manager <span style="color:var(--ink-muted)">(Sch. E)</span></strong> is a local-file organizer. Income, expenses, notes and unresolved items land on one dashboard. Totals come from fixed rules, so the same inputs give the same number twice. Anything still missing an answer stays on screen instead of getting quietly guessed.</p>
+          <p><strong>Rental Manager <span style="color:var(--ink-soft)">(Sch. E)</span></strong> is a local-file organizer. Income, expenses, notes and unresolved items land on one dashboard. Totals come from fixed rules, so the same inputs give the same number twice. Anything still missing an answer stays on screen instead of getting quietly guessed.</p>
           <div class="steps"><ol><li><div><strong>Files stay on your machine.</strong> Your records stay portable, and yours to move or delete.</div></li><li><div><strong>The math is checkable.</strong> Every total traces back to a rule, not to an estimate.</div></li><li><div><strong>Open questions stay open.</strong> Missing categories, unclear payments and follow-ups sit on the dashboard until you answer them.</div></li></ol></div>
         </div>
       </div>
@@ -164,7 +163,7 @@
         <h2>Your books stay yours.</h2>
         <div class="section-body">
           <p>No cloud service, no account to create. Rental Manager reads and writes files on your own machine. Olimazi never sees your books unless you choose to send a redacted screenshot — names, addresses, account numbers and anything else identifying removed first.</p>
-          <p style="margin-top:18px"><strong style="color:#E4ECE9">This is an organizer, not tax advice.</strong> Confirm figures and tax treatment with your tax preparer.</p>
+          <p style="margin-top:18px"><strong style="color:var(--paper)">This is an organizer, not tax advice.</strong> Confirm figures and tax treatment with your tax preparer.</p>
           <div class="honesty-list" aria-label="Privacy summary"><span>NO CLOUD</span><span>NO ACCOUNT</span><span>FILES ARE YOURS</span><span>SHARING IS OPTIONAL</span></div>
         </div>
       </div>
@@ -183,7 +182,7 @@
 
     <section class="business-next">
       <div class="wrap">
-        <p>Business Manager <span style="color:var(--ink-muted)">(Sch. C)</span> is next — same approach, small-business books. The rest of the work, and the build log, is on the home page.</p>
+        <p>Business Manager <span style="color:var(--ink-soft)">(Sch. C)</span> is next — same approach, small-business books. The rest of the work, and the build log, is on the home page.</p>
         <a href="mailto:hello@olimazi.online?subject=INTEREST%3A%20SCH%20C&amp;body=Hi%20Olimazi%2C%0A%0AI%27m%20interested%20in%20Business%20Manager%20%28Sch.%20C%29.%0A%0AName%3A%20%0AType%20of%20business%3A%20%0AHow%20I%20track%20income%20and%20expenses%20today%3A%20%0AMy%20comfort%20level%20working%20with%20local%20files%3A%20">Flag my interest →</a>
       </div>
     </section>
@@ -195,9 +194,5 @@
       <div class="footer-meta"><span>© 2026 Olimazi · built in public</span><span><a href="index.html">Home</a> · <a href="library.html">Library</a> · <a href="mailto:hello@olimazi.online">hello@olimazi.online</a></span></div>
     </div>
   </footer>
-  <script>
-    function toggleTheme(){const root=document.documentElement;const next=root.dataset.theme==="dark"?"light":"dark";root.dataset.theme=next;try{localStorage.setItem("olimazi-theme",next)}catch(_){}}
-    try{const saved=localStorage.getItem("olimazi-theme");if(saved)document.documentElement.dataset.theme=saved}catch(_){}
-  </script>
 </body>
 </html>
