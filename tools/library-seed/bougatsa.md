@@ -45,13 +45,13 @@ Original Mia Kouppa recipe ↗ | https://miakouppa.com/bougatsa/#recipe
 Comment privately → | mailto:hello@olimazi.online?subject=Olimazi%20comment%3A%20Bougatsa
 
 # Card Image
-olimazi-assets/bougatsa.jpg
+assets/bougatsa.jpg
 
 # Card Image Alt
 Homemade bougatsa dusted with icing sugar and cinnamon
 
 # Dialog Image
-olimazi-assets/bougatsa.jpg
+assets/bougatsa.jpg
 
 # Dialog Image Alt
 Homemade bougatsa dusted with icing sugar and cinnamon

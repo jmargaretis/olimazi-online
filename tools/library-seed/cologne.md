@@ -51,13 +51,13 @@ Read a write-up ↗ | https://thecandyperfumeboy.com/2024/09/30/perfume-review-e
 Comment privately → | mailto:hello@olimazi.online?subject=Olimazi%20comment%3A%20Eau%20d%27Ombre%20Leather
 
 # Card Image
-olimazi-assets/eau-dombre.jpg
+assets/eau-dombre.jpg
 
 # Card Image Alt
 Tom Ford Eau d’Ombre Leather bottle
 
 # Dialog Image
-olimazi-assets/eau-dombre.jpg
+assets/eau-dombre.jpg
 
 # Dialog Image Alt
 Tom Ford Eau d’Ombre Leather bottle

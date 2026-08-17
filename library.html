@@ -81,7 +81,7 @@
       position: fixed; inset: 0 0 auto; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
       padding: 14px 40px; background: var(--nav-bg);
-      border-bottom: 1px solid var(--line); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
     }
     .nav-brand {
       color: var(--ink); font-size: 24px; font-weight: 900;
@@ -470,7 +470,7 @@
           <!-- LIBRARY ENTRY 00 — Learning AI in public: most recent published post. Edit card + dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
-              <img src="olimazi-assets/library-ai-drift-slide-02.jpg" alt="Slide from the post. It: Clock in by naming a lane. Me: not what I asked for when clocking in. You drifted 180 guy.">
+              <img src="assets/library-ai-drift-slide-02.jpg" alt="Slide from the post. It: Clock in by naming a lane. Me: not what I asked for when clocking in. You drifted 180 guy.">
             </div>
             <div class="personal-body">
               <span class="chip">Learning AI, in public</span>
@@ -483,7 +483,7 @@
           <!-- LIBRARY ENTRY 01 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb orientation-cw">
-              <img src="olimazi-assets/mind-ribeye-process.jpg" alt="Bone-in ribeye dry-brining on a rack before cooking">
+              <img src="assets/library-ribeye-process.jpg" alt="Bone-in ribeye dry-brining on a rack before cooking">
             </div>
             <div class="personal-body">
               <span class="chip">Cooking</span>
@@ -496,7 +496,7 @@
           <!-- LIBRARY ENTRY 02 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
-              <img src="olimazi-assets/library-67-bug.jpg" alt="White 1967 Volkswagen Beetle restored by the owner">
+              <img src="assets/library-67-bug.jpg" alt="White 1967 Volkswagen Beetle restored by the owner">
             </div>
             <div class="personal-body">
               <span class="chip">Automotive</span>
@@ -509,7 +509,7 @@
           <!-- LIBRARY ENTRY 03 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
-              <img src="olimazi-assets/library-art-sketch.jpg" alt="&quot;Humina&quot; branding from days past.">
+              <img src="assets/library-art-sketch.jpg" alt="&quot;Humina&quot; branding from days past.">
             </div>
             <div class="personal-body">
               <span class="chip">Art</span>
@@ -522,7 +522,7 @@
           <!-- LIBRARY ENTRY 04 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
-              <img src="olimazi-assets/library-brothers-truck.jpg" alt="&quot;Cool Dad's&quot; Truck">
+              <img src="assets/library-brothers-truck.jpg" alt="&quot;Cool Dad's&quot; Truck">
             </div>
             <div class="personal-body">
               <span class="chip">Automotive</span>
@@ -535,7 +535,7 @@
           <!-- LIBRARY ENTRY 05 — Edit the thumbnail, label, title, summary, and matching dialog together. -->
           <article class="personal-card">
             <div class="personal-thumb">
-              <img src="olimazi-assets/library-restaurant-02.jpg" alt="Restaurant food-safety temperature check">
+              <img src="assets/library-restaurant-02.jpg" alt="Restaurant food-safety temperature check">
             </div>
             <div class="personal-body">
               <span class="chip">Operations</span>
@@ -553,7 +553,7 @@
     <!-- LIBRARY DIALOG 00 — Learning AI in public. -->
     <dialog class="item-dialog" id="ai-drift-dialog" aria-labelledby="ai-drift-title">
       <div class="dialog-grid">
-        <img src="olimazi-assets/library-ai-drift-slide-03.jpg" alt="Slide from the post. What it admitted, after being called out: You're right, I inverted it. That's backwards.">
+        <img src="assets/library-ai-drift-slide-03.jpg" alt="Slide from the post. What it admitted, after being called out: You're right, I inverted it. That's backwards.">
         <div class="dialog-body">
           <form method="dialog"><button class="dialog-close" aria-label="Close notes">✕</button></form>
           <span class="chip">Posted to Instagram + Facebook · 2026-08-12</span>
@@ -572,7 +572,7 @@
     <!-- LIBRARY DIALOG 01 — Detailed notes for the Ribeye entry. -->
     <dialog class="item-dialog" id="ribeye-dialog" aria-labelledby="ribeye-title">
       <div class="dialog-grid">
-        <img src="olimazi-assets/mind-ribeye-result.jpg" alt="Cooked bone-in ribeyes resting with shallots and herbs">
+        <img src="assets/mind-ribeye-result.jpg" alt="Cooked bone-in ribeyes resting with shallots and herbs">
         <div class="dialog-body">
           <form method="dialog"><button class="dialog-close" aria-label="Close ribeye notes">✕</button></form>
           <span class="chip">Cooking notes</span>
@@ -589,7 +589,7 @@
     <!-- LIBRARY DIALOG 02 — Detailed notes for the '67 Bug: Father's first car since entry. -->
     <dialog class="item-dialog" id="bug-dialog" aria-labelledby="bug-title">
       <div class="dialog-grid">
-        <img src="olimazi-assets/library-67-bug.jpg" alt="White 1967 Volkswagen Beetle restored by the owner">
+        <img src="assets/library-67-bug.jpg" alt="White 1967 Volkswagen Beetle restored by the owner">
         <div class="dialog-body">
           <form method="dialog"><button class="dialog-close" aria-label="Close classic Bug notes">✕</button></form>
           <span class="chip">Personal archive</span>
@@ -602,7 +602,7 @@
     <!-- LIBRARY DIALOG 03 — Detailed notes for the Art thread entry. -->
     <dialog class="item-dialog" id="art-thread-dialog" aria-labelledby="art-thread-title">
       <div class="dialog-grid">
-        <img src="olimazi-assets/library-art-vector.jpg" alt="Owner's character artwork converted from sketch to vector">
+        <img src="assets/library-art-vector.jpg" alt="Owner's character artwork converted from sketch to vector">
         <div class="dialog-body">
           <form method="dialog"><button class="dialog-close" aria-label="Close Art thread notes">✕</button></form>
           <span class="chip">Art archive</span>
@@ -618,7 +618,7 @@
     <!-- LIBRARY DIALOG 04 — Detailed notes for the truck entry. -->
     <dialog class="item-dialog" id="truck-dialog" aria-labelledby="truck-title">
       <div class="dialog-grid">
-        <img src="olimazi-assets/library-brothers-truck.jpg" alt="Owner's brother's customized pickup truck">
+        <img src="assets/library-brothers-truck.jpg" alt="Owner's brother's customized pickup truck">
         <div class="dialog-body">
           <form method="dialog"><button class="dialog-close" aria-label="Close truck notes">✕</button></form>
           <span class="chip">Personal Vehicle</span>
@@ -633,7 +633,7 @@
     <!-- LIBRARY DIALOG 05 — Detailed notes for the Restaurant Operations entry. -->
     <dialog class="item-dialog" id="restaurant-dialog" aria-labelledby="restaurant-title">
       <div class="dialog-grid">
-        <img src="olimazi-assets/library-restaurant-01.jpg" alt="Busy restaurant interior showing maintenance work above the kitchen">
+        <img src="assets/library-restaurant-01.jpg" alt="Busy restaurant interior showing maintenance work above the kitchen">
         <div class="dialog-body">
           <form method="dialog"><button class="dialog-close" aria-label="Close restaurant operations notes">✕</button></form>
           <span class="chip">Operations notes</span>

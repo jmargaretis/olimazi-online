@@ -20,13 +20,13 @@ Personal archive
 Personal-use '67 classic Bug, restored by the owner—shared simply because it's worth sharing.
 
 # Card Image
-olimazi-assets/library-67-bug.jpg
+assets/library-67-bug.jpg
 
 # Card Image Alt
 White 1967 Volkswagen Beetle restored by the owner
 
 # Dialog Image
-olimazi-assets/library-67-bug.jpg
+assets/library-67-bug.jpg
 
 # Dialog Image Alt
 White 1967 Volkswagen Beetle restored by the owner

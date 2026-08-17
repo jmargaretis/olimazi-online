@@ -22,7 +22,7 @@ Following [this YouTube video](https://youtu.be/lVcTvHTn6Dw): “funny guy to wa
 “Was a bit harder than I wanted it to be—should've known a bone-in ribeye is much harder to get even temps.”
 
 # Card Image
-olimazi-assets/mind-ribeye-process.jpg
+assets/library-ribeye-process.jpg
 
 # Card Image Alt
 Bone-in ribeye dry-brining on a rack before cooking
@@ -31,7 +31,7 @@ Bone-in ribeye dry-brining on a rack before cooking
 orientation-cw
 
 # Dialog Image
-olimazi-assets/mind-ribeye-result.jpg
+assets/mind-ribeye-result.jpg
 
 # Dialog Image Alt
 Cooked bone-in ribeyes resting with shallots and herbs

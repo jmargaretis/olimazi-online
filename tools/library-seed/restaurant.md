@@ -22,13 +22,13 @@ From restaurant operations years: represents chaos and the ability to confront a
 Restaurant operations, held for future context.
 
 # Card Image
-olimazi-assets/library-restaurant-02.jpg
+assets/library-restaurant-02.jpg
 
 # Card Image Alt
 Restaurant food-safety temperature check
 
 # Dialog Image
-olimazi-assets/library-restaurant-01.jpg
+assets/library-restaurant-01.jpg
 
 # Dialog Image Alt
 Busy restaurant interior showing maintenance work above the kitchen

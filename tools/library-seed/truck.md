@@ -20,13 +20,13 @@ Automotive notes
 “My brother's truck.” More pictures and a parts-added detail coming later.
 
 # Card Image
-olimazi-assets/library-brothers-truck.jpg
+assets/library-brothers-truck.jpg
 
 # Card Image Alt
 Owner's brother's customized pickup truck
 
 # Dialog Image
-olimazi-assets/library-brothers-truck.jpg
+assets/library-brothers-truck.jpg
 
 # Dialog Image Alt
 Owner's brother's customized pickup truck

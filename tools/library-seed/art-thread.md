@@ -22,13 +22,13 @@ A sample of the owner's own art.
 Same art thread: taken from sketch to vector the old-school way.
 
 # Card Image
-olimazi-assets/library-art-sketch.jpg
+assets/library-art-sketch.jpg
 
 # Card Image Alt
 Owner's hand-drawn character artwork
 
 # Dialog Image
-olimazi-assets/library-art-vector.jpg
+assets/library-art-vector.jpg
 
 # Dialog Image Alt
 Owner's character artwork converted from sketch to vector
