@@ -354,7 +354,7 @@ h1 .aided {
 }
 .method-statement .flip { color: var(--coral-bright); }
 .method-credit { font: 400 12px/1.6 var(--type); letter-spacing: .1em; text-transform: uppercase; color: #9AA7B0; margin: 10px 0 46px; }
-.method-credit a { color: var(--coral-bright); }
+.method-credit a { color: var(--paper); text-decoration: underline; text-underline-offset: 3px; }  /* 02: one red = CONTEXT CAME LATER */
 
 /* the five notes: a ledger — hairline rows, mono red number, sans body */
 .scrap-row { display: block; margin-bottom: 64px; border-top: 1px solid var(--kraft); max-width: 900px; }
