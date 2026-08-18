@@ -604,3 +604,14 @@ h1 .aided {
   .contact-stickers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 760px; margin-inline: auto; }
   .contact-stickers .sticker { text-align: center; padding-block: 14px; }
 }
+
+/* r9: rubber stamp on the section 03 head — the one deliberate tilt */
+.sec-head { position: relative; }
+.stamp {
+  position: absolute; right: 0; top: -14px; rotate: -5deg;
+  padding: 9px 16px; border: 3px solid var(--coral); border-radius: 4px;
+  font: 900 clamp(12px, 1.3vw, 16px)/1 var(--display); letter-spacing: .2em; text-transform: uppercase;
+  color: var(--coral); opacity: .85; pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(221,227,230,.5); text-shadow: 0 0 1px rgba(221,227,230,.6);
+}
+@media (max-width: 720px) { .stamp { position: static; display: inline-block; margin-top: 14px; rotate: -4deg; } }
