@@ -1,11 +1,11 @@
 # Library how-to
 
-The homepage stacks and `library.html` both read `library.json`. The JSON file is the only content manifest; do not copy library content into either HTML page.
+The homepage stacks and `library.html` both read `library.js`. `library.js` (one JavaScript object, `window.LIBRARY = {...}`) is the only content manifest — a plain script so the pages also work opened straight from disk; do not copy library content into either HTML page.
 
 ## Add a post
 
 1. Put the image in `assets/`.
-2. Add the new item to the appropriate stack's `items` array in `library.json`. Put the newest item first when it should become the cover.
+2. Add the new item to the appropriate stack's `items` array in `library.js`. Put the newest item first when it should become the cover.
 3. Use `slide: true` on follow-up images that belong to the preceding post. Slides remain part of the viewer sequence but do not increase the entry count on the stack badge.
 4. Include `body` and `links` only when the entry needs them. Link objects use `t` for the label and `href` for the URL.
 
@@ -26,7 +26,7 @@ An item may use these fields:
 
 ## Rotate the homepage
 
-Set `front: true` on exactly two stacks and `front: false` on the rest. The homepage renders the two active stacks in the same order they appear in `library.json`. No HTML or JavaScript edit is needed.
+Set `front: true` on exactly two stacks and `front: false` on the rest. The homepage renders the two active stacks in the same order they appear in `library.js`. No HTML or JavaScript edit is needed.
 
 ## Retire or remove an item
 

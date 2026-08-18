@@ -102,12 +102,9 @@
   var lastFocus = null;
 
   function entries(stack) { return stack.items.filter(function (it) { return !it.slide; }).length; }
-  fetch("library.json")
-    .then(function (response) {
-      if (!response.ok) throw new Error("Library manifest request failed: " + response.status);
-      return response.json();
-    })
+  Promise.resolve(window.LIBRARY)
     .then(function (manifest) {
+      if (!manifest) throw new Error("library.js not loaded");
       manifest.stacks.forEach(function (stack) {
         if (!grid.hasAttribute("data-library-all") && !stack.front) return;
         var activeItems = stack.items.filter(function (item) { return !item.retired; });

@@ -198,14 +198,6 @@
     letter-spacing: .1em;
   }
 
-  .library-page .library-grid {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .library-page .library-grid .stack img {
-    height: min(66vw, 250px);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -213,3 +205,9 @@
     scroll-behavior: auto;
   }
 }
+
+/* r8: library tiles match the homepage stickers */
+.library-page .library-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 30px; }
+.library-page .library-grid .stack img { height: clamp(140px, 13vw, 190px); }
+@media (max-width: 1000px) { .library-page .library-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 720px)  { .library-page .library-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 20px; } .library-page .library-grid .stack img { height: 120px; } }

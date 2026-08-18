@@ -585,3 +585,22 @@ h1 .aided {
   .tapeband-track { animation: none; width: auto; }
   .skip, .sticker, .sign-cta, .shot .frame, .ui-shot .frame, .stack .frame, .footer .social a { transition: none; }
 }
+
+/* ---------- r8: section 03 fills desktop; tail backdrop + sticker grid ---------- */
+.mind-cols { display: grid; grid-template-columns: 1fr; gap: 34px; align-items: start; }
+.mind-cols .vault-note { max-width: none; }
+@media (min-width: 900px) {
+  .mind-cols { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 40px 64px; }
+  .mind-cols .stack-grid { max-width: none; }
+  .mind-cols .stack img { height: clamp(150px, 15vw, 210px); }
+  .stacks-title { margin-bottom: 22px; }
+}
+.closing .bg-photo { opacity: .09; filter: grayscale(.9) contrast(1.05); }
+.closing::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; z-index: 1;
+  background: var(--coral-bright);
+}
+@media (min-width: 720px) {
+  .contact-stickers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; max-width: 760px; margin-inline: auto; }
+  .contact-stickers .sticker { text-align: center; padding-block: 14px; }
+}
