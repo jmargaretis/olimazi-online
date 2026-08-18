@@ -379,11 +379,11 @@ h1 .aided {
 .vault-note { max-width: 640px; margin: 18px 0 60px; }
 .vault-note .margin-hand {
   display: block; margin-bottom: 10px;
-  font: 700 11px/1 var(--type); letter-spacing: .2em; text-transform: uppercase; color: var(--coral);
+  font: 700 11px/1 var(--type); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-soft);
 }
 /* ---- the library: themed stacks, two front-facing on the row ---- */
 .stacks-title { font-family: var(--type); font-size: 15px; margin-bottom: 30px; }
-.stacks-title a { color: var(--coral); }
+.stacks-title a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 .stack-grid {
   position: relative; display: grid; grid-template-columns: 1fr 1fr;
   gap: 34px 30px; align-items: flex-start; justify-items: stretch;
