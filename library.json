@@ -7,6 +7,7 @@
       "items": [
         {
           "src": "assets/library-ai-excuse-me-01.jpg",
+          "pos": "50% 0%",
           "title": "Excuse Me: What was that?",
           "cap": "Posted to Instagram + Facebook, 2026-08-16. Swipe the slides.",
           "body": [
@@ -29,7 +30,7 @@
         },
         {
           "src": "assets/library-ai-drift-slide-01.jpg",
-          "pos": "50% 0%",
+          "pos": "left 14%",
           "title": "Opus 5 being Opus 5",
           "cap": "Posted to Instagram + Facebook, 2026-08-12. Swipe the slides.",
           "body": [
