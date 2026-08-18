@@ -87,10 +87,10 @@
   document.addEventListener("keydown", function (e) { if (!tv.hidden && e.key === "Escape") close(); });
 })();
 
-/* ---- library stacks: built from the JSON manifest above ---- */
+/* ---- library stacks: built from the shared JSON manifest ---- */
 (function () {
-  var manifest = JSON.parse(document.getElementById("library-manifest").textContent);
   var grid = document.getElementById("stack-grid");
+  if (!grid) return;
   var view = document.getElementById("stackview");
   var svImg = document.getElementById("sv-img");
   var svCount = document.getElementById("sv-count");
@@ -101,23 +101,35 @@
   var cur = { stack: null, i: 0 };
   var lastFocus = null;
 
-  var FRONT = ["ai", "recipes"]; /* front-facing stacks; everything else is in library.html */
   function entries(stack) { return stack.items.filter(function (it) { return !it.slide; }).length; }
-  manifest.stacks.forEach(function (stack, n) {
-    if (FRONT.indexOf(stack.id) < 0) return;
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "stack";
-    btn.setAttribute("aria-label", stack.label + " — " + entries(stack) + (entries(stack) === 1 ? " entry" : " entries") + ", click to browse");
-    btn.innerHTML =
-      '<span class="card"><span class="frame"><img src="' + stack.items[0].src + '"' +
-      (stack.items[0].pos ? ' style="object-position:' + stack.items[0].pos + '"' : '') +
-      ' alt="" loading="lazy"></span>' +
-      '<span class="count">' + entries(stack) + "</span></span>" +
-      '<span class="label">' + stack.label + "</span>";
-    btn.addEventListener("click", function () { lastFocus = btn; show(stack, 0); });
-    grid.appendChild(btn);
-  });
+  fetch("library.json")
+    .then(function (response) {
+      if (!response.ok) throw new Error("Library manifest request failed: " + response.status);
+      return response.json();
+    })
+    .then(function (manifest) {
+      manifest.stacks.forEach(function (stack) {
+        if (!grid.hasAttribute("data-library-all") && !stack.front) return;
+        var activeItems = stack.items.filter(function (item) { return !item.retired; });
+        if (!activeItems.length) return;
+        var activeStack = { id: stack.id, label: stack.label, items: activeItems };
+        var cover = activeItems[0];
+        var count = entries(activeStack);
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "stack";
+        btn.setAttribute("aria-label", stack.label + " — " + count + (count === 1 ? " entry" : " entries") + ", click to browse");
+        btn.innerHTML =
+          '<span class="card"><span class="frame"><img src="' + cover.src + '"' +
+          (cover.pos ? ' style="object-position:' + cover.pos + '"' : '') +
+          ' alt="" loading="lazy"></span>' +
+          '<span class="count">' + count + "</span></span>" +
+          '<span class="label">' + stack.label + "</span>";
+        btn.addEventListener("click", function () { lastFocus = btn; show(activeStack, 0); });
+        grid.appendChild(btn);
+      });
+    })
+    .catch(function (error) { console.error(error); });
 
   function show(stack, i) {
     cur.stack = stack; cur.i = i;

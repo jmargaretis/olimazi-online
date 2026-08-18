@@ -1,0 +1,215 @@
+@import url("styles.css");
+
+.library-page {
+  min-width: 320px;
+  color: var(--paper);
+  background: var(--wall);
+}
+
+.library-page .wrap {
+  max-width: 1140px;
+}
+
+.library-nav {
+  position: relative;
+  z-index: 10;
+  border-bottom: 1px solid var(--kraft);
+  background: var(--wall);
+}
+
+.library-nav .wrap {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.library-brand {
+  color: var(--paper);
+  font: 900 22px/1 var(--display);
+  letter-spacing: -.03em;
+  text-decoration: none;
+}
+
+.library-brand span {
+  color: var(--coral-bright);
+}
+
+.library-back {
+  color: var(--paper);
+  font: 700 11px/1 var(--type);
+  letter-spacing: .16em;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--kraft);
+  padding-bottom: 4px;
+}
+
+.library-back:hover,
+.library-back:focus-visible {
+  border-bottom-color: var(--paper);
+}
+
+.library-hero {
+  padding: clamp(76px, 11vw, 132px) 0 clamp(70px, 9vw, 112px);
+  color: var(--paper);
+  background: var(--wall);
+}
+
+.library-kicker {
+  margin-bottom: 24px;
+  color: var(--coral-bright);
+  font: 700 11px/1 var(--type);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.library-hero h1 {
+  max-width: 10ch;
+  font: 900 clamp(60px, 12vw, 96px)/.92 var(--display);
+  letter-spacing: -.04em;
+  text-wrap: balance;
+}
+
+.library-purpose {
+  max-width: 690px;
+  margin-top: 30px;
+  color: var(--kraft);
+  font-size: clamp(17px, 2vw, 21px);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.library-index {
+  min-height: 58vh;
+  padding: clamp(70px, 9vw, 104px) 0 clamp(84px, 11vw, 132px);
+  color: var(--ink);
+  background: var(--paper);
+  border-block: 1px solid var(--kraft);
+}
+
+.library-intro {
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(260px, 1fr);
+  gap: 28px clamp(36px, 8vw, 110px);
+  align-items: end;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--kraft);
+}
+
+.library-intro h2 {
+  font: 900 clamp(34px, 5vw, 58px)/1 var(--display);
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+
+.library-intro p {
+  max-width: 56ch;
+  color: var(--ink-soft);
+  font-size: 16px;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.library-page .library-grid {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: clamp(42px, 6vw, 72px) 0 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(36px, 6vw, 72px) clamp(24px, 4vw, 48px);
+  align-items: start;
+  justify-items: stretch;
+}
+
+.library-page .library-grid button.stack,
+.library-page .library-grid button.stack:nth-of-type(n) {
+  width: 100%;
+  max-width: none;
+  rotate: 0deg;
+  translate: 0 0;
+}
+
+.library-page .library-grid .stack img {
+  height: clamp(180px, 22vw, 260px);
+}
+
+.library-page .library-grid .stack .label {
+  color: var(--ink);
+}
+
+.library-footer {
+  padding: 34px 0 42px;
+  color: var(--kraft);
+  background: var(--wall);
+}
+
+.library-footer .wrap {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px 30px;
+}
+
+.library-footer p {
+  font: 400 11px/1.6 var(--type);
+}
+
+.library-footer p:last-child {
+  text-align: right;
+}
+
+.library-footer a:not(.library-brand) {
+  color: var(--paper);
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .library-intro {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .library-page .library-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .library-footer .wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .library-footer p:last-child {
+    text-align: left;
+  }
+}
+
+@media (max-width: 480px) {
+  .library-page .wrap {
+    padding-inline: 20px;
+  }
+
+  .library-nav .wrap {
+    min-height: 64px;
+  }
+
+  .library-back {
+    letter-spacing: .1em;
+  }
+
+  .library-page .library-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .library-page .library-grid .stack img {
+    height: min(66vw, 250px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .library-page {
+    scroll-behavior: auto;
+  }
+}
