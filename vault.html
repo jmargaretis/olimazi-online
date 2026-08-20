@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <base href="/">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Olimazi is a personal brand exploring what one person can build with AI, real context, and files they own.">
-<title>Olimazi — oh-lee mah-zee — what one person can build</title>
+<meta name="description" content="The Olimazi vault: every piece the library holds, on one page.">
+<title>The vault — every piece, one page — Olimazi</title>
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <style>
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Black.otf") format("opentype");font-weight:900;font-display:swap}
@@ -247,6 +247,49 @@ footer .soc+.soc{margin-left:-4px}
 footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2px;
   mix-blend-mode:multiply;pointer-events:none}
 
+
+/* ---------- the vault — every piece, one page ---------- */
+.nav .here{color:var(--ink)}
+.nav .here::after{transform:scaleX(1)}
+.vhero{padding:clamp(52px,7vw,92px) 0 0}
+.vhero .hand{display:block;font:400 clamp(16px,1.9vw,22px)/1.25 var(--hand);color:var(--ink-soft);letter-spacing:0;margin-bottom:14px}
+.vhero h1{font:900 clamp(46px,8vw,104px)/.94 var(--disp);letter-spacing:-.045em}
+.vhero .lead{margin-top:20px;max-width:56ch;font-size:17px;line-height:1.5;color:var(--ink-soft)}
+.vjump{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:32px;padding-top:22px;border-top:1px solid var(--hair)}
+.vjump button{display:inline-flex;align-items:baseline;gap:8px;font-size:13.5px;font-weight:500;color:var(--ink-soft);
+  border:1px solid var(--hair);border-radius:2px;padding:8px 13px;cursor:pointer;
+  transition:color .3s var(--ease),border-color .3s var(--ease),background .3s var(--ease)}
+.vjump button:hover,.vjump button:focus-visible{color:var(--ink);border-color:var(--ink)}
+.vjump button b{font:600 11px/1 var(--body);color:var(--steel)}
+.vjump button.on{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.vjump button.on b{color:rgba(233,238,241,.6)}
+.count{margin-top:12px;font-size:15px;color:var(--ink-soft)}
+.count b{color:var(--ink);font-weight:600}
+.vault{padding-top:clamp(30px,3.5vw,44px);padding-bottom:0}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:30px 20px}
+.vtile[hidden]{display:none}
+.vtile{display:flex;flex-direction:column;gap:10px;text-align:left;cursor:zoom-in;transition:transform .45s var(--ease)}
+.vtile:hover{transform:translateY(-4px)}
+.vtile:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
+.vtile figure{position:relative;width:100%;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;background:var(--sheet)}
+.vtile img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 50%);transition:transform .9s var(--ease);pointer-events:none}
+.vtile:hover img{transform:scale(1.03)}
+.vtile .cnt{position:absolute;right:10px;bottom:10px;z-index:2;font:600 11px/1 var(--body);letter-spacing:.06em;
+  color:var(--paper);background:rgba(22,32,42,.7);border-radius:3px;padding:6px 8px}
+.vtile .tag{position:absolute;left:10px;top:10px;z-index:2;font:600 10px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);background:var(--sheet);border-radius:3px;padding:6px 8px}
+.vtile.off figure img{filter:grayscale(1);opacity:.62}
+.vtile figcaption{font-size:14px;line-height:1.35;min-width:0}
+.vtile figcaption b{display:block;font-weight:600;color:var(--ink)}
+.vtile figcaption span{display:block;font-size:13px;color:var(--ink-faint)}
+.vtail{margin-top:clamp(44px,5vw,68px);margin-bottom:clamp(44px,5vw,68px);padding-top:26px;border-top:1px solid var(--hair);
+  display:flex;justify-content:space-between;align-items:baseline;gap:20px;flex-wrap:wrap;font-size:15px;color:var(--ink-soft)}
+.vtail a{font-weight:500;color:var(--ink)}
+@media (max-width:560px){
+  .vgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 14px}
+  .vtile figcaption{font-size:13px}
+}
+
 /* ---------- image viewer ---------- */
 .viewer{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;--vpad:clamp(40px,4vw,60px);padding:var(--vpad) clamp(20px,5vw,72px);
   background:rgba(22,32,42,.965);opacity:0;transition:opacity .38s var(--ease)}
@@ -478,116 +521,35 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
 </style>
 </head>
 <body>
-<a class="skip" href="#top">Skip to content</a>
+<a class="skip" href="#vault">Skip to content</a>
 <div class="page">
 
 <div class="navbar" id="navbar">
 <nav class="nav" aria-label="Primary">
-  <a class="mark" href="#top">olimazi<i>.online</i></a>
+  <a class="mark" href="index.html#top">olimazi<i>.online</i></a>
   <ul>
-    <li><a class="u" href="#work">Work</a></li>
-    <li><a class="u" href="#learning">Learning</a></li>
-    <li><a class="u" href="#library">Library</a></li>
+    <li><a class="u" href="index.html#work">Work</a></li>
+    <li><a class="u" href="index.html#learning">Learning</a></li>
+    <li><a class="u here" href="index.html#library">Library</a></li>
     <li><button class="u" type="button" data-contact>Contact</button></li>
     <li><button class="u" type="button" data-pane="story">Story</button></li>
   </ul>
 </nav>
 </div>
 
-<header class="hero wrap gp" id="top">
-  <p class="kicker">Presenting my experiences</p>
-  <h1 aria-label="Sharing vision, aided by Ai?"><span class="w">Sharing</span> <span class="w">vision,</span><br><span class="w">aided</span> <span class="w">by</span> <span class="w">Ai<span class="q">?</span></span></h1>
-  <div class="rule" aria-hidden="true"></div>
-  <div class="hgrid">
-    <div class="hcol">
-      <p class="lead">Olimazi is an ongoing, growing personal brand meant to share past experiences along with builds from a non-technical scope &mdash; using AI as a tool to express human elements, and hopefully the missing context you only get from being &ldquo;in it&rdquo;.</p>
-      <p class="lead2"><button class="u" type="button" data-pane="story">The short story &rarr;</button></p>
-      <span class="aside">faceless by design &mdash; the work is the portrait.</span>
-    </div>
-    <aside class="brandcard" aria-label="Olimazi overview">
-      <div class="row"><span class="k">Name</span><span>Olimazi &middot; Greek-derived, &ldquo;all of us&rdquo;</span></div>
-      <div class="row"><span class="k">Say it</span><span>( oh-lee &middot; mah-zee )</span></div>
-      <div class="row"><span class="k">Prior work</span><span>Method Effects &middot; 2017&ndash;2024</span></div>
-      <div class="row"><span class="k">Current</span><span>Rental Manager (Sch.&nbsp;E) &middot; Business Manager (Sch.&nbsp;C) next</span></div>
-      <div class="row"><span class="k">Loop</span><span>Planned &rarr; Claude Code &middot; Executed &rarr; Codex &middot; Reviewed &rarr; Claude Code</span></div>
-      <div class="row"><span class="k">Status</span><span>Not technical by background &middot; learning in public</span></div>
-    </aside>
-  </div>
+<header class="vhero wrap gp" id="top">
+  <span class="hand">the vault &mdash; kept whether or not it worked</span>
+  <h1>All of it.</h1>
+  <p class="lead">Everything the library holds, on one page. The shelf on the home page rotates; this does not. Click any piece for the notes and the links behind it.</p>
+  <nav class="vjump" id="vjump" aria-label="Categories"></nav>
 </header>
 
-<!-- 1 · WORK -->
-<section id="work">
-  <div class="wrap">
-    <div class="sh rv">
-      <h2>The work, then and now.</h2>
-      <span class="aside">two representations, one habit</span>
-    </div>
-    <div class="work">
-      <button class="card rv" type="button" data-pane="method" aria-label="Open Method Effects">
-        <div class="ph"><img src="assets/method-s3-profile.jpg" alt="Method Effects — S3 profile, carbon splitter fitted" width="2000" height="1333"><div class="on"><h3>Method Effects</h3><small><i class="dot prev"></i>Previous · 2017–2024 · automotive aero</small></div></div>
-        <div class="foot"><p>Designed and made in the US. Around 50% margins. Wound down because it could not scale on a cash basis.</p><span class="u">Open &rarr;</span></div>
-      </button>
-      <button class="card next rv" type="button" data-pane="rental" aria-label="Open Rental Manager" style="transition-delay:.08s">
-        <div class="ph"><img class="top" src="assets/rm-dashboard.png" alt="Rental Manager &mdash; the dashboard, Schedule E bottom line beside the open items" width="2160" height="5873"><div class="on"><h3>Rental Manager <small style="display:inline;font:400 14px/1 var(--body)">Sch.&nbsp;E</small></h3><small><i class="dot"></i>Current · first Olimazi build · <b style="color:var(--ox);font-weight:700">testers wanted</b></small></div></div>
-        <div class="foot"><p>A workbook you own. Local files, deterministic math, open items visible. Business Manager (Sch. C) is next.</p><span class="u">Open &rarr;</span></div>
-      </button>
-    </div>
-  </div>
-</section>
+<main class="vault wrap" id="vault"></main>
 
-<!-- 2 · LEARNING IN PUBLIC -->
-<section id="learning" class="learn">
-  <div class="wrap grid">
-    <div class="sticky">
-      <h2 class="rv">Learning in public.</h2>
-      <p class="intro rv">The bridge from "I ran a product company" to "I build with Ai now." Five lessons, framed from <a class="u src" href="https://www.youtube.com/watch?v=yGRtK08BdIs" target="_blank" rel="noopener">Austin Marchese</a>, tested against one real build.</p>
-      <div class="counter rv" aria-live="polite"><span class="n" id="lcount">01</span><small>of 05<i>hover a lesson</i></small></div>
-      <p class="loop rv"><span><b>Nov 2025</b> Gemini — not sufficient</span><span class="arr">&rarr;</span><span><b>Apr 2026</b> Claude</span><span class="arr">&rarr;</span><span>Planned in <b>Claude Code</b> · Executed in <b>Codex</b> · Reviewed in <b>Claude Code</b></span></p>
-      <p class="more rv"><button class="u" type="button" data-pane="learning">Read the five in full &rarr;</button></p>
-    </div>
-    <ol class="lessons">
-      <li class="lesson rv" data-i="1"><span class="num">01</span><h3>Chasing every new tool is window-shopping. <em>Pick one hub and plug everything into it.</em></h3></li>
-      <li class="lesson rv" data-i="2"><span class="num">02</span><h3>Nothing is hands-off from day one. <em>You earn automation by working one system in absurd detail.</em></h3></li>
-      <li class="lesson rv" data-i="3"><span class="num">03</span><h3>More agents is more output, not more value. <em>Measure impact, not volume.</em></h3></li>
-      <li class="lesson rv" data-i="4"><span class="num">04</span><h3>A hundred downloaded skills is testing debt. <em>Building one against your own context is the point.</em></h3></li>
-      <li class="lesson rv" data-i="5"><span class="num">05</span><h3>There is no autopilot income. <em>Ai fulfills the work; it does not market it.</em></h3></li>
-    </ol>
-  </div>
-</section>
-
-<!-- 3 · LIBRARY -->
-<section id="library" class="lib">
- <div class="band gp">
-  <div class="wrap">
-    <div class="head rv">
-      <span class="hand">under construction — the unfinished state is the record</span>
-      <h2>Current state of mind.</h2>
-      <p>What has carried the marketing stack: the posts and their slides, recipes, cologne, art, cars, a restaurant build, the ribeye. Each one opens with the notes and the links behind it.</p>
-    </div>
-  </div>
-  <div class="wrap strip-wrap rv">
-    <div class="strip" id="strip" aria-label="Library strip, drag or scroll sideways">
-      <button type="button" class="shelf" data-view="assets/bougatsa.jpg" data-title="Bougatsa — Greek custard pie" data-sub="recipes" data-cap='Part of learning the three primary custard styles deliberately.' data-body='[&quot;I love desserts, but making them myself gives me more control over sugar and ingredients while teaching me the techniques behind them. Bougatsa is part of a larger goal: understand the three primary custard styles well enough to make them deliberately rather than simply follow instructions.&quot;, &quot;Recipes are also a way to share something with my family. I tried this again to maintain the slightly lighter filling, but did add a quick syrup similar to galaktoboureko to set it off more.&quot;, &quot;Galaktoboureko is King — next: a syrup variation closer to galaktoboureko, a small custard-learning series, and draft posts.&quot;]' data-links='[{&quot;t&quot;: &quot;Original Mia Kouppa recipe&quot;, &quot;href&quot;: &quot;https://miakouppa.com/bougatsa/#recipe&quot;}]' style="--h:220px;--hm:140px;--ar:1.333"><figure><img class="on" src="assets/bougatsa.jpg" alt="Bougatsa — Greek custard pie"></figure><figcaption><b>Bougatsa</b><span>recipes</span></figcaption></button>
-      <button type="button" class="shelf" data-view="assets/eau-dombre.jpg" data-title="Tom Ford — Eau d&#39;Ombre Leather" data-sub="cologne" data-cap='A deeper scent found by following a review trail.' data-body='[&quot;A review video made the notes sound interesting, so I tried it at Nordstrom without initially knowing where the bottle was displayed. The soft, floating quality caught me immediately. It also made me realize how consistently my taste leans toward deeper scents.&quot;, &quot;Where Ai fits: it has not yet. This breakout is the structure for the experiment — gather sources, retain attribution, draft a personal post, and compare the draft with what I would naturally say before anything is published.&quot;]' data-links='[{&quot;t&quot;: &quot;Gents Scents on YouTube&quot;, &quot;href&quot;: &quot;https://www.youtube.com/@gentsscents&quot;}, {&quot;t&quot;: &quot;Fragrantica page&quot;, &quot;href&quot;: &quot;https://www.fragrantica.com/perfume/Tom-Ford/Eau-d-Ombre-Leather-95389.html&quot;}, {&quot;t&quot;: &quot;Read a write-up&quot;, &quot;href&quot;: &quot;https://thecandyperfumeboy.com/2024/09/30/perfume-review-eau-dombre-leather-by-tom-ford/&quot;}]' style="--h:280px;--hm:168px;--ar:.75"><figure><img class="on" src="assets/eau-dombre.jpg" alt="Tom Ford — Eau d&#39;Ombre Leather"></figure><figcaption><b>Eau d&#39;Ombre Leather</b><span>cologne</span></figcaption></button>
-      <button type="button" class="shelf" data-view="assets/library-ai-excuse-me-01.jpg" data-title="Excuse Me: What was that?" data-sub="learning Ai, in public" data-cap='Posted to Instagram + Facebook, 2026-08-16. Swipe the slides.' data-body='[&quot;Four paragraphs on why it skipped half a rules change. Asked it to say that again without the jargon.&quot;, &quot;“I skipped the part that would make me shut up.”&quot;]' data-slides='[{&quot;src&quot;: &quot;assets/library-ai-excuse-me-01.jpg&quot;, &quot;title&quot;: &quot;Excuse Me: What was that?&quot;, &quot;cap&quot;: &quot;Posted to Instagram + Facebook, 2026-08-16. Swipe the slides.&quot;}, {&quot;src&quot;: &quot;assets/library-ai-excuse-me-02.jpg&quot;, &quot;title&quot;: &quot;The rules change&quot;, &quot;cap&quot;: &quot;It wrote down the half about the shell command and dropped the half about being brief.&quot;}, {&quot;src&quot;: &quot;assets/library-ai-excuse-me-03.jpg&quot;, &quot;title&quot;: &quot;Plain language&quot;, &quot;cap&quot;: &quot;“I skipped the part that would make me shut up.”&quot;}]' style="--h:240px;--hm:150px;--ar:.8"><figure class="slides"><img class="on" src="assets/library-ai-excuse-me-01.jpg" alt="Excuse Me: What was that?" loading="lazy"><img src="assets/library-ai-excuse-me-02.jpg" alt="The rules change" loading="lazy"><img src="assets/library-ai-excuse-me-03.jpg" alt="Plain language" loading="lazy"><i class="deck" aria-hidden="true"><b class="at"></b><b></b><b></b></i></figure><figcaption><b>Excuse Me: What was that?</b><span>learning Ai, in public</span></figcaption></button>
-      <button type="button" class="shelf" data-view="assets/mind-ribeye-process.jpg" data-title="Ribeye — the process" data-sub="from the kitchen" data-cap='Mid-preparation.' data-body='[&quot;Followed the video below: “funny guy to watch; the drying/brining was definitely a home run!”&quot;]' data-links='[{&quot;t&quot;: &quot;The dry-brine video I followed&quot;, &quot;href&quot;: &quot;https://youtu.be/lVcTvHTn6Dw&quot;}]' data-slides='[{&quot;src&quot;: &quot;assets/mind-ribeye-process.jpg&quot;, &quot;title&quot;: &quot;Ribeye — the process&quot;, &quot;cap&quot;: &quot;Mid-preparation.&quot;}, {&quot;src&quot;: &quot;assets/mind-ribeye-result.jpg&quot;, &quot;title&quot;: &quot;Ribeye — the result&quot;, &quot;cap&quot;: &quot;Finished sear.&quot;}]' style="--h:240px;--hm:140px;--ar:1.333"><figure class="slides"><img class="on" src="assets/mind-ribeye-process.jpg" alt="Ribeye — the process" loading="lazy"><img src="assets/mind-ribeye-result.jpg" alt="Ribeye — the result" loading="lazy"><i class="deck" aria-hidden="true"><b class="at"></b><b></b></i></figure><figcaption><b>The ribeye</b><span>from the kitchen</span></figcaption></button>
-      <button type="button" class="shelf" data-view="assets/library-art-sketch.jpg" data-title="The sketch" data-sub="the art" data-cap='My own hand. Graffiti represents my art.' data-slides='[{&quot;src&quot;: &quot;assets/library-art-sketch.jpg&quot;, &quot;title&quot;: &quot;The sketch&quot;, &quot;cap&quot;: &quot;My own hand. Graffiti represents my art.&quot;}, {&quot;src&quot;: &quot;assets/library-art-vector.jpg&quot;, &quot;title&quot;: &quot;The vector&quot;, &quot;cap&quot;: &quot;The vector version of the sketch.&quot;}]' style="--h:300px;--hm:170px;--ar:.749"><figure class="slides"><img class="on" src="assets/library-art-sketch.jpg" alt="The sketch" loading="lazy"><img src="assets/library-art-vector.jpg" alt="The vector" loading="lazy"><i class="deck" aria-hidden="true"><b class="at"></b><b></b></i></figure><figcaption><b>The sketch</b><span>the art</span></figcaption></button>
-      <button type="button" class="shelf" data-view="assets/library-67-bug.jpg" data-title="The &#39;67 Bug" data-sub="the cars" data-cap='From the family archive.' style="--h:150px;--hm:104px;--ar:1.816"><figure><img class="on" src="assets/library-67-bug.jpg" alt="The &#39;67 Bug" loading="lazy"></figure><figcaption><b>The &#39;67 Bug</b><span>the cars</span></figcaption></button>
-      <button type="button" class="shelf" data-view="assets/library-restaurant-01.jpg" data-title="The restaurant" data-sub="in progress" data-cap='From the restaurant archive.' data-slides='[{&quot;src&quot;: &quot;assets/library-restaurant-01.jpg&quot;, &quot;title&quot;: &quot;The restaurant&quot;, &quot;cap&quot;: &quot;From the restaurant archive.&quot;}, {&quot;src&quot;: &quot;assets/library-restaurant-02.jpg&quot;, &quot;title&quot;: &quot;The restaurant&quot;, &quot;cap&quot;: &quot;From the restaurant archive.&quot;}]' style="--h:300px;--hm:170px;--ar:.563"><figure class="slides"><img class="on" src="assets/library-restaurant-01.jpg" alt="The restaurant" loading="lazy"><img src="assets/library-restaurant-02.jpg" alt="The restaurant" loading="lazy"><i class="deck" aria-hidden="true"><b class="at"></b><b></b></i></figure><figcaption><b>Restaurant build</b><span>in progress</span></figcaption></button>
-      <button type="button" class="shelf" data-view="assets/wheel-graffiti.jpg" data-title="The RS wheel" data-sub="the cars" data-cap='Wet asphalt, graffiti wall — the shot behind the hero.' style="--h:260px;--hm:150px;--ar:1"><figure><img class="on" src="assets/wheel-graffiti.jpg" alt="The RS wheel" loading="lazy"></figure><figcaption><b>The RS wheel</b><span>the cars</span></figcaption></button>
-      <button type="button" class="shelf" data-view="assets/library-brothers-truck.jpg" data-title="The brothers&#39; truck" data-sub="the cars" data-cap='From the family archive.' style="--h:200px;--hm:120px;--ar:1.592"><figure><img class="on" src="assets/library-brothers-truck.jpg" alt="The brothers&#39; truck" loading="lazy"></figure><figcaption><b>The brothers&#39; truck</b><span>the cars</span></figcaption></button>
-      <button type="button" class="shelf" data-view="assets/condo-avenue.png" data-title="Condo Avenue" data-sub="art · the palette came from here" data-cap="The illustration the whole light palette was pulled from." style="--h:160px;--hm:100px;--ar:2.357"><figure><img src="assets/condo-avenue.png" alt="Condo Avenue — illustration" loading="lazy"></figure><figcaption><b>Condo Avenue</b><span>art · the palette came from here</span></figcaption></button>
-      <div class="shelf note" style="--h:280px;--hm:168px"><p>Ten on the shelf, the rest in the vault. Click one for the notes and the links. Drag, or scroll sideways.</p><span class="aside">the vault stays open while it is built</span></div>
-    </div>
-    <div class="progress" aria-hidden="true"><i id="prog"></i></div>
-    <p class="striphint" aria-hidden="true">drag sideways &rarr;</p>
-  </div>
- </div>
-  <div class="wrap links rv">
-    <a class="vault" href="vault.html"><b class="u">All of it, in the vault &rarr;</b><span>every piece, one page</span></a>
-  </div>
-</section>
-
+<div class="wrap">
+  <p class="vtail"><span>Under construction. The unfinished state is the record.</span>
+  <a class="u" href="index.html#library">&larr; Back to the shelf</a></p>
+</div>
 
 </div><!-- /.page — the sheet ends here -->
 
@@ -840,14 +802,16 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   var onScroll = function(){ navbar.classList.toggle('stuck', window.scrollY > 12); };
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
-  strip.addEventListener('scroll', setProg, { passive: true });
-  window.addEventListener('resize', setProg);
-  setProg(); window.addEventListener('load', setProg);
   var down = false, sx = 0, sl = 0, moved = 0;
-  strip.addEventListener('pointerdown', function(e){ if (e.pointerType === 'touch') return; down = true; moved = 0; sx = e.clientX; sl = strip.scrollLeft; strip.classList.add('drag'); });
-  window.addEventListener('pointermove', function(e){ if (!down) return; e.preventDefault(); var dx = e.clientX - sx; moved += Math.abs(dx); strip.scrollLeft = sl - dx; });
-  function up(){ down = false; strip.classList.remove('drag'); }
-  window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up);
+  if (strip) {
+    strip.addEventListener('scroll', setProg, { passive: true });
+    window.addEventListener('resize', setProg);
+    setProg(); window.addEventListener('load', setProg);
+    strip.addEventListener('pointerdown', function(e){ if (e.pointerType === 'touch') return; down = true; moved = 0; sx = e.clientX; sl = strip.scrollLeft; strip.classList.add('drag'); });
+    window.addEventListener('pointermove', function(e){ if (!down) return; e.preventDefault(); var dx = e.clientX - sx; moved += Math.abs(dx); strip.scrollLeft = sl - dx; });
+    var up = function(){ down = false; strip.classList.remove('drag'); };
+    window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up);
+  }
 
   /* ---- local clock in the tail ---- */
   var clock = document.getElementById('clock'), dot = document.getElementById('dot');
@@ -944,7 +908,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     vpaint();
   }
   function vshow(btn){
-    var box = btn.closest('#strip, .gal, .shotgrid') || btn.parentNode;
+    var box = btn.closest('#strip, .gal, .shotgrid, .vgrid') || btn.parentNode;
     vpeers = [].slice.call(box.querySelectorAll('[data-view]'));
     vpi = Math.max(0, vpeers.indexOf(btn));
     vload(btn, false);
@@ -1065,6 +1029,98 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   });
   var h0 = location.hash.replace('#', '');
   if (h0 && pane(h0)) { setTimeout(function(){ show(h0, false); }, 60); }
+})();
+</script>
+
+<script src="library.js"></script>
+<script>
+(function(){
+  var L = window.LIBRARY, host = document.getElementById('vault'), rail = document.getElementById('vjump');
+  if (!L || !host) return;
+
+  var cats = [], all = [];
+  L.stacks.forEach(function(st){
+    var entries = [];
+    st.items.forEach(function(it){
+      if (it.slide && entries.length) { entries[entries.length - 1].slides.push(it); return; }
+      entries.push({ head: it, slides: [it], stack: st });
+    });
+    if (!entries.length) return;
+    cats.push({ st: st, count: entries.length });
+    all = all.concat(entries);
+  });
+  // live first, retired last; otherwise manifest order
+  all.sort(function(a, b){ return (a.head.retired ? 1 : 0) - (b.head.retired ? 1 : 0); });
+
+  var grid = document.createElement('div');
+  grid.className = 'vgrid';
+  all.forEach(function(en){
+    var it = en.head, st = en.stack;
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'vtile' + (it.retired ? ' off' : '');
+    b.setAttribute('data-cat', st.id);
+    b.setAttribute('data-view', it.src);
+    b.setAttribute('data-title', it.title || '');
+    b.setAttribute('data-sub', st.label);
+    b.setAttribute('data-cap', it.cap || '');
+    if (it.body) b.setAttribute('data-body', JSON.stringify(it.body));
+    if (it.links && it.links.length) b.setAttribute('data-links', JSON.stringify(it.links));
+    if (en.slides.length > 1) {
+      b.setAttribute('data-slides', JSON.stringify(en.slides.map(function(x){
+        return { src: x.src, title: x.title || '', cap: x.cap || '' };
+      })));
+    }
+    var fig = document.createElement('figure');
+    var img = document.createElement('img');
+    img.src = it.src; img.alt = it.title || ''; img.loading = 'lazy';
+    if (it.pos) img.style.setProperty('--pos', it.pos);
+    fig.appendChild(img);
+    if (en.slides.length > 1) {
+      var c = document.createElement('span');
+      c.className = 'cnt'; c.textContent = en.slides.length + ' slides';
+      fig.appendChild(c);
+    }
+    if (it.retired) {
+      var t = document.createElement('span');
+      t.className = 'tag'; t.textContent = 'retired';
+      fig.appendChild(t);
+    }
+    var cap = document.createElement('figcaption');
+    cap.innerHTML = '<b></b><span></span>';
+    cap.querySelector('b').textContent = it.title || '';
+    cap.querySelector('span').textContent = st.label;
+    b.appendChild(fig); b.appendChild(cap);
+    grid.appendChild(b);
+  });
+  host.appendChild(grid);
+
+  // the rail filters in place — the page never navigates away
+  function chip(id, label, count){
+    var a = document.createElement('button');
+    a.type = 'button'; a.setAttribute('data-filter', id);
+    a.innerHTML = '<span></span><b></b>';
+    a.querySelector('span').textContent = label;
+    a.querySelector('b').textContent = count;
+    rail.appendChild(a);
+    return a;
+  }
+  chip('all', 'Everything', all.length).classList.add('on');
+  cats.forEach(function(c){ chip(c.st.id, c.st.label, c.count); });
+
+  rail.addEventListener('click', function(e){
+    var b = e.target.closest('[data-filter]');
+    if (!b) return;
+    var f = b.getAttribute('data-filter');
+    [].forEach.call(rail.children, function(x){ x.classList.toggle('on', x === b); });
+    [].forEach.call(grid.children, function(t){
+      t.hidden = !(f === 'all' || t.getAttribute('data-cat') === f);
+    });
+  });
+
+  var lead = document.querySelector('.vhero .lead');
+  if (lead) lead.insertAdjacentHTML('afterend',
+    '<p class="count"><b>' + all.length + ' pieces</b> across ' + cats.length + ' categories. Nothing is retired out of here.</p>');
 })();
 </script>
 </body>
