@@ -3,3 +3,12 @@ __pycache__/
 tests/tmp*/
 library.preview.html
 .design-loop/
+
+# moodboard/ lived here untracked and carried rental-manager and Schedule E
+# screenshots. This repo is PUBLIC. It moved to the private olimazi-brand
+# repo on 2026-08-20, where brand exploration material belongs.
+moodboard/
+
+# Same reason: these still show the app icon in the header and are not
+# cleared for publishing.
+assets/rental-manager-*-nologo.png
