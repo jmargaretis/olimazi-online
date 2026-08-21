@@ -1,5 +1,20 @@
 # Codex operating contract (formerly "SOL")
 
+## Olimazi is a faceless brand — read this before writing anything
+
+**The owner's name never appears anywhere in this repo.** Not in visible copy,
+not in alt text, not in a meta tag, not in a commit message, and **not in a
+source comment** — view-source is public, so a comment is as readable as copy.
+The brand speaks as Olimazi. The work is the portrait; the person is not.
+
+This has been said more than once, most recently 2026-08-20 after a mockup went
+out with his name in the contact card: *"please make sure everyone knows that
+olimazi is a faceless brand at the moment... Small detail, but little things
+matter."*
+
+Write "you", "the owner", or nothing at all. Before any commit here, grep the
+diff for his first name and for any byline, signature or personal attribution.
+
 When the owner says “check the site for instructions” (or names the olimazi-online repo), read the active packet in `sol/INSTRUCTIONS.md`.
 
 Execute only that packet’s stated scope, commit the completed work to `main`, then overwrite `sol/REPORT.md` with the required completion report.
