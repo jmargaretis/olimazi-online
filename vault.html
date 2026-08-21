@@ -12,6 +12,7 @@
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Bold.otf") format("opentype");font-weight:700;font-display:swap}
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Medium.otf") format("opentype");font-weight:500;font-display:swap}
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Regular.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:"Architects Daughter";src:url("assets/ArchitectsDaughter-Regular.ttf") format("truetype");font-weight:400;font-display:swap}
 
 .skip{position:fixed;top:8px;left:8px;z-index:400;padding:10px 14px;background:var(--sheet);color:var(--ink);
   font:700 12px/1 var(--disp);text-transform:uppercase;letter-spacing:.1em;text-decoration:none;
@@ -29,7 +30,10 @@
   --hair:rgba(22,32,42,.16);--grid:rgba(22,32,42,.05);
   --disp:"Satoshi","Segoe UI",system-ui,-apple-system,sans-serif;
   --body:"Satoshi","Segoe UI",system-ui,-apple-system,sans-serif;
-  /* --hand retired 2026-08-20 - Satoshi is the one family. */
+  /* --hand: Architects Daughter (SIL OFL, self-hosted). Restored
+     2026-08-21. Voice-line asides only - never a heading, never
+     the URL mark. Everything else stays Satoshi.              */
+  --hand:"Architects Daughter","Segoe Print",cursive;
   --ease:cubic-bezier(.22,.75,.2,1);
   --r:12px;
   --pad:clamp(20px,5vw,64px);
@@ -85,7 +89,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;letter
 .hero .lead{font-size:20px;line-height:1.4;color:var(--ink-soft);max-width:46ch;opacity:0;animation:wordup .9s var(--ease) .85s forwards}
 .hero .lead a,.hero .lead button,.hero .lead2 button{color:var(--ink);font-weight:500}
 .hero .lead2{margin-top:18px;font-size:17px;line-height:1.55;color:var(--ink-soft);max-width:52ch;opacity:0;animation:wordup .9s var(--ease) .95s forwards}
-.hero .aside{display:block;margin-top:20px;font:700 18px/1.3 var(--disp);color:var(--ink-faint);letter-spacing:0;opacity:0;animation:wordup .9s var(--ease) 1.05s forwards}
+.hero .aside{display:block;margin-top:20px;font:400 20px/1.3 var(--hand);color:var(--ink-faint);letter-spacing:0;opacity:0;animation:wordup .9s var(--ease) 1.05s forwards}
 .hero .kicker{font:700 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--ox);margin-bottom:22px;opacity:0;animation:wordup .8s var(--ease) .02s forwards}
 .hero .hgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr);gap:clamp(36px,5vw,80px);align-items:start}
 .hero .lead{max-width:52ch}
@@ -98,7 +102,7 @@ section{padding:clamp(72px,9vw,112px) 0}
 .sh{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:40px}
 .sh h2{font:900 clamp(30px,4vw,48px)/1.05 var(--disp);letter-spacing:-.03em}
 .sh p{font-size:16px;color:var(--ink-soft);max-width:38ch}
-.sh .aside{font:700 18px/1.2 var(--disp);color:var(--ink-faint);letter-spacing:0;white-space:nowrap}
+.sh .aside{font:400 20px/1.2 var(--hand);color:var(--ink-faint);letter-spacing:0;white-space:nowrap}
 
 /* ---------- work ---------- */
 .work{display:grid;grid-template-columns:1fr 1fr;gap:32px}
@@ -158,13 +162,13 @@ section{padding:clamp(72px,9vw,112px) 0}
 .lib{padding:0;background:var(--paper)}
 .lib .band{background:var(--band);padding:clamp(72px,9vw,112px) 0 0;display:flow-root}
 .lib .head{text-align:center;max-width:940px;margin:0 auto 72px}
-.lib .head .hand{display:block;font:700 clamp(16px,1.9vw,24px)/1.25 var(--disp);color:var(--ink-soft);letter-spacing:0;margin-bottom:14px}
+.lib .head .hand{display:block;font:400 clamp(19px,2.2vw,28px)/1.3 var(--hand);color:var(--ink-soft);letter-spacing:0;margin-bottom:14px}
 .lib .head h2{font:900 clamp(38px,6vw,76px)/1 var(--disp);letter-spacing:-.035em;text-wrap:balance}
 .lib .head p{margin:20px auto 0;max-width:52ch;font-size:17px;line-height:1.45;color:var(--ink-soft)}
 .lib .links{padding:calc(var(--hang) + 44px) 0 clamp(40px,4.5vw,56px);display:flex;justify-content:center;gap:40px;font-weight:500;flex-wrap:wrap}
 .lib .links .vault{display:inline-flex;flex-direction:column;align-items:center;gap:7px;text-align:center}
 .lib .links .vault b{font:700 clamp(21px,2.2vw,28px)/1.1 var(--disp);letter-spacing:-.03em;color:var(--ink)}
-.lib .links .vault span{font:700 17px/1.2 var(--disp);letter-spacing:0;color:var(--ink-faint)}
+.lib .links .vault span{font:400 19px/1.2 var(--hand);letter-spacing:0;color:var(--ink-faint)}
 :root{--hang:96px}
 .strip-wrap{position:relative;z-index:2;margin-bottom:calc(-1 * var(--hang))}
 .strip{display:flex;gap:20px;align-items:flex-end;overflow-x:auto;margin-right:calc(-1 * var(--pad));scrollbar-width:none;cursor:grab;padding:4px var(--pad) 0 0;user-select:none;-webkit-user-select:none;
@@ -191,9 +195,9 @@ button.shelf:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
 .shelf figcaption span{display:block;font-size:13px;color:var(--ink-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .shelf.note{width:240px;--ar:.8;height:calc(var(--h) + 34px);justify-content:flex-end;padding-bottom:44px}
 .shelf.note p{font-size:20px;line-height:1.35;color:var(--ink)}
-.shelf.note .aside{font:700 18px/1.2 var(--disp);color:var(--ink-faint);margin-top:12px;letter-spacing:0}
+.shelf.note .aside{font:400 20px/1.2 var(--hand);color:var(--ink-faint);margin-top:12px;letter-spacing:0}
 .progress{position:relative;height:1px;background:rgba(22,32,42,.22);margin-top:12px}
-.striphint{margin-top:10px;font:700 18px/1.2 var(--disp);color:var(--ink-faint);letter-spacing:0;transition:opacity .45s var(--ease)}
+.striphint{margin-top:10px;font:400 20px/1.2 var(--hand);color:var(--ink-faint);letter-spacing:0;transition:opacity .45s var(--ease)}
 .strip-wrap.moved .striphint{opacity:0}
 .progress i{position:absolute;left:0;top:-1px;height:3px;width:100%;background:var(--ink);transform:scaleX(.2);transform-origin:left;transition:transform .15s linear}
 
@@ -254,7 +258,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
 .nav .here{color:var(--ink)}
 .nav .here::after{transform:scaleX(1)}
 .vhero{padding:clamp(52px,7vw,92px) 0 0}
-.vhero .hand{display:block;font:700 clamp(16px,1.9vw,22px)/1.25 var(--disp);color:var(--ink-soft);letter-spacing:0;margin-bottom:14px}
+.vhero .hand{display:block;font:400 clamp(19px,2.2vw,26px)/1.3 var(--hand);color:var(--ink-soft);letter-spacing:0;margin-bottom:14px}
 .vhero h1{font:900 clamp(46px,8vw,104px)/.94 var(--disp);letter-spacing:-.045em}
 .vhero .lead{margin-top:20px;max-width:56ch;font-size:17px;line-height:1.5;color:var(--ink-soft)}
 .vjump{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:32px;padding-top:22px;border-top:1px solid var(--hair)}

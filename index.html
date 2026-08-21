@@ -12,6 +12,7 @@
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Bold.otf") format("opentype");font-weight:700;font-display:swap}
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Medium.otf") format("opentype");font-weight:500;font-display:swap}
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Regular.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:"Architects Daughter";src:url("assets/ArchitectsDaughter-Regular.ttf") format("truetype");font-weight:400;font-display:swap}
 
 .skip{position:fixed;top:8px;left:8px;z-index:400;padding:10px 14px;background:var(--sheet);color:var(--ink);
   font:700 12px/1 var(--disp);text-transform:uppercase;letter-spacing:.1em;text-decoration:none;
@@ -30,8 +31,10 @@
   --hair:rgba(22,32,42,.16);--grid:rgba(22,32,42,.05);
   --disp:"Satoshi","Segoe UI",system-ui,-apple-system,sans-serif;
   --body:"Satoshi","Segoe UI",system-ui,-apple-system,sans-serif;
-  /* --hand retired 2026-08-20: the voice line is set in Satoshi like
-     everything else. One family across site, slides and banners.     */
+  /* --hand: Architects Daughter (SIL OFL, self-hosted). Restored
+     2026-08-21. Voice-line asides only - never a heading, never
+     the URL mark. Everything else stays Satoshi.              */
+  --hand:"Architects Daughter","Segoe Print",cursive;
   --ease:cubic-bezier(.22,.75,.2,1);
   --r:12px;
   --pad:clamp(20px,5vw,64px);
@@ -87,7 +90,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;letter
 .hero .lead{font-size:20px;line-height:1.4;color:var(--ink-soft);max-width:46ch;opacity:0;animation:wordup .9s var(--ease) .85s forwards}
 .hero .lead a,.hero .lead button,.hero .lead2 button{color:var(--ink);font-weight:500}
 .hero .lead2{margin-top:18px;font-size:17px;line-height:1.55;color:var(--ink-soft);max-width:52ch;opacity:0;animation:wordup .9s var(--ease) .95s forwards}
-.hero .aside{display:block;margin-top:20px;font:700 18px/1.3 var(--disp);color:var(--ink-faint);letter-spacing:0;opacity:0;animation:wordup .9s var(--ease) 1.05s forwards}
+.hero .aside{display:block;margin-top:20px;font:400 20px/1.3 var(--hand);color:var(--ink-faint);letter-spacing:0;opacity:0;animation:wordup .9s var(--ease) 1.05s forwards}
 .hero .kicker{font:700 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--ox);margin-bottom:22px;opacity:0;animation:wordup .8s var(--ease) .02s forwards}
 .hero .hgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr);gap:clamp(36px,5vw,80px);align-items:start}
 .hero .lead{max-width:52ch}
@@ -100,7 +103,7 @@ section{padding:clamp(72px,9vw,112px) 0}
 .sh{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:40px}
 .sh h2{font:900 clamp(30px,4vw,48px)/1.05 var(--disp);letter-spacing:-.03em}
 .sh p{font-size:16px;color:var(--ink-soft);max-width:38ch}
-.sh .aside{font:700 18px/1.2 var(--disp);color:var(--ink-faint);letter-spacing:0;white-space:nowrap}
+.sh .aside{font:400 20px/1.2 var(--hand);color:var(--ink-faint);letter-spacing:0;white-space:nowrap}
 
 /* ---------- work ---------- */
 .work{display:grid;grid-template-columns:1fr 1fr;gap:32px}
@@ -160,13 +163,13 @@ section{padding:clamp(72px,9vw,112px) 0}
 .lib{padding:0;background:var(--paper)}
 .lib .band{background:var(--band);padding:clamp(72px,9vw,112px) 0 0;display:flow-root}
 .lib .head{text-align:center;max-width:940px;margin:0 auto 72px}
-.lib .head .hand{display:block;font:700 clamp(16px,1.9vw,24px)/1.25 var(--disp);color:var(--ink-soft);letter-spacing:0;margin-bottom:14px}
+.lib .head .hand{display:block;font:400 clamp(19px,2.2vw,28px)/1.3 var(--hand);color:var(--ink-soft);letter-spacing:0;margin-bottom:14px}
 .lib .head h2{font:900 clamp(38px,6vw,76px)/1 var(--disp);letter-spacing:-.035em;text-wrap:balance}
 .lib .head p{margin:20px auto 0;max-width:52ch;font-size:17px;line-height:1.45;color:var(--ink-soft)}
 .lib .links{padding:calc(var(--hang) + 44px) 0 clamp(40px,4.5vw,56px);display:flex;justify-content:center;gap:40px;font-weight:500;flex-wrap:wrap}
 .lib .links .vault{display:inline-flex;flex-direction:column;align-items:center;gap:7px;text-align:center}
 .lib .links .vault b{font:700 clamp(21px,2.2vw,28px)/1.1 var(--disp);letter-spacing:-.03em;color:var(--ink)}
-.lib .links .vault span{font:700 17px/1.2 var(--disp);letter-spacing:0;color:var(--ink-faint)}
+.lib .links .vault span{font:400 19px/1.2 var(--hand);letter-spacing:0;color:var(--ink-faint)}
 :root{--hang:96px}
 .strip-wrap{position:relative;z-index:2;margin-bottom:calc(-1 * var(--hang))}
 .strip{display:flex;gap:20px;align-items:flex-end;overflow-x:auto;margin-right:calc(-1 * var(--pad));scrollbar-width:none;cursor:grab;padding:4px var(--pad) 0 0;user-select:none;-webkit-user-select:none;
@@ -193,9 +196,9 @@ button.shelf:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
 .shelf figcaption span{display:block;font-size:13px;color:var(--ink-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .shelf.note{width:240px;--ar:.8;height:calc(var(--h) + 34px);justify-content:flex-end;padding-bottom:44px}
 .shelf.note p{font-size:20px;line-height:1.35;color:var(--ink)}
-.shelf.note .aside{font:700 18px/1.2 var(--disp);color:var(--ink-faint);margin-top:12px;letter-spacing:0}
+.shelf.note .aside{font:400 20px/1.2 var(--hand);color:var(--ink-faint);margin-top:12px;letter-spacing:0}
 .progress{position:relative;height:1px;background:rgba(22,32,42,.22);margin-top:12px}
-.striphint{margin-top:10px;font:700 18px/1.2 var(--disp);color:var(--ink-faint);letter-spacing:0;transition:opacity .45s var(--ease)}
+.striphint{margin-top:10px;font:400 20px/1.2 var(--hand);color:var(--ink-faint);letter-spacing:0;transition:opacity .45s var(--ease)}
 .strip-wrap.moved .striphint{opacity:0}
 .progress i{position:absolute;left:0;top:-1px;height:3px;width:100%;background:var(--ink);transform:scaleX(.2);transform-origin:left;transition:transform .15s linear}
 
@@ -486,6 +489,22 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   .pane{transform:none}
   .pane[hidden]{display:none}
 }
+
+/* ---- story pane (rebuilt 2026-08-21 from John's edit) ---- */
+#pane-story .verdict{font:500 clamp(26px,3.4vw,38px)/1.28 var(--disp);letter-spacing:-.015em;margin:0 0 10px;color:var(--plate)}
+#pane-story .verdict .jw{font-size:1.06em}
+#pane-story .verdict-note{margin:0 0 40px;color:var(--ink-faint);font-size:15px;line-height:1.7;max-width:52ch}
+#pane-story h3{font:700 12px/1 var(--disp);letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin:0 0 18px}
+#pane-story section{padding-top:32px;border-top:1px solid rgba(233,238,241,.16);margin-top:32px}
+#pane-story p{font-size:17px;line-height:1.85;margin:0 0 20px;max-width:64ch}
+#pane-story p.soft{color:#A9B6C0}
+#pane-story b{font-weight:700;color:var(--plate)}
+#pane-story .jw{font-family:var(--hand);font-size:1.16em;line-height:1.6;color:var(--ink-faint)}
+#pane-story blockquote{margin:0 0 24px;padding-left:20px;border-left:1px solid rgba(233,238,241,.16);max-width:60ch}
+#pane-story blockquote p{margin:0}
+#pane-story .cost{border-left:2px solid var(--ox);padding-left:20px}
+#pane-story .close{margin-top:40px;font-size:20px;line-height:1.6;color:var(--plate);max-width:46ch}
+@media(max-width:640px){#pane-story p{font-size:16px}}
 </style>
 </head>
 <body>
@@ -573,7 +592,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     <div class="head rv">
       <span class="hand">under construction — the unfinished state is the record</span>
       <h2>Current state of mind.</h2>
-      <p>What has carried the marketing stack: the posts and their slides, recipes, cologne, art, cars, a restaurant build, the ribeye. Each one opens with the notes and the links behind it.</p>
+      <p>What has carried the marketing stack: the posts and their slides, recipes, cologne, art, cars, a restaurant build, the ribeye. Each one opens with the notes and the links behind it. <b>The niche is not found yet.</b> That is the open gap, and it is the thing everything here is working toward.</p>
     </div>
   </div>
   <div class="wrap strip-wrap rv">
@@ -752,20 +771,61 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   <i class="edge" aria-hidden="true"></i>
   <div class="inner">
     <div class="bar"><span>Story</span><button type="button" class="xmark" data-close aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4.9 5.1 C9.6 7.9 14.6 13.4 19.1 19"/><path d="M19 5 C15.1 9.6 9.3 14.8 5 18.9"/></g></svg></button></div>
-    <h2 id="t-story">Faceless, on purpose.</h2>
-    <p class="meta">No name, no portrait. The work and the record carry it.</p>
-    <p><b>Olimazi is a record, not a résumé.</b> It holds three things and nothing else: the work that is real enough to show, what is being learned while it is still wrong, and the library &mdash; everything made along the way, kept whether or not it worked.</p>
-    <p>The name is not a company. It is a place to put the work so it can be judged on its own, without a face, a title, or a pitch attached to it. Anything here can be opened, and nothing here is finished.</p>
-    <ul class="tl">
-      <li><b>2017–2024</b><span>Method Effects</span></li>
-      <li><b>2024</b><span>Wound down — could not scale on a cash basis</span></li>
-      <li><b>Nov 2025</b><span>Gemini — not sufficient</span></li>
-      <li><b>Apr 2026</b><span>Claude</span></li>
-      <li><b>2026</b><span>Rental Manager (Sch. E)</span></li>
-      <li class="now"><b>Now</b><span>Learning in public</span></li>
-    </ul>
-    <p class="big">Complexity can be as simple as slick details.</p>
-    <p>That line is the brief for this whole site. If it reads as a template, it has failed.</p>
+<div class="bar"><span>Story</span><button type="button" class="xmark" data-close aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4.9 5.1 C9.6 7.9 14.6 13.4 19.1 19"/><path d="M19 5 C15.1 9.6 9.3 14.8 5 18.9"/></g></svg></button></div>
+    <p class="verdict">The honest answer is the one nobody asked for:
+    <span class="jw">I didn&rsquo;t take on enough risk if anyone were to ask.</span></p>
+    <p class="verdict-note">That is not regret about the product. It is the verdict on the position.</p>
+  
+    
+    <section>
+      <h3>What the position was</h3>
+      <p>Method Effects, 2017 to 2024. <b>American made. Highest quality. First to market. Already carrying a huge margin.</b> None of that is the thing that went wrong. It also served as the potential escape from the grueling restaurant industry.</p>
+      <blockquote><p><span class="jw">I had an extremely well built, american made, highest quality product(s).</span></p></blockquote>
+      <p class="soft">A strong hand, stated plainly. The shortfall came from how hard it was played.</p>
+    </section>
+  
+    
+    <section>
+      <h3>What it cost</h3>
+      <div class="cost">
+        <p>Parts like these start as a nest: shapes laid out on one sheet, then cut. The sheet costs what it costs whether four parts come off it or nine. Everything unused is scrap already paid for. So the real number in the business is not the price of plastic &mdash; it is <b>yield</b>, parts per sheet.</p>
+        <p>Only one design was funded. One design nests alone, and alone it leaves the sheet half empty. <b>Two designs, tooled at the same time, nest into each other</b> &mdash; the gaps one leaves are the shapes the other fills. Same sheet, same cost, far more parts off it.</p>
+        <p>That was never a design problem. It was a cash problem. Paying for both designs up front is what buys the higher yield, and it only works if they arrive together.</p>
+        <blockquote><p><span class="jw">So if I had my two splitter designs yeild on one sheet of ABS, 2 things would have happened, I would&rsquo;ve dramitcally increased my already huge margin and generated more cash up front since I was first to market.</span></p></blockquote>
+        <p>Two effects, and the second one is the whole story. The margin climbs &mdash; that is the obvious half. The half that mattered is <b>when the money shows up</b>: more finished product to sell now, out of the same material spend, while the first-to-market window is still open.</p>
+        <p>And cash up front was the exact thing missing. The business did not fold because the product was wrong or the market said no. It ran out of runway to scale. Which is the point: <b>the yield problem and the funding problem were one problem.</b> Spending more at the start was what made the sheet pay for the scale &mdash; from the jump, not eventually. That spend was not made.</p>
+      </div>
+    </section>
+  
+    
+    <section>
+      <h3>What is different now</h3>
+      <p>The thing worth having back has a name, and it is not reach. It is <b>pull</b> &mdash; demand that arrives because the work earned it.</p>
+      <blockquote><p><span class="jw">I still need to research a niche I can hit and want to achieve a &ldquo;pull&rdquo; eventually like I had with method effects. Only thing close was my work in Business Accounting Processing.</span></p></blockquote>
+      <p>Olimazi is built to earn that rather than ask for it. Nothing gets pushed at friends or family, no page to like, no contact list imported.</p>
+      <blockquote><p><span class="jw">My build right now is to not push olimazi onto any friends or family that I don&rsquo;t want to, hence why I&rsquo;m not doing the standard like or join my page to my FB or IG contacts, therefore, growing a following blind will be a strain.</span></p></blockquote>
+      <p class="soft">The cost is named in the same breath as the decision. That is the trade being taken on purpose this time: the slower road, chosen with the price already read out loud.</p>
+    </section>
+  
+    
+    <section>
+      <h3>What is settled</h3>
+      <p>The product was never the weak part. Next time the position gets funded hard enough to hold from the jump.</p>
+      <p class="close">Complexity can be as simple as slick details. That line is the brief for this whole site. If it reads as a template, or just Ai, it has failed.</p>
+      <p class="soft">Faceless, on purpose. No name, no portrait. The work and the record carry it.</p>
+    </section>
+  
+    
+    <section style="border-top:2px solid var(--ox)">
+      <h3 style="color:var(--ox)">Goes in &ldquo;Current state of mind&rdquo;, not here</h3>
+      <p class="soft">Option 1 &mdash; as a second handwriting aside under the existing one:</p>
+      <blockquote><p><span class="jw">still looking for the niche I can hit</span></p></blockquote>
+      <p class="soft">Option 2 &mdash; as a sentence in the section&rsquo;s intro paragraph:</p>
+      <p>The niche is not found yet. That is the open gap, and it is the thing everything here is working toward.</p>
+      <p class="soft">Your words behind it:</p>
+      <blockquote><p><span class="jw">I believe I still need to research a niche I can hit and want to achieve a &ldquo;pull&rdquo; eventually like I had with method effects.</span></p></blockquote>
+    </section>
+
   </div>
 </aside>
 
