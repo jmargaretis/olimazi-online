@@ -8,150 +8,29 @@ import hashlib
 import html
 import re
 import sys
-from dataclasses import dataclass
 from pathlib import Path
 
 
 SCHEMA = "olimazi-site-copy/v1"
-TOKEN_RE = re.compile(r"(<[^>]+>|['\"])")
 HEADING_RE = re.compile(r"(?m)^# ([^\r\n]+)[ \t]*\r?$")
-
-
-@dataclass(frozen=True)
-class SectionSpec:
-    """Ordered field names for each non-markup text slot; None is fixed UI text."""
-
-    slots: tuple[str | None, ...]
-
-    @property
-    def fields(self) -> tuple[str, ...]:
-        return tuple(name for name in self.slots if name is not None)
-
-
-SECTION_SPECS = {
-    "home-hero": SectionSpec(
-        (
-            "Kicker",
-            "Headline Lead",
-            "Headline Accent",
-            "Sub",
-            "CTA Label",
-            None,  # the fixed arrow glyph
-        )
-    ),
-    "hero-spec": SectionSpec(
-        (
-            "Name Label",
-            "Name",
-            "Name Description",
-            "Prior Work Label",
-            "Prior Work",
-            "Current Work Label",
-            "Current Work",
-            "Current Loop Label",
-            "Current Loop",
-            "Status Label",
-            "Status",
-        )
-    ),
-    "main-work": SectionSpec(
-        (
-            "Section Label", None, "Heading", "Intro",
-            "Method Slide 01 Title", "Method Slide 01 Caption",
-            "Method Slide 03 Title", "Method Slide 03 Caption Lead",
-            "Method Slide 03 Credit Label", "Method Slide 03 Caption Tail",
-            "Method Slide 04 Title", "Method Slide 04 Caption",
-            "Method Slide 05 Title", "Method Slide 05 Caption Lead",
-            "Method Slide 05 Credit Label", "Method Slide 05 Caption Tail",
-            "Method Slide 06 Title", "Method Slide 06 Caption",
-            "Method Slide 07 Title", "Method Slide 07 Caption Lead",
-            "Method Slide 07 Credit Label", "Method Slide 07 Caption Tail",
-            "Method Slide 08 Title", "Method Slide 08 Caption Before Quote",
-            "Method Slide 08 Quoted Word", "Method Slide 08 Caption Before Credit",
-            "Method Slide 08 Credit Label", None,
-            "Method Slide 09 Title", "Method Slide 09 Credit Label",
-            "Method Slide 09 Caption Before Quote", "Method Slide 09 Quoted Word",
-            "Method Slide 09 Caption Tail",
-            "Method Slide 10 Title", "Method Slide 10 Caption",
-            "Method Slide 11 Title", "Method Slide 11 Caption",
-            "Method Slide 12 Title", "Method Slide 12 Caption Lead",
-            "Method Slide 12 Credit Label", None,
-            "Method Slide 13 Title", "Method Slide 13 Caption",
-            None, None, None,  # Method carousel controls (View all removed 2026-07-27)
-            "Method Status", "Method Heading", "Method Body 1", "Method Body 2",
-            "Method Period Label", "Method Period",
-            "Method Built Label", "Method Built",
-            "Method Reach Label", "Method Reach",
-            "Method Notes Label", "Method Note 1", "Method Note 2",
-            "Method Note 3", "Method Note 4", "Method Note 5",
-            "Tracker Status", "Tracker Heading", "Tracker Lede",
-            "Tracker Product Name", "Tracker Product Schedule", "Tracker Body",
-            "Tracker Own Label", "Tracker Own Value",
-            "Tracker Trust Label", "Tracker Trust Value",
-            "Tracker Use Label", "Tracker Use Value",
-            "Tracker Download Label", "Tracker Testing CTA", None,
-            "Tracker Disclaimer Lead", "Tracker Disclaimer Tail",
-            "Tracker Slide 01 Title", "Tracker Slide 01 Caption",
-            "Tracker Slide 02 Title", "Tracker Slide 02 Caption",
-            "Tracker Slide 03 Title", "Tracker Slide 03 Caption",
-            "Tracker Slide 04 Title", "Tracker Slide 04 Caption",
-            None, None, None,
-        )
-    ),
-    "method": SectionSpec(
-        (
-            "Section Label", None, "Heading Lead", "Heading Accent",
-            "Lie 1", "Lie 2", "Lie 3", "Lie 4", "Lie 5",
-            None, "Credit Name",
-            "Slide 01 Label", "Slide 01 Title", "Slide 01 Body",
-            "Slide 02 Label", "Slide 02 Title", "Slide 02 Body",
-            "Slide 03 Label", "Slide 03 Title", "Slide 03 Body",
-            "Slide 04 Label", "Slide 04 Title", "Slide 04 Body",
-            None, None, None,
-        )
-    ),
-    "mind": SectionSpec(
-        (
-            "Section Label", None, "Heading", "Intro",
-            None,  # snapshot tab date stamp
-            None, None, None, None, None, None, None, None, None, None,
-            None, None, None, None,
-            "Legend Notes", "Legend Files", "Legend Tags", None,
-            "Practice Heading", "Practice Intro",
-        )
-    ),
-    "mind-tail": SectionSpec(
-        (
-            "Library CTA",
-        )
-    ),
-    "dialogs": SectionSpec(
-        (
-            None, "Cologne Chip", "Cologne Title", "Cologne Intro",
-            "Cologne Heading 1", "Cologne Body 1", "Cologne Heading 2",
-            "Cologne Item 1", "Cologne Item 2", "Cologne Item 3",
-            "Cologne Link YouTube", "Cologne Link Fragrantica",
-            "Cologne Link Writeup", "Cologne Link Comment",
-            None, "Recipe Chip", "Recipe Title", "Recipe Intro",
-            "Recipe Heading 1", "Recipe Body 1", "Recipe Heading 2",
-            "Recipe Item 1", "Recipe Item 2", "Recipe Item 3",
-            "Recipe Link Source", "Recipe Link Comment",
-            None, "Contact Chip", "Contact Heading", "Contact Intro",
-            "Contact Form Label", "Contact Option Resume", "Contact Option Suggest",
-            "Contact Option Explain", "Contact Option Collaborate",
-            "Contact Option Business", "Contact Option General",
-            "Contact CTA", None, "Contact Direct Email",
-        )
-    ),
-    "contact": SectionSpec(
-        (
-            "Label", "Heading", "Intro", "Form Label",
-            "Option Resume", "Option Suggest", "Option Explain",
-            "Option Collaborate", "Option Business", "Option General",
-            "CTA", None, "Direct Email",
-        )
-    ),
-}
+OPEN_TAG_RE = re.compile(
+    r"<(?P<tag>[A-Za-z][\w:-]*)(?:[^\"'<>]|\"[^\"]*\"|'[^']*')*>",
+    re.DOTALL,
+)
+INLINE_HTML = r"(?:<b>|</b>|<span[ \t\r\n]+class=(?:\"jw\"|'jw')>|</span>)"
+EDITABLE_ELEMENT_RE = re.compile(
+    r"<(?P<tag>[A-Za-z][\w:-]*)"
+    r"(?P<attrs>(?:[^\"'<>]|\"[^\"]*\"|'[^']*')*)>"
+    rf"(?P<text>(?:[^<]|{INLINE_HTML})*)</(?P=tag)\s*>",
+    re.DOTALL | re.IGNORECASE,
+)
+DATA_C_RE = re.compile(
+    r"(?<![\w:-])data-c(?![\w:-])[ \t\r\n]*=[ \t\r\n]*"
+    r"(?P<quote>[\"'])(?P<name>.*?)(?P=quote)",
+    re.DOTALL | re.IGNORECASE,
+)
+INLINE_DELIMITER_RE = re.compile(r"\*\*|\{\{|\}\}")
+INLINE_HTML_RE = re.compile(INLINE_HTML, re.IGNORECASE)
 
 
 class RenderError(ValueError):
@@ -197,35 +76,35 @@ def parse_frontmatter(source: str) -> dict[str, str]:
         raise RenderError(f"unsupported schema: {metadata['schema']}")
     if metadata["section"] != metadata["region"]:
         raise RenderError("frontmatter section and region must match")
-    if metadata["section"] not in SECTION_SPECS:
-        raise RenderError(f"unsupported section: {metadata['section']}")
     return metadata
 
 
-def parse_content(source: str, fields: tuple[str, ...]) -> dict[str, str]:
+def parse_content(source: str) -> dict[str, str]:
     headings = list(HEADING_RE.finditer(source))
     values: dict[str, str] = {}
     for index, match in enumerate(headings):
         name = match.group(1).strip()
-        if name not in fields:
-            continue
         if name in values:
-            raise RenderError(f"duplicate field: {name}")
+            raise RenderError(
+                f'duplicate markdown heading: {name}; keep exactly one "# {name}" block'
+            )
         end = headings[index + 1].start() if index + 1 < len(headings) else len(source)
-        values[name] = source[match.end() : end].strip()
+        value = source[match.end() : end].strip()
+        if not value:
+            raise RenderError(
+                f'markdown field is empty: {name}; add a value below "# {name}"'
+            )
+        values[name] = value
 
-    invalid = [name for name in fields if not values.get(name)]
-    if invalid:
-        raise RenderError("missing or empty required field(s): " + ", ".join(invalid))
     return values
 
 
-def load_content(path: Path) -> tuple[str, SectionSpec, dict[str, str]]:
+def load_content(path: Path) -> tuple[str, None, dict[str, str]]:
     source = read_text(path)
     metadata = parse_frontmatter(source)
-    section = metadata["section"]
-    spec = SECTION_SPECS[section]
-    return section, spec, parse_content(source, spec.fields)
+    values = parse_content(source)
+    # Preserve the staged control-plane call shape without supplying a field list.
+    return metadata["section"], None, values
 
 
 def marker_bounds(target: str, section: str) -> tuple[int, int]:
@@ -240,43 +119,178 @@ def marker_bounds(target: str, section: str) -> tuple[int, int]:
     return start, end
 
 
-def text_node_indices(tokens: list[str]) -> list[int]:
-    return [
-        index
-        for index, token in enumerate(tokens)
-        if token.strip() and not token.startswith("<") and token not in ("'", '"')
+def data_c_name(tag: str) -> str | None:
+    matches = list(DATA_C_RE.finditer(tag))
+    if not matches:
+        return None
+    if len(matches) > 1:
+        raise RenderError("an editable element has more than one data-c attribute; keep exactly one")
+    name = html.unescape(matches[0].group("name")).strip()
+    if not name:
+        raise RenderError('an editable element has an empty data-c name; use data-c="Field Name"')
+    return name
+
+
+def editable_elements(fragment: str) -> list[tuple[re.Match[str], str]]:
+    named_tags = [
+        (match, name)
+        for match in OPEN_TAG_RE.finditer(fragment)
+        if (name := data_c_name(match.group(0))) is not None
     ]
+    names = [name for _, name in named_tags]
 
-
-def current_fields(fragment: str, spec: SectionSpec) -> dict[str, str]:
-    tokens = TOKEN_RE.split(fragment)
-    indices = text_node_indices(tokens)
-    if len(indices) != len(spec.slots):
+    seen: set[str] = set()
+    duplicates: list[str] = []
+    for name in names:
+        if name in seen and name not in duplicates:
+            duplicates.append(name)
+        seen.add(name)
+    if duplicates:
         raise RenderError(
-            f"section structure changed: expected {len(spec.slots)} text slots, found {len(indices)}"
+            "duplicate data-c name(s): "
+            + ", ".join(duplicates)
+            + "; give each editable element a unique field name"
         )
+
+    elements: list[tuple[re.Match[str], str]] = []
+    for opening, name in named_tags:
+        match = EDITABLE_ELEMENT_RE.match(fragment, opening.start())
+        if match is not None:
+            elements.append((match, name))
+    element_names = [name for _, name in elements]
+    unsupported = [name for name in names if name not in element_names]
+    if unsupported:
+        raise RenderError(
+            "data-c element contains unsupported markup: "
+            + ", ".join(unsupported)
+            + "; only text, <b>, and <span class=\"jw\"> are editable"
+        )
+    return elements
+
+
+def field_names(fragment: str) -> tuple[str, ...]:
+    return tuple(name for _, name in editable_elements(fragment))
+
+
+def validate_content_fields(fields: tuple[str, ...], values: dict[str, str]) -> None:
+    missing = [name for name in fields if name not in values]
+    if missing:
+        raise RenderError(
+            "data-c field(s) missing from markdown: "
+            + ", ".join(missing)
+            + "; add a matching \"# Field Name\" block for each"
+        )
+    field_set = set(fields)
+    extra = [name for name in values if name not in field_set]
+    if extra:
+        raise RenderError(
+            "markdown heading(s) missing from the marked region: "
+            + ", ".join(extra)
+            + "; add a matching data-c attribute or remove the heading"
+        )
+
+
+def render_inline(value: str, field: str) -> str:
+    escaped = html.escape(value, quote=True)
+    rendered: list[str] = []
+    stack: list[str] = []
+    cursor = 0
+    for match in INLINE_DELIMITER_RE.finditer(escaped):
+        token = match.group(0)
+        rendered.append(escaped[cursor : match.start()])
+        if token == "**":
+            if stack and stack[-1] == "bold":
+                stack.pop()
+                rendered.append("</b>")
+            elif "bold" in stack:
+                raise RenderError(f'unbalanced ** delimiter in field "{field}"')
+            else:
+                stack.append("bold")
+                rendered.append("<b>")
+        elif token == "{{":
+            stack.append("jw")
+            rendered.append('<span class="jw">')
+        elif not stack or stack[-1] != "jw":
+            raise RenderError(f'unbalanced {{{{ }}}} delimiter in field "{field}"')
+        else:
+            stack.pop()
+            rendered.append("</span>")
+        cursor = match.end()
+    rendered.append(escaped[cursor:])
+    if stack:
+        delimiter = "**" if stack[-1] == "bold" else "{{ }}"
+        raise RenderError(f'unbalanced {delimiter} delimiter in field "{field}"')
+    return "".join(rendered)
+
+
+def read_inline(value: str, field: str) -> str:
+    decoded: list[str] = []
+    stack: list[str] = []
+    cursor = 0
+    for match in INLINE_HTML_RE.finditer(value):
+        decoded.append(value[cursor : match.start()])
+        token = match.group(0).lower()
+        if token == "<b>":
+            stack.append("bold")
+            decoded.append("**")
+        elif token == "</b>":
+            if not stack or stack[-1] != "bold":
+                raise RenderError(f'unbalanced <b> markup in field "{field}"')
+            stack.pop()
+            decoded.append("**")
+        elif token.startswith("<span"):
+            stack.append("jw")
+            decoded.append("{{")
+        else:
+            if not stack or stack[-1] != "jw":
+                raise RenderError(f'unbalanced jw span markup in field "{field}"')
+            stack.pop()
+            decoded.append("}}")
+        cursor = match.end()
+    decoded.append(value[cursor:])
+    if stack:
+        markup = "<b>" if stack[-1] == "bold" else "jw span"
+        raise RenderError(f'unbalanced {markup} markup in field "{field}"')
+    return html.unescape("".join(decoded))
+
+
+def current_fields(fragment: str) -> dict[str, str]:
     return {
-        name: html.unescape(tokens[token_index].strip())
-        for token_index, name in zip(indices, spec.slots)
-        if name is not None
+        name: read_inline(match.group("text").strip(), name)
+        for match, name in editable_elements(fragment)
     }
 
 
-def render_fragment(fragment: str, spec: SectionSpec, values: dict[str, str]) -> str:
-    tokens = TOKEN_RE.split(fragment)
-    indices = text_node_indices(tokens)
-    if len(indices) != len(spec.slots):
-        raise RenderError(
-            f"section structure changed: expected {len(spec.slots)} text slots, found {len(indices)}"
-        )
-    for token_index, name in zip(indices, spec.slots):
-        if name is None:
-            continue
-        token = tokens[token_index]
-        leading = token[: len(token) - len(token.lstrip())]
-        trailing = token[len(token.rstrip()) :]
-        tokens[token_index] = leading + html.escape(values[name], quote=True) + trailing
-    return "".join(tokens)
+def render_fragment(
+    fragment: str,
+    control_plane_or_values: None | dict[str, str],
+    values: dict[str, str] | None = None,
+) -> str:
+    if values is None:
+        if not isinstance(control_plane_or_values, dict):
+            raise RenderError("renderer values are missing")
+        values = control_plane_or_values
+
+    elements = editable_elements(fragment)
+    fields = tuple(name for _, name in elements)
+    validate_content_fields(fields, values)
+
+    rendered: list[str] = []
+    cursor = 0
+    for match, name in elements:
+        raw = match.group("text")
+        current = read_inline(raw.strip(), name)
+        replacement = render_inline(values[name], name)
+        rendered.append(fragment[cursor : match.start("text")])
+        if current == values[name]:
+            rendered.append(raw)
+        else:
+            leading = raw[: len(raw) - len(raw.lstrip())]
+            trailing = raw[len(raw.rstrip()) :]
+            rendered.append(leading + replacement + trailing)
+        cursor = match.end("text")
+    rendered.append(fragment[cursor:])
+    return "".join(rendered)
 
 
 def main() -> int:
@@ -287,14 +301,15 @@ def main() -> int:
     args = parser.parse_args()
 
     try:
-        section, spec, values = load_content(args.content)
+        section, control_plane_compat, values = load_content(args.content)
         target_text = read_text(args.target)
         start, end = marker_bounds(target_text, section)
-        current = current_fields(target_text[start:end], spec)
-        rendered = render_fragment(target_text[start:end], spec, values)
+        fragment = target_text[start:end]
+        current = current_fields(fragment)
+        rendered = render_fragment(fragment, control_plane_compat, values)
         patched = target_text[:start] + rendered + target_text[end:]
 
-        changed = [name for name in spec.fields if current.get(name) != values[name]]
+        changed = [name for name in current if current[name] != values[name]]
         output = args.target if args.mode == "build" else args.target.with_name("index.preview.html")
         write_text(output, patched)
         if args.mode == "build":

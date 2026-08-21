@@ -1,4 +1,4 @@
-"""Generate the Olimazi feature and library collections from item records."""
+"""Generate the Olimazi homepage shelf from ordered Markdown item records."""
 
 from __future__ import annotations
 
@@ -12,36 +12,24 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
-LIBRARY_ROOT = Path(
-    r"C:\Users\jmarg\OneDrive\Documents\Claude OS\projects\olimazi-brand"
-    r"\site-copy\library"
-)
 REPO_ROOT = Path(__file__).resolve().parent.parent
+LIBRARY_ROOT = REPO_ROOT / "content" / "library"
 SCHEMA = "olimazi-site-copy/library-item/v1"
 STATUSES = {"active", "draft"}
-PLACEMENTS = {"feature", "library"}
 HEADING_RE = re.compile(r"(?m)^# ([^\r\n]+)\r?\n")
 INLINE_LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
-DETAIL_RE = re.compile(r"Detail Item (\d+)")
-SOURCE_RE = re.compile(r"Source (\d+)")
+FILENAME_RE = re.compile(r"(?P<order>\d{2})-(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)\.md")
 
 REQUIRED_FIELDS = (
     "Title",
-    "Summary",
-    "Dialog Chip",
-    "Dialog Intro",
-    "Card Image",
-    "Card Image Alt",
-    "Dialog Image",
-    "Dialog Image Alt",
+    "Subtitle",
+    "Caption",
+    "Images",
+    "Height",
+    "Height Mobile",
+    "Aspect",
 )
-OPTIONAL_FIELDS = (
-    "Notes Heading",
-    "Notes Body",
-    "Detail Heading",
-    "Card Orientation",
-    "Dialog Close Label",
-)
+OPTIONAL_FIELDS = ("Card Title", "Notes", "Links")
 
 
 class RenderError(ValueError):
@@ -49,21 +37,38 @@ class RenderError(ValueError):
 
 
 @dataclass(frozen=True)
+class Image:
+    src: str
+    title: str
+    caption: str
+
+
+@dataclass(frozen=True)
+class Link:
+    label: str
+    href: str
+
+
+@dataclass(frozen=True)
 class Item:
     path: Path
     slug: str
     status: str
-    placement: str
-    feature_slot: int | None
-    order: int
-    chip: str
-    fields: dict[str, str]
-    details: tuple[str, ...]
-    sources: tuple[tuple[str, str], ...]
+    title: str
+    card_title: str
+    subtitle: str
+    caption: str
+    notes: tuple[str, ...]
+    links: tuple[Link, ...]
+    images: tuple[Image, ...]
+    height: str
+    height_mobile: str
+    aspect: str
+    eager: bool = False
 
     @property
-    def title(self) -> str:
-        return self.fields["Title"]
+    def active(self) -> bool:
+        return self.status == "active"
 
 
 def read_text(path: Path) -> str:
@@ -121,102 +126,100 @@ def parse_fields(body: str, path: Path) -> dict[str, str]:
     return fields
 
 
-def numbered_values(
-    fields: dict[str, str], pattern: re.Pattern[str], label: str, path: Path
-) -> tuple[str, ...]:
-    numbered = sorted(
-        (int(match.group(1)), value)
-        for name, value in fields.items()
-        if (match := pattern.fullmatch(name))
-    )
-    if numbered and [number for number, _ in numbered] != list(range(1, len(numbered) + 1)):
-        raise RenderError(f"{path}: {label} fields must be contiguous from 1")
-    return tuple(value for _, value in numbered)
+def paragraphs(value: str) -> tuple[str, ...]:
+    return tuple(re.split(r"\r?\n\s*\r?\n", value.strip()))
+
+
+def parse_links(value: str, path: Path) -> tuple[Link, ...]:
+    links: list[Link] = []
+    for line in value.splitlines():
+        if not line.strip():
+            continue
+        match = INLINE_LINK_RE.fullmatch(line.strip())
+        if match is None:
+            raise RenderError(f"{path}: Links lines must use [label](url)")
+        links.append(Link(match.group(1), match.group(2)))
+    return tuple(links)
+
+
+def image_path(src: str, item_path: Path) -> Path:
+    candidate = (REPO_ROOT / src).resolve()
+    try:
+        candidate.relative_to(REPO_ROOT.resolve())
+    except ValueError as exc:
+        raise RenderError(f"{item_path}: image must stay inside the repo: {src}") from exc
+    if not candidate.is_file():
+        raise RenderError(f"{item_path}: image file does not exist: {src}")
+    return candidate
+
+
+def parse_images(value: str, title: str, caption: str, path: Path) -> tuple[Image, ...]:
+    images: list[Image] = []
+    for line in value.splitlines():
+        if not line.strip():
+            continue
+        parts = [part.strip() for part in line.split(" | ")]
+        if len(parts) > 3:
+            raise RenderError(f"{path}: Images lines use: path | optional title | optional caption")
+        src = parts[0]
+        if not src:
+            raise RenderError(f"{path}: image path must be non-empty")
+        image_path(src, path)
+        image_title = parts[1] if len(parts) > 1 and parts[1] else title
+        image_caption = parts[2] if len(parts) > 2 and parts[2] else caption
+        images.append(Image(src, image_title, image_caption))
+    if not images:
+        raise RenderError(f"{path}: Images must contain at least one image path")
+    return tuple(images)
 
 
 def parse_record(path: Path) -> Item:
     metadata, body = parse_frontmatter(read_text(path), path)
-    required_metadata = {"schema", "slug", "status", "placement", "order", "chip"}
+    required_metadata = {"schema", "status"}
     missing_metadata = sorted(required_metadata - metadata.keys())
     if missing_metadata:
         raise RenderError(f"{path}: missing frontmatter key(s): {', '.join(missing_metadata)}")
+    unknown_metadata = sorted(set(metadata) - {"schema", "status", "loading"})
+    if unknown_metadata:
+        raise RenderError(f"{path}: unknown frontmatter key(s): {', '.join(unknown_metadata)}")
     if metadata["schema"] != SCHEMA:
         raise RenderError(f"{path}: unsupported schema: {metadata['schema']}")
-    slug = metadata["slug"]
-    if path.stem != slug:
-        raise RenderError(f"{path}: filename must match slug {slug!r}")
-    if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
-        raise RenderError(f"{path}: invalid slug: {slug}")
+    filename = FILENAME_RE.fullmatch(path.name)
+    if filename is None:
+        raise RenderError(f"{path}: filename must start with a two-digit order prefix")
+    slug = filename.group("slug")
     if metadata["status"] not in STATUSES:
         raise RenderError(f"{path}: status must be active or draft")
-    if metadata["placement"] not in PLACEMENTS:
-        raise RenderError(f"{path}: placement must be feature or library")
-
-    try:
-        order = int(metadata["order"])
-    except ValueError as exc:
-        raise RenderError(f"{path}: order must be an integer") from exc
-
-    feature_slot: int | None = None
-    if metadata["placement"] == "feature":
-        if "feature_slot" not in metadata:
-            raise RenderError(f"{path}: feature_slot is required for feature placement")
-        try:
-            feature_slot = int(metadata["feature_slot"])
-        except ValueError as exc:
-            raise RenderError(f"{path}: feature_slot must be 1 or 2") from exc
-        if feature_slot not in (1, 2):
-            raise RenderError(f"{path}: feature_slot must be 1 or 2")
-    elif "feature_slot" in metadata:
-        raise RenderError(f"{path}: feature_slot is only valid for feature placement")
+    loading = metadata.get("loading", "lazy")
+    if loading not in {"eager", "lazy"}:
+        raise RenderError(f"{path}: loading must be eager or lazy")
 
     fields = parse_fields(body, path)
     missing_fields = [name for name in REQUIRED_FIELDS if name not in fields]
     if missing_fields:
         raise RenderError(f"{path}: missing required field(s): {', '.join(missing_fields)}")
-    if "CTA" in fields:
-        raise RenderError(f"{path}: CTA is derived and must not be authored")
-
-    details = numbered_values(fields, DETAIL_RE, "Detail Item", path)
-    sources_raw = numbered_values(fields, SOURCE_RE, "Source", path)
-    sources: list[tuple[str, str]] = []
-    for value in sources_raw:
-        if " | " not in value:
-            raise RenderError(f"{path}: Source fields must use: Label | URL")
-        label, url = value.split(" | ", 1)
-        if not label.strip() or not url.strip():
-            raise RenderError(f"{path}: Source label and URL must be non-empty")
-        sources.append((label.strip(), url.strip()))
-
-    known = set(REQUIRED_FIELDS) | set(OPTIONAL_FIELDS)
-    unknown = sorted(
-        name
-        for name in fields
-        if name not in known
-        and DETAIL_RE.fullmatch(name) is None
-        and SOURCE_RE.fullmatch(name) is None
-    )
+    unknown = sorted(set(fields) - set(REQUIRED_FIELDS) - set(OPTIONAL_FIELDS))
     if unknown:
         raise RenderError(f"{path}: unknown field(s): {', '.join(unknown)}")
 
-    has_notes_heading = "Notes Heading" in fields
-    has_notes_body = "Notes Body" in fields
-    if has_notes_heading != has_notes_body:
-        raise RenderError(f"{path}: Notes Heading and Notes Body must appear together")
-    if ("Detail Heading" in fields) != bool(details):
-        raise RenderError(f"{path}: Detail Heading and Detail Item fields must appear together")
+    title = fields["Title"]
+    caption = fields["Caption"]
 
     return Item(
         path=path,
         slug=slug,
         status=metadata["status"],
-        placement=metadata["placement"],
-        feature_slot=feature_slot,
-        order=order,
-        chip=metadata["chip"],
-        fields=fields,
-        details=details,
-        sources=tuple(sources),
+        title=title,
+        card_title=fields.get("Card Title", title),
+        subtitle=fields["Subtitle"],
+        caption=caption,
+        notes=paragraphs(fields["Notes"]) if "Notes" in fields else (),
+        links=parse_links(fields["Links"], path) if "Links" in fields else (),
+        images=parse_images(fields["Images"], title, caption, path),
+        height=fields["Height"],
+        height_mobile=fields["Height Mobile"],
+        aspect=fields["Aspect"],
+        eager=loading == "eager",
     )
 
 
@@ -232,147 +235,77 @@ def validate_items(items: list[Item]) -> None:
     slugs = [item.slug for item in items]
     if len(slugs) != len(set(slugs)):
         raise RenderError("record slugs must be unique")
-    features = [item for item in items if item.status == "active" and item.placement == "feature"]
-    if len(features) > 2:
-        raise RenderError("at most 2 active feature items are allowed")
-    slots = [item.feature_slot for item in features]
-    if len(slots) != len(set(slots)):
-        raise RenderError("active feature items must use distinct feature_slot values")
-
-
-def cta_label(item: Item) -> str:
-    if not item.sources:
-        return "Open notes →"
-    recipeish = "Detail Heading" in item.fields and item.chip in {"Recipe", "Cooking"}
-    return "Open notes and recipe →" if recipeish else "Open notes and sources →"
 
 
 def escape_text(value: str) -> str:
-    return html.escape(value, quote=False)
+    return html.escape(value, quote=True).replace("&#x27;", "&#39;")
 
 
-def escape_attr(value: str) -> str:
-    return html.escape(value, quote=False).replace('"', "&quot;")
+def escape_double_attr(value: str) -> str:
+    return html.escape(value, quote=True).replace("&#x27;", "&#39;")
 
 
-def inline_markdown(value: str) -> str:
-    rendered: list[str] = []
-    position = 0
-    for match in INLINE_LINK_RE.finditer(value):
-        rendered.append(escape_text(value[position : match.start()]))
-        label = escape_text(match.group(1))
-        url = escape_attr(match.group(2))
-        rendered.append(f'<a href="{url}" target="_blank" rel="noopener">{label}</a>')
-        position = match.end()
-    rendered.append(escape_text(value[position:]))
-    return "".join(rendered)
+def escape_single_attr(value: str) -> str:
+    return html.escape(value, quote=False).replace("'", "&#39;")
 
 
-def paragraphs(value: str, indent: str) -> list[str]:
-    blocks = re.split(r"\r?\n\s*\r?\n", value.strip())
-    return [f"{indent}<p>{inline_markdown(block.replace(chr(10), ' '))}</p>" for block in blocks]
+def json_attr(value: object) -> str:
+    return escape_double_attr(json.dumps(value, ensure_ascii=False))
 
 
-def render_card(item: Item, feature: bool) -> str:
-    f = item.fields
-    if feature:
-        return "\n".join(
-            (
-                '            <article class="personal-card">',
-                f'              <img src="{escape_attr(f["Card Image"])}" alt="{escape_attr(f["Card Image Alt"])}">',
-                f'              <div class="personal-body"><span class="chip">{escape_text(item.chip)}</span><h3>{escape_text(item.title)}</h3><p>{escape_text(f["Summary"])}</p><button class="personal-open" type="button" onclick="openItem(\'{item.slug}-dialog\')">{cta_label(item)}</button></div>',
-                "            </article>",
-            )
-        )
-
-    orientation = f" {escape_attr(f['Card Orientation'])}" if "Card Orientation" in f else ""
-    return "\n".join(
-        (
-            '          <article class="personal-card">',
-            f'            <div class="personal-thumb{orientation}">',
-            f'              <img src="{escape_attr(f["Card Image"])}" alt="{escape_attr(f["Card Image Alt"])}">',
-            "            </div>",
-            '            <div class="personal-body">',
-            f'              <span class="chip">{escape_text(item.chip)}</span>',
-            f"              <h2>{escape_text(item.title)}</h2>",
-            f'              <p>{escape_text(f["Summary"])}</p>',
-            f'              <button class="personal-open" type="button" aria-haspopup="dialog" onclick="openItem(\'{item.slug}-dialog\')">{cta_label(item)}</button>',
-            "            </div>",
-            "          </article>",
-        )
-    )
-
-
-def render_dialog(item: Item, feature: bool) -> str:
-    f = item.fields
-    outer = "    " if feature else "    "
-    close = f.get("Dialog Close Label", f"Close {item.title} notes")
-    lines = [
-        f'{outer}<dialog class="item-dialog" id="{item.slug}-dialog" aria-labelledby="{item.slug}-title">',
-        f'{outer}  <div class="dialog-grid">',
-        f'{outer}    <img src="{escape_attr(f["Dialog Image"])}" alt="{escape_attr(f["Dialog Image Alt"])}">',
-        f'{outer}    <div class="dialog-body">',
-        f'{outer}      <form method="dialog"><button class="dialog-close" aria-label="{escape_attr(close)}">✕</button></form>',
-        f'{outer}      <span class="chip">{escape_text(f["Dialog Chip"])}</span>',
-        f'{outer}      <h2 id="{item.slug}-title">{escape_text(item.title)}</h2>',
+def render_item(item: Item) -> str:
+    first = item.images[0]
+    attributes = [
+        'type="button"',
+        'class="shelf"',
+        f'data-view="{escape_double_attr(first.src)}"',
+        f'data-title="{escape_double_attr(item.title)}"',
+        f'data-sub="{escape_double_attr(item.subtitle)}"',
     ]
-    lines.extend(paragraphs(f["Dialog Intro"], outer + "      "))
-    if "Notes Heading" in f:
-        lines.append(f'{outer}      <h3>{escape_text(f["Notes Heading"])}</h3>')
-        lines.extend(paragraphs(f["Notes Body"], outer + "      "))
-    if "Detail Heading" in f:
-        lines.append(f'{outer}      <h3>{escape_text(f["Detail Heading"])}</h3>')
-        detail_items = "".join(f"<li>{inline_markdown(value)}</li>" for value in item.details)
-        lines.append(f"{outer}      <ul>{detail_items}</ul>")
-    if item.sources:
-        lines.append(f'{outer}      <div class="dialog-links">')
-        for label, url in item.sources:
-            escaped_label = escape_text(label)
-            escaped_url = escape_attr(url)
-            if url.startswith("mailto:"):
-                lines.append(f'{outer}        <a href="{escaped_url}">{escaped_label}</a>')
-            else:
-                lines.append(
-                    f'{outer}        <a href="{escaped_url}" target="_blank" rel="noopener">{escaped_label}</a>'
-                )
-        lines.append(f"{outer}      </div>")
-    lines.extend((f"{outer}    </div>", f"{outer}  </div>", f"{outer}</dialog>"))
-    return "\n".join(lines)
-
-
-def feature_regions(items: list[Item]) -> tuple[str, str]:
-    features = sorted(
-        (item for item in items if item.status == "active" and item.placement == "feature"),
-        key=lambda item: item.feature_slot or 0,
+    if len(item.images) == 1 and first.title != item.title:
+        attributes.append(f'data-cap="{escape_double_attr(item.caption)}"')
+    else:
+        attributes.append(f"data-cap='{escape_single_attr(item.caption)}'")
+    if item.notes:
+        attributes.append(f"data-body='{json_attr(list(item.notes))}'")
+    if item.links:
+        links = [{"t": link.label, "href": link.href} for link in item.links]
+        attributes.append(f"data-links='{json_attr(links)}'")
+    if len(item.images) > 1:
+        slides = [
+            {"src": image.src, "title": image.title, "cap": image.caption}
+            for image in item.images
+        ]
+        attributes.append(f"data-slides='{json_attr(slides)}'")
+    attributes.append(
+        f'style="--h:{item.height};--hm:{item.height_mobile};--ar:{item.aspect}"'
     )
-    cards = ['          <div class="personal-grid">']
-    cards.extend(render_card(item, feature=True) for item in features)
-    cards.append("          </div>")
-    dialogs = "\n\n".join(render_dialog(item, feature=True) for item in features)
-    return "\n".join(cards), dialogs
 
-
-def library_regions(items: list[Item]) -> tuple[str, str]:
-    library = sorted(
-        (item for item in items if item.status == "active" and item.placement == "library"),
-        key=lambda item: (item.order, item.slug),
-    )
-    cards = ['        <div class="personal-grid">']
-    for index, item in enumerate(library, 1):
-        if index > 1:
-            cards.append("")
-        cards.append(
-            f"          <!-- LIBRARY ENTRY {index:02d} — Edit the thumbnail, label, title, summary, and matching dialog together. -->"
+    figure_class = ' class="slides"' if len(item.images) > 1 else ""
+    rendered_images: list[str] = []
+    for index, image in enumerate(item.images):
+        active = index == 0 and (len(item.images) > 1 or image.title == item.title)
+        class_attr = ' class="on"' if active else ""
+        loading = "" if item.eager else ' loading="lazy"'
+        rendered_images.append(
+            f'<img{class_attr} src="{escape_double_attr(image.src)}" '
+            f'alt="{escape_double_attr(image.title)}"{loading}>'
         )
-        cards.append(render_card(item, feature=False))
-    cards.append("        </div>")
+    deck = ""
+    if len(item.images) > 1:
+        dots = '<b class="at"></b>' + "<b></b>" * (len(item.images) - 1)
+        deck = f'<i class="deck" aria-hidden="true">{dots}</i>'
+    figure = f"<figure{figure_class}>{''.join(rendered_images)}{deck}</figure>"
+    caption = (
+        f"<figcaption><b>{escape_text(item.card_title)}</b>"
+        f"<span>{escape_text(item.subtitle)}</span></figcaption>"
+    )
+    return f"      <button {' '.join(attributes)}>{figure}{caption}</button>"
 
-    dialogs: list[str] = []
-    for index, item in enumerate(library, 1):
-        label = item.title.removeprefix("My brother's ").replace(" classic ", " ")
-        comment = f"    <!-- LIBRARY DIALOG {index:02d} — Detailed notes for the {label} entry. -->"
-        dialogs.append(comment + "\n" + render_dialog(item, feature=False))
-    return "\n".join(cards), "\n\n".join(dialogs)
+
+def render_library(items: list[Item]) -> str:
+    active = sorted((item for item in items if item.active), key=lambda item: item.path.name)
+    return "\n".join(render_item(item) for item in active)
 
 
 def replace_region(target: str, region: str, content: str) -> str:
@@ -393,7 +326,9 @@ def replace_region(target: str, region: str, content: str) -> str:
 
 def collection_digest(items: list[Item]) -> str:
     digest = hashlib.sha256()
-    for item in sorted(items, key=lambda value: value.slug):
+    for item in sorted(items, key=lambda value: value.path.name):
+        digest.update(item.path.name.encode("utf-8"))
+        digest.update(b"\0")
         digest.update(item.path.read_bytes())
     return digest.hexdigest()
 
@@ -406,37 +341,19 @@ def main() -> int:
 
     try:
         items = load_items(args.library_root)
-        feature_cards, feature_dialogs = feature_regions(items)
-        library_cards, library_dialogs = library_regions(items)
-
         index_path = REPO_ROOT / "index.html"
-        library_path = REPO_ROOT / "library.html"
         index_text = read_text(index_path)
-        library_text = read_text(library_path)
-        rendered_index = replace_region(index_text, "library-feature", feature_cards)
-        rendered_index = replace_region(
-            rendered_index, "library-feature-dialogs", feature_dialogs
-        )
-        rendered_library = replace_region(library_text, "library", library_cards)
-        rendered_library = replace_region(
-            rendered_library, "library-dialogs", library_dialogs
-        )
+        rendered_index = replace_region(index_text, "library", render_library(items))
 
         if args.mode == "build":
-            outputs = ((index_path, rendered_index), (library_path, rendered_library))
+            output = index_path
         else:
-            outputs = (
-                (REPO_ROOT / "index.preview.html", rendered_index),
-                (REPO_ROOT / "library.preview.html", rendered_library),
-            )
+            output = REPO_ROOT / "index.preview.html"
 
-        changes: dict[str, bool] = {}
-        for output, content in outputs:
-            before = read_text(output) if output.exists() else None
-            changed = before != content
-            changes[output.name] = changed
-            if changed:
-                write_text(output, content)
+        before = read_text(output) if output.exists() else None
+        changed = before != rendered_index
+        if changed:
+            write_text(output, rendered_index)
 
         if args.mode == "build":
             receipt = Path(__file__).with_name(".library-content-hash")
@@ -444,7 +361,7 @@ def main() -> int:
             if not receipt.exists() or read_text(receipt) != digest:
                 write_text(receipt, digest)
 
-        print(json.dumps({"mode": args.mode, "changed": changes}, sort_keys=True))
+        print(json.dumps({"mode": args.mode, "changed": {output.name: changed}}, sort_keys=True))
         return 0
     except RenderError as exc:
         print(json.dumps({"error": str(exc)}, sort_keys=True), file=sys.stderr)

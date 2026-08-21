@@ -19,15 +19,16 @@ CACHE, CACHE_LOCK = {}, threading.Lock()
 TRACKER_DIR = Path(r"C:\Users\jmarg\work\olimazi-tracker\fixtures\sample-property")
 SERVICES = {"site": ("Site",8399,"/"), "image-picker": ("Image picker",8642,"/picker.html"), "mission-control": ("Mission Control",8643,"/api/health"), "tracker-sample": ("Tracker sample",8744,"/SchE_Dashboard.html")}
 PAGES = [("SchE_Dashboard","SchE_Dashboard.html","Sample dashboard"),("SchE_Management","SchE_Management.html","Management page"),("SchE_Organizer","SchE_Organizer.html","Organizer"),("SchE_Reconciliation","SchE_Reconciliation.md","Reconciliation report"),("MatchProposals","MatchProposals.md","Receipt match proposals")]
-HERO_CONTENT = Path(r"C:\Users\jmarg\OneDrive\Documents\Claude OS\projects\olimazi-brand\site-copy\home-hero.md")
 SITE_REPO = Path(r"C:\Users\jmarg\work\olimazi-online")
+HERO_CONTENT = SITE_REPO / "content" / "home-hero.md"
 HERO_RENDERER, HERO_TARGET = SITE_REPO / "tools" / "render_hero.py", SITE_REPO / "index.html"
 HERO_HASH = SITE_REPO / "tools" / ".hero-content-hash"
 HERO_PREVIEW_URL, HERO_LIVE_URL = "http://localhost:8399/index.preview.html", "https://olimazi.online/"
 HERO_START, HERO_END = "<!-- content:home-hero:start -->", "<!-- content:home-hero:end -->"
 SECTION_RENDERER = SITE_REPO / "tools" / "render_section.py"
-SECTION_CONTENT_ROOT = Path(r"C:\Users\jmarg\OneDrive\Documents\Claude OS\projects\olimazi-brand\site-copy")
-SITE_SECTIONS = ("hero-spec","main-work","method","mind","contact","dialogs")
+COLLECTION_RENDERER = SITE_REPO / "tools" / "render_collection.py"
+SECTION_CONTENT_ROOT = SITE_REPO / "content"
+SITE_SECTIONS = ("hero-spec","main-work","method","mind","library","contact","story","dialogs")
 
 def read_text(path):
     return path.read_text(encoding="utf-8-sig")
@@ -249,6 +250,7 @@ def hero_deploy():
 
 def section_paths(section):
     if section not in SITE_SECTIONS: raise ValueError("unknown site section")
+    if section=="library": return SECTION_CONTENT_ROOT/"library",SITE_REPO/"tools"/".library-content-hash"
     return SECTION_CONTENT_ROOT/f"{section}.md",SITE_REPO/"tools"/f".{section}-content-hash"
 
 def section_renderer():
@@ -257,7 +259,32 @@ def section_renderer():
     module=importlib.util.module_from_spec(spec); sys.modules[spec.name]=module; spec.loader.exec_module(module)
     return module
 
+def collection_renderer():
+    spec=importlib.util.spec_from_file_location("olimazi_render_collection",COLLECTION_RENDERER)
+    if spec is None or spec.loader is None: raise ImportError("could not load collection renderer")
+    module=importlib.util.module_from_spec(spec); sys.modules[spec.name]=module; spec.loader.exec_module(module)
+    return module
+
+def collection_status(content_path=None,target_path=None,hash_path=None):
+    try:
+        default_content,default_hash=section_paths("library")
+        content=Path(content_path) if content_path else default_content
+        target=Path(target_path) if target_path else HERO_TARGET
+        built_path=Path(hash_path) if hash_path else default_hash
+        renderer=collection_renderer(); items=renderer.load_items(content)
+        digest=renderer.collection_digest(items); built=built_path.read_text(encoding="utf-8").strip()
+        mtimes=[item.path.stat().st_mtime for item in items]
+        payload={"content_mtime":max(mtimes) if mtimes else content.stat().st_mtime,"last_build_time":built_path.stat().st_mtime,"content_hash":digest,"built_hash":built}
+        if digest!=built: return {**payload,"status":"EDITED"}
+        target_text=renderer.read_text(target)
+        if renderer.replace_region(target_text,"library",renderer.render_library(items))!=target_text:
+            return {**payload,"status":"DRIFT","reason":"index.html library region does not match the renderer output"}
+        return {**payload,"status":"BUILT"}
+    except (OSError,ValueError,ImportError) as error:
+        return {"status":"UNKNOWN","reason":str(error),"content_mtime":None,"last_build_time":Path(hash_path).stat().st_mtime if hash_path and Path(hash_path).exists() else None}
+
 def section_status(section,content_path=None,target_path=None,hash_path=None):
+    if section=="library": return collection_status(content_path,target_path,hash_path)
     try:
         default_content,default_hash=section_paths(section)
         content=Path(content_path) if content_path else default_content
@@ -277,11 +304,15 @@ def section_status(section,content_path=None,target_path=None,hash_path=None):
 
 def run_section_renderer(section,mode):
     content,_=section_paths(section)
-    command=[sys.executable,str(SECTION_RENDERER),"--content",str(content),"--mode",mode,"--target",str(HERO_TARGET)]
+    if section=="library": command=[sys.executable,str(COLLECTION_RENDERER),"--mode",mode,"--library-root",str(content)]
+    else: command=[sys.executable,str(SECTION_RENDERER),"--content",str(content),"--mode",mode,"--target",str(HERO_TARGET)]
     result=subprocess.run(command,cwd=SITE_REPO,capture_output=True,text=True,timeout=30)
     if result.returncode: return 500,{"error":f"{section} render failed","detail":result.stderr.strip() or result.stdout.strip()}
-    match=re.search(r"changed fields:\s*(.*)$",result.stdout.strip())
-    changed=[] if not match or match.group(1)=="none" else [field.strip() for field in match.group(1).split(",")]
+    if section=="library":
+        payload=json.loads(result.stdout); changed=[name for name,value in payload.get("changed",{}).items() if value]
+    else:
+        match=re.search(r"changed fields:\s*(.*)$",result.stdout.strip())
+        changed=[] if not match or match.group(1)=="none" else [field.strip() for field in match.group(1).split(",")]
     return 200,{"ok":True,"section":section,"mode":mode,"changed_fields":changed,"detail":result.stdout.strip()}
 
 def section_preview(section):
@@ -296,6 +327,14 @@ def section_preview(section):
     return 503,{"error":"preview rendered but site server did not become reachable","preview_url":HERO_PREVIEW_URL}
 
 def section_probe(section):
+    if section=="library":
+        content,_=section_paths(section); items=collection_renderer().load_items(content)
+        values=[]
+        for item in items:
+            values.extend((item.title,item.card_title,item.subtitle,item.caption,*item.notes))
+            values.extend(link.label for link in item.links)
+            values.extend(value for image in item.images for value in (image.title,image.caption))
+        return max(values,key=len)
     content,_=section_paths(section); loaded_section,_,values=section_renderer().load_content(content)
     if loaded_section!=section: raise ValueError("content source section does not match requested section")
     return max(values.values(),key=len)
@@ -310,7 +349,9 @@ def live_has_probe(section):
 
 def section_deploy(section):
     state=section_status(section); status=state["status"]; _,hash_path=section_paths(section)
-    scope=["index.html",f"tools/{hash_path.name}"]; details={"commit_scope":scope,"staging":"whole files","probe":"longest current field value"}
+    scope=["index.html",f"tools/{hash_path.name}"]
+    if section=="library": scope.append("content/library")
+    details={"commit_scope":scope,"staging":"whole files","probe":"longest current field value"}
     if status=="DRIFT": return 409,{"error":f"deploy refused: {section} is in DRIFT",**details,"section_status":state}
     if status!="BUILT": return 409,{"error":f"deploy refused: {section} status is {status}, not BUILT",**details,"section_status":state}
     branch=git_run("branch","--show-current")

@@ -3,7 +3,8 @@ import unittest
 from pathlib import Path
 
 
-TOOLS = Path(__file__).resolve().parents[1] / "tools"
+ROOT = Path(__file__).resolve().parents[1]
+TOOLS = ROOT / "tools"
 sys.path.insert(0, str(TOOLS))
 
 import render_collection as collection
@@ -12,97 +13,99 @@ import render_collection as collection
 def make_item(
     slug: str,
     *,
+    order: int = 1,
     status: str = "active",
-    placement: str = "library",
-    feature_slot: int | None = None,
-    chip: str = "Notes",
-    details: tuple[str, ...] = (),
-    sources: tuple[tuple[str, str], ...] = (),
+    images: tuple[collection.Image, ...] | None = None,
+    notes: tuple[str, ...] = (),
+    links: tuple[collection.Link, ...] = (),
+    eager: bool = False,
+    aspect: str = "1.333",
 ) -> collection.Item:
-    fields = {
-        "Title": slug.title(),
-        "Summary": f"{slug} summary",
-        "Dialog Chip": f"{slug} notes",
-        "Dialog Intro": f"{slug} intro",
-        "Card Image": f"assets/{slug}-card.jpg",
-        "Card Image Alt": f"{slug} card alt",
-        "Dialog Image": f"assets/{slug}-dialog.jpg",
-        "Dialog Image Alt": f"{slug} dialog alt",
-    }
-    if details:
-        fields["Detail Heading"] = "Details"
+    title = slug.replace("-", " ").title()
     return collection.Item(
-        path=Path(f"{slug}.md"),
+        path=Path(f"{order:02d}-{slug}.md"),
         slug=slug,
         status=status,
-        placement=placement,
-        feature_slot=feature_slot,
-        order=10,
-        chip=chip,
-        fields=fields,
-        details=details,
-        sources=sources,
+        title=title,
+        card_title=title,
+        subtitle="test shelf",
+        caption="Test caption.",
+        notes=notes,
+        links=links,
+        images=images or (collection.Image(f"assets/{slug}.jpg", title, "Test caption."),),
+        height="220px",
+        height_mobile="140px",
+        aspect=aspect,
+        eager=eager,
     )
 
 
 class CollectionRenderingTests(unittest.TestCase):
-    def test_draft_item_renders_nowhere(self):
-        draft = make_item("draft-note", status="draft")
+    def test_draft_item_is_omitted(self):
+        rendered = collection.render_library([make_item("draft-note", status="draft")])
+        self.assertEqual(rendered, "")
 
-        feature_cards, feature_dialogs = collection.feature_regions([draft])
-        library_cards, library_dialogs = collection.library_regions([draft])
+    def test_sorted_filename_order_controls_page_order(self):
+        later = make_item("later", order=9)
+        earlier = make_item("earlier", order=2)
+        rendered = collection.render_library([later, earlier])
+        self.assertLess(rendered.index("Earlier"), rendered.index("Later"))
 
-        self.assertNotIn("draft-note", feature_cards)
-        self.assertNotIn("draft-note", feature_dialogs)
-        self.assertNotIn("draft-note", library_cards)
-        self.assertNotIn("draft-note", library_dialogs)
+    def test_optional_notes_and_links_are_absent_without_empty_attributes(self):
+        rendered = collection.render_item(make_item("plain"))
+        self.assertNotIn("data-body", rendered)
+        self.assertNotIn("data-links", rendered)
+        self.assertNotIn("data-slides", rendered)
 
-    def test_feature_item_does_not_also_render_in_library(self):
-        feature = make_item("featured", placement="feature", feature_slot=2)
-
-        feature_cards, feature_dialogs = collection.feature_regions([feature])
-        library_cards, library_dialogs = collection.library_regions([feature])
-
-        self.assertIn("featured-dialog", feature_cards)
-        self.assertIn("featured-dialog", feature_dialogs)
-        self.assertNotIn("featured", library_cards)
-        self.assertNotIn("featured", library_dialogs)
-
-    def test_three_active_feature_items_are_a_hard_error(self):
-        items = [
-            make_item(f"feature-{index}", placement="feature", feature_slot=slot)
-            for index, slot in enumerate((1, 2, 1), 1)
-        ]
-
-        with self.assertRaisesRegex(collection.RenderError, "at most 2"):
-            collection.validate_items(items)
-
-    def test_cta_without_sources(self):
-        self.assertEqual(collection.cta_label(make_item("plain")), "Open notes →")
-
-    def test_cta_with_sources_for_non_recipe(self):
+    def test_multi_image_item_renders_slides_json_images_and_deck(self):
         item = make_item(
-            "scent",
-            sources=(("Source ↗", "https://example.com"),),
+            "slides",
+            images=(
+                collection.Image("assets/one.jpg", "One", "First."),
+                collection.Image("assets/two.jpg", "Two", "Second."),
+            ),
         )
-        self.assertEqual(collection.cta_label(item), "Open notes and sources →")
+        rendered = collection.render_item(item)
+        self.assertIn("data-slides=", rendered)
+        self.assertIn('<figure class="slides">', rendered)
+        self.assertEqual(rendered.count('loading="lazy"'), 2)
+        self.assertIn('<b class="at"></b><b></b>', rendered)
 
-    def test_cta_with_sources_for_recipe(self):
+    def test_aspect_is_copied_verbatim(self):
+        rendered = collection.render_item(make_item("wide-crop", aspect=".563"))
+        self.assertIn("--ar:.563", rendered)
+
+    def test_single_image_title_override_controls_alt_without_changing_item_title(self):
         item = make_item(
-            "recipe",
-            chip="Recipe",
-            details=("Step one",),
-            sources=(("Recipe ↗", "https://example.com"),),
+            "illustration",
+            images=(collection.Image("assets/picture.png", "A wider alt", "Test caption."),),
         )
-        self.assertEqual(collection.cta_label(item), "Open notes and recipe →")
+        rendered = collection.render_item(item)
+        self.assertIn('data-title="Illustration"', rendered)
+        self.assertIn('alt="A wider alt"', rendered)
+        self.assertNotIn('<img class="on"', rendered)
 
-    def test_absent_optional_blocks_render_no_empty_dom(self):
-        dialog = collection.render_dialog(make_item("plain"), feature=False)
+    def test_missing_image_error_names_record_and_file(self):
+        path = Path("11-missing.md")
+        with self.assertRaisesRegex(
+            collection.RenderError, r"11-missing\.md.*assets/does-not-exist\.jpg"
+        ):
+            collection.parse_images(
+                "assets/does-not-exist.jpg", "Missing", "Missing.", path
+            )
 
-        self.assertNotIn("<h3>", dialog)
-        self.assertNotIn("<ul>", dialog)
-        self.assertNotIn('class="dialog-links"', dialog)
-        self.assertNotIn("<p></p>", dialog)
+    def test_repo_content_round_trips_current_shelf_byte_for_byte(self):
+        items = collection.load_items(ROOT / "content" / "library")
+        self.assertEqual(len(items), 10)
+        target = collection.read_text(ROOT / "index.html")
+        start, end = collection_region(target)
+        self.assertEqual(target[start:end], "\n" + collection.render_library(items) + "\n      ")
+
+
+def collection_region(target: str) -> tuple[int, int]:
+    start_marker = "<!-- content:library:start -->"
+    end_marker = "<!-- content:library:end -->"
+    return target.index(start_marker) + len(start_marker), target.index(end_marker)
 
 
 if __name__ == "__main__":
