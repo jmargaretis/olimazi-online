@@ -26,7 +26,7 @@
   --ink-faint:#8A98A3;
   --steel:#7A8B96;    /* numerals and quiet marks                        */
   --ox:#C0392B;       /* live --coral: LOGO RED. The only chromatic, and
-                         the only red in the brand (John, 2026-08-20).    */
+                         the only red in the brand (set 2026-08-20).      */
   --hair:rgba(22,32,42,.16);--grid:rgba(22,32,42,.05);
   --disp:"Satoshi","Segoe UI",system-ui,-apple-system,sans-serif;
   --body:"Satoshi","Segoe UI",system-ui,-apple-system,sans-serif;
@@ -221,6 +221,13 @@ button.shelf:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
   background-position:calc(100% - 11px) 12px,calc(100% - 5px) 12px;background-size:6px 6px,6px 6px;background-repeat:no-repeat}
 .ccard select:focus{outline:0;border-bottom-color:var(--ox)}
 .ccard select:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:2px}
+.ccard input{width:100%;font:500 17px/1.2 var(--body);color:var(--ink);background:none;border:0;border-bottom:1px solid var(--hair);
+  padding:4px 0 7px;appearance:none;-webkit-appearance:none;border-radius:0}
+.ccard input::placeholder{color:var(--ink-faint);font-weight:400}
+.ccard input:focus{outline:0;border-bottom-color:var(--ox)}
+.ccard input:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:2px}
+.ccard input:user-invalid{border-bottom-color:var(--ox)}
+.ccard .crow[hidden]{display:none}
 .ccard .cact{display:flex;align-items:center;gap:20px;flex-wrap:wrap;padding:20px 22px}
 .ccard .btn{display:inline-block;background:var(--ink);color:var(--paper);border-radius:8px;padding:12px 19px;font-weight:500;font-size:15px;transition:background .35s var(--ease)}
 .ccard .btn:hover{background:var(--ox)}
@@ -619,6 +626,12 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   <div class="ccard">
     <div class="cbar"><span id="ct-title">Contact</span><button type="button" class="xmark" data-cclose aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4.9 5.1 C9.6 7.9 14.6 13.4 19.1 19"/><path d="M19 5 C15.1 9.6 9.3 14.8 5 18.9"/></g></svg></button></div>
     <div class="crow"><span class="k">To</span><span class="v">hello@olimazi.online</span></div>
+    <div class="crow" id="crow-name" hidden><span class="k">Name</span><span class="v">
+      <input id="cname" type="text" name="name" autocomplete="name" placeholder="Your name">
+    </span></div>
+    <div class="crow" id="crow-mail" hidden><span class="k">Email</span><span class="v">
+      <input id="cmail" type="email" name="email" autocomplete="email" placeholder="you@example.com">
+    </span></div>
     <div class="crow"><span class="k">Subject</span><span class="v">
       <select id="csub" aria-label="Pick a subject">
           <option value="" data-note="Pick one and this fills in." selected>Choose a subject&hellip;</option>
@@ -634,7 +647,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     <div class="crow"><span class="k">About</span><span class="v" id="cnote">Pick one and this fills in.</span></div>
     <div class="cact">
       <a class="btn off" id="cgo" href="mailto:hello@olimazi.online">Open in your mail app &rarr;</a>
-      <span class="chint">No form, no tracking. It opens your own mail client with the subject filled in.</span>
+      <span class="chint" id="chint">No form, no tracking. It opens your own mail client with the subject filled in.</span>
     </div>
   </div>
 </div>
@@ -1031,7 +1044,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   function cshow(sub){
     clast = document.activeElement;
     if (open) hide(open, false, true);
-    csub.value = sub || ''; cpaint();
+    csub.value = sub || ''; cpaint(); csent = false;
     cmodal.hidden = false; void cmodal.offsetWidth; cmodal.classList.add('on');
     backdrop.classList.add('on');
     document.body.classList.add('locked'); document.body.style.overflow = 'hidden';
@@ -1044,6 +1057,51 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     setTimeout(function(){ cmodal.hidden = true; }, rm ? 0 : 340);
     if (clast) { try { clast.focus({ preventScroll: true }); } catch (x) {} }
   }
+  /* ---- lead capture ----------------------------------------------------
+     Off until both ids are filled in. While they are empty the card is
+     exactly what it has always been: two hidden rows, no request, and the
+     hint under the button still says no form and no tracking - which stays
+     true, because nothing here runs. Filling these in flips all of it at
+     once, so the promise and the behaviour can never disagree.
+
+     Get them from HubSpot (free tier): Portal id is in Settings > Account
+     Defaults. Form guid is in the URL when the form is open for editing.  */
+  var HS = { portal: '247121026', form: 'a416978f-704d-4dca-abf3-12dc78b21673' };
+  var CRM_HINT = 'Your name, email and subject are stored in HubSpot so you get a reply. Nothing else is recorded and nothing is passed on.';
+  var cname = document.getElementById('cname'), cmail = document.getElementById('cmail'),
+      chint = document.getElementById('chint'), csent = false;
+  var crmOn = !!(HS.portal && HS.form);
+  if (crmOn) {
+    document.getElementById('crow-name').hidden = false;
+    document.getElementById('crow-mail').hidden = false;
+    chint.textContent = CRM_HINT;
+  }
+  function clead(){
+    /* Never gates the mailto. A capture that fails, or a visitor who would
+       rather not type a name, must still reach him - that is the whole
+       point of the card. Fired once per open, and only with both fields. */
+    if (!crmOn || csent) return;
+    var name = (cname.value || '').trim(), mail = (cmail.value || '').trim();
+    if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)) return;
+    csent = true;
+    var o = csub.options[csub.selectedIndex];
+    try {
+      fetch('https://api.hsforms.com/submissions/v3/integration/submit/' + HS.portal + '/' + HS.form, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fields: [
+            { name: 'email', value: mail },
+            { name: 'firstname', value: name },
+            { name: 'message', value: o.value ? decodeURIComponent(o.value) : 'General note' }
+          ],
+          context: { pageUri: location.href, pageName: document.title }
+        })
+      }).catch(function(){});
+    } catch (x) {}
+  }
+  cgo.addEventListener('click', clead);
+
   csub.addEventListener('change', cpaint);
   cmodal.addEventListener('click', function(e){
     if (!e.target.closest('.ccard') || e.target.closest('[data-cclose]')) chide();
