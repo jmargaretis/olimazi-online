@@ -926,7 +926,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   function vhide(){
     if (viewer.hidden) return;
     viewer.classList.remove('on');
-    if (!open) { document.body.classList.remove('locked'); document.body.style.overflow = ''; }
+    if (!open && cmodal.hidden) { document.body.classList.remove('locked'); document.body.style.overflow = ''; }
     vt = setTimeout(function(){ viewer.hidden = true; vimg.removeAttribute('src'); }, rm ? 0 : 380);
     if (vlast) { try { vlast.focus({ preventScroll: true }); } catch (x) {} }
   }
@@ -943,7 +943,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   function show(k, push){
     var el = pane(k); if (!el) return;
     if (open && open !== el) hide(open, false, true);
-    if (closing === el) { clearTimeout(closing._t); closing = null; }
+    if (el._t) { clearTimeout(el._t); el._t = null; if (closing === el) closing = null; }
     lastFocus = document.activeElement;
     el.hidden = false; el.scrollTop = 0;
     void el.offsetWidth;
@@ -962,7 +962,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     }
     var wait = rm ? 0 : 440;
     closing = el;
-    el._t = setTimeout(function(){ el.hidden = true; if (closing === el) closing = null; }, wait);
+    el._t = setTimeout(function(){ el.hidden = true; el._t = null; if (closing === el) closing = null; }, wait);
     if (open === el) open = null;
     if (!popped && location.hash && !keepLock) history.pushState(null, '', location.pathname + location.search);
     if (lastFocus && !keepLock) { try { lastFocus.focus({ preventScroll: true }); } catch (x) {} }
@@ -987,7 +987,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   });
   /* ---- contact card - it pops up, it never sits on the page ---- */
   var cmodal = document.getElementById('cmodal'), csub = document.getElementById('csub'),
-      cgo = document.getElementById('cgo'), cnote = document.getElementById('cnote'), clast = null;
+      cgo = document.getElementById('cgo'), cnote = document.getElementById('cnote'), clast = null, ct = null;
   function cpaint(){
     var o = csub.options[csub.selectedIndex];
     cnote.textContent = o.getAttribute('data-note');
@@ -996,7 +996,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   }
   function cshow(sub){
     clast = document.activeElement;
-    if (open) hide(open, false, true);
+    if (ct) { clearTimeout(ct); ct = null; }
     csub.value = sub || ''; cpaint();
     cmodal.hidden = false; void cmodal.offsetWidth; cmodal.classList.add('on');
     backdrop.classList.add('on');
@@ -1005,10 +1005,19 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   }
   function chide(){
     if (cmodal.hidden) return;
-    cmodal.classList.remove('on'); backdrop.classList.remove('on');
-    document.body.classList.remove('locked'); document.body.style.overflow = '';
-    setTimeout(function(){ cmodal.hidden = true; }, rm ? 0 : 340);
-    if (clast) { try { clast.focus({ preventScroll: true }); } catch (x) {} }
+    cmodal.classList.remove('on');
+    if (open) {
+      backdrop.classList.add('on');
+      document.body.classList.add('locked'); document.body.style.overflow = 'hidden';
+    } else {
+      backdrop.classList.remove('on');
+      document.body.classList.remove('locked'); document.body.style.overflow = '';
+    }
+    if (ct) clearTimeout(ct);
+    ct = setTimeout(function(){ cmodal.hidden = true; ct = null; }, rm ? 0 : 340);
+    var target = clast;
+    if (open && (!target || !open.contains(target))) target = open.querySelector('[data-close]');
+    if (target) { try { target.focus({ preventScroll: true }); } catch (x) {} }
   }
   csub.addEventListener('change', cpaint);
   cmodal.addEventListener('click', function(e){
@@ -1020,6 +1029,21 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
 
   backdrop.addEventListener('click', function(){ if (!cmodal.hidden) { chide(); return; } hide(open); });
   document.addEventListener('keydown', function(e){
+    if (e.key === 'Tab') {
+      var root = !viewer.hidden && viewer.classList.contains('on') ? viewer :
+                 !cmodal.hidden && cmodal.classList.contains('on') ? cmodal : open;
+      if (!root) return;
+      var focusable = [].slice.call(root.querySelectorAll('a[href],button:not([disabled]),select:not([disabled]),input:not([disabled]),[tabindex]:not([tabindex="-1"])'))
+        .filter(function(el){ return !el.hidden && el.offsetParent !== null; });
+      if (!focusable.length) { e.preventDefault(); return; }
+      var first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey && (document.activeElement === first || !root.contains(document.activeElement))) {
+        e.preventDefault(); last.focus({ preventScroll: true });
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault(); first.focus({ preventScroll: true });
+      }
+      return;
+    }
     if (e.key !== 'Escape') return;
     if (!viewer.hidden) { vhide(); return; }
     if (!cmodal.hidden) { chide(); return; }
@@ -1029,6 +1053,10 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     if (!viewer.hidden) {
       vhide();
       if (open) { var pk = open.id.replace('pane-', ''); history.pushState({ pane: pk }, '', '#' + pk); return; }
+    }
+    if (!cmodal.hidden) {
+      chide();
+      if (open) { var ck = open.id.replace('pane-', ''); history.pushState({ pane: ck }, '', '#' + ck); return; }
     }
     var k = location.hash.replace('#', '');
     if (k && pane(k)) show(k, false); else if (open) hide(open, true);
