@@ -1076,6 +1076,22 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     document.getElementById('crow-mail').hidden = false;
     chint.textContent = CRM_HINT;
   }
+  /* Where they came from. A link tagged ?src=ig outlives the click: the
+     tag is kept for the session, so it still rides along if they wander
+     the site before opening the card. No tag and no referrer means they
+     typed the address, which is worth knowing on its own.               */
+  var CSRC = (function(){
+    var q = (new URLSearchParams(location.search).get('src') || '').trim().slice(0, 24);
+    try {
+      if (q) sessionStorage.setItem('oz_src', q);
+      else q = sessionStorage.getItem('oz_src') || '';
+    } catch (x) {}
+    if (q) return q;
+    if (!document.referrer) return 'direct';
+    try { return 'ref:' + new URL(document.referrer).hostname.replace(/^www\./, ''); }
+    catch (x) { return 'direct'; }
+  })();
+
   function clead(){
     /* Never gates the mailto. A capture that fails, or a visitor who would
        rather not type a name, must still reach him - that is the whole
@@ -1093,7 +1109,8 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
           fields: [
             { name: 'email', value: mail },
             { name: 'firstname', value: name },
-            { name: 'message', value: o.value ? decodeURIComponent(o.value) : 'General note' }
+            { name: 'message', value: o.value ? decodeURIComponent(o.value) : 'General note' },
+            { name: 'came_from', value: CSRC }
           ],
           context: { pageUri: location.href, pageName: document.title }
         })
