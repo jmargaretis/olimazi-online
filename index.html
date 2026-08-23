@@ -212,6 +212,10 @@ button.shelf:focus-visible{outline:2px solid var(--ink);outline-offset:6px}
 .cmodal.on .ccard{transform:none}
 .ccard .cbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 22px;border-bottom:1px solid var(--hair);
   font:700 11px/1 var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-faint)}
+.ccard .cbar .ctitle{font:900 17px/1 var(--disp);letter-spacing:-.02em;text-transform:none;color:var(--ink)}
+.ccard .cbar .ctitle i{color:var(--ox);font-style:normal}
+.ccard .cfoot{display:flex;justify-content:center;padding:2px 22px 22px}
+.ccard .cfoot img{width:48px;height:auto;display:block;mix-blend-mode:multiply}
 .ccard .cbar .xmark{color:var(--ink-soft)}
 .ccard .cbar .xmark:hover{color:var(--ox)}
 .ccard .crow{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center;padding:15px 22px;border-bottom:1px solid var(--hair);font-size:15px}
@@ -660,7 +664,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
 
 <div class="cmodal" id="cmodal" hidden role="dialog" aria-modal="true" aria-labelledby="ct-title">
   <div class="ccard">
-    <div class="cbar"><span id="ct-title">Contact</span><button type="button" class="xmark" data-cclose aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4.9 5.1 C9.6 7.9 14.6 13.4 19.1 19"/><path d="M19 5 C15.1 9.6 9.3 14.8 5 18.9"/></g></svg></button></div>
+    <div class="cbar"><span id="ct-title" class="ctitle">olimazi<i>.</i>online</span><button type="button" class="xmark" data-cclose aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4.9 5.1 C9.6 7.9 14.6 13.4 19.1 19"/><path d="M19 5 C15.1 9.6 9.3 14.8 5 18.9"/></g></svg></button></div>
     <div class="crow"><span class="k">To</span><span class="v">hello@olimazi.online</span></div>
     <div class="crow" id="crow-name" hidden><span class="k">Name</span><span class="v">
       <input id="cname" type="text" name="name" autocomplete="name" placeholder="Your name">
@@ -685,6 +689,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
       <a class="btn off" id="cgo" href="mailto:hello@olimazi.online">Open in your mail app &rarr;</a>
       <span class="chint" id="chint">No form, no tracking. It opens your own mail client with the subject filled in.</span>
     </div>
+    <div class="cfoot"><img src="assets/avatar-h2.png" alt="Olimazi"></div>
   </div>
 </div>
 
