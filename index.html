@@ -1154,13 +1154,13 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
      true, because nothing here runs. Filling these in flips all of it at
      once, so the promise and the behaviour can never disagree.
 
-     Get them from HubSpot (free tier): Portal id is in Settings > Account
-     Defaults. Form guid is in the URL when the form is open for editing.  */
-  var HS = { portal: '247121026', form: 'a416978f-704d-4dca-abf3-12dc78b21673' };
-  var CRM_HINT = 'Your name, email and subject are stored in HubSpot so you get a reply. Nothing else is recorded and nothing is passed on.';
+     The endpoint is Olimazi's own Cloudflare Worker (leads-worker in the
+     marketing stack) writing to a D1 ledger John owns. No third party.   */
+  var LEADS_URL = 'https://olimazi-leads.olimazi.workers.dev';
+  var CRM_HINT = 'Your name, email and subject are kept in the Olimazi ledger so you get a reply. Nothing else is recorded, and nothing is passed on.';
   var cname = document.getElementById('cname'), cmail = document.getElementById('cmail'),
       chint = document.getElementById('chint'), csent = false;
-  var crmOn = !!(HS.portal && HS.form);
+  var crmOn = !!LEADS_URL;
   if (crmOn) {
     document.getElementById('crow-name').hidden = false;
     document.getElementById('crow-mail').hidden = false;
@@ -1192,17 +1192,13 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     csent = true;
     var o = csub.options[csub.selectedIndex];
     try {
-      fetch('https://api.hsforms.com/submissions/v3/integration/submit/' + HS.portal + '/' + HS.form, {
+      fetch(LEADS_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          fields: [
-            { name: 'email', value: mail },
-            { name: 'firstname', value: name },
-            { name: 'message', value: o.value ? decodeURIComponent(o.value) : 'General note' },
-            { name: 'came_from', value: CSRC }
-          ],
-          context: { pageUri: location.href, pageName: document.title }
+          name: name,
+          email: mail,
+          subject: o.value ? decodeURIComponent(o.value) : 'General note'
         })
       }).catch(function(){});
     } catch (x) {}
