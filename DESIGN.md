@@ -11,8 +11,8 @@ colors:
   ink-soft: "#4E5C68"
   plate: "#E6EBEE"
   plate-2: "#D8DFE3"
-  coral: "#C23A2B"
-  coral-bright: "#FF4A2E"
+  coral: "#C0392B"
+  coral-bright: "#C0392B"
   tape: "rgba(220, 228, 232, .55)"
   stamp: "rgba(22, 32, 42, .78)"
 typography:
@@ -23,11 +23,11 @@ typography:
     fontFamily: "Satoshi, Segoe UI, system-ui, sans-serif"
     fontWeight: 700
   body:
-    fontFamily: "Segoe UI, system-ui, sans-serif"
+    fontFamily: "Satoshi, Segoe UI, system-ui, sans-serif"
   type:
     fontFamily: "Courier New, Courier, monospace"
   hand:
-    fontFamily: "Segoe Print, Ink Free, Bradley Hand, Marker Felt, cursive"
+    fontFamily: "Satoshi, Segoe UI, system-ui, sans-serif"
 spacing:
   gutter: "28px"
   wrap-max: "1140px"
@@ -35,7 +35,7 @@ spacing:
 
 # Design System: Olimazi
 
-Source of truth for tokens is `styles.css` `:root` (branch `steel`, 2026-08-17). This file describes what is live; it is not a spec. Basis: `Claude OS/projects/olimazi-landing/plans/BASIS-steel-restyle-2026-08-17.md`.
+Source of truth for tokens is `styles.css` `:root` (`main`; the steel restyle landed 2026-08-17, one red `#C0392B` since 2026-08-25). This file describes what is live; it is not a spec. Basis: `Claude OS/projects/olimazi-landing/plans/BASIS-steel-restyle-2026-08-17.md`.
 
 ## Overview
 
@@ -48,8 +48,8 @@ Source of truth for tokens is `styles.css` `:root` (branch `steel`, 2026-08-17).
 - **kraft** — the hairline colour and the second notepad tone. Also the offset card behind each library stack.
 - **ink / ink-soft** — text on paper. Body `ink-soft` on `paper` is 5.3:1.
 - **plate / plate-2** — flat matte plates: typewriter cards, vault note, sticker and tag fills, thumb mounts.
-- **coral** (`#C23A2B`) — the accent on light surfaces: sign red, links, section numerals, FOR LEASE, the mono labels above cards. Large type and marks only; fails contrast as body text.
-- **coral-bright** (`#FF4A2E`) — the accent on dark surfaces: focus ring, selection, "aided by Ai?", the "NO. n" ledger numbers on the wall.
+- **coral** (`#C0392B`) — the accent on light surfaces: sign red, links, section numerals, FOR LEASE, the mono labels above cards. Large type and marks only; fails contrast as body text.
+- **coral-bright** (`#C0392B`, the same red; `#FF4A2E` is retired) — the accent on dark surfaces: focus ring, selection, "aided by Ai?", the "NO. n" ledger numbers on the wall.
 - **tape / stamp** — legacy translucent tokens. Tape is `display: none` on the live page.
 - `--yellow`, `--red`, `--mint` are aliases that resolve to the two accent tokens. Do not add a third accent. Yellow and mint are gone.
 
@@ -84,7 +84,7 @@ Blue/orange happens when a saturated cool fill sits next to a saturated warm fil
 - **display** — Satoshi Black/Bold (self-hosted `assets/Satoshi-*.otf`). Headlines, stickers, nav.
 - **body** — Segoe UI / system sans.
 - **type** — Courier New. Typewriter cards, captions, labels, numerals.
-- **hand** — Segoe Print / Ink Free. Only the hero "aided by Ai?".
+- **hand** — retired 2026-08-20; `--hand` resolves to `--display` (Satoshi). The hero "aided by Ai?" is Satoshi now.
 
 No webfont dependencies. IBM Plex Mono and Architects Daughter are retired from every page.
 
