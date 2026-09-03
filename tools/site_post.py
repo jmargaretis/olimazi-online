@@ -5,13 +5,18 @@
         --title "..." --body-file caption.txt --image path1 [--image path2 ...] \
         [--deploy]
 
-Only `library` is a real target today: it is the one section backed by an
-append-only list of Markdown records (`content/library/*.md`, rendered by
-`render_collection.py`). `work` (content/main-work.md, render_section.py) is a
+`library` and `learning` are real targets: each is backed by an append-only
+list of Markdown records (`content/library/*.md` rendered by
+`render_collection.py`; `content/learning/*.md` rendered by
+`render_learning.py`). `work` (content/main-work.md, render_section.py) is a
 fixed seven-field template tied to two hardcoded cards — there is no slot to
-add a new entry. `learning` has no `<!-- content:learning:* -->` marker in
-index.html at all; its five lessons are hardcoded HTML. Both are refused with
-a specific reason, before anything is touched.
+add a new entry, and it is refused with a specific reason before anything is
+touched.
+
+`--section learning` appends a new lesson at the next order number, using
+`--title` as the headline and `--sub` (or, if omitted, the first paragraph of
+`--body-file`) as the supporting line, then re-renders index.html. `--image`
+is ignored for this section.
 
 Without --deploy: writes/updates content + assets + index.html, prints one
 line per file touched, and stops.
@@ -35,9 +40,11 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CONTENT_LIBRARY = REPO_ROOT / "content" / "library"
+CONTENT_LEARNING = REPO_ROOT / "content" / "learning"
 ASSETS_DIR = REPO_ROOT / "assets"
 INDEX_HTML = REPO_ROOT / "index.html"
 RENDER_COLLECTION = REPO_ROOT / "tools" / "render_collection.py"
+RENDER_LEARNING = REPO_ROOT / "tools" / "render_learning.py"
 FILENAME_RE = re.compile(r"(?P<order>\d{2})-(?P<slug>[a-z0-9]+(?:-[a-z0-9]+)*)\.md")
 
 DEFAULT_SUBTITLE = "posts"
@@ -126,15 +133,20 @@ def paragraphs(text: str) -> list[str]:
     return [p.strip() for p in parts if p.strip()]
 
 
-def existing_library_records() -> list[tuple[int, str, Path]]:
-    """[(order_int, slug, path), ...] for every content/library/NN-slug.md file."""
+def existing_records(content_dir: Path) -> list[tuple[int, str, Path]]:
+    """[(order_int, slug, path), ...] for every NN-slug.md file in content_dir."""
     records = []
-    for path in sorted(CONTENT_LIBRARY.glob("*.md")):
+    for path in sorted(content_dir.glob("*.md")):
         match = FILENAME_RE.fullmatch(path.name)
         if match is None:
-            raise SitePostError(f"unexpected file in content/library: {path.name}")
+            raise SitePostError(f"unexpected file in {content_dir.relative_to(REPO_ROOT)}: {path.name}")
         records.append((int(match.group("order")), match.group("slug"), path))
     return records
+
+
+def existing_library_records() -> list[tuple[int, str, Path]]:
+    """[(order_int, slug, path), ...] for every content/library/NN-slug.md file."""
+    return existing_records(CONTENT_LIBRARY)
 
 
 def bump_library_order(records: list[tuple[int, str, Path]]) -> list[str]:
@@ -188,6 +200,27 @@ def write_library_record(slug: str, title: str, body_text: str, image_lines: lis
     return path
 
 
+def write_learning_record(order: int, slug: str, headline: str, sub: str) -> Path:
+    lines = [
+        "---",
+        "schema: olimazi-site-copy/learning-item/v1",
+        "status: active",
+        "---",
+        "",
+        "# Headline",
+        "",
+        headline,
+        "",
+        "# Sub",
+        "",
+        sub,
+        "",
+    ]
+    path = CONTENT_LEARNING / f"{order:02d}-{slug}.md"
+    path.write_text("\n".join(lines), encoding="utf-8", newline="\n")
+    return path
+
+
 def run_render_collection() -> str:
     result = subprocess.run(
         [sys.executable, str(RENDER_COLLECTION), "--mode", "build"],
@@ -195,6 +228,16 @@ def run_render_collection() -> str:
     )
     if result.returncode != 0:
         raise SitePostError(f"render_collection.py failed: {result.stderr.strip() or result.stdout.strip()}")
+    return result.stdout.strip()
+
+
+def run_render_learning() -> str:
+    result = subprocess.run(
+        [sys.executable, str(RENDER_LEARNING), "--mode", "build"],
+        cwd=REPO_ROOT, capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        raise SitePostError(f"render_learning.py failed: {result.stderr.strip() or result.stdout.strip()}")
     return result.stdout.strip()
 
 
@@ -213,6 +256,38 @@ def deploy(section: str, title: str, touched_files: list[str]) -> None:
     push = git("push", "origin", "main")
     if push.returncode != 0:
         raise SitePostError(f"git push failed: {push.stderr.strip() or push.stdout.strip()}")
+
+
+def build_learning_post(title: str, body_file: Path, sub: str | None) -> list[str]:
+    if not body_file.is_file():
+        raise SitePostError(f"body file not found: {body_file}")
+    body_text = body_file.read_text(encoding="utf-8")
+
+    records = existing_records(CONTENT_LEARNING)
+    if not records:
+        raise SitePostError("no existing content/learning records found")
+    existing_slugs = {slug for _, slug, _ in records}
+    slug = unique_slug(slugify(title), existing_slugs)
+    next_order = max(order for order, _, _ in records) + 1
+
+    if sub is None:
+        body_paragraphs = paragraphs(body_text)
+        if not body_paragraphs:
+            raise SitePostError("body-file has no content")
+        sub = " ".join(body_paragraphs[0].split())
+    else:
+        sub = sub.strip()
+        if not sub:
+            raise SitePostError("--sub must not be empty")
+
+    touched: list[str] = []
+    new_path = write_learning_record(next_order, slug, title.strip(), sub)
+    touched.append(str(new_path.relative_to(REPO_ROOT)))
+
+    run_render_learning()
+    touched.append(str(INDEX_HTML.relative_to(REPO_ROOT)))
+
+    return touched
 
 
 def build_library_post(title: str, body_file: Path, images: list[Path]) -> list[str]:
@@ -262,7 +337,8 @@ def main() -> int:
     parser.add_argument("--section", required=True, choices=("work", "learning", "library"))
     parser.add_argument("--title", required=True)
     parser.add_argument("--body-file", required=True, type=Path)
-    parser.add_argument("--image", required=True, action="append", type=Path, dest="images")
+    parser.add_argument("--image", action="append", type=Path, dest="images", default=[])
+    parser.add_argument("--sub", help="learning only: the supporting line (default: body-file's first paragraph)")
     parser.add_argument("--deploy", action="store_true")
     args = parser.parse_args()
 
@@ -275,17 +351,12 @@ def main() -> int:
             file=sys.stderr,
         )
         return 1
-    if args.section == "learning":
-        print(
-            "error: --section learning is not supported: index.html has no "
-            "<!-- content:learning:start/end --> marker at all; the five lessons are "
-            "hardcoded HTML, not driven by any content file.",
-            file=sys.stderr,
-        )
-        return 1
 
     try:
-        touched = build_library_post(args.title, args.body_file, args.images)
+        if args.section == "learning":
+            touched = build_learning_post(args.title, args.body_file, args.sub)
+        else:
+            touched = build_library_post(args.title, args.body_file, args.images)
     except SitePostError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
