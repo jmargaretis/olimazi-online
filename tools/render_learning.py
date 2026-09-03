@@ -194,6 +194,13 @@ def main() -> int:
         index_path = REPO_ROOT / "index.html"
         index_text = read_text(index_path)
         rendered_index = replace_region(index_text, "learning", render_learning(items))
+        # keep the "01 of NN" counter in step with the record count
+        rendered_index = re.sub(
+            r'(id="lcount">\d+</span><small>of )\d+',
+            lambda m: f"{m.group(1)}{len(items):02d}",
+            rendered_index,
+            count=1,
+        )
 
         output = index_path if args.mode == "build" else REPO_ROOT / "index.preview.html"
 
