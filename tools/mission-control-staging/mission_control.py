@@ -10,10 +10,10 @@ from urllib.request import Request, urlopen
 
 HOST, PORT, TIMEOUT = "127.0.0.1", 8643, 1.5
 ROOT = Path(__file__).resolve().parent
-HANDOFF_PATH = Path(r"C:\Users\jmarg\OneDrive\Documents\Claude OS\inbox\handoff.md")
-REVIEW_PATH = Path(r"C:\Users\jmarg\OneDrive\Documents\Claude OS\Review.md")
+HANDOFF_PATH = Path(r"C:\Users\jmarg\work\claude-os\inbox\handoff.md")
+REVIEW_PATH = Path(r"C:\Users\jmarg\work\claude-os\Review.md")
 DROP_PATHS = [Path(r"C:\Users\jmarg\My Drive\Olimazi Drop")]
-APPLICATIONS_PATH = Path(r"C:\Users\jmarg\OneDrive\Documents\Claude OS\projects\resume-tailoring\applications\applications-tracker.md")
+APPLICATIONS_PATH = Path(r"C:\Users\jmarg\work\claude-os\projects\resume-tailoring\applications\applications-tracker.md")
 SNAPSHOT_PATH, CACHE_SECONDS = ROOT / "mc-state-snapshot.json", 10
 CACHE, CACHE_LOCK = {}, threading.Lock()
 TRACKER_DIR = Path(r"C:\Users\jmarg\work\olimazi-tracker\fixtures\sample-property")
@@ -135,7 +135,7 @@ def state_payload():
     now=time.monotonic(); return {name:widget_state(name,now) for name in READERS}
 
 def command_for(s):
-    return {"site":[sys.executable,"-m","http.server","8399","--bind",HOST,"--directory",r"C:\Users\jmarg\work\olimazi-online"], "image-picker":[sys.executable,"-m","http.server","8642","--bind",HOST,"--directory",r"C:\Users\jmarg\OneDrive\Documents\Claude OS\projects\olimazi-landing\image-bucket"], "tracker-sample":[sys.executable,"-m","http.server","8744","--bind",HOST,"--directory",str(TRACKER_DIR)]}.get(s)
+    return {"site":[sys.executable,"-m","http.server","8399","--bind",HOST,"--directory",r"C:\Users\jmarg\work\olimazi-online"], "image-picker":[sys.executable,"-m","http.server","8642","--bind",HOST,"--directory",r"C:\Users\jmarg\work\claude-os\projects\olimazi-landing\image-bucket"], "tracker-sample":[sys.executable,"-m","http.server","8744","--bind",HOST,"--directory",str(TRACKER_DIR)]}.get(s)
 
 def check_service(s):
     _, port, path = SERVICES[s]; connection = http.client.HTTPConnection(HOST,port,timeout=TIMEOUT)

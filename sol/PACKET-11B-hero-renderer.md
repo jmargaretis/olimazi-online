@@ -9,7 +9,7 @@ Open/Preview/Build/Deploy buttons) is wired separately after this is verified.
 The home hero copy is being migrated to an Obsidian-edited content source so John
 edits prose in the vault and a renderer patches the site HTML. The content source
 already exists (do NOT create it):
-`C:\Users\jmarg\OneDrive\Documents\Claude OS\projects\olimazi-brand\site-copy\home-hero.md`
+`C:\Users\jmarg\work\claude-os\projects\olimazi-brand\site-copy\home-hero.md`
 — YAML frontmatter + `#`-heading fields: Kicker, Headline Lead, Headline Accent,
 Sub, CTA Label, CTA Href.
 

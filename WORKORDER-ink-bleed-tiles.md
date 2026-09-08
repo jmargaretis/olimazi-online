@@ -69,7 +69,7 @@ adding a `None` entry at the matching position.
 **Proof of correctness — required:**
 
 ```
-python tools\render_section.py --content "C:\Users\jmarg\OneDrive\Documents\Claude OS\projects\olimazi-brand\site-copy\main-work.md" --mode build
+python tools\render_section.py --content "C:\Users\jmarg\work\claude-os\projects\olimazi-brand\site-copy\main-work.md" --mode build
 ```
 
 must print `changed fields: none`. That command only READS from OneDrive — that read is
@@ -120,7 +120,7 @@ So:
 - **Build the effect and stop.** Report it as *built, pending visual verification* — never
   as done.
 - **Do** run and report every check you can prove mechanically:
-  - `python tools\render_section.py --content "C:\Users\jmarg\OneDrive\Documents\Claude OS\projects\olimazi-brand\site-copy\main-work.md" --mode build`
+  - `python tools\render_section.py --content "C:\Users\jmarg\work\claude-os\projects\olimazi-brand\site-copy\main-work.md" --mode build`
     prints `changed fields: none` (read-only against OneDrive; no writes there).
   - No infinite `animation` anywhere in the changed CSS.
   - No `will-change` outside `.carousel.is-dragging`.

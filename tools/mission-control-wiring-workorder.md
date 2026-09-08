@@ -2,9 +2,9 @@
 
 ## Context
 
-Packet 12-C (committed) migrated all `index.html` prose into marker-wrapped regions with content sources + a generic renderer `tools/render_section.py` (CLI-compatible with `tools/render_hero.py`). Content sources now live in the vault at `C:\Users\jmarg\OneDrive\Documents\Claude OS\projects\olimazi-brand\site-copy\` — seven files: `home-hero.md` (the existing pilot) plus `hero-spec.md`, `main-work.md`, `method.md`, `mind.md`, `contact.md`, `dialogs.md`. Card commands are specified in `tools/mission-control-cards.snippet.md`.
+Packet 12-C (committed) migrated all `index.html` prose into marker-wrapped regions with content sources + a generic renderer `tools/render_section.py` (CLI-compatible with `tools/render_hero.py`). Content sources now live in the vault at `C:\Users\jmarg\work\claude-os\projects\olimazi-brand\site-copy\` — seven files: `home-hero.md` (the existing pilot) plus `hero-spec.md`, `main-work.md`, `method.md`, `mind.md`, `contact.md`, `dialogs.md`. Card commands are specified in `tools/mission-control-cards.snippet.md`.
 
-Mission Control is a local panel in the vault at `C:\Users\jmarg\OneDrive\Documents\Claude OS\inbox\launchpad\` — `mission_control.py` (Python HTTP server) + `launchpad.html` (the panel UI). It currently supports ONE site-copy card ("Site — Home hero"): status (BUILT/EDITED/DRIFT), Preview, Build, and Deploy endpoints, where Deploy git-commits + pushes and then **live-verifies** the copy actually appears on https://olimazi.online/ before reporting DEPLOYED.
+Mission Control is a local panel in the vault at `C:\Users\jmarg\work\claude-os\inbox\launchpad\` — `mission_control.py` (Python HTTP server) + `launchpad.html` (the panel UI). It currently supports ONE site-copy card ("Site — Home hero"): status (BUILT/EDITED/DRIFT), Preview, Build, and Deploy endpoints, where Deploy git-commits + pushes and then **live-verifies** the copy actually appears on https://olimazi.online/ before reporting DEPLOYED.
 
 ## Goal
 

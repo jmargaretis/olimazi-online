@@ -21,7 +21,7 @@ from render_section import SECTION_SPECS
 sys.stdout.reconfigure(encoding="utf-8")
 
 VAULT_COPY = Path(
-    r"C:\Users\jmarg\OneDrive\Documents\Claude OS\projects\olimazi-brand\site-copy"
+    r"C:\Users\jmarg\work\claude-os\projects\olimazi-brand\site-copy"
 )
 TAG_RE = re.compile(r"^\s*\[([^\]]+)\]\s*(.*)$")
 STATUS_RE = re.compile(r"^Status:\s*(\S+)", re.M)
