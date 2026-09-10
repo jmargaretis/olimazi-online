@@ -1,14 +1,10 @@
-# Olimazi
+# olimazi-online
 
-Static landing page for [olimazi.online](https://olimazi.online).
+Static site for https://olimazi.online, published from `main` by GitHub Pages. `index.html` is the source of truth.
 
-## Publishing
+**Start from the vault, not from this folder.**
+- To-do and current state: `C:\Users\jmarg\work\claude-os\inbox\tickets.md` (site lane).
+- How to behave here: `CLAUDE.md` (points to the vault). Codex contract: `AGENTS.md`.
 
-This repository is ready for GitHub Pages:
-
-1. Push the `main` branch to GitHub.
-2. Open **Settings → Pages**.
-3. Select **Deploy from a branch**.
-4. Choose `main` and `/ (root)`.
-
-The public URL will use the repository name until a custom domain is connected.
+Reference kept at root: `DESIGN.md` (current design spec), `LIBRARY-HOWTO.md`, `PRODUCT.md` (product brief), `WORKORDER-*.md` (open work orders).
+History: `docs/archive/` (past Codex reports). Not current.
