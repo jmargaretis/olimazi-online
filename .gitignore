@@ -12,3 +12,6 @@ moodboard/
 # Same reason: these still show the app icon in the header and are not
 # cleared for publishing.
 assets/rental-manager-*-nologo.png
+
+# Secrets: never track env files
+.env
