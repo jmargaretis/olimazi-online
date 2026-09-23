@@ -5,6 +5,8 @@ const { chromium } = require('C:/Users/jmarg/.claude/skills/design-loop/node_mod
 const path = require('path'), fs = require('fs');
 const OUT = path.join(__dirname, '../../.design-loop/clips/cap');
 const FIX = 'file:///C:/Users/jmarg/work/olimazi-tracker/fixtures/sample-property/';
+// The mail page is built from the sample property by make_fixture_pages.py.
+const LOCALFIX = 'file:///' + path.join(__dirname, '../../.design-loop/clips/fixture/').split(path.sep).join('/') + '/';
 
 // [id, url, prep(page), targets {name: [text, closestSelector?]}]
 const SCENES = [
@@ -12,12 +14,21 @@ const SCENES = [
     nav_flow: ['Flow', 'a'], bottom: ['SCH. E BOTTOM LINE', 'section,div.card,.panel,article'],
     line3: ['Rents received', 'tr,li,.row,div'], line7: ['Cleaning and maintenance', 'tr,li,.row,div'],
     open: ['RESOLVE HERE OR ON THE ORGANIZER', 'section,details,div.card,.panel,article'] }],
+  ['rm-phone', LOCALFIX + 'SchE_Phone.html', null, {
+    nav_flow: ['Flow', 'a'], on: ['Phone capture is on', 'div.card'], addr: ['192.168.1.20', 'p'],
+    code: ['482913', 'p'], phone: ['Take a photo', 'body'] }],
   ['rm-flow', FIX + 'SchE_Flow.html', null, {
     nav_manage: ['Management', 'a'], floating: ['Floating — needs your answer', 'section,div.card,.panel,article'],
     proposed: ['Proposed rows — one click books', 'h2,h3'], red: ['SAMPLE-P1-01 repair invoice.pdf', 'tr'] }],
   ['rm-manage', FIX + 'SchE_Management.html', null, {
     nav_org: ['Organizer', 'a'], issue: ['AC outdoor unit dead', '.card,article,li,div.issue'],
     wo: ['Replace AC condenser fan motor', '.card,article,li,div'] }],
+  ['rm-mail', LOCALFIX + 'SchE_Mail.html', async p => {
+      // Served over http the buttons show; from file:// they stay hidden.
+      await p.evaluate(() => document.querySelectorAll('button[hidden]').forEach(b => b.hidden = false)); }, {
+    nav_org: ['Organizer', 'a'], card: ['Re: AC unit stopped working', 'article'],
+    who: ['Last spoke', 'p'], flag: ['money', 'span'], send: ['Send this one', 'button'],
+    waiting: ['Waiting for you', 'h2'] }],
   ['rm-org', FIX + 'SchE_Organizer.html', null, {
     export: ['Export preparer package', 'button,a'], qs: ['question(s) unanswered', 'span,b,a'],
     needed: ['Still needed for your preparer (3)', 'section,div.card,.panel,article'] }],
