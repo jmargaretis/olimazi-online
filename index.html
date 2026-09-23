@@ -134,31 +134,36 @@ video.clip{display:block;width:100%;aspect-ratio:4/5;height:auto;background:var(
 .pane .clipfig{margin:4px 0 36px;max-width:420px}
 .pane .clipfig .cap{display:block;padding:11px 3px 0;font-size:13px;line-height:1.55;color:var(--ink-soft)}
 .pane .clipfig .cap b{color:var(--ink);font-weight:600}
-.learn .bridge{display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:center;margin-top:clamp(56px,7vw,88px);padding-top:clamp(40px,5vw,56px);border-top:1px solid var(--hair)}
-.learn .bridge figure{max-width:400px}
-.learn .bridge .k{font:700 11px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
-.learn .bridge h3{font:900 clamp(26px,3.2vw,38px)/1.08 var(--disp);letter-spacing:-.03em;margin:14px 0 18px}
-.learn .bridge p{color:var(--ink-soft);font-size:17px;max-width:44ch}
-.learn .bridge p b{color:var(--ink);font-weight:500}
-.learn .bridge small{display:block;margin-top:18px;font-size:14px;color:var(--ink-faint)}
 
+/* ---------- intro motion: the hero breaks up under the work layer, the work lands in turn ---------- */
+.fx #work{position:relative;z-index:3;background:var(--paper);border-radius:24px 24px 0 0;box-shadow:0 -1px 0 var(--hair)}
+.fx .hero{z-index:1}
+.fx .page{overflow-x:clip}
+.fx .work.await .card .ph{visibility:hidden}
+.plate{position:fixed;left:0;top:0;z-index:40;border-radius:var(--r);overflow:hidden;background:var(--ink);box-shadow:0 30px 70px -24px rgba(13,20,27,.5);pointer-events:none;will-change:transform,width,height}
+.plate img{display:block;width:100%;height:100%;object-fit:cover}
+.plate img.top{object-position:top center}
 /* ---------- learning ---------- */
+.learn .hub{display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:center}
+.learn .hub figure{max-width:440px}
+.learn .hub .k{font:700 11px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+.learn .hub h2{font:900 clamp(34px,4.6vw,56px)/1.02 var(--disp);letter-spacing:-.035em;margin:16px 0 20px}
+.learn .hub p{color:var(--ink-soft);font-size:18px;max-width:44ch}
+.learn .hub p b{color:var(--ink);font-weight:500}
+.learn .hub small{display:block;margin-top:18px;font-size:14px;color:var(--ink-faint)}
+.lip{display:grid;grid-template-columns:3fr 9fr;gap:40px;margin-top:clamp(56px,7vw,88px);padding-top:28px;border-top:1px solid var(--hair)}
+.lip .liphead h3{font:700 11px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.lip .liphead p{margin-top:12px;font-size:14px;line-height:1.5;color:var(--ink-faint);max-width:26ch}
+.lip .liphead .src{color:var(--ink-soft)}
+.lip .lessons{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px}
+.lip .lesson{display:block;padding:0;border:0}
+.lip .lesson:last-child{border:0}
+.lip .lesson::before{display:none}
+.lip .lesson .num{display:block;font:700 12px/1 var(--body);letter-spacing:.08em;color:var(--steel);padding:0 0 10px}
+.lip .lesson h3{font:400 13.5px/1.45 var(--body);letter-spacing:0;color:var(--ink-faint)}
+.lip .lesson h3 em{display:block;margin-top:6px;font:500 14px/1.4 var(--body);color:var(--ink-soft)}
 .learn{background:var(--sheet)}
-.learn .grid{display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:start}
-.learn .sticky{position:sticky;top:96px}
-.learn h2{font:900 clamp(30px,4vw,48px)/1.05 var(--disp);letter-spacing:-.03em;margin-bottom:20px}
-.learn .intro{color:var(--ink-soft);max-width:36ch;font-size:17px}
-.learn .intro .src{color:var(--ink);font-weight:500}
-.counter{margin:40px 0 0;font:900 clamp(64px,8vw,112px)/1 var(--disp);letter-spacing:-.04em;color:var(--ox);display:flex;align-items:baseline;gap:10px}
-.counter small{font:500 14px/1.5 var(--body);color:var(--ink-faint);letter-spacing:0}
-.counter small i{display:block;font-style:normal;font-size:12px;color:var(--steel)}
 .lesson{transition:background .35s var(--ease),padding-left .35s var(--ease)}
-.lesson.hot{background:var(--sheet);padding-left:12px}
-.lesson.hot .num{color:var(--ox)}
-.counter .n{display:inline-block;min-width:1.2ch}
-.learn .loop{margin-top:40px;padding:14px 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px;color:var(--ink-soft)}
-.learn .loop b{color:var(--ink);font-weight:500}
-.learn .loop .arr{color:var(--ink-faint)}
 .tl{margin-top:40px;list-style:none;font-size:14px;color:var(--ink-soft);border-top:1px solid var(--hair)}
 .tl li{display:flex;gap:16px;padding:10px 0;border-bottom:1px solid var(--hair)}
 .tl b{font-weight:500;color:var(--ink);min-width:80px}
@@ -170,7 +175,6 @@ video.clip{display:block;width:100%;aspect-ratio:4/5;height:auto;background:var(
 .lesson .num{font:900 30px/1 var(--disp);color:var(--steel);letter-spacing:-.02em;padding-top:3px}
 .lesson h3{font:500 20px/1.35 var(--body);letter-spacing:-.02em;color:var(--ink)}
 .lesson h3 em{font:700 23px/1.3 var(--disp);font-style:normal;color:var(--ink-soft);letter-spacing:0}
-.learn .more{margin-top:28px;font-weight:500}
 .lesson.rv{transition-delay:.05s}
 
 /* ---------- library — monolith band, slider kept ---------- */
@@ -451,12 +455,10 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
 /* ---------- responsive ---------- */
 @media (max-width:900px){
   .work{grid-template-columns:1fr}
-  .learn .grid{grid-template-columns:1fr;gap:40px}
-  .learn .sticky{position:static}
-  .learn .bridge{grid-template-columns:1fr;gap:28px}
-  .learn .bridge figure{max-width:none}
-  .counter{margin-top:24px}
-  .ccard .crow{grid-template-columns:1fr;gap:6px;align-items:start}
+  .learn .hub{grid-template-columns:1fr;gap:32px}
+  .lip{grid-template-columns:1fr;gap:20px}
+  .lip .lessons{grid-template-columns:1fr;gap:18px}
+            .ccard .crow{grid-template-columns:1fr;gap:6px;align-items:start}
   .pane .facts{grid-template-columns:1fr 1fr}
 }
 @media (max-width:640px){
@@ -596,17 +598,21 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   </div>
 </section>
 
-<!-- 2 · LEARNING IN PUBLIC -->
+<!-- 2 · THE HUB, THEN WHAT IT TAUGHT -->
 <section id="learning" class="learn">
-  <div class="wrap grid">
-    <div class="sticky">
-      <h2 class="rv">Learning in public.</h2>
-      <p class="intro rv">The bridge from "I ran a product company" to "I build with Ai now." Five lessons, framed from <a class="u src" href="https://www.youtube.com/watch?v=yGRtK08BdIs" target="_blank" rel="noopener">Austin Marchese</a>, tested against one real build.</p>
-      <div class="counter rv" aria-live="polite"><span class="n" id="lcount">01</span><small>of 05<i>hover a lesson</i></small></div>
-      <p class="loop rv"><span><b>Nov 2025</b> Gemini — not sufficient</span><span class="arr">&rarr;</span><span><b>Apr 2026</b> Claude</span><span class="arr">&rarr;</span><span>Planned in <b>Claude Code</b> · Executed in <b>Codex</b> · Reviewed in <b>Claude Code</b></span></p>
-      <p class="more rv"><button class="u" type="button" data-pane="learning">Read them in full &rarr;</button></p>
+  <div class="wrap">
+    <div class="hub">
+      <figure class="rv"><video class="clip" src="assets/clip-ops.mp4" poster="assets/clip-ops-poster.jpg" muted loop playsinline preload="none" aria-label="A 48-second tour of the Olimazi ops hub: the live flow, the review queue, the slide editor, the site launchpad, the finished-work record and the second brain"></video></figure>
+      <div class="rv">
+        <span class="k">The build behind the work</span>
+        <h2>One hub, running.</h2>
+        <p>The lessons came out of this: the ops hub that runs the brand and the Rental Manager beside it. A photo in a folder becomes a draft, then waits for a yes. Every number is read from its own source. <b>Planned in Claude Code, executed in Codex, reviewed in Claude Code.</b></p>
+        <small>48 seconds &middot; no sound needed</small>
+      </div>
     </div>
-    <ol class="lessons">
+    <div class="lip">
+      <div class="liphead rv"><h3>Learning in public</h3><p>Five lessons from building it, framed from <a class="u src" href="https://www.youtube.com/watch?v=yGRtK08BdIs" target="_blank" rel="noopener">Austin Marchese</a>.</p></div>
+      <ol class="lessons">
       <!-- content:learning:start -->
       <li class="lesson rv" data-i="1"><span class="num">01</span><h3>Chasing every new tool is window-shopping. <em>Pick one hub and plug everything into it.</em></h3></li>
       <li class="lesson rv" data-i="2"><span class="num">02</span><h3>Nothing is hands-off from day one. <em>You earn automation by working one system in absurd detail.</em></h3></li>
@@ -614,17 +620,9 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
       <li class="lesson rv" data-i="4"><span class="num">04</span><h3>A hundred downloaded skills is testing debt. <em>Building one against your own context is the point.</em></h3></li>
       <li class="lesson rv" data-i="5"><span class="num">05</span><h3>There is no autopilot income. <em>Ai fulfills the work; it does not market it.</em></h3></li>
       <!-- content:learning:end -->
-    </ol>
-  </div>
-  <div class="wrap"><div class="bridge rv">
-    <figure><video class="clip" src="assets/clip-ops.mp4" poster="assets/clip-ops-poster.jpg" muted loop playsinline preload="none" aria-label="A 48-second tour of the Olimazi ops hub: the live flow, the review queue, the slide editor, the site launchpad, the finished-work record and the second brain"></video></figure>
-    <div>
-      <span class="k">The build behind the lessons</span>
-      <h3>One hub, running.</h3>
-      <p>The lessons came out of this: the ops hub that runs the brand and the Rental Manager beside it. A photo in a folder becomes a draft, then waits for a yes. Every number is read from its own source. <b>Planned in Claude Code, executed in Codex, reviewed in Claude Code.</b></p>
-      <small>48 seconds &middot; no sound needed</small>
+      </ol>
     </div>
-  </div></div>
+  </div>
 </section>
 
 <!-- 3 · LIBRARY -->
@@ -894,28 +892,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     rv.forEach(function(el){ io.observe(el); });
   } else { rv.forEach(function(el){ el.classList.add('in'); }); }
 
-  /* ---- lesson counter: follows the pointer, not the scroll ---- */
-  var count = document.getElementById('lcount');
-  var lessons = document.querySelectorAll('#learning .lesson');
   var noHover = window.matchMedia('(hover: none)').matches;
-  var hint = document.querySelector('.counter i');
-  if (!noHover) {
-    lessons.forEach(function(l){
-      function on(){ count.textContent = '0' + l.getAttribute('data-i'); l.classList.add('hot'); }
-      function off(){ l.classList.remove('hot'); }
-      l.addEventListener('mouseenter', on); l.addEventListener('mouseleave', off);
-      l.addEventListener('focusin', on);    l.addEventListener('focusout', off);
-    });
-  } else if ('IntersectionObserver' in window) {
-    if (hint) hint.textContent = 'tap a lesson';
-    lessons.forEach(function(l){
-      l.addEventListener('click', function(){
-        count.textContent = '0' + l.getAttribute('data-i');
-        lessons.forEach(function(o){ o.classList.remove('hot'); });
-        l.classList.add('hot');
-      });
-    });
-  }
 
   /* ---- library strip: drag + native scroll, progress ---- */
   var strip = document.getElementById('strip'), prog = document.getElementById('prog');
@@ -1099,6 +1076,89 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     if (e.target.closest('#vimg, .vside')) return;
     vhide();
   });
+
+  /* ---- intro motion ----
+     Scroll: the hero drifts under the work layer and its pieces scatter.
+     Then, once, as the work arrives: Method Effects, Rental Manager, then the
+     ops hub each rise to near full screen and drop back to their own place,
+     speeding up, a short pause, then a quick landing. */
+  var work = document.querySelector('#work'), grid = document.querySelector('#work .work'), hero = document.querySelector('.hero');
+  if (!rm && work && grid && hero && window.requestAnimationFrame) {
+    document.documentElement.classList.add('fx');
+    var bits = [].slice.call(hero.querySelectorAll('.kicker, h1 .w, .rule, .lead, .lead2, .aside, .brandcard .row'));
+    var seed = 7; function rnd(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+    var hb = hero.getBoundingClientRect(), hcx = hb.left + hb.width / 2, hcy = hb.top + hb.height / 2;
+    var vec = bits.map(function(el){
+      var r = el.getBoundingClientRect(), dx = r.left + r.width / 2 - hcx, dy = r.top + r.height / 2 - hcy;
+      var a = Math.atan2(dy, dx) + (rnd() - .5) * 1.1, d = .45 + rnd() * .55;
+      return { x: Math.cos(a) * d, y: Math.sin(a) * d - .15, r: (rnd() - .5) * 50 };
+    });
+    var ticking = false;
+    function scatter(){
+      ticking = false;
+      var span = Math.max(1, work.offsetTop * .85), p = Math.min(1, Math.max(0, scrollY / span)), e = p * p;
+      hero.style.transform = p > 0 ? 'translate3d(0,' + (scrollY * .35).toFixed(1) + 'px,0)' : '';
+      var W = innerWidth, H = innerHeight;
+      bits.forEach(function(el, i){
+        var v = vec[i];
+        el.style.translate = e ? (v.x * W * e).toFixed(1) + 'px ' + (v.y * H * e).toFixed(1) + 'px' : '';
+        el.style.rotate = e ? (v.r * e).toFixed(2) + 'deg' : '';
+        el.style.filter = e ? 'opacity(' + (1 - p).toFixed(3) + ') blur(' + (e * 6).toFixed(2) + 'px)' : '';
+      });
+    }
+    addEventListener('scroll', function(){ if (!ticking) { ticking = true; requestAnimationFrame(scatter); } }, { passive: true });
+    scatter();
+
+    var cards = [].slice.call(grid.querySelectorAll('.card .ph'));
+    var hub = document.querySelector('#learning .hub video');
+    if (grid.getBoundingClientRect().top > innerHeight * .6 && cards.length === 2 && hub) {
+      grid.classList.add('await');
+      var items = [
+        { el: cards[0], src: cards[0].querySelector('img').currentSrc || cards[0].querySelector('img').src },
+        { el: cards[1], src: 'assets/clip-rm-poster.jpg', top: true },
+        { el: hub, src: hub.getAttribute('poster') }
+      ];
+      var ease = { out: function(t){ return 1 - Math.pow(1 - t, 3); }, inn: function(t){ return t * t * t; } };
+      // [start ms, end ms, from, to, easing] for d: 0 = at its place, 1 = near full screen
+      var legs = [[0, 560, 0, 1, ease.out], [560, 860, 1, 1], [860, 1220, 1, .07, ease.inn], [1220, 1330, .07, .07], [1330, 1450, .07, 0, ease.out]];
+      var gap = 700, fired = false;
+      function dAt(t){
+        for (var i = 0; i < legs.length; i++) { var g = legs[i]; if (t <= g[1]) { var k = (t - g[0]) / (g[1] - g[0]); return g[2] + (g[3] - g[2]) * (g[4] ? g[4](k) : k); } }
+        return 0;
+      }
+      function run(){
+        fired = true;
+        items.forEach(function(it){
+          var pl = document.createElement('div'); pl.className = 'plate';
+          var im = new Image(); im.src = it.src; im.alt = ''; if (it.top) im.className = 'top';
+          pl.appendChild(im); it.pl = pl;
+        });
+        var t0 = performance.now();
+        function frame(now){
+          var W = innerWidth, H = innerHeight, live = 0;
+          items.forEach(function(it, i){
+            var t = now - t0 - i * gap;
+            if (t < 0) { live++; return; }
+            if (t >= legs[legs.length - 1][1]) {
+              if (it.pl.parentNode) { it.pl.remove(); if (it.el !== hub) it.el.style.visibility = 'visible'; }
+              return;
+            }
+            live++;
+            if (!it.pl.parentNode) document.body.appendChild(it.pl);
+            var r = it.el.getBoundingClientRect(), s = Math.min(W * .9 / r.width, H * .84 / r.height);
+            var fw = r.width * s, fh = r.height * s, fx = (W - fw) / 2, fy = (H - fh) / 2, d = dAt(t);
+            it.pl.style.width = (r.width + (fw - r.width) * d) + 'px';
+            it.pl.style.height = (r.height + (fh - r.height) * d) + 'px';
+            it.pl.style.transform = 'translate3d(' + (r.left + (fx - r.left) * d) + 'px,' + (r.top + (fy - r.top) * d) + 'px,0)';
+          });
+          if (live) requestAnimationFrame(frame); else grid.classList.remove('await');
+        }
+        requestAnimationFrame(frame);
+      }
+      function check(){ if (!fired && grid.getBoundingClientRect().top < innerHeight * .6) run(); }
+      addEventListener('scroll', check, { passive: true });
+    }
+  }
 
   /* ---- clips: play only while on screen; controls instead when motion is reduced ---- */
   var clips = document.querySelectorAll('video.clip, video.cardclip');
