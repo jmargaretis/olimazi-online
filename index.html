@@ -128,6 +128,19 @@ section{padding:clamp(72px,9vw,112px) 0}
 .card .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ox);margin-right:8px;vertical-align:2px}
 .card .dot.prev{background:rgba(242,246,248,.6)}
 
+/* ---------- clips ---------- */
+video.clip{display:block;width:100%;aspect-ratio:4/5;height:auto;background:var(--paper);border-radius:var(--r);object-fit:cover}
+.pane .clipfig{margin:4px 0 36px;max-width:420px}
+.pane .clipfig .cap{display:block;padding:11px 3px 0;font-size:13px;line-height:1.55;color:var(--ink-soft)}
+.pane .clipfig .cap b{color:var(--ink);font-weight:600}
+.learn .bridge{display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:center;margin-top:clamp(56px,7vw,88px);padding-top:clamp(40px,5vw,56px);border-top:1px solid var(--hair)}
+.learn .bridge figure{max-width:400px}
+.learn .bridge .k{font:700 11px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--ox)}
+.learn .bridge h3{font:900 clamp(26px,3.2vw,38px)/1.08 var(--disp);letter-spacing:-.03em;margin:14px 0 18px}
+.learn .bridge p{color:var(--ink-soft);font-size:17px;max-width:44ch}
+.learn .bridge p b{color:var(--ink);font-weight:500}
+.learn .bridge small{display:block;margin-top:18px;font-size:14px;color:var(--ink-faint)}
+
 /* ---------- learning ---------- */
 .learn{background:var(--sheet)}
 .learn .grid{display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:start}
@@ -439,6 +452,8 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   .work{grid-template-columns:1fr}
   .learn .grid{grid-template-columns:1fr;gap:40px}
   .learn .sticky{position:static}
+  .learn .bridge{grid-template-columns:1fr;gap:28px}
+  .learn .bridge figure{max-width:none}
   .counter{margin-top:24px}
   .ccard .crow{grid-template-columns:1fr;gap:6px;align-items:start}
   .pane .facts{grid-template-columns:1fr 1fr}
@@ -600,6 +615,15 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
       <!-- content:learning:end -->
     </ol>
   </div>
+  <div class="wrap"><div class="bridge rv">
+    <figure><video class="clip" src="assets/clip-ops.mp4" poster="assets/clip-ops-poster.jpg" muted loop playsinline preload="none" aria-label="A 48-second tour of the Olimazi ops hub: the live flow, the review queue, the slide editor, the site launchpad, the finished-work record and the second brain"></video></figure>
+    <div>
+      <span class="k">The build behind the lessons</span>
+      <h3>One hub, running.</h3>
+      <p>The lessons came out of this: the ops hub that runs the brand and the Rental Manager beside it. A photo in a folder becomes a draft, then waits for a yes. Every number is read from its own source. <b>Planned in Claude Code, executed in Codex, reviewed in Claude Code.</b></p>
+      <small>48 seconds &middot; no sound needed</small>
+    </div>
+  </div></div>
 </section>
 
 <!-- 3 · LIBRARY -->
@@ -617,6 +641,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
   <div class="wrap strip-wrap rv">
     <div class="strip" id="strip" aria-label="Library strip, drag or scroll sideways">
       <!-- content:library:start -->
+      <button type="button" class="shelf" data-view="assets/library-dog-studios-logo.jpg" data-title="Dog Studios — a character brand" data-sub="a side build" data-cap='It started as a nephew&#39;s sketch of a dog. Swipe the rounds.' data-body='[&quot;The young creator gives the direction. I build each round with Claude Code and approve it before the next one starts.&quot;, &quot;So far: a logo traced from the sketch, eight character cards, a 3D avatar maker, a first browser game, and a small world where friends walk around together.&quot;, &quot;The dog, Scout, is character #1. The plan is many small games around one set of characters.&quot;]' data-slides='[{&quot;src&quot;: &quot;assets/library-dog-studios-logo.jpg&quot;, &quot;title&quot;: &quot;The logo&quot;, &quot;cap&quot;: &quot;Traced from the original sketch. A placeholder for now.&quot;}, {&quot;src&quot;: &quot;assets/library-dog-studios-cards.jpg&quot;, &quot;title&quot;: &quot;The characters&quot;, &quot;cap&quot;: &quot;Eight characters, one card each. Scout the dog leads.&quot;}, {&quot;src&quot;: &quot;assets/library-dog-studios-avatar3d.jpg&quot;, &quot;title&quot;: &quot;3D avatar maker&quot;, &quot;cap&quot;: &quot;The chosen direction: a vinyl-toy look. Pick the animal, fur, eyes and mouth.&quot;}, {&quot;src&quot;: &quot;assets/library-dog-studios-game.jpg&quot;, &quot;title&quot;: &quot;Catch the Bones&quot;, &quot;cap&quot;: &quot;The first game. Move Scout under the falling bones for 30 seconds.&quot;}, {&quot;src&quot;: &quot;assets/library-dog-studios-world.jpg&quot;, &quot;title&quot;: &quot;The world&quot;, &quot;cap&quot;: &quot;A small shared room. Up to 24 friends walk around together. No chat, no accounts.&quot;}]' style="--h:240px;--hm:150px;--ar:1"><figure class="slides"><img class="on" src="assets/library-dog-studios-logo.jpg" alt="The logo" loading="lazy"><img src="assets/library-dog-studios-cards.jpg" alt="The characters" loading="lazy"><img src="assets/library-dog-studios-avatar3d.jpg" alt="3D avatar maker" loading="lazy"><img src="assets/library-dog-studios-game.jpg" alt="Catch the Bones" loading="lazy"><img src="assets/library-dog-studios-world.jpg" alt="The world" loading="lazy"><i class="deck" aria-hidden="true"><b class="at"></b><b></b><b></b><b></b><b></b></i></figure><figcaption><b>Dog Studios</b><span>a side build</span></figcaption></button>
       <button type="button" class="shelf" data-view="assets/bougatsa.jpg" data-title="Bougatsa — Greek custard pie" data-sub="recipes" data-cap='Part of learning the three primary custard styles deliberately.' data-body='[&quot;I love desserts, but making them myself gives me more control over sugar and ingredients while teaching me the techniques behind them. Bougatsa is part of a larger goal: understand the three primary custard styles well enough to make them deliberately rather than simply follow instructions.&quot;, &quot;Recipes are also a way to share something with my family. I tried this again to maintain the slightly lighter filling, but did add a quick syrup similar to galaktoboureko to set it off more.&quot;, &quot;Galaktoboureko is King — next: a syrup variation closer to galaktoboureko, a small custard-learning series, and draft posts.&quot;]' data-links='[{&quot;t&quot;: &quot;Original Mia Kouppa recipe&quot;, &quot;href&quot;: &quot;https://miakouppa.com/bougatsa/#recipe&quot;}]' style="--h:220px;--hm:140px;--ar:1.333"><figure><img class="on" src="assets/bougatsa.jpg" alt="Bougatsa — Greek custard pie"></figure><figcaption><b>Bougatsa</b><span>recipes</span></figcaption></button>
       <button type="button" class="shelf" data-view="assets/eau-dombre.jpg" data-title="Tom Ford — Eau d&#39;Ombre Leather" data-sub="cologne" data-cap='A deeper scent found by following a review trail.' data-body='[&quot;A review video made the notes sound interesting, so I tried it at Nordstrom without initially knowing where the bottle was displayed. The soft, floating quality caught me immediately. It also made me realize how consistently my taste leans toward deeper scents.&quot;, &quot;Where Ai fits: it has not yet. This breakout is the structure for the experiment — gather sources, retain attribution, draft a personal post, and compare the draft with what I would naturally say before anything is published.&quot;]' data-links='[{&quot;t&quot;: &quot;Gents Scents on YouTube&quot;, &quot;href&quot;: &quot;https://www.youtube.com/@gentsscents&quot;}, {&quot;t&quot;: &quot;Fragrantica page&quot;, &quot;href&quot;: &quot;https://www.fragrantica.com/perfume/Tom-Ford/Eau-d-Ombre-Leather-95389.html&quot;}, {&quot;t&quot;: &quot;Read a write-up&quot;, &quot;href&quot;: &quot;https://thecandyperfumeboy.com/2024/09/30/perfume-review-eau-dombre-leather-by-tom-ford/&quot;}]' style="--h:280px;--hm:168px;--ar:.75"><figure><img class="on" src="assets/eau-dombre.jpg" alt="Tom Ford — Eau d&#39;Ombre Leather"></figure><figcaption><b>Eau d&#39;Ombre Leather</b><span>cologne</span></figcaption></button>
       <button type="button" class="shelf" data-view="assets/library-ai-excuse-me-01.jpg" data-title="Excuse Me: What was that?" data-sub="learning Ai, in public" data-cap='Posted to Instagram + Facebook, 2026-08-16. Swipe the slides.' data-body='[&quot;Four paragraphs on why it skipped half a rules change. Asked it to say that again without the jargon.&quot;, &quot;“I skipped the part that would make me shut up.”&quot;]' data-slides='[{&quot;src&quot;: &quot;assets/library-ai-excuse-me-01.jpg&quot;, &quot;title&quot;: &quot;Excuse Me: What was that?&quot;, &quot;cap&quot;: &quot;Posted to Instagram + Facebook, 2026-08-16. Swipe the slides.&quot;}, {&quot;src&quot;: &quot;assets/library-ai-excuse-me-02.jpg&quot;, &quot;title&quot;: &quot;The rules change&quot;, &quot;cap&quot;: &quot;It wrote down the half about the shell command and dropped the half about being brief.&quot;}, {&quot;src&quot;: &quot;assets/library-ai-excuse-me-03.jpg&quot;, &quot;title&quot;: &quot;Plain language&quot;, &quot;cap&quot;: &quot;“I skipped the part that would make me shut up.”&quot;}]' style="--h:240px;--hm:150px;--ar:.8"><figure class="slides"><img class="on" src="assets/library-ai-excuse-me-01.jpg" alt="Excuse Me: What was that?" loading="lazy"><img src="assets/library-ai-excuse-me-02.jpg" alt="The rules change" loading="lazy"><img src="assets/library-ai-excuse-me-03.jpg" alt="Plain language" loading="lazy"><i class="deck" aria-hidden="true"><b class="at"></b><b></b><b></b></i></figure><figcaption><b>Excuse Me: What was that?</b><span>learning Ai, in public</span></figcaption></button>
@@ -628,7 +653,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
       <button type="button" class="shelf" data-view="assets/library-brothers-truck.jpg" data-title="The brothers&#39; truck" data-sub="the cars" data-cap='From the family archive.' style="--h:200px;--hm:120px;--ar:1.592"><figure><img class="on" src="assets/library-brothers-truck.jpg" alt="The brothers&#39; truck" loading="lazy"></figure><figcaption><b>The brothers&#39; truck</b><span>the cars</span></figcaption></button>
       <button type="button" class="shelf" data-view="assets/condo-avenue.png" data-title="Condo Avenue" data-sub="art · the palette came from here" data-cap="The illustration the whole light palette was pulled from." style="--h:160px;--hm:100px;--ar:2.357"><figure><img src="assets/condo-avenue.png" alt="Condo Avenue — illustration" loading="lazy"></figure><figcaption><b>Condo Avenue</b><span>art · the palette came from here</span></figcaption></button>
       <!-- content:library:end -->
-      <div class="shelf note" style="--h:280px;--hm:168px"><p>Ten on the shelf, the rest in the vault. Click one for the notes and the links. Drag, or scroll sideways.</p><span class="aside">the vault stays open while it is built</span></div>
+      <div class="shelf note" style="--h:280px;--hm:168px"><p>Eleven on the shelf, the rest in the vault. Click one for the notes and the links. Drag, or scroll sideways.</p><span class="aside">the vault stays open while it is built</span></div>
     </div>
     <div class="progress" aria-hidden="true"><i id="prog"></i></div>
     <p class="striphint" aria-hidden="true">drag sideways &rarr;</p>
@@ -752,6 +777,7 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     <p class="meta"><b>A workbook you own.</b> Built by an owner for owners: Ai is your intake and organizer.</p>
     <p class="note"><b>Rental Manager (Sch. E)</b> is a local-file organizer shaped by business-tax work and active rental-property management: portable records, deterministic math, and open items kept visible.</p>
     <p>The spreadsheet stays the source of truth. The manager reads it, reconciles every Schedule E line, and shows the bottom line with every gap it still needs answered. Nothing leaves the machine.</p>
+    <figure class="clipfig"><video class="clip" src="assets/clip-rm.mp4" poster="assets/clip-rm-poster.jpg" muted loop playsinline preload="none" aria-label="A 42-second tour of Rental Manager on the sample property: the Schedule E dashboard, receipts waiting to be booked, repairs and work orders, and the preparer checklist"></video><figcaption class="cap"><b>The 42-second tour.</b> Dashboard, flow, management and organizer, on the sample property.</figcaption></figure>
     <div class="shotgrid">
       <button type="button" class="shot" data-view="assets/rm-dashboard.png" data-title="Dashboard" data-sub="Rental Manager (Sch. E)"><span class="frame"><img src="assets/rm-dashboard.png" alt="Rental Manager dashboard — the Schedule E bottom line beside the open items" width="2160" height="6406"></span><span class="cap"><b>Dashboard.</b> The workbook's front page, sample property. Every Schedule E line beside the gaps it is still waiting on.</span></button>
       <button type="button" class="shot" data-view="assets/rm-organizer.png" data-title="Organizer" data-sub="Rental Manager (Sch. E)"><span class="frame"><img src="assets/rm-organizer.png" alt="Rental Organizer — addresses, contacts and filing status to confirm" width="2160" height="3442"></span><span class="cap"><b>Organizer.</b> A trust layer showing what the workbook believes about addresses, contacts and filing status, so the owner can confirm it before trusting the numbers. Built in the spirit of a CPA client organizer.</span></button>
@@ -1072,6 +1098,16 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     if (e.target.closest('#vimg, .vside')) return;
     vhide();
   });
+
+  /* ---- clips: play only while on screen; controls instead when motion is reduced ---- */
+  var clips = document.querySelectorAll('video.clip');
+  if (rm || !('IntersectionObserver' in window)) clips.forEach(function(v){ v.controls = true; v.preload = 'metadata'; });
+  else {
+    var cio = new IntersectionObserver(function(es){
+      es.forEach(function(e){ var v = e.target; if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function(){}); } else v.pause(); });
+    }, { threshold: .35 });
+    clips.forEach(function(v){ cio.observe(v); });
+  }
 
   /* ---- panes ---- */
   var backdrop = document.getElementById('backdrop'), open = null, lastFocus = null, closing = null;

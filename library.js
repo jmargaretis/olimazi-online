@@ -207,6 +207,47 @@ window.LIBRARY = {
           "cap": "From the restaurant archive."
         }
       ]
+    },
+    {
+      "id": "dogstudios",
+      "label": "Dog Studios",
+      "front": false,
+      "items": [
+        {
+          "src": "assets/library-dog-studios-logo.jpg",
+          "title": "Dog Studios — a character brand",
+          "cap": "It started as a nephew's sketch of a dog. Swipe the rounds.",
+          "body": [
+            "The young creator gives the direction. I build each round with Claude Code and approve it before the next one starts.",
+            "So far: a logo traced from the sketch, eight character cards, a 3D avatar maker, a first browser game, and a small world where friends walk around together.",
+            "The dog, Scout, is character #1. The plan is many small games around one set of characters."
+          ]
+        },
+        {
+          "src": "assets/library-dog-studios-cards.jpg",
+          "slide": true,
+          "title": "The characters",
+          "cap": "Eight characters, one card each. Scout the dog leads."
+        },
+        {
+          "src": "assets/library-dog-studios-avatar3d.jpg",
+          "slide": true,
+          "title": "3D avatar maker",
+          "cap": "The chosen direction: a vinyl-toy look. Pick the animal, fur, eyes and mouth."
+        },
+        {
+          "src": "assets/library-dog-studios-game.jpg",
+          "slide": true,
+          "title": "Catch the Bones",
+          "cap": "The first game. Move Scout under the falling bones for 30 seconds."
+        },
+        {
+          "src": "assets/library-dog-studios-world.jpg",
+          "slide": true,
+          "title": "The world",
+          "cap": "A small shared room. Up to 24 friends walk around together. No chat, no accounts."
+        }
+      ]
     }
   ]
 };
