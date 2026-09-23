@@ -56,7 +56,7 @@ window.CLIPS = {
 
   ops: {
     kicker: 'OLIMAZI OPS · THE CUSTOM BUILD',
-    fps: 30, len: 48,
+    fps: 30, len: 55.5,
     scenes: [
       { img: 'ops-flow', t0: 0, t1: 9.2,
         head: ['One hub runs', 'the whole brand.'], sub: 'Not technical by background. Built with Claude Code and Codex.',
@@ -72,7 +72,7 @@ window.CLIPS = {
           [9.7, 13.0, 266, 154, 800, 139, 'A photo dropped in a folder becomes a draft. It waits for a yes.'],
           [13.0, 15.6, 565, 307, 156, 42, 'Drafts waiting on one click. Approving makes a draft in the scheduler, never a post.']],
         cur: [[15.4, 640, 330], [16.2, 118, 336, 1]] },
-      { img: 'ops-slides', t0: 16.4, t1: 24.4,
+      { img: 'ops-slides', t0: 16.4, t1: 24.4, swap: [18.8, 'ops-slides-b'],
         head: ['Every slide,', 'editable.'],
         cam: [[16.4, 720, 450, 1], [16.8, 720, 450, 1], [17.3, 1010, 420, 1.45], [20.3, 1010, 420, 1.45], [20.9, 560, 450, 1.3], [23.3, 560, 450, 1.3], [23.8, 720, 450, 1]],
         call: [
@@ -85,21 +85,28 @@ window.CLIPS = {
         call: [
           [25.4, 27.9, 285, 94, 660, 76, 'Each card owns one part of olimazi.online. Edit the words, preview, build, deploy.'],
           [28.3, 30.7, 965, 187, 318, 260, 'The deploy reads the live page back. It flags drift instead of claiming success.']],
-        cur: [[30.8, 600, 500], [31.4, 72, 298, 1]] },
-      { img: 'ops-pulse', t0: 31.6, t1: 38.0,
+        cur: [[30.8, 600, 500]] },
+      { img: 'ops-skill', t0: 31.6, t1: 39.1,
+        head: ['Run a skill,', 'one button.'],
+        cam: [[31.6, 720, 450, 1], [32.0, 720, 450, 1], [32.6, 450, 470, 1.55], [35.4, 450, 470, 1.55], [35.9, 450, 600, 1.55], [37.9, 450, 600, 1.55], [38.4, 720, 450, 1]],
+        call: [
+          [32.7, 35.4, 289, 250, 322, 470, 'Finder. Say what you are building. It finds what people use this month and what hooks in.'],
+          [35.9, 38.0, 306, 536, 288, 130, 'Pick the model and effort. It runs in the background. No chat window opens.']],
+        cur: [[33.0, 640, 640], [34.2, 470, 500], [36.0, 560, 700], [36.7, 475, 590], [37.9, 329, 692], [38.85, 72, 298, 1]] },
+      { img: 'ops-pulse', t0: 39.1, t1: 45.5,
         head: ['Every finished thing,', 'dated.'],
-        cam: [[31.6, 720, 450, 1], [32.0, 720, 450, 1], [32.5, 700, 300, 1.45], [34.8, 700, 300, 1.45], [35.3, 838, 560, 1.2], [37.0, 838, 560, 1.2], [37.5, 720, 450, 1]],
+        cam: [[39.1, 720, 450, 1], [39.5, 720, 450, 1], [40.0, 700, 300, 1.45], [42.3, 700, 300, 1.45], [42.8, 838, 560, 1.2], [44.5, 838, 560, 1.2], [45.0, 720, 450, 1]],
         call: [
-          [32.6, 34.9, 284, 246, 632, 72, '312 finished things in 90 days, read back from the record.'],
-          [35.3, 37.1, 266, 420, 1144, 340, 'Where the work actually sat, hour by hour.']],
-        cur: [[37.1, 600, 500], [37.8, 118, 375, 1]] },
-      { img: 'ops-graph', t0: 38.0, t1: 44.0,
+          [40.1, 42.4, 284, 246, 632, 72, '312 finished things in 90 days, read back from the record.'],
+          [42.8, 44.6, 266, 420, 1144, 340, 'Where the work actually sat, hour by hour.']],
+        cur: [[44.6, 600, 500], [45.3, 118, 375, 1]] },
+      { img: 'ops-graph', t0: 45.5, t1: 51.5,
         head: ['A second brain', 'that shows its gaps.'],
-        cam: [[38.0, 720, 450, 1], [38.4, 720, 450, 1], [39.0, 560, 250, 1.7], [44, 560, 250, 1.7]],
+        cam: [[45.5, 720, 450, 1], [45.9, 720, 450, 1], [46.5, 560, 250, 1.7], [51.5, 560, 250, 1.7]],
         call: [
-          [39.1, 43.9, 262, 180, 395, 70, '138 files, 222 links. And the 11 nothing points at, in red.']],
+          [46.6, 51.4, 262, 180, 395, 70, '138 files, 222 links. And the 11 nothing points at, in red.']],
         cur: [] },
     ],
-    end: { t0: 44.0, title: ['Olimazi', 'ops'], lines: ['Planned in Claude Code.', 'Executed in Codex. Reviewed in Claude Code.'], cta: 'Learning in public' },
+    end: { t0: 51.5, title: ['Olimazi', 'ops'], lines: ['Planned in Claude Code.', 'Executed in Codex. Reviewed in Claude Code.'], cta: 'Learning in public' },
   },
 };

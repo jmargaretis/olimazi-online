@@ -44,6 +44,15 @@ const SCENES = [
       await p.selectOption('#tw-deck', '2026-09-01/orange-creamsicle.json'); await p.waitForTimeout(2500); }, {
     tab_ops: ['OPS', 'a'], lines: ['lines', 'label,div,span'], canvas: ['Slide 1 of', 'div'],
     thumbs: ['1 · cover', 'div,button,a'], live: ['live', 'label'] }],
+  // Same screen after the click on "guessing": the chip is on and the live
+  // rebuild has painted the word red. The clip swaps to it at the click.
+  ['ops-slides-b', 'http://127.0.0.1:8766/slides', async p => {
+      await p.selectOption('#tw-deck', '2026-09-01/orange-creamsicle.json'); await p.waitForTimeout(2500);
+      await p.locator('#p-accents .tw-chip', { hasText: /^guessing$/ }).click();
+      await p.waitForTimeout(800);
+      await p.waitForFunction(() => !document.querySelector('.tw-grid').classList.contains('tw-busy'), null, { timeout: 60000 });
+      await p.waitForTimeout(1500); }, {
+    lines: ['lines', 'label,div,span'], canvas: ['Slide 1 of', 'div'] }],
   ['ops-pulse', 'http://127.0.0.1:8643/pulse', null, {
     nav_brain: ['Second brain', 'a'], ninety: ['NINETY DAYS', 'section,div.card,.panel,article'],
     hourly: ['THE LAST SEVEN DAYS, HOUR BY HOUR', 'section,div.card,.panel,article'] }],
@@ -54,6 +63,10 @@ const SCENES = [
       await p.waitForTimeout(600); }, {
     site: ['refuses to claim success', 'p,div'], drift: ['DRIFT', 'div.card,article,section,div'],
     built: ['Hero spec', 'div.card,article,section,div'] }],
+  ['ops-skill', 'http://127.0.0.1:8643/', async p => {
+      await p.evaluate(() => { const c = [...document.querySelectorAll('#skills .card')].find(e => /^Finder$/.test((e.querySelector('b') || {}).textContent || '')); window.scrollTo(0, c.getBoundingClientRect().top + scrollY - 250); });
+      await p.waitForTimeout(600); }, {
+    finder: ['Finder', '.card'], grid: ['what hooks in', '.card'], run: ['RUN', 'button'], nav_pulse: ['Pulse', 'a'] }],
 ];
 
 // Private words never reach a frame: the owner's name, machine paths,

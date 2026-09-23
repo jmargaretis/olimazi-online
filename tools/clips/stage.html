@@ -73,8 +73,9 @@ function cam(s, t) {
   return { k, x0: cl(cx - vw / 2, 0, UW - vw), y0: cl(cy - vh / 2, 0, UH - vh) };
 }
 const map = (c, x, y) => [(x - c.x0) * c.k, (y - c.y0) * c.k];
-function place(img, s, c, op) {
-  const src = CAP + s.img + '.png';
+function place(img, s, c, op, t) {
+  // swap: [t, img] shows a second capture of the same screen after a click.
+  const src = CAP + (s.swap && t >= s.swap[0] ? s.swap[1] : s.img) + '.png';
   if (img.getAttribute('src') !== src) img.src = src;
   img.style.width = UW + 'px';
   img.style.transform = `translate(${-c.x0 * c.k}px,${-c.y0 * c.k}px) scale(${c.k})`;
@@ -85,9 +86,9 @@ let lastHead = '', lastCap = '';
 function render(t) {
   const si = Math.max(0, C.scenes.findIndex(s => t >= s.t0 && t < s.t1) === -1 ? C.scenes.length - 1 : C.scenes.findIndex(s => t >= s.t0 && t < s.t1));
   const s = C.scenes[si], c = cam(s, t);
-  place($('imA'), s, c, 1);
+  place($('imA'), s, c, 1, t);
   const prev = C.scenes[si - 1], xf = (t - s.t0) / 0.22;
-  if (prev && xf < 1) place($('imB'), prev, cam(prev, prev.t1), 1 - xf); else $('imB').style.opacity = 0;
+  if (prev && xf < 1) place($('imB'), prev, cam(prev, prev.t1), 1 - xf, prev.t1); else $('imB').style.opacity = 0;
   // headline + scene ticks
   const hh = headHTML(s.head); if (hh !== lastHead) { $('head').innerHTML = hh; lastHead = hh; }
   $('head').style.opacity = cl((t - s.t0) / 0.3, 0, 1);
@@ -130,7 +131,7 @@ function render(t) {
   $('end').style.opacity = eo;
 }
 window.render = render;
-window.ready = Promise.all([document.fonts.ready, ...C.scenes.map(s => new Promise(r => { const i = new Image(); i.onload = r; i.onerror = r; i.src = CAP + s.img + '.png'; }))]);
+window.ready = Promise.all([document.fonts.ready, ...C.scenes.flatMap(s => s.swap ? [s.img, s.swap[1]] : [s.img]).map(n => new Promise(r => { const i = new Image(); i.onload = r; i.onerror = r; i.src = CAP + n + '.png'; }))]);
 render(Number(Q.get('t') || 0));
 </script>
 </body></html>
