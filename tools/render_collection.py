@@ -29,7 +29,7 @@ REQUIRED_FIELDS = (
     "Height Mobile",
     "Aspect",
 )
-OPTIONAL_FIELDS = ("Card Title", "Notes", "Links")
+OPTIONAL_FIELDS = ("Card Title", "Notes", "Links", "Video")
 
 
 class RenderError(ValueError):
@@ -65,6 +65,7 @@ class Item:
     height_mobile: str
     aspect: str
     eager: bool = False
+    video: str = ""
 
     @property
     def active(self) -> bool:
@@ -204,6 +205,9 @@ def parse_record(path: Path) -> Item:
 
     title = fields["Title"]
     caption = fields["Caption"]
+    video = fields.get("Video", "").strip()
+    if video:
+        image_path(video, path)
 
     return Item(
         path=path,
@@ -220,6 +224,7 @@ def parse_record(path: Path) -> Item:
         height_mobile=fields["Height Mobile"],
         aspect=fields["Aspect"],
         eager=loading == "eager",
+        video=video,
     )
 
 
@@ -271,6 +276,8 @@ def render_item(item: Item) -> str:
     if item.links:
         links = [{"t": link.label, "href": link.href} for link in item.links]
         attributes.append(f"data-links='{json_attr(links)}'")
+    if item.video:
+        attributes.append(f'data-video="{escape_double_attr(item.video)}"')
     if len(item.images) > 1:
         slides = [
             {"src": image.src, "title": image.title, "cap": image.caption}
@@ -295,6 +302,14 @@ def render_item(item: Item) -> str:
     if len(item.images) > 1:
         dots = '<b class="at"></b>' + "<b></b>" * (len(item.images) - 1)
         deck = f'<i class="deck" aria-hidden="true">{dots}</i>'
+    if item.video:
+        # The first image is the poster; the clip plays only while on screen.
+        rendered_images = [
+            f'<video class="shelfclip" src="{escape_double_attr(item.video)}" '
+            f'poster="{escape_double_attr(first.src)}" muted loop playsinline '
+            f'preload="none" aria-label="{escape_double_attr(item.title)}"></video>'
+        ]
+        figure_class, deck = "", ""
     figure = f"<figure{figure_class}>{''.join(rendered_images)}{deck}</figure>"
     caption = (
         f"<figcaption><b>{escape_text(item.card_title)}</b>"
