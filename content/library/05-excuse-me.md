@@ -1,6 +1,7 @@
 ---
 schema: olimazi-site-copy/library-item/v1
 status: active
+source: social
 ---
 
 # Title

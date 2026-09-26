@@ -183,6 +183,7 @@ def write_library_record(slug: str, title: str, body_text: str, image_lines: lis
         "---",
         "schema: olimazi-site-copy/library-item/v1",
         "status: active",
+        "source: social",
         "---",
         "",
         "# Title",

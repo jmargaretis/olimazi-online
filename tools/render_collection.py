@@ -66,6 +66,7 @@ class Item:
     aspect: str
     eager: bool = False
     video: str = ""
+    social: bool = False
 
     @property
     def active(self) -> bool:
@@ -180,7 +181,7 @@ def parse_record(path: Path) -> Item:
     missing_metadata = sorted(required_metadata - metadata.keys())
     if missing_metadata:
         raise RenderError(f"{path}: missing frontmatter key(s): {', '.join(missing_metadata)}")
-    unknown_metadata = sorted(set(metadata) - {"schema", "status", "loading"})
+    unknown_metadata = sorted(set(metadata) - {"schema", "status", "loading", "source"})
     if unknown_metadata:
         raise RenderError(f"{path}: unknown frontmatter key(s): {', '.join(unknown_metadata)}")
     if metadata["schema"] != SCHEMA:
@@ -192,6 +193,9 @@ def parse_record(path: Path) -> Item:
     if metadata["status"] not in STATUSES:
         raise RenderError(f"{path}: status must be active or draft")
     loading = metadata.get("loading", "lazy")
+    source = metadata.get("source", "")
+    if source not in {"", "social"}:
+        raise RenderError(f"{path}: source must be social or left out")
     if loading not in {"eager", "lazy"}:
         raise RenderError(f"{path}: loading must be eager or lazy")
 
@@ -225,6 +229,7 @@ def parse_record(path: Path) -> Item:
         aspect=fields["Aspect"],
         eager=loading == "eager",
         video=video,
+        social=source == "social",
     )
 
 
@@ -262,7 +267,7 @@ def render_item(item: Item) -> str:
     first = item.images[0]
     attributes = [
         'type="button"',
-        'class="shelf"',
+        'class="shelf social"' if item.social else 'class="shelf"',
         f'data-view="{escape_double_attr(first.src)}"',
         f'data-title="{escape_double_attr(item.title)}"',
         f'data-sub="{escape_double_attr(item.subtitle)}"',
