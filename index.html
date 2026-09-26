@@ -917,16 +917,17 @@ footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2
     var decks = [].slice.call(document.querySelectorAll('.shelf figure.slides'));
     if (!decks.length || rm) return;
     decks.forEach(function(f){ f._i = 0; f._imgs = f.querySelectorAll('img'); f._tag = f.querySelector('.deck'); });
-    var timer = null;
+    /* One deck turns at a time, left to right, so the cards never flip in
+       unison; each deck still turns once every DECK_MS. */
+    var timer = null, turn = 0, DECK_MS = 4000;
     function tickDeck(){
-      decks.forEach(function(f){
-        f._i = (f._i + 1) % f._imgs.length;
-        for (var k = 0; k < f._imgs.length; k++) f._imgs[k].classList.toggle('on', k === f._i);
-        if (f._tag) for (var d = 0; d < f._tag.children.length; d++) f._tag.children[d].classList.toggle('at', d === f._i);
-      });
+      var f = decks[turn++ % decks.length];
+      f._i = (f._i + 1) % f._imgs.length;
+      for (var k = 0; k < f._imgs.length; k++) f._imgs[k].classList.toggle('on', k === f._i);
+      if (f._tag) for (var d = 0; d < f._tag.children.length; d++) f._tag.children[d].classList.toggle('at', d === f._i);
     }
     function run(on){
-      if (on && !timer) timer = setInterval(tickDeck, 3200);
+      if (on && !timer) timer = setInterval(tickDeck, DECK_MS / decks.length);
       if (!on && timer) { clearInterval(timer); timer = null; }
     }
     if ('IntersectionObserver' in window) {
