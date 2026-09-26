@@ -4,6 +4,14 @@
     python tools/site_post.py --section work|learning|library \
         --title "..." --body-file caption.txt --image path1 [--image path2 ...] \
         [--deploy]
+    python tools/site_post.py --lead <slug> [--deploy]
+
+`--lead <slug>` makes one existing Library entry show first. The shelf is
+ordered by the NN- prefix of content/library/NN-slug.md, so this renumbers:
+the named entry becomes 01 and the rest keep their order behind it, then
+index.html is re-rendered. With --deploy it commits the library files and
+pushes; an entry that already leads still deploys whatever library change is
+waiting in the working tree.
 
 `library` and `learning` are real targets: each is backed by an append-only
 list of Markdown records (`content/library/*.md` rendered by
@@ -245,17 +253,85 @@ def git(*args: str) -> subprocess.CompletedProcess:
     return subprocess.run(["git", *args], cwd=REPO_ROOT, capture_output=True, text=True)
 
 
+def touched_paths(touched_files: list[str]) -> list[str]:
+    """Real paths for git. A rename is reported as "old -> new"; both sides
+    are staged, so the removal of the old name lands with the new one."""
+    paths: list[str] = []
+    for line in touched_files:
+        paths += [part.strip() for part in line.split(" -> ")]
+    return list(dict.fromkeys(paths))
+
+
 def deploy(section: str, title: str, touched_files: list[str]) -> None:
-    add = git("add", *touched_files)
+    paths = touched_paths(touched_files)
+    add = git("add", "-A", "--", *paths)
     if add.returncode != 0:
         raise SitePostError(f"git add failed: {add.stderr.strip()}")
     message = f"site: post to {section} — {title}"
-    commit = git("commit", "-m", message)
+    # Commit only these paths: a file another session staged must not ride
+    # along on a site post.
+    commit = git("commit", "-m", message, "--", *paths)
     if commit.returncode != 0:
         raise SitePostError(f"git commit failed: {commit.stderr.strip() or commit.stdout.strip()}")
     push = git("push", "origin", "main")
     if push.returncode != 0:
         raise SitePostError(f"git push failed: {push.stderr.strip() or push.stdout.strip()}")
+
+
+LIBRARY_DEPLOY_PATHS = ("content/library", "index.html", "tools/.library-content-hash")
+
+
+def record_status(path: Path) -> str:
+    """The `status:` value in a record's front matter, or ''."""
+    match = re.search(r"(?m)^status:\s*(\S+)", path.read_text(encoding="utf-8"))
+    return match.group(1) if match else ""
+
+
+def lead_library(slug: str) -> list[str]:
+    """Renumber content/library so `slug` is 01. Returns touched lines."""
+    records = sorted(existing_library_records())
+    slugs = [record_slug for _, record_slug, _ in records]
+    if slug not in slugs:
+        raise SitePostError(f"no library entry with slug {slug!r}; have: {', '.join(slugs)}")
+    lead_path = next(path for _, record_slug, path in records if record_slug == slug)
+    if record_status(lead_path) != "active":
+        raise SitePostError(f"library entry {slug!r} is not status: active, so it would not show")
+    ordered = [r for r in records if r[1] == slug] + [r for r in records if r[1] != slug]
+    moves = []
+    for new_order, (_, record_slug, path) in enumerate(ordered, 1):
+        target = path.with_name(f"{new_order:02d}-{record_slug}.md")
+        if target != path:
+            moves.append((path, target))
+    touched: list[str] = []
+    # Two passes through a suffix glob("*.md") never sees, so no rename lands
+    # on a name another record still holds.
+    staged = []
+    for path, target in moves:
+        temp = path.with_name(path.name + ".leadtmp")
+        path.rename(temp)
+        staged.append((path, temp, target))
+    for path, temp, target in staged:
+        temp.rename(target)
+        touched.append(f"{path.relative_to(REPO_ROOT)} -> {target.relative_to(REPO_ROOT)}")
+    run_render_collection()
+    return touched
+
+
+def deploy_library(slug: str) -> bool:
+    """Commit and push the library files. False when nothing was waiting."""
+    add = git("add", "-A", "--", *LIBRARY_DEPLOY_PATHS)
+    if add.returncode != 0:
+        raise SitePostError(f"git add failed: {add.stderr.strip()}")
+    staged = git("diff", "--cached", "--quiet", "--", *LIBRARY_DEPLOY_PATHS)
+    if staged.returncode == 0:
+        return False
+    commit = git("commit", "-m", f"site: lead library — {slug}", "--", *LIBRARY_DEPLOY_PATHS)
+    if commit.returncode != 0:
+        raise SitePostError(f"git commit failed: {commit.stderr.strip() or commit.stdout.strip()}")
+    push = git("push", "origin", "main")
+    if push.returncode != 0:
+        raise SitePostError(f"git push failed: {push.stderr.strip() or push.stdout.strip()}")
+    return True
 
 
 def build_learning_post(title: str, body_file: Path, sub: str | None) -> list[str]:
@@ -334,13 +410,35 @@ def build_library_post(title: str, body_file: Path, images: list[Path]) -> list[
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--section", required=True, choices=("work", "learning", "library"))
-    parser.add_argument("--title", required=True)
-    parser.add_argument("--body-file", required=True, type=Path)
+    parser.add_argument("--section", choices=("work", "learning", "library"))
+    parser.add_argument("--title")
+    parser.add_argument("--body-file", type=Path)
     parser.add_argument("--image", action="append", type=Path, dest="images", default=[])
     parser.add_argument("--sub", help="learning only: the supporting line (default: body-file's first paragraph)")
+    parser.add_argument("--lead", metavar="SLUG", help="make this Library entry show first")
     parser.add_argument("--deploy", action="store_true")
     args = parser.parse_args()
+
+    if args.lead:
+        if args.section or args.title or args.body_file:
+            parser.error("--lead stands alone: no --section, --title or --body-file")
+        slug = args.lead.strip()
+        try:
+            for line in lead_library(slug):
+                print(f"renamed {line}")
+            print(f"lead: {slug}")
+            if not args.deploy:
+                print("(no --deploy: files written, nothing committed)")
+            elif deploy_library(slug):
+                print("pushed to origin main")
+            else:
+                print("nothing to deploy")
+        except SitePostError as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 1
+        return 0
+    if not (args.section and args.title and args.body_file):
+        parser.error("--section, --title and --body-file are required (or use --lead)")
 
     if args.section == "work":
         print(

@@ -180,6 +180,81 @@ class SitePostTestCase(unittest.TestCase):
         end = index_text.index("<!-- content:library:end -->")
         self.assertIn("Marker Test", index_text[start:end])
 
+    def test_lead_moves_entry_first_and_keeps_the_rest_in_order(self):
+        self._seed_library_item("01", "alpha", "Alpha Entry")
+        self._seed_library_item("02", "beta", "Beta Entry")
+        self._seed_library_item("03", "gamma", "Gamma Entry")
+
+        result = self.run_tool("--lead", "gamma")
+        self.assertEqual(result.returncode, 0, result.stderr)
+
+        md_files = sorted(p.name for p in (self.repo / "content" / "library").glob("*.md"))
+        self.assertEqual(md_files, ["01-gamma.md", "02-alpha.md", "03-beta.md"])
+        index_text = (self.repo / "index.html").read_text(encoding="utf-8")
+        self.assertLess(index_text.index("Gamma Entry"), index_text.index("Alpha Entry"))
+        self.assertLess(index_text.index("Alpha Entry"), index_text.index("Beta Entry"))
+        self.assertIn("nothing committed", result.stdout)
+
+    def test_lead_unknown_or_inactive_slug_refused(self):
+        self._seed_library_item("01", "alpha", "Alpha Entry")
+        self._seed_library_item("02", "hidden", "Hidden Entry")
+        hidden = self.repo / "content" / "library" / "02-hidden.md"
+        hidden.write_text(hidden.read_text(encoding="utf-8").replace("status: active", "status: draft"),
+                          encoding="utf-8")
+        for slug in ("nope", "hidden"):
+            result = self.run_tool("--lead", slug)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn(slug, result.stderr)
+        self.assertTrue((self.repo / "content" / "library" / "01-alpha.md").exists())
+
+    def test_lead_deploy_commits_library_only_and_pushes_to_a_local_remote(self):
+        self._seed_library_item("01", "alpha", "Alpha Entry")
+        self._seed_library_item("02", "beta", "Beta Entry")
+        remote = self.tmp / "remote.git"
+        subprocess.run(["git", "init", "--bare", "-b", "main", str(remote)], check=True, capture_output=True)
+
+        def git(*args):
+            return subprocess.run(["git", "-c", "user.name=t", "-c", "user.email=t@t", *args],
+                                  cwd=self.repo, capture_output=True, text=True)
+
+        git("init", "-b", "main")
+        git("add", "-A")
+        git("commit", "-m", "seed")
+        git("remote", "add", "origin", str(remote))
+        (self.repo / "stray.txt").write_text("another session's file", encoding="utf-8")
+        git("add", "stray.txt")
+
+        env_repo = dict(**__import__("os").environ, GIT_AUTHOR_NAME="t", GIT_AUTHOR_EMAIL="t@t",
+                        GIT_COMMITTER_NAME="t", GIT_COMMITTER_EMAIL="t@t")
+        result = subprocess.run(
+            [sys.executable, str(self.repo / "tools" / "site_post.py"), "--lead", "beta", "--deploy"],
+            cwd=self.repo, capture_output=True, text=True, env=env_repo,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("pushed to origin main", result.stdout)
+        pushed = subprocess.run(["git", "--git-dir", str(remote), "ls-tree", "-r", "--name-only", "main"],
+                                capture_output=True, text=True).stdout
+        self.assertIn("content/library/01-beta.md", pushed)
+        self.assertNotIn("content/library/01-alpha.md", pushed)
+        self.assertNotIn("stray.txt", pushed)
+
+        again = subprocess.run(
+            [sys.executable, str(self.repo / "tools" / "site_post.py"), "--lead", "beta", "--deploy"],
+            cwd=self.repo, capture_output=True, text=True, env=env_repo,
+        )
+        self.assertEqual(again.returncode, 0, again.stderr)
+        self.assertIn("nothing to deploy", again.stdout)
+
+    def test_touched_paths_splits_renames(self):
+        sys.path.insert(0, str(self.repo / "tools"))
+        self.addCleanup(sys.path.remove, str(self.repo / "tools"))
+        import importlib
+        module = importlib.import_module("site_post")
+        self.assertEqual(
+            module.touched_paths(["content/library/01-a.md -> content/library/02-a.md", "index.html"]),
+            ["content/library/01-a.md", "content/library/02-a.md", "index.html"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
