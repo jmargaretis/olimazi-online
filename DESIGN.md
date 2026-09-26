@@ -90,7 +90,7 @@ No webfont dependencies. IBM Plex Mono and Architects Daughter are retired from 
 
 ## Banned cues (no-AI-cue rule)
 
-No film grain, no `backdrop-filter`, no glass cards, glow blobs, neon halos, pill CTAs, bento grids, or type wordmarks as the logo. The drawn Olimazi logo is never the URL mark; the type mark is — type mark only, never the drawn logo. No tilt, no tape, no torn edges. Removed 2026-08-17: `.grain` overlay and every `backdrop-filter`.
+Film grain, `backdrop-filter`, glass cards, glow, neon, pill CTAs and card grids are allowed since 2026-09-26 (John lifted the ban); use them only when they serve the page. Still no type wordmarks as the logo. The drawn Olimazi logo is never the URL mark; the type mark is — type mark only, never the drawn logo. No tilt, no tape, no torn edges. Removed 2026-08-17: `.grain` overlay and every `backdrop-filter`.
 
 ## Structure
 
