@@ -15,3 +15,6 @@ assets/rental-manager-*-nologo.png
 
 # Secrets: never track env files
 .env
+
+# agent worktrees (Claude Code isolation) never belong in the site repo
+.claude/worktrees/
