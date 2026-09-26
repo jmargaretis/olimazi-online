@@ -80,32 +80,43 @@
            .from(qm, { yPercent: -160, rotate: -24, scale: .4, duration: .9, ease: 'back.out(2.4)' }, '-=.55')
            .from(kinK, { x: -18, autoAlpha: 0, duration: .7 }, '-=.6');
       if (kinChars[0]) intro.from(kinChars[0], { yPercent: 115, duration: .7, stagger: .018 }, '-=.55');
-      /* the strip light comes on: the S3 plate flickers up once */
-      intro.fromTo(s3, { autoAlpha: 0 }, { keyframes: { autoAlpha: [0, .85, .12, .7, .3, 1] }, duration: 1.1, ease: 'none' }, .35);
+      /* the lead and the facts land with the headline: the first screen is complete at rest */
+      intro.from(lead, { y: 26, autoAlpha: 0, duration: 1 }, 1.0)
+           .from(rows, { y: 18, autoAlpha: 0, duration: .8, stagger: .07 }, 1.25);
+
+      /* the garage light passes: a lit copy of the S3 wipes across a dark plate behind a soft beam */
+      var lit = s3i.cloneNode(); lit.className = 'rh-lit'; lit.removeAttribute('fetchpriority');
+      var beam = document.createElement('span'); beam.className = 'rh-beam';
+      s3.appendChild(lit); s3.appendChild(beam); s3.classList.add('sweep');
+      /* the sweep waits for the photo to decode, so it never runs over an empty plate */
+      var sweep = gsap.timeline({ paused: true });
+      sweep.fromTo(s3, { autoAlpha: 0 }, { keyframes: { autoAlpha: [0, .7, .2, 1] }, duration: .6, ease: 'none', immediateRender: true }, 0)
+           .fromTo(lit, { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.9, ease: 'power2.inOut', immediateRender: true }, .45)
+           .fromTo(beam, { xPercent: -120, autoAlpha: 1 }, { xPercent: 560, duration: 1.9, ease: 'power2.inOut', immediateRender: true }, .45)
+           .to(beam, { autoAlpha: 0, duration: .5, ease: 'none' }, 2.0);
+      var ready = (lit.decode ? lit.decode() : Promise.resolve()).catch(function(){});
+      Promise.race([ready, new Promise(function(r){ setTimeout(r, 2500); })]).then(function(){ gsap.delayedCall(.35, function(){ sweep.play(); }); });
+      intro.from(wh, { xPercent: 22, yPercent: 26, clipPath: 'inset(0% 0% 100% 0% round 12px)', duration: 1.3, ease: 'expo.out' }, 1.5)
+           .from(whi, { scale: 1.35, duration: 1.8, ease: 'expo.out' }, 1.5);
 
       KC = kinChars;
-      return function(){ KC = []; kin.classList.remove('kin-on'); };
+      return function(){ KC = []; kin.classList.remove('kin-on'); s3.classList.remove('sweep'); lit.remove(); beam.remove(); };
     });
 
     /* ============ desktop: pinned, scrubbed story ============ */
     mm.add(PIN, function(){
       var tl = gsap.timeline({
         defaults: { ease: 'none' },
-        scrollTrigger: { trigger: hero, start: 'top top', end: '+=180%', pin: true, scrub: .6, anticipatePin: 1, invalidateOnRefresh: true }
+        scrollTrigger: { trigger: hero, start: 'top top', end: '+=180%', pin: true, scrub: .6, anticipatePin: 1, invalidateOnRefresh: true,
+          onUpdate: function(s){ window.__rhScroll = s.progress; } }
       });
-      /* beat 2 - the photo opens from a letterbox slit, the wheel slides under */
-      tl.fromTo(s3, { clipPath: 'inset(16% 0% 16% 0% round 16px)', y: 40 }, { clipPath: 'inset(0% 0% 0% 0% round 16px)', y: 0, duration: 3, ease: 'power2.inOut' }, 0)
-        .fromTo(s3i, { scale: 1.32, filter: 'brightness(.55)' }, { scale: 1.06, filter: 'brightness(1)', duration: 3.4, ease: 'power1.out' }, 0)
-        .fromTo(wh, { xPercent: 38, yPercent: 60, clipPath: 'inset(0% 0% 100% 0% round 12px)' }, { xPercent: 0, yPercent: 0, clipPath: 'inset(0% 0% 0% 0% round 12px)', duration: 2.6, ease: 'power3.out' }, 1.2)
-        .fromTo(whi, { scale: 1.4 }, { scale: 1, duration: 3.4, ease: 'power2.out' }, 1.2)
-      /* depth: layers keep drifting at different speeds to the end */
-        .to(s3, { y: -26, duration: 7 }, 3)
-        .to(s3i, { scale: 1, duration: 7 }, 3.4)
-        .to(wh, { yPercent: -34, duration: 5.4 }, 4.6)
-        .to(h1, { y: -14, duration: 10 }, 0)
-      /* beat 3 - the lead and the facts arrive */
-        .fromTo(lead, { y: 34, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1.6, ease: 'power2.out' }, 1.8)
-        .fromTo(rows, { y: 26, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1.2, stagger: .35, ease: 'power2.out' }, 3.6);
+      /* one camera move: push in on the car, layers drift at their own depth, then pull back */
+      var copy = hero.querySelector('.rh-copy'), card = hero.querySelector('.rh-card');
+      tl.fromTo(s3, { scale: 1 }, { scale: 1.06, y: -30, duration: 7, ease: 'power1.inOut' }, 0)
+        .fromTo(s3.querySelectorAll('img'), { scale: 1.12 }, { scale: 1, duration: 7, ease: 'power1.out' }, 0)
+        .fromTo(wh, { yPercent: 0, xPercent: 0 }, { yPercent: -46, xPercent: -8, duration: 7 }, 0)
+        .to(copy, { y: -20, duration: 8 }, 0)
+        .to(card, { y: -10, duration: 8 }, 0);
       /* the line re-sets: motion video -> custom AI operating systems -> web design */
       var chars = KC;
       if (chars.length === 3) {
@@ -115,7 +126,7 @@
           .fromTo(chars[2], { yPercent: 115 }, { yPercent: 0, stagger: .02, duration: .6, ease: 'power3.out' }, 6.0);
       }
       /* beat 4 - hand-off: the stage settles back as the strip rises over it */
-      tl.to(grid, { y: -30, scale: .985, transformOrigin: '50% 100%', duration: 2, ease: 'power1.in' }, 8)
+      tl.to(grid, { y: -70, scale: .9, autoAlpha: .35, transformOrigin: '50% 60%', duration: 2.6, ease: 'power2.in' }, 7.4)
         .to({}, { duration: .4 }, 10);
     });
 
@@ -127,9 +138,6 @@
         scrollTrigger: { trigger: s3, start: 'top bottom', end: 'bottom top', scrub: .6 } });
       gsap.fromTo(whi, { scale: 1.3 }, { scale: 1, ease: 'none',
         scrollTrigger: { trigger: wh, start: 'top bottom', end: 'bottom 30%', scrub: .6 } });
-      gsap.from(lead, { y: 24, autoAlpha: 0, duration: .9, ease: 'power2.out', delay: .6 });
-      gsap.from(rows, { y: 20, autoAlpha: 0, duration: .7, stagger: .08, ease: 'power2.out',
-        scrollTrigger: { trigger: '.rh-card', start: 'top 88%', once: true } });
       var chars = KC;
       if (chars.length === 3) {
         var kt = gsap.timeline({ defaults: { ease: 'none' },
@@ -181,6 +189,97 @@
       return function(){ offs.forEach(function(f){ f(); }); };
     });
 
+    /* ============ the camera keeps moving: services tilt up into view, lift away, work follows ============ */
+    mm.add(MOTION, function(){
+      var sg = document.querySelector('.svc-grid'), svc = document.querySelector('.svc');
+      if (sg) {
+        gsap.fromTo(sg, { rotationX: 14, y: 110, scale: .94, transformOrigin: '50% 0%', transformPerspective: 1400 },
+          { rotationX: 0, y: 0, scale: 1, ease: 'none', scrollTrigger: { trigger: svc, start: 'top bottom', end: 'top 20%', scrub: .8 } });
+        var lifts = [-40, -110, -70];
+        q('.svc-tile').forEach(function(t, i){
+          gsap.fromTo(t, { '--lift': '0px' }, { '--lift': (innerWidth > 900 ? lifts[i % 3] : -30) + 'px', ease: 'none',
+            scrollTrigger: { trigger: sg, start: 'bottom 85%', end: 'bottom top', scrub: .8, invalidateOnRefresh: true } });
+        });
+      }
+      var ww = document.querySelector('#work > .wrap');
+      if (ww) gsap.fromTo(ww, { y: 120, scale: .95, transformOrigin: '50% 0%' },
+        { y: 0, scale: 1, ease: 'none', scrollTrigger: { trigger: '#work', start: 'top bottom', end: 'top 25%', scrub: .8 } });
+    });
+
+    /* ============ desktop pointer: haze follows, cursor ring ============ */
+    mm.add(MOTION, function(){ return haze(); });
+    mm.add(MOTION + ' and (hover: hover) and (pointer: fine)', function(){ return ring(); });
+
     ScrollTrigger.refresh();
+  }
+
+  /* ---- ambient sodium haze: one raw-WebGL quad at half resolution, paused off screen ---- */
+  function haze(){
+    var cv = document.createElement('canvas'); cv.className = 'rh-haze'; cv.setAttribute('aria-hidden', 'true');
+    var gl = cv.getContext('webgl', { alpha: false, antialias: false, powerPreference: 'low-power' });
+    if (!gl) return;
+    hero.insertBefore(cv, hero.firstChild);
+    var vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+    var fs = [
+      'precision mediump float;uniform vec2 R;uniform float T;uniform vec2 M;uniform float S;uniform float A;',
+      'float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}',
+      'float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}',
+      'float fb(vec2 p){float v=0.,a=.5;for(int i=0;i<4;i++){v+=a*n(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}',
+      'void main(){vec2 uv=gl_FragCoord.xy/R;float k=R.x/R.y;vec2 p=vec2(uv.x*k,uv.y);float t=T*.035;',
+      ' float w=fb(p*1.4+vec2(t,-t*.3));float f=fb(p*1.1+w*1.3+vec2(-t*.7,t*.25));',
+      /* slanted shafts from strip lights above, slowly breathing */
+      ' float sx=uv.x*k+(1.-uv.y)*.55;float sh=pow(.5+.5*sin(sx*5.2+sin(T*.05)*1.2),10.)*smoothstep(.15,1.,uv.y);',
+      ' vec2 m=vec2(M.x*k,M.y);float d=distance(p,m);float pool=exp(-d*d*5.5);',
+      ' float top=smoothstep(.2,1.,uv.y);',
+      ' float I=f*(.32*top+1.05*pool)+sh*f*.75;I*=(.7+.6*S)*A;',
+      ' vec3 c=vec3(1.,.83,.62)*I*.34+vec3(.95,.97,1.)*pool*.02*A;',
+      ' gl_FragColor=vec4(c,1.);}'
+    ].join('\n');
+    function sh(t, s){ var o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); return o; }
+    var pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { cv.remove(); return; }
+    gl.useProgram(pr);
+    var b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    var uR = gl.getUniformLocation(pr, 'R'), uT = gl.getUniformLocation(pr, 'T'), uM = gl.getUniformLocation(pr, 'M'),
+        uS = gl.getUniformLocation(pr, 'S'), uA = gl.getUniformLocation(pr, 'A');
+    var SCALE = .5, mx = .72, my = .62, tx = .72, ty = .62, amp = 0, on = true, raf = 0, t0 = performance.now();
+    function size(){ var r = hero.getBoundingClientRect(); cv.width = Math.max(2, Math.round(r.width * SCALE)); cv.height = Math.max(2, Math.round(Math.min(r.height, innerHeight * 1.2) * SCALE)); gl.viewport(0, 0, cv.width, cv.height); }
+    function mv(e){ var r = cv.getBoundingClientRect(); tx = (e.clientX - r.left) / r.width; ty = 1 - (e.clientY - r.top) / r.height; }
+    function frame(now){
+      raf = 0; if (!on) return;
+      mx += (tx - mx) * .06; my += (ty - my) * .06; amp = Math.min(1, amp + .012);
+      gl.uniform2f(uR, cv.width, cv.height); gl.uniform1f(uT, (now - t0) / 1000); gl.uniform2f(uM, mx, my);
+      gl.uniform1f(uS, window.__rhScroll || 0); gl.uniform1f(uA, amp);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      raf = requestAnimationFrame(frame);
+    }
+    var io = new IntersectionObserver(function(es){ on = es[0].isIntersecting && !document.hidden; if (on && !raf) raf = requestAnimationFrame(frame); });
+    io.observe(hero);
+    function vis(){ on = !document.hidden; if (on && !raf) raf = requestAnimationFrame(frame); }
+    size(); addEventListener('resize', size); addEventListener('pointermove', mv, { passive: true }); document.addEventListener('visibilitychange', vis);
+    raf = requestAnimationFrame(frame);
+    return function(){ on = false; cancelAnimationFrame(raf); io.disconnect(); removeEventListener('resize', size); removeEventListener('pointermove', mv); document.removeEventListener('visibilitychange', vis); cv.remove(); };
+  }
+
+  /* ---- cursor ring: grows on links and cards, says "play" over video ---- */
+  function ring(){
+    var el = document.createElement('div'); el.className = 'rc'; el.setAttribute('aria-hidden', 'true'); el.innerHTML = '<i></i><b>Play</b>';
+    document.body.appendChild(el); document.documentElement.classList.add('rc-on');
+    var xs = gsap.quickTo(el, 'x', { duration: .35, ease: 'power3.out' }), ys = gsap.quickTo(el, 'y', { duration: .35, ease: 'power3.out' });
+    var HOT = 'a, button, [role="button"], .svc-tile, .card, .shelf, label', VID = 'video, .svc-media, .ph, .clipfig';
+    function mv(e){
+      xs(e.clientX); ys(e.clientY); el.classList.add('in');
+      var t = e.target, v = t.closest && t.closest(VID), h = t.closest && t.closest(HOT);
+      el.classList.toggle('vid', !!(v && v.querySelector ? (v.tagName === 'VIDEO' || v.querySelector('video')) : v));
+      el.classList.toggle('hot', !!h && !el.classList.contains('vid'));
+      el.classList.toggle('dark', !!(t.closest && t.closest('.rh, .navbar.on-ink, .pane, .viewer')));
+    }
+    function out(){ el.classList.remove('in'); }
+    function dn(){ el.classList.add('down'); } function up(){ el.classList.remove('down'); }
+    addEventListener('pointermove', mv, { passive: true }); document.addEventListener('pointerleave', out);
+    addEventListener('pointerdown', dn); addEventListener('pointerup', up);
+    return function(){ removeEventListener('pointermove', mv); document.removeEventListener('pointerleave', out); removeEventListener('pointerdown', dn); removeEventListener('pointerup', up); el.remove(); document.documentElement.classList.remove('rc-on'); };
   }
 })();

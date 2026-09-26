@@ -129,3 +129,35 @@
 @media (prefers-reduced-motion:reduce){
   .svc-tile::after{display:none}
 }
+
+/* ---------- round 2: haze, light sweep, camera, cursor ---------- */
+/* ambient haze canvas sits under the stage and screens onto the ink */
+.rh-haze{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;mix-blend-mode:screen;opacity:.95}
+
+/* the garage light: a dark plate, a lit copy wiped in behind a soft beam */
+.rh-s3.sweep > img:first-child{filter:brightness(.22) saturate(.6)}
+.rh-s3 .rh-lit{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 40%}
+.rh-beam{position:absolute;top:-10%;bottom:-10%;left:0;width:22%;z-index:2;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,240,214,.16) 35%,rgba(255,246,230,.42) 50%,rgba(255,240,214,.16) 65%,transparent);
+  mix-blend-mode:screen;filter:blur(6px)}
+
+/* services: tiles lift at their own speed as the camera moves on */
+.svc-tile{translate:0 var(--lift,0px)}
+
+/* cursor ring (fine pointers, motion allowed) */
+html.rc-on, html.rc-on a, html.rc-on button, html.rc-on [role="button"]{cursor:none}
+html.rc-on input, html.rc-on textarea, html.rc-on select{cursor:auto}
+.rc{position:fixed;left:0;top:0;z-index:9999;pointer-events:none;opacity:0;transition:opacity .25s var(--ease)}
+.rc.in{opacity:1}
+.rc i{position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--ink);
+  transition:transform .35s var(--ease),background-color .35s var(--ease),border-color .35s var(--ease)}
+.rc::after{content:"";position:absolute;left:-2px;top:-2px;width:4px;height:4px;border-radius:50%;background:var(--ink);transition:opacity .2s}
+.rc b{position:absolute;left:0;top:0;transform:translate(-50%,-50%) scale(.6);font:700 12px/1 var(--body);letter-spacing:.02em;color:var(--paper);opacity:0;
+  transition:opacity .25s var(--ease),transform .35s var(--ease)}
+.rc.dark i{border-color:var(--paper)} .rc.dark::after{background:var(--paper)}
+.rc.hot i{transform:scale(1.9);background:rgba(22,32,42,.06)}
+.rc.dark.hot i{background:rgba(233,238,241,.1)}
+.rc.vid i{transform:scale(2.7);background:var(--ink);border-color:var(--ink)}
+.rc.vid::after{opacity:0} .rc.vid b{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.rc.down i{transform:scale(.8)} .rc.hot.down i{transform:scale(1.6)}
+@media (prefers-reduced-motion:reduce){.rh-haze,.rc,.rh-beam,.rh-lit{display:none}.svc-tile{translate:none}}
