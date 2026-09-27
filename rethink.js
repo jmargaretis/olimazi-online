@@ -2,6 +2,129 @@
    Every tween lives inside gsap.matchMedia with a reduced-motion guard,
    and nothing is hidden in CSS: with reduced motion, or if the CDN fails,
    the page renders complete and still. */
+/* ---- round 3: small details that need no library ----
+   Buttons, underlines, the nav indicator, the scroll hairline and the copy
+   button. Plain JS, so they still work if the GSAP CDN fails. */
+(function(){
+  var doc = document.documentElement;
+  var CTA = '.svc-cta, footer .cta, .ccard .btn, .pane .btn';
+  var q = function(s, r){ return [].slice.call((r || document).querySelectorAll(s)); };
+
+  /* primary buttons: label in a span, arrow becomes a pair that swaps */
+  q(CTA).forEach(function(b){
+    var old = b.querySelector('i'); if (old) old.remove();
+    var txt = b.textContent.replace(/\s*→\s*$/, '').trim();
+    b.textContent = '';
+    var l = document.createElement('span'); l.className = 'cta-l'; l.textContent = txt;
+    var a = document.createElement('span'); a.className = 'ar'; a.setAttribute('aria-hidden', 'true');
+    a.innerHTML = '<span>→</span><span>→</span>';
+    b.appendChild(l); b.appendChild(a);
+    /* the red fill grows from where the pointer crossed the edge, and shrinks back out the way it leaves */
+    function at(e){
+      var r = b.getBoundingClientRect();
+      b.style.setProperty('--fx', (e.clientX - r.left) + 'px');
+      b.style.setProperty('--fy', (e.clientY - r.top) + 'px');
+      b.style.setProperty('--fd', Math.ceil(Math.hypot(r.width, r.height) * 2 + 8) + 'px');
+    }
+    b.addEventListener('pointerenter', at); b.addEventListener('pointerleave', at);
+  });
+
+  /* drawn underline: the line starts on the side the pointer came in from */
+  function side(el, e){ var r = el.getBoundingClientRect(); return (e.clientX - r.left) < r.width / 2 ? 'left' : 'right'; }
+  q('.u').forEach(function(u){
+    u.addEventListener('pointerenter', function(e){ u.style.setProperty('--uo', side(u, e)); });
+    u.addEventListener('pointerleave', function(e){ u.style.setProperty('--uo', side(u, e)); });
+  });
+  q('.card').forEach(function(c){
+    var u = c.querySelector('.u'); if (!u) return;
+    c.addEventListener('pointerenter', function(e){ u.style.setProperty('--uo', side(c, e)); });
+    c.addEventListener('pointerleave', function(e){ u.style.setProperty('--uo', side(c, e)); });
+  });
+
+  /* scroll hairline + nav indicator share one rAF */
+  var bar = document.createElement('div'); bar.className = 'sp'; bar.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(bar);
+  var navbar = document.getElementById('navbar'), nav = navbar && navbar.querySelector('.nav'),
+      ul = nav && nav.querySelector('ul'), ind = null, links = [];
+  if (ul) {
+    ind = document.createElement('i'); ind.className = 'nav-ind'; ind.setAttribute('aria-hidden', 'true'); ul.appendChild(ind);
+    links = q('a.u[href^="#"]', ul).map(function(a){ return { a: a, s: document.getElementById(a.getAttribute('href').slice(1)) }; })
+      .filter(function(o){ return o.s; });
+  }
+  /* the stuck bar height: content + 14px padding top and bottom + the 1px hairline */
+  function navh(){
+    if (!nav) return;
+    var cs = getComputedStyle(nav);
+    var h = nav.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) + 28 + 1;
+    doc.style.setProperty('--navh', Math.round(h) + 'px');
+  }
+  var cur = null, raf = 0;
+  function place(){
+    if (!ind) return;
+    if (!cur) { ind.classList.remove('on'); return; }
+    var ur = ul.getBoundingClientRect(), r = cur.a.getBoundingClientRect();
+    ind.style.transform = 'translateX(' + (r.left - ur.left) + 'px) scaleX(' + (r.width / 100) + ')';
+    ind.classList.add('on');
+  }
+  function tick(){
+    raf = 0;
+    var max = doc.scrollHeight - innerHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0) + ')';
+    var line = (navbar ? navbar.offsetHeight : 0) + innerHeight * .3, hit = null;
+    links.forEach(function(o){ if (o.s.getBoundingClientRect().top <= line) hit = o; });
+    if (hit && links[links.length - 1] !== hit && hit.s.getBoundingClientRect().bottom < line) hit = null;
+    if (hit !== cur) {
+      if (cur) cur.a.removeAttribute('aria-current');
+      cur = hit;
+      if (cur) cur.a.setAttribute('aria-current', 'location');
+      place();
+    }
+  }
+  function soon(){ if (!raf) raf = requestAnimationFrame(tick); }
+  addEventListener('scroll', soon, { passive: true });
+  addEventListener('resize', function(){ navh(); place(); soon(); });
+  addEventListener('load', function(){ navh(); place(); soon(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ navh(); place(); });
+  navh(); tick();
+
+  /* a nav jump that ends a few px off (a late layout refresh) settles onto its mark */
+  var pending = null;
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="#"]');
+    pending = a ? document.getElementById(a.getAttribute('href').slice(1)) : null;
+  });
+  addEventListener('scrollend', function(){
+    if (!pending) return;
+    var s = pending; pending = null;
+    var d = s.getBoundingClientRect().top - (parseFloat(getComputedStyle(s).scrollMarginTop) || 0);
+    if (Math.abs(d) > 3) scrollBy({ top: d, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+
+  /* copy the address: one click, a crisp "Copied", read out once */
+  var live = document.createElement('span'); live.setAttribute('aria-live', 'polite');
+  live.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap';
+  document.body.appendChild(live);
+  function write(t){
+    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(t);
+    return new Promise(function(ok, no){
+      var ta = document.createElement('textarea'); ta.value = t; ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;left:-9999px;top:0'; document.body.appendChild(ta); ta.select();
+      var done = false; try { done = document.execCommand('copy'); } catch (e) {}
+      ta.remove(); done ? ok() : no();
+    });
+  }
+  q('[data-copy]').forEach(function(b){
+    var tm = 0;
+    b.addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      write(b.getAttribute('data-copy')).then(function(){
+        b.classList.add('done'); live.textContent = ''; setTimeout(function(){ live.textContent = 'Copied'; }, 30);
+        clearTimeout(tm); tm = setTimeout(function(){ b.classList.remove('done'); }, 1800);
+      }, function(){});
+    });
+  });
+})();
+
 (function(){
   var hero = document.querySelector('.rh');
   if (!hero) return;
@@ -51,9 +174,19 @@
   var MOTION ='(prefers-reduced-motion: no-preference)';
   var PIN = MOTION + ' and (min-width: 1024px) and (min-height: 640px)';
 
-  function refreshSoon(){ ScrollTrigger.refresh(); }
+  /* a refresh mid-scroll cancels a smooth nav jump (the lazy library images
+     load on the way down), so refreshes wait until the page is still */
+  var lastScroll = 0, rt = 0;
+  addEventListener('scroll', function(){ lastScroll = performance.now(); }, { passive: true });
+  function refreshSoon(){
+    clearTimeout(rt);
+    rt = setTimeout(function again(){
+      if (performance.now() - lastScroll < 250) { rt = setTimeout(again, 250); return; }
+      ScrollTrigger.refresh();
+    }, 150);
+  }
   addEventListener('load', refreshSoon);
-  q('img').forEach(function(im){ if (!im.complete) im.addEventListener('load', function(){ ScrollTrigger.refresh(); }, { once: true }); });
+  q('img').forEach(function(im){ if (!im.complete) im.addEventListener('load', refreshSoon, { once: true }); });
 
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(start);
 
@@ -206,6 +339,45 @@
         { y: 0, scale: 1, ease: 'none', scrollTrigger: { trigger: '#work', start: 'top bottom', end: 'top 25%', scrub: .8 } });
     });
 
+    /* ============ fine pointer: primary buttons lean toward the cursor, the label a touch further ============ */
+    mm.add(MOTION + ' and (hover: hover) and (pointer: fine)', function(){
+      var offs = [];
+      q('.svc-cta, footer .cta, .ccard .btn, .pane .btn').forEach(function(b){
+        var l = b.querySelector('.cta-l'),
+            bx = gsap.quickTo(b, 'x', { duration: .5, ease: 'power3.out' }), by = gsap.quickTo(b, 'y', { duration: .5, ease: 'power3.out' }),
+            lx = l && gsap.quickTo(l, 'x', { duration: .5, ease: 'power3.out' }), ly = l && gsap.quickTo(l, 'y', { duration: .5, ease: 'power3.out' });
+        function move(e){
+          var r = b.getBoundingClientRect(), dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+          bx(dx * .14); by(dy * .22); if (l) { lx(dx * .07); ly(dy * .09); }
+        }
+        function leave(){
+          gsap.to(l ? [b, l] : b, { x: 0, y: 0, duration: .7, ease: 'elastic.out(1, .5)', overwrite: true });
+        }
+        b.addEventListener('pointermove', move); b.addEventListener('pointerleave', leave);
+        offs.push(function(){ b.removeEventListener('pointermove', move); b.removeEventListener('pointerleave', leave); gsap.set(l ? [b, l] : b, { clearProps: 'transform' }); });
+      });
+      return function(){ offs.forEach(function(f){ f(); }); };
+    });
+
+    /* ============ fine pointer: library pictures lean toward the cursor (never mid-drag) ============ */
+    mm.add(MOTION + ' and (hover: hover) and (pointer: fine)', function(){
+      var offs = [], strip = document.getElementById('strip');
+      q('button.shelf').forEach(function(s){
+        var f = s.querySelector('figure'); if (!f) return;
+        gsap.set(f, { transformPerspective: 700 });
+        var rx = gsap.quickTo(f, 'rotationX', { duration: .6, ease: 'power3.out' }), ry = gsap.quickTo(f, 'rotationY', { duration: .6, ease: 'power3.out' });
+        function move(e){
+          if (strip && strip.classList.contains('drag')) { rx(0); ry(0); return; }
+          var r = f.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+          ry(x * 10); rx(-y * 8);
+        }
+        function leave(){ rx(0); ry(0); }
+        s.addEventListener('pointermove', move, { passive: true }); s.addEventListener('pointerleave', leave);
+        offs.push(function(){ s.removeEventListener('pointermove', move); s.removeEventListener('pointerleave', leave); gsap.set(f, { clearProps: 'transform' }); });
+      });
+      return function(){ offs.forEach(function(f){ f(); }); };
+    });
+
     /* ============ desktop pointer: haze follows, cursor ring ============ */
     mm.add(MOTION, function(){ return haze(); });
     mm.add(MOTION + ' and (hover: hover) and (pointer: fine)', function(){ return ring(); });
@@ -268,12 +440,18 @@
     var el = document.createElement('div'); el.className = 'rc'; el.setAttribute('aria-hidden', 'true'); el.innerHTML = '<i></i><b>Play</b>';
     document.body.appendChild(el); document.documentElement.classList.add('rc-on');
     var xs = gsap.quickTo(el, 'x', { duration: .35, ease: 'power3.out' }), ys = gsap.quickTo(el, 'y', { duration: .35, ease: 'power3.out' });
-    var HOT = 'a, button, [role="button"], .svc-tile, .card, .shelf, label', VID = 'video, .svc-media, .ph, .clipfig';
+    var HOT = 'a, button, [role="button"], .svc-tile, .card, .shelf, label', VID = 'video, .svc-media, .ph, .clipfig',
+        BTN = '.svc-cta, footer .cta, .ccard .btn, .pane .btn', lbl = el.querySelector('b');
     function mv(e){
       xs(e.clientX); ys(e.clientY); el.classList.add('in');
-      var t = e.target, v = t.closest && t.closest(VID), h = t.closest && t.closest(HOT);
-      el.classList.toggle('vid', !!(v && v.querySelector ? (v.tagName === 'VIDEO' || v.querySelector('video')) : v));
-      el.classList.toggle('hot', !!h && !el.classList.contains('vid'));
+      var t = e.target, v = t.closest && t.closest(VID), h = t.closest && t.closest(HOT),
+          bt = !!(t.closest && t.closest(BTN)), sh = !bt && !!(t.closest && t.closest('button.shelf'));
+      /* over a primary button the ring steps aside and lets the red fill answer; over a shelf it says View */
+      el.classList.toggle('btn', bt);
+      el.classList.toggle('view', sh);
+      el.classList.toggle('vid', !bt && !sh && !!(v && v.querySelector ? (v.tagName === 'VIDEO' || v.querySelector('video')) : v));
+      if (sh) lbl.textContent = 'View'; else if (el.classList.contains('vid')) lbl.textContent = 'Play';
+      el.classList.toggle('hot', !!h && !bt && !sh && !el.classList.contains('vid'));
       el.classList.toggle('dark', !!(t.closest && t.closest('.rh, .navbar.on-ink, .pane, .viewer')));
     }
     function out(){ el.classList.remove('in'); }

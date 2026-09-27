@@ -161,3 +161,117 @@ html.rc-on input, html.rc-on textarea, html.rc-on select{cursor:auto}
 .rc.vid::after{opacity:0} .rc.vid b{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .rc.down i{transform:scale(.8)} .rc.hot.down i{transform:scale(1.6)}
 @media (prefers-reduced-motion:reduce){.rh-haze,.rc,.rh-beam,.rh-lit{display:none}.svc-tile{translate:none}}
+
+/* =====================================================================
+   round 3: small details. One motion system, used everywhere below.
+   Three curves, three durations. Transform and opacity only.
+   ===================================================================== */
+:root{
+  --ease-out:cubic-bezier(.22,.75,.2,1);   /* settles: fills, lines, lifts (same curve as --ease) */
+  --ease-in-out:cubic-bezier(.65,0,.35,1); /* travels: the nav indicator, labels that swap */
+  --ease-snap:cubic-bezier(.3,1.5,.5,1);   /* answers: press release, the arrow, the check */
+  --dur-1:.18s; --dur-2:.42s; --dur-3:.9s;
+  --navh:58px;
+}
+
+/* ---------- scroll offset: a nav jump lands under the stuck bar ---------- */
+#build,#work,#learning,#library{scroll-margin-top:var(--navh)}
+
+/* ---------- scroll progress: one red hairline on the top edge ---------- */
+.sp{position:fixed;left:0;right:0;top:0;height:2px;z-index:35;pointer-events:none;background:var(--ox);
+  transform:scaleX(0);transform-origin:0 50%;will-change:transform}
+
+/* ---------- drawn underline: enters from the pointer side, leaves the way it goes ---------- */
+.u::after{transform-origin:var(--uo,left);transition:transform var(--dur-2) var(--ease-out)}
+
+/* ---------- nav: the underline travels to the section you are in ---------- */
+.nav ul{position:relative}
+.nav-ind{position:absolute;left:0;bottom:-4px;width:100px;height:1px;background:currentColor;pointer-events:none;
+  transform-origin:0 50%;transform:translateX(0) scaleX(0);opacity:0;
+  transition:transform var(--dur-2) var(--ease-in-out),opacity var(--dur-1) linear}
+.nav-ind.on{opacity:1}
+.nav .u[aria-current]::after{transform:scaleX(0)!important}
+@media (max-width:640px){.nav-ind{bottom:8px}}
+
+/* ---------- primary buttons: red wipes in from the pointer, arrow swaps, press has depth ---------- */
+.svc-cta,footer .cta,.ccard .btn,.pane .btn{position:relative;isolation:isolate;overflow:hidden;
+  display:inline-flex;align-items:center;gap:10px;min-height:44px;-webkit-tap-highlight-color:transparent;
+  transition:box-shadow var(--dur-2) var(--ease-out),background-color var(--dur-2) var(--ease-out),scale var(--dur-2) var(--ease-snap)}
+.svc-cta::before,footer .cta::before,.ccard .btn::before,.pane .btn::before{content:"";position:absolute;z-index:-1;
+  left:var(--fx,50%);top:var(--fy,50%);width:var(--fd,320px);height:var(--fd,320px);
+  margin:calc(var(--fd,320px) / -2) 0 0 calc(var(--fd,320px) / -2);
+  border-radius:50%;background:var(--ox);transform:scale(0);pointer-events:none;
+  transition:transform var(--dur-2) var(--ease-out)}
+.ccard .btn.off::before{display:none}
+/* the fill replaces the old flat colour flip */
+.svc-cta:hover,footer .cta:hover,.ccard .btn:not(.off):hover,.pane .btn:hover{background:var(--ink)}
+@media (hover:hover){
+  .svc-cta:hover::before,footer .cta:hover::before,.ccard .btn:not(.off):hover::before,.pane .btn:hover::before{transform:scale(1)}
+}
+.svc-cta:active,footer .cta:active,.ccard .btn:not(.off):active,.pane .btn:active{scale:.965;transition-duration:var(--dur-1)}
+@media (hover:none){
+  .svc-cta:active::before,footer .cta:active::before,.ccard .btn:not(.off):active::before,.pane .btn:active::before{transform:scale(1);transition-duration:var(--dur-1)}
+}
+/* the magnetic pull owns transform now; the old lift is retired */
+.svc-cta:hover{transform:none}
+.cta-l{display:inline-block}
+
+/* the arrow: nudges out, a second one slides in behind it */
+.ar{position:relative;display:inline-block;overflow:hidden;width:1.05em;height:1.2em;line-height:1.2em;font-style:normal;flex:0 0 auto}
+.ar>span{position:absolute;left:0;top:0;width:100%;text-align:center;transition:transform var(--dur-2) var(--ease-snap)}
+.ar>span+span{transform:translateX(-110%)}
+@media (hover:hover){
+  :is(.svc-cta,footer .cta,.ccard .btn:not(.off),.pane .btn):hover .ar>span:first-child{transform:translateX(110%)}
+  :is(.svc-cta,footer .cta,.ccard .btn:not(.off),.pane .btn):hover .ar>span+span{transform:none}
+}
+/* keyboard focus: ink on light ground, red on the dark surfaces (DESIGN.md) */
+.svc-cta:focus-visible,footer .cta:focus-visible,.ccard .btn:focus-visible,.pane .btn:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+.u:focus-visible{outline:2px solid currentColor;outline-offset:6px;border-radius:2px}
+.rh :focus-visible,.navbar.on-ink :focus-visible,.pane.dark :focus-visible{outline:2px solid var(--ox);outline-offset:6px}
+
+/* ---------- library shelves: the picture leans toward the pointer ---------- */
+button.shelf{transition:transform var(--dur-2) var(--ease-out)}
+.shelf figure{transition:box-shadow var(--dur-2) var(--ease-out)}
+button.shelf:hover figure{box-shadow:0 22px 40px -26px rgba(22,32,42,.55)}
+.shelf.social:hover figure{box-shadow:0 0 0 1px var(--hair),0 22px 40px -26px rgba(22,32,42,.55)}
+.shelf img,.shelf video{transition:transform var(--dur-3) var(--ease-out)}
+
+/* ---------- shared timing on the pieces that already moved ---------- */
+.card{transition:transform var(--dur-2) var(--ease-out)}
+.card .ph img{transition:transform var(--dur-3) var(--ease-out)}
+.svc-tile{transition:box-shadow var(--dur-2) var(--ease-out),border-color var(--dur-2) var(--ease-out)}
+footer .soc{transition:opacity var(--dur-2) var(--ease-out),color var(--dur-2) var(--ease-out)}
+
+/* ---------- copy the address: one click, a crisp "Copied" ---------- */
+.copy{display:inline-flex;align-items:center;gap:8px;min-height:32px;padding:0 2px;color:var(--ink-soft);font-weight:500;cursor:pointer;
+  transition:color var(--dur-2) var(--ease-out)}
+.copy:hover{color:var(--ink)}
+.copy:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:2px}
+.copy .cg{position:relative;display:inline-block;width:14px;height:14px;flex:0 0 auto}
+.copy .cg svg{position:absolute;inset:0;width:14px;height:14px;transition:transform var(--dur-2) var(--ease-snap),opacity var(--dur-1) linear}
+.copy .cg .ok{color:var(--ox);transform:scale(.4);opacity:0}
+.copy .cl{display:inline-grid;overflow:hidden}
+.copy .cl>span{grid-area:1/1;transition:transform var(--dur-2) var(--ease-in-out),opacity var(--dur-2) var(--ease-in-out)}
+.copy .cl>span+span{transform:translateY(100%);opacity:0;color:var(--ink)}
+.copy.done .cl>span:first-child{transform:translateY(-100%);opacity:0}
+.copy.done .cl>span+span{transform:none;opacity:1}
+.copy.done .cg .sq{transform:scale(.4);opacity:0}
+.copy.done .cg .ok{transform:none;opacity:1}
+footer .acts .copy{font-size:17px}
+.ccard .crow .v .copy{margin-left:14px;font-size:13px;min-height:24px;vertical-align:-2px}
+@media (max-width:640px){footer .acts .copy{font-size:16px}}
+
+/* ---------- cursor: the ring steps aside for a button, says "View" on a shelf ---------- */
+.rc i{transition:transform var(--dur-2) var(--ease-out),background-color var(--dur-2) var(--ease-out),border-color var(--dur-2) var(--ease-out),opacity var(--dur-1) linear}
+.rc.btn i{transform:scale(.3);opacity:0}
+.rc.btn::after{opacity:0}
+.rc.view i{transform:scale(2.7);background:var(--ink);border-color:var(--ink)}
+.rc.view::after{opacity:0}
+.rc.view b{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+@media (prefers-reduced-motion:reduce){
+  .ar>span+span{display:none}
+  .ar>span:first-child{transform:none!important}
+}
+
+footer .acts .copy{font-weight:400}
