@@ -214,13 +214,12 @@ window.LIBRARY = {
       "front": false,
       "items": [
         {
-          "src": "assets/library-dog-studios-logo-2.jpg",
+          "src": "assets/library-dog-studios-logo.jpg",
           "title": "Dog Studios — a character brand",
-          "cap": "It started as the young creator's sketch of a dog. Swipe the rounds.",
+          "cap": "It started as a nephew's sketch of a dog. Swipe the rounds.",
           "body": [
             "The young creator gives the direction. I build each round with Claude Code and approve it before the next one starts.",
-            "So far: a logo, eight character cards, a 3D avatar maker, a first browser game, and a world where friends walk around together.",
-            "Latest round: the creator made a new logo, and the world became a theme park with a coaster builder. The game got a polish pass too: steadier controls on an iPad, an options menu, an eyes view, and an app icon for the home screen.",
+            "So far: a logo traced from the sketch, eight character cards, a 3D avatar maker, a first browser game, and a small world where friends walk around together.",
             "The dog, Scout, is character #1. The plan is many small games around one set of characters."
           ]
         },
@@ -243,22 +242,10 @@ window.LIBRARY = {
           "cap": "The first game. Move Scout under the falling bones for 30 seconds."
         },
         {
-          "src": "assets/library-dog-studios-park.jpg",
+          "src": "assets/library-dog-studios-world.jpg",
           "slide": true,
           "title": "The world",
-          "cap": "Now a theme park. Friends walk around together, find coins and ride. No chat, no accounts."
-        },
-        {
-          "src": "assets/library-dog-studios-builder.jpg",
-          "slide": true,
-          "title": "Coaster builder",
-          "cap": "Pick a starter ride, add loops, drops and jumps, then put it in the lobby for friends."
-        },
-        {
-          "src": "assets/library-dog-studios-coaster.jpg",
-          "slide": true,
-          "title": "Ride it",
-          "cap": "Ride your own coaster from behind the cart or through the dog's eyes."
+          "cap": "A small shared room. Up to 24 friends walk around together. No chat, no accounts."
         }
       ]
     }
