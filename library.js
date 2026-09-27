@@ -218,7 +218,7 @@ window.LIBRARY = {
           "title": "Dog Studios — a character brand",
           "cap": "It started as the young creator's sketch of a dog. Swipe the rounds.",
           "body": [
-            "The young creator gives the direction. I build each round with Claude Code and approve it before the next one starts.",
+            "The young creator gives the direction. I build each round and approve it before the next one starts.",
             "So far: a logo, eight character cards, a 3D avatar maker, a first browser game, and a world where friends walk around together.",
             "Latest round: the creator made a new logo, and the world became a theme park with a coaster builder. The game got a polish pass too: steadier controls on an iPad, an options menu, an eyes view, and an app icon for the home screen.",
             "The dog, Scout, is character #1. The plan is many small games around one set of characters."
