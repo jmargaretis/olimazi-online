@@ -4,7 +4,7 @@ description: A personal working lab for showing what one person can build with A
 colors:
   wall: "#16202A"
   wall-2: "#1C2731"
-  paper: "#DDE3E6"
+  paper: "#E9EEF1"
   paper-2: "#D3DADE"
   kraft: "#B5C0C8"
   ink: "#16202A"
@@ -60,8 +60,8 @@ Source of truth for tokens is `styles.css` `:root` (`main`; the steel restyle la
 Blue/orange happens when a saturated cool fill sits next to a saturated warm fill in equal amounts. Every rule below blocks that.
 
 1. **Ratio 70 / 25 / 5.** Slate paper + ink-slate wall = 70. Dim text, rules, tape = 25. Coral = 5. Coral is never a surface.
-2. **Coral never touches slate ground directly as a fill.** Coral appears as text on ink (`#16202A`), as text on slate paper, or as a thin rule. No coral buttons on `#DDE3E6`. No coral panels.
-3. **The slate is grey, not blue.** `#DDE3E6` and `#16202A` are the only grounds. No `#8A9BA8` Nano blue, no gradients that push toward blue, no cool photo tints. Photo backdrops stay `grayscale(.5)` at 12 % like today.
+2. **Coral never touches slate ground directly as a fill.** Coral appears as text on ink (`#16202A`), as text on slate paper, or as a thin rule. No coral buttons on `#E9EEF1`. No coral panels.
+3. **The slate is grey, not blue.** `#E9EEF1` and `#16202A` are the only grounds. No `#8A9BA8` Nano blue, no gradients that push toward blue, no cool photo tints. Photo backdrops stay `grayscale(.5)` at 12 % like today.
 4. **One coral per viewport.** At any scroll position at most one coral element carries the eye (a numeral, a link, a headline word, a FOR LEASE word). If two show, one becomes ink.
 5. **Warmth comes from the photographs**, not from the palette (sodium light, asphalt, mural). This is the "urban-futuristic, warm" note from DESIGN.md.
 6. **Kill test:** screenshot every section, desaturate it 100 %. If the layout still reads, coral is doing its job as accent, not as colour-blocking.
