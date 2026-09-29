@@ -27,7 +27,7 @@ typography:
   type:
     fontFamily: "Courier New, Courier, monospace"
   hand:
-    fontFamily: "Satoshi, Segoe UI, system-ui, sans-serif"
+    fontFamily: "Architects Daughter, Segoe Print, cursive"
 spacing:
   gutter: "28px"
   wrap-max: "1140px"
@@ -76,7 +76,7 @@ Blue/orange happens when a saturated cool fill sits next to a saturated warm fil
 - **Marquee** — ink band, paper hairlines, paper text; still crawls; level.
 - **Sign CTA** — ink plate, paper kicker, coral word.
 - **Stickers** (nav, contact) — 2px radius, 1px border, no shadow; primary = ink fill.
-- **Hand / marker font** — mono at small size for scrawls, stack labels, spray line. Marker survives only on the hero "aided by Ai?" — coral.
+- **Hand font** — Architects Daughter, voice-line asides only (see Typography).
 - **Section 03 backdrop** — faded photo, same treatment as 01 and 02. The vault-graph SVG is gone.
 
 ## Typography
@@ -84,9 +84,9 @@ Blue/orange happens when a saturated cool fill sits next to a saturated warm fil
 - **display** — Satoshi Black/Bold (self-hosted `assets/Satoshi-*.otf`). Headlines, stickers, nav.
 - **body** — Segoe UI / system sans.
 - **type** — Courier New. Typewriter cards, captions, labels, numerals.
-- **hand** — retired 2026-08-20; `--hand` resolves to `--display` (Satoshi). The hero "aided by Ai?" is Satoshi now.
+- **hand** — Architects Daughter (SIL OFL, self-hosted `assets/ArchitectsDaughter-Regular.ttf`). Restored 2026-08-21 by John after the 8/20 removal. Voice-line asides only: hero aside, section asides, library note, strip hint, John's own words in the Story pane. Never a heading, never the URL mark.
 
-No webfont dependencies. IBM Plex Mono and Architects Daughter are retired from every page.
+No external font requests. IBM Plex Mono is retired from every page.
 
 ## Banned cues (no-AI-cue rule)
 
