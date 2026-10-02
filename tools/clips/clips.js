@@ -62,8 +62,8 @@ window.CLIPS = {
         head: ['One hub runs', 'the whole brand.'], sub: 'Not technical by background. Built with Claude Code and Codex.',
         cam: [[0, 720, 450, 1], [3.0, 720, 450, 1], [3.7, 880, 400, 1.4], [8.2, 880, 400, 1.4], [8.7, 720, 450, 1]],
         call: [
-          [3.8, 6.5, 456, 266, 936, 70, 'Photo in a folder → draft → review → publish. Every number read from its own source.'],
-          [6.5, 8.3, 456, 470, 916, 70, 'Every local server probed live. A dead one reads grey, not green.']],
+          [3.8, 6.5, 456, 292, 918, 70, 'Photo in a folder → draft → review → publish. Every number read from its own source.'],
+          [6.5, 8.3, 456, 496, 918, 70, 'Every local server probed live. A dead one reads grey, not green.']],
         cur: [[8.3, 700, 500], [9.0, 113, 18, 1]] },
       { img: 'ops-queue', t0: 9.2, t1: 16.4,
         head: ['Nothing posts', 'on its own.'],
