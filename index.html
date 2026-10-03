@@ -31,7 +31,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
  background:rgba(36,21,9,.12);border:1px solid var(--line);overflow:hidden;transition:left .6s var(--e),top .6s var(--e),width .6s var(--e),height .6s var(--e),background .6s,opacity .3s}
 .pn .ph{flex:1 1 0;min-height:0;display:flex;gap:10px}
 .pn .mn{flex:1;min-width:0;border-radius:5px;overflow:hidden}
-.pn .mn img{width:100%;height:100%;object-fit:cover;display:block;opacity:.85;transition:opacity .25s}
+.pn .mn img,.pn .mn video{width:100%;height:100%;object-fit:cover;display:block;opacity:.85;transition:opacity .25s}.pn .mn video{object-position:top center}.pn .mn [hidden]{display:none}
 .pn .th{display:none;flex-direction:column;gap:10px;width:0;transition:width .6s var(--e)}
 .pn .th button{flex:1;min-height:0;border-radius:4px;overflow:hidden;opacity:.55}.pn .th button.on{opacity:1;box-shadow:0 0 0 2px var(--ox)}
 .pn .th img{width:100%;height:100%;object-fit:cover;display:block}
@@ -1001,7 +1001,7 @@ body.locked{overflow:hidden}
  <nav class="nav"><a class="hm" href="#top"><img class="av" src="assets/hero-av.png" alt="" width="34" height="34">olimazi<span style="color:#C0392B">.online</span></a><a class="ct" href="#contact" data-contact>Contact</a><a href="#top">Work</a><a href="#learning" data-pane="learning">Learning</a><a href="#library" data-pane="library">Library</a><a href="#story" data-pane="story">Story</a></nav>
  <div class="story"><p class="kk">Presenting my experiences</p><h1 aria-label="Sharing vision, aided by Ai?">Sharing vision,<br>aided by A<span class="i">i</span>?</h1><div class="sb"><p>Olimazi is an ongoing, growing personal brand meant to share past experiences along with builds from a non-technical scope &mdash; using AI as a tool to express human elements, and hopefully the missing context you only get from being &ldquo;in it&rdquo;.</p><button class="gx sl" type="button" data-t="Read it &rarr;" data-pane="story">The short story &rarr;</button><span class="as">faceless by design &mdash; the work is the portrait.</span></div></div>
  <div class="pn" role="button" tabindex="0" aria-label="View project details">
-  <div class="ph"><div class="mn"><img id="hi" alt=""></div><div class="th" id="th"></div></div>
+  <div class="ph"><div class="mn"><img id="hi" alt=""><video id="hv" muted loop playsinline preload="none" hidden></video></div><div class="th" id="th"></div></div>
   <div><small id="hm"></small><h2 id="hn"></h2><p id="hd"></p></div>
  </div>
  <div class="cf" id="cf" aria-label="Projects"></div>
@@ -1794,10 +1794,10 @@ body.locked{overflow:hidden}
 <script>
 var IMG={av:'assets/hero-av.png',split:'assets/hero-split.jpg',s3:'assets/hero-s3.jpg',buck:'assets/hero-buck.jpg',garage:'assets/hero-garage.jpg',rm:'assets/hero-rm.jpg',ops:'assets/hero-ops.jpg',sketch:'assets/hero-sketch.jpg',wheel:'assets/hero-wheel.jpg'};
 var P=[
- {n:'Method Effects',m:'2017–2024',d:'Automotive aero parts: splitters, lips and bucks, designed and made in the US.',im:['split','s3','buck','garage']},
- {n:'Rental Manager',m:'Sch. E',d:'A workbook you own for running a rental. The spreadsheet stays the source of truth.',im:['rm']},
- {n:'How the work runs',m:'The loop',d:'Context, constraints, handoff, record. The weekly loop behind every build.',im:['ops']},
- {n:'Library',m:'Kept along the way',d:'Art, clips and notes kept as the work went.',im:['sketch','wheel']},
+ {n:'Method Effects',m:'2017–2024',d:'Automotive aero parts: splitters, lips and bucks, designed and made in the US.',im:['split','s3','buck','garage'],c:'assets/method-s3-profile.jpg'},
+ {n:'Rental Manager',m:'Sch. E',d:'A workbook you own for running a rental. The spreadsheet stays the source of truth.',im:['rm'],c:{v:'assets/clip-rm.mp4',p:'assets/clip-rm-poster.jpg'}},
+ {n:'How the work runs',m:'The loop',d:'Context, constraints, handoff, record. The weekly loop behind every build.',im:['ops'],c:{v:'assets/clip-ops.mp4',p:'assets/clip-ops-poster.jpg'}},
+ {n:'Library',m:'Kept along the way',d:'Art, clips and notes kept as the work went.',im:['sketch','wheel'],c:{v:'assets/library-kairos.mp4',p:'assets/library-kairos-poster.jpg'}},
  {n:'The short story',m:'Read it',d:'Why it was built, in plain words.',im:['av']}];
 var destinations=['method','rental','learning',null,'story'];
 var cf=document.getElementById('cf');P.forEach(function(p,i){var b=document.createElement('button');b.className='t'+(p.im[0]==='av'?' av':'');b.setAttribute('aria-label',p.n);if(destinations[i])b.setAttribute('data-pane',destinations[i]);else b.setAttribute('data-library','');b.innerHTML='<img alt="">';cf.appendChild(b)});
@@ -1810,9 +1810,12 @@ function flow(){var n=T.length,F=TF;T.forEach(function(t,i){var r=((i-cur)%n+n)%
  t.style.boxShadow=a===0?(t.classList.contains('av')?'0 ':'0 0 0 2px var(--ox),0 ')+(18*F.shadow)+'px '+(40*F.shadow)+'px rgba(0,0,0,.6)':''})}
 function isOpen(){return document.body.classList.contains('locked')}
 function scram(e,txt){if(matchMedia('(prefers-reduced-motion: reduce)').matches){e.textContent=txt;return}var ch='ABCDEFGHJKLMNPRSTUVWXYZ#%&',n=0;clearInterval(e._s);e._s=setInterval(function(){n++;var k=n>>1;e.textContent=txt.split('').map(function(c,i){return i<k||c===' '?c:ch[Math.random()*ch.length|0]}).join('');if(k>=txt.length)clearInterval(e._s)},28)}
+var hv=document.getElementById('hv');
+function still(src){hv.pause();hv.hidden=true;hi.hidden=false;photo(src)}
+function card(p){var c=p.c||IMG[p.im[0]];if(!c.v){still(c);return}hi.hidden=true;hv.hidden=false;hv.poster=c.p;if(hv.getAttribute('src')!==c.v)hv.src=c.v;if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var pr=hv.play();if(pr)pr.catch(function(){})}}
 function photo(src){hi.style.opacity=0;setTimeout(function(){hi.src=src;hi.style.opacity=''},180)}
-function show(i){if(i===cur)return;cur=i;var p=P[i];pn.removeAttribute('data-pane');pn.removeAttribute('data-library');pn.removeAttribute('data-cat');if(destinations[i])pn.setAttribute('data-pane',destinations[i]);else pn.setAttribute('data-library','');pn.setAttribute('aria-label','View '+p.n+' details');T.forEach(function(t,j){t.classList.toggle('on',j===i)});flow();photo(IMG[p.im[0]]);scram(hn,p.n);hm.textContent=p.m;hd.textContent=p.d;
- th.innerHTML='';th.classList.toggle('has',p.im.length>1);if(p.im.length>1)p.im.forEach(function(k,j){var b=document.createElement('button');b.innerHTML='<img alt="">';b.firstChild.src=IMG[k];if(!j)b.classList.add('on');b.onclick=function(){photo(IMG[k]);[].forEach.call(th.children,function(c){c.classList.toggle('on',c===b)})};th.appendChild(b)})}
+function show(i){if(i===cur)return;cur=i;var p=P[i];pn.removeAttribute('data-pane');pn.removeAttribute('data-library');pn.removeAttribute('data-cat');if(destinations[i])pn.setAttribute('data-pane',destinations[i]);else pn.setAttribute('data-library','');pn.setAttribute('aria-label','View '+p.n+' details');T.forEach(function(t,j){t.classList.toggle('on',j===i)});flow();card(p);scram(hn,p.n);hm.textContent=p.m;hd.textContent=p.d;
+ th.innerHTML='';th.classList.toggle('has',p.im.length>1);if(p.im.length>1)p.im.forEach(function(k,j){var b=document.createElement('button');b.innerHTML='<img alt="">';b.firstChild.src=IMG[k];if(!j&&!p.c)b.classList.add('on');b.onclick=function(){still(IMG[k]);[].forEach.call(th.children,function(c){c.classList.toggle('on',c===b)})};th.appendChild(b)})}
 function mute(keep){document.querySelectorAll('.cf,.story,.lg').forEach(function(e){e.classList.toggle('mu',!!keep&&e!==keep)})}
 T.forEach(function(t,i){t.addEventListener('click',function(){show(i)})});
 pn.addEventListener('keydown',function(e){if(e.target===pn&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pn.click()}});
