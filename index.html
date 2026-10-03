@@ -68,7 +68,7 @@ footer .row .right{display:inline-flex;align-items:center;gap:8px}
 footer .dot{width:9px;height:9px;border-radius:50%;background:var(--soft);display:inline-block}
 footer .dot.live{background:var(--ox)}
 footer .row .lft{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-footer .soc{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid currentColor;border-radius:8px;color:var(--soft);opacity:.7;transition:opacity .3s var(--e),color .3s var(--e)}
+footer .soc{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid currentColor;border-radius:8px;color:var(--soft);opacity:.7;transition:opacity .3s var(--e),color .3s var(--e)}
 footer .soc:hover{opacity:1;color:var(--ox)}
 footer .soc+.soc{margin-left:-4px}
 footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2px;pointer-events:none}
@@ -104,9 +104,9 @@ footer .cta.gx::after{justify-content:center;border-radius:8px;box-shadow:inset 
  .story{width:auto;margin-top:6px}.story h1{font-size:44px}
  .hero{position:relative}.nav{padding:0;border-radius:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none}.nav .hm{position:fixed;left:16px;top:10px;min-height:44px;z-index:30;transition:opacity .35s}body.scr .nav .hm{opacity:.3}
  /* phone menu: Contact stays put; Work..Story slide like the carousel, the lit one centred */
- .nav{overflow:visible;gap:6px}.nr{display:flex;position:relative;flex:1;min-width:0;overflow:hidden;gap:6px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}.nr:before,.nr:after{content:'';flex:0 0 30%}.nr a{flex:none;transition:opacity .3s,border-color .3s,color .3s}.nr a:not(.on){opacity:.6}
+ .nav{overflow:visible;gap:6px}.nr{display:flex;position:relative;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;touch-action:pan-x;gap:6px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}.nr::-webkit-scrollbar{display:none}.nr:before,.nr:after{content:'';flex:0 0 30%}.nr a{flex:none;transition:opacity .3s,border-color .3s,color .3s}.nr a:not(.on){opacity:.6}
  .pn{width:auto;height:58vh;order:4}
- .cf{--cw:30vw;position:relative;left:auto;top:auto;width:100%;height:250px;order:3;touch-action:pan-y}
+ .cf{--cw:min(30vw,130px);position:relative;left:auto;top:auto;width:100%;height:250px;order:3;touch-action:pan-y}
  body.open .pn{position:fixed;left:0;top:0;width:100vw;height:100vh;border-radius:0;z-index:50;background:rgba(36,21,9,.94)}
  body.open .pn .th.has{display:flex;flex-direction:row;width:auto;height:64px;flex:0 0 64px}
  body.open .pn .ph{flex-direction:column}
@@ -361,7 +361,7 @@ body.locked{overflow:hidden}
 .s7 footer .dot{width:9px;height:9px;border-radius:50%;background:var(--steel);display:inline-block}
 .s7 footer .dot.live{background:var(--ox)}
 .s7 footer .row .lft{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.s7 footer .soc{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border:1px solid currentColor;border-radius:8px;opacity:.55;transition:opacity .3s var(--ease),color .3s var(--ease)}
+.s7 footer .soc{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid currentColor;border-radius:8px;opacity:.55;transition:opacity .3s var(--ease),color .3s var(--ease)}
 .s7 footer .soc:hover{opacity:1;color:var(--ox)}
 .s7 footer .soc+.soc{margin-left:-4px}
 .s7 footer .av{display:block;width:30px;height:30px;flex:0 0 auto;margin:0 -6px 0 -2px;
@@ -427,7 +427,7 @@ body.locked{overflow:hidden}
 .s7 .vstage{height:min(48vh,420px)}
 .s7 .vside{max-height:none;overflow:visible;padding-left:0;border-left:0;align-self:stretch}
 .s7 .vmore{display:none}
-.s7 .vnav{width:36px;height:36px;font-size:22px}
+.s7 .vnav{width:44px;height:44px;font-size:22px}
 .s7 .vnav.prev{left:10px}
 .s7 .vnav.next{right:10px}}
 .s7 .vnav[hidden]{display:none}
@@ -1604,7 +1604,7 @@ body.locked{overflow:hidden}
     el.classList.add('on'); backdrop.classList.add('on');
     document.body.classList.add('locked'); document.body.style.overflow = 'hidden';
     open = el;
-    if (push !== false && location.hash !== '#' + k) history.pushState({ pane: k }, '', '#' + k);
+    if (push !== false && location.hash !== '#' + k) history[history.state && history.state.pane ? 'replaceState' : 'pushState']({ pane: k }, '', '#' + k);
     syncClose(); closeButton.focus({ preventScroll: true }); navmark();
   }
   function hide(el, popped, keepLock){
@@ -1619,7 +1619,8 @@ body.locked{overflow:hidden}
     el._t = setTimeout(function(){ el.hidden = true; el._t = null; if (closing === el) closing = null; }, wait);
     if (open === el) open = null;
     syncClose(); navmark();
-    if (!popped && location.hash && !keepLock) history.pushState(null, '', location.pathname + location.search);
+    if (!popped && location.hash && !keepLock) { if (history.state && history.state.pane) history.back(); else history.replaceState(null, '', location.pathname + location.search); }   // Back after a close must not reopen the pane
+    if (!keepLock && window.mute) mute(null);   // the hero never stays dotted after a pane closes
     if (lastFocus && !keepLock) { try { lastFocus.focus({ preventScroll: true }); } catch (x) {} }
   }
   document.addEventListener('click', function(e){
@@ -1639,7 +1640,7 @@ body.locked{overflow:hidden}
     }
     if (e.target.closest('[data-close]')) { e.preventDefault(); hide(open); }
     var a = e.target.closest('a[href^="#"]'), sec = a && document.getElementById(a.getAttribute('href').slice(1));
-    if (sec) { e.preventDefault(); sec.scrollIntoView({ block: 'start', behavior: rm ? 'auto' : 'smooth' }); history.pushState(null, '', a.getAttribute('href')); }
+    if (sec && !a.hasAttribute('data-contact')) { e.preventDefault(); sec.scrollIntoView({ block: 'start', behavior: rm ? 'auto' : 'smooth' }); history.pushState(null, '', a.getAttribute('href')); }
   });
   /* the red pill in the menu marks where you are: the open pane, the contact card or footer, else Work */
   function navmark(){
@@ -1750,6 +1751,7 @@ body.locked{overflow:hidden}
       }).catch(function(){});
     } catch (x) {}
   }
+  cgo.addEventListener('click', function(e){ if (cgo.classList.contains('off')) { e.preventDefault(); e.stopImmediatePropagation(); csub.focus(); } });   // pick a subject first
   cgo.addEventListener('click', clead);
 
   csub.addEventListener('change', cpaint);
@@ -1845,6 +1847,7 @@ T.forEach(function(t,i){t.addEventListener('focus',function(){if(!isOpen())show(
 cf.addEventListener('pointerenter',function(){if(isOpen())return;mute(cf)});cf.addEventListener('pointerleave',function(){if(!isOpen())mute(null)});
 cf.addEventListener('wheel',function(e){if(isOpen())return;e.preventDefault();/* one step per scroll gesture; a long scroll steps at most once a second */var n=Date.now(),q=n-(cf._l||0);cf._l=n;if(Math.abs(e.deltaY)<4||(q<250&&n-(cf._s||0)<1000))return;cf._s=n;show((cur+(e.deltaY>0?1:-1)+T.length)%T.length)},{passive:false});
 show(0);
+document.addEventListener('keydown',function(e){if(isOpen()||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();show((cur+(e.key==='ArrowRight'?1:-1)+T.length)%T.length)}});
 var sx=null;cf.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});cf.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;sx=null;if(PH.matches&&Math.abs(dx)>40)show((cur+(dx<0?1:-1)+T.length)%T.length)},{passive:true});
 (function tick(){try{document.getElementById('clk').textContent='Pacific time • '+new Date().toLocaleTimeString('en-US',{timeZone:'America/Los_Angeles',hour:'numeric',minute:'2-digit'})}catch(e){}setTimeout(tick,20000)})();
 // dot octopus panel: body alpha in the top half of the mask video, eye in the bottom half
