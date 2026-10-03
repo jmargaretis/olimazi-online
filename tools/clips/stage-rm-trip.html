@@ -1,0 +1,174 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>RM receipt trip</title>
+<style>
+@font-face{font-family:"Satoshi";src:url("../../assets/Satoshi-Black.otf");font-weight:900}
+@font-face{font-family:"Satoshi";src:url("../../assets/Satoshi-Bold.otf");font-weight:700}
+@font-face{font-family:"Satoshi";src:url("../../assets/Satoshi-Medium.otf");font-weight:500}
+:root{--paper:#E9EEF1;--ink:#16202A;--soft:#4E5C68;--ox:#C0392B}
+*{box-sizing:border-box;margin:0}
+html,body{overflow:hidden;background:var(--paper)}
+body{font-family:"Satoshi",system-ui,sans-serif;color:var(--ink);position:relative}
+.sc{position:absolute;inset:0;background:var(--paper);overflow:hidden}
+.tt{position:absolute;left:64px;top:120px;font-weight:900;line-height:1;letter-spacing:-.025em}
+.sb{position:absolute;left:68px;font-weight:500;font-size:36px;line-height:1.3;color:var(--soft)}
+.r{color:var(--ox)}
+.fr{position:absolute;left:60px;overflow:hidden;border-radius:28px;background:#fff;box-shadow:0 30px 80px rgba(22,32,42,.18),0 0 0 1px rgba(22,32,42,.06)}
+.cam{position:absolute;left:0;top:0;width:1440px;height:1400px;transform-origin:0 0}
+.cam img{position:absolute;left:0;top:0;width:1440px}
+.ring{position:absolute;border:3px solid var(--ox);border-radius:8px}
+.dot{position:absolute;border:3px solid var(--ox);border-radius:50%}
+.chip{position:absolute;background:var(--ox);color:#fff;font-weight:700;font-size:15px;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.cur{position:absolute;width:22px;height:30px}
+/* phone */
+.ph{position:absolute;background:#0E1419;border-radius:56px;padding:14px;box-shadow:0 40px 90px rgba(22,32,42,.28)}
+.vf{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:radial-gradient(120% 90% at 40% 35%,#8C735C 0%,#5E4A39 55%,#3B2E24 100%)}
+.rc{position:absolute;left:14%;top:12%;width:72%;background:#FBFAF6;box-shadow:0 18px 30px rgba(0,0,0,.35);padding:26px 24px 30px;font-family:"Courier New",monospace;color:#222;font-size:17px;line-height:1.45;transform:rotate(-3deg)}
+.rc b{font-family:"Satoshi",sans-serif;font-weight:900;font-size:24px;letter-spacing:.02em;display:block;margin-bottom:6px}
+.rc hr{border:0;border-top:2px dashed #999;margin:12px 0}
+.rc .tot{display:flex;justify-content:space-between;font-weight:700;font-size:21px}
+.gd{position:absolute;width:44px;height:44px;border:4px solid rgba(255,255,255,.92)}
+.sh{position:absolute;left:50%;bottom:34px;width:84px;height:84px;margin-left:-42px;border-radius:50%;border:5px solid #fff}
+.sh i{position:absolute;inset:6px;border-radius:50%;background:#fff}
+.fl{position:absolute;inset:0;background:#fff;opacity:0}
+.th{position:absolute;left:30px;bottom:44px;width:62px;height:62px;border-radius:12px;border:3px solid #fff;overflow:hidden;opacity:0;background:#FBFAF6}
+.ts{position:absolute;left:20px;right:20px;top:26px;background:rgba(255,255,255,.96);border-radius:16px;padding:14px 16px;font-weight:500;font-size:18px;line-height:1.3;color:#1E7A3C;opacity:0}
+.ts b{display:block;color:var(--ink);font-weight:700;font-size:15px;margin-bottom:2px}
+.av{position:absolute;border-radius:28px;-webkit-mask:radial-gradient(circle,#000 62%,transparent 100%)}
+.mk{position:absolute;font-weight:900}
+</style></head>
+<body>
+<script>
+const CAP = '../../.design-loop/clips/cap/', FPS = 30, LEN = 27.8, SL = 0.6;
+const Q = new URLSearchParams(location.search), WIDE = Q.get('wide') === '1';
+const W = WIDE ? 1600 : 1080, H = WIDE ? 1150 : 1350, FW = W - 120, TS = WIDE ? 88 : 92;
+document.documentElement.style.width = document.body.style.width = W + 'px';
+document.documentElement.style.height = document.body.style.height = H + 'px';
+// cam: keyframes [lt, x, y, w] in 1440 UI coords; the wide cut keeps the zoom and shows more width.
+// layers: [img, fadeIn lt, fadeDur]; marks are drawn in UI coords on top of the camera.
+const S = [
+  { t0: 0, t1: 4, title: 'Snap the receipt<span class=r>.</span>', sub: 'The phone sends it to the tracker. No email.', phone: 1 },
+  { t0: 4, t1: 8.4, title: 'Checked against the quote<span class=r>.</span>', sub: 'The invoice lands on its work order. Over the agreed price shows red.',
+    layers: [['trip-quote', 0, 0]], cam: [[0, 292, 318, 540], [4.4, 292, 326, 540]],
+    marks: [['ring', 297, 512, 306, 30, 1.1]] },
+  { t0: 8.4, t1: 12.3, title: 'It drafts the row<span class=r>.</span>', sub: 'Vendor and line 14 come from the invoice. Red is what it could not read.',
+    layers: [['trip-flow-a', 0, 0]], cam: [[0, 286, 676, 600]],
+    marks: [['ring', 506, 701, 160, 28, 1.0], ['ring', 522, 759, 160, 28, 1.25]] },
+  { t0: 12.3, t1: 17.1, title: 'Fill the red. Click Book<span class=r>.</span>', sub: 'Nothing books until I say so.',
+    layers: [['trip-flow-a', 0, 0]], type: [[508, 703, 156, 24, 0.7, 1.6], [524, 761, 156, 24, 1.8, 2.5]],
+    cam: [[0, 286, 676, 600], [2.7, 286, 676, 600], [3.4, 720, 676, 600]],
+    cursor: [[0, 690, 790], [2.6, 690, 790], [3.5, 1104, 718]], click: [3.7, 1101, 714] },
+  { t0: 17.1, t1: 20.4, title: 'Off the list<span class=r>.</span>', sub: 'Three rows waiting. Now two.',
+    layers: [['trip-flow-b', 0, 0], ['trip-flow-c', 0.8, 0.5]], cam: [[0, 280, 380, 700]],
+    marks: [['dot', 597, 389, 42, 36, 1.3]] },
+  { t0: 20.4, t1: 25, title: 'Line 14 updates<span class=r>.</span>', sub: 'Repairs $955 to $1,580. Net income follows.',
+    layers: [['trip-dash-0', 0, 0], ['trip-dash', 1.2, 0.5]], cam: [[0, 250, 525, 540], [4.6, 250, 545, 540]], camW: [[0, 250, 635, 540], [4.6, 250, 650, 540]],
+    marks: [['ring', 280, 680, 484, 38, 1.4], ['chip', 640, 652, 0, 0, 1.6, '+$625.00'], ['ring', 280, 921, 484, 76, 2.2]] },
+  { t0: 25, t1: LEN, end: 1 },
+];
+const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const out = x => 1 - Math.pow(1 - x, 3), back = x => 1 + 2.2 * Math.pow(x - 1, 3) + 1.2 * Math.pow(x - 1, 2);
+const cl = (v, a, b) => Math.max(a, Math.min(b, v));
+const CURSOR = '<svg class="cur" viewBox="0 0 22 30"><path d="M2 2 L2 24 L8 18.5 L12 28 L16 26.3 L12 17 L20 17 Z" fill="#16202A" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
+const RECEIPT = `<div class="rc"><b>SAMPLE PLUMBER</b>Invoice SAMPLE-P1-01<br>12 Sample Street<hr>Repair labor + parts<hr><div class="tot"><span>TOTAL</span><span>$625.00</span></div></div>`;
+S.forEach((s, i) => {
+  const el = s.el = document.createElement('div'); el.className = 'sc'; el.style.zIndex = i; document.body.appendChild(el);
+  let h = '';
+  if (s.end) h = `<img class="av" src="${CAP}os-av.png" style="left:${W / 2 - 110}px;top:${WIDE ? 250 : 400}px;width:220px">`
+    + `<div class="tt" style="top:${WIDE ? 530 : 690}px;text-align:center;width:${W - 128}px;font-size:${TS}px">Rental Manager<span class=r>.</span><span style="display:block;margin-top:28px;line-height:1.35;font-size:40px;font-weight:500;color:var(--soft);letter-spacing:0">A workbook you own.<br>Built by an owner for owners.</span></div>`
+    + `<div class="mk" style="left:0;width:${W}px;text-align:center;top:${WIDE ? 860 : 1010}px;font-size:40px">olimazi<span class=r>.online</span></div>`;
+  else {
+    h = `<div class="tt" style="width:${W - 128}px;font-size:${TS}px">${s.title}</div><div class="sb" style="width:${W - 140}px">${s.sub}</div>`;
+    if (s.phone) h += `<div class="ph"><div class="vf">${RECEIPT}<div class="gd" style="left:9%;top:8%;border-right:0;border-bottom:0"></div><div class="gd" style="right:9%;top:8%;border-left:0;border-bottom:0"></div><div class="gd" style="left:9%;bottom:24%;border-right:0;border-top:0"></div><div class="gd" style="right:9%;bottom:24%;border-left:0;border-top:0"></div><div class="sh"><i></i></div><div class="th">${RECEIPT.replace('class="rc"', 'class="rc" style="transform:scale(.18);transform-origin:0 0;left:0;top:0;width:320px"')}</div><div class="fl"></div><div class="ts"><b>Receipts</b>IMG_4103.jpg — saved as PHONE__IMG_4103.jpg</div></div></div>`;
+    if (s.layers) {
+      let c = '';
+      s.layers.forEach(([img]) => { c += `<img src="${CAP}${img}.png">`; });
+      (s.type || []).forEach(() => { c += `<img class="ty" src="${CAP}trip-flow-b.png">`; });
+      (s.marks || []).forEach(([kind, x, y, w, hh, , txt]) => {
+        c += kind === 'chip' ? `<div class="chip mark" style="left:${x}px;top:${y}px">${txt}</div>` : `<div class="${kind} mark" style="left:${x}px;top:${y}px;width:${w}px;height:${hh}px"></div>`; });
+      if (s.click) c += `<div class="dot clk" style="width:40px;height:40px"></div>`;
+      if (s.cursor) c += CURSOR;
+      h += `<div class="fr"><div class="cam">${c}</div></div>`;
+    }
+  }
+  el.innerHTML = h;
+});
+function camAt(keys, lt) {
+  let k = keys[0];
+  for (let i = 1; i < keys.length; i++) {
+    const a = keys[i - 1], b = keys[i];
+    if (lt >= b[0]) { k = b; continue; }
+    if (lt > a[0]) { const p = ease((lt - a[0]) / (b[0] - a[0])); k = a.map((v, j) => v + (b[j] - v) * p); }
+    break;
+  }
+  return k;
+}
+function draw(s, lt) {
+  if (s.end) {
+    const a = back(cl((lt - 0.3) / 0.6, 0, 1)), b = out(cl((lt - 0.7) / 0.5, 0, 1)), c = out(cl((lt - 1.0) / 0.5, 0, 1));
+    const av = s.el.querySelector('.av'); av.style.transform = `scale(${0.6 + 0.4 * a})`; av.style.opacity = lt > 0.3 ? 1 : 0;
+    const tt = s.el.querySelector('.tt'); tt.style.opacity = b; tt.style.transform = `translateY(${(1 - b) * 24}px)`;
+    s.el.querySelector('.mk').style.opacity = c;
+    return;
+  }
+  const tt = s.el.querySelector('.tt'), sb = s.el.querySelector('.sb'), a = out(cl((lt - 0.2) / 0.5, 0, 1)), b = out(cl((lt - 0.4) / 0.5, 0, 1));
+  tt.style.opacity = a; tt.style.transform = `translateY(${(1 - a) * 30}px)`;
+  sb.style.top = (tt.offsetTop + tt.offsetHeight + 24) + 'px'; sb.style.opacity = b; sb.style.transform = `translateY(${(1 - b) * 20}px)`;
+  const top = sb.offsetTop + sb.offsetHeight + 56, u = out(cl((lt - 0.15) / 0.8, 0, 1));
+  if (s.phone) {
+    const ph = s.el.querySelector('.ph'), hh = H - top - 60, ww = hh * 0.52;
+    Object.assign(ph.style, { top: top + 'px', height: hh + 'px', width: ww + 'px', left: (W - ww) / 2 + 'px', transform: `translateY(${(1 - u) * 120}px)` });
+    const SNAP = 1.9, vf = ph.querySelector('.vf');
+    // the receipt settles into the guides, the shutter fires, the shot flies to the corner, the tracker answers
+    const settle = out(cl(lt / 1.6, 0, 1));
+    vf.querySelector('.rc').style.transform = `translate(${(1 - settle) * 30}px,${(1 - settle) * -24}px) rotate(${-3 - (1 - settle) * 5}deg) scale(${1.08 - 0.08 * settle})`;
+    vf.querySelectorAll('.gd').forEach(g => g.style.borderColor = lt > 1.4 ? 'rgba(255,255,255,.95)' : 'rgba(255,255,255,.55)');
+    const press = lt > SNAP - 0.12 && lt < SNAP + 0.1;
+    vf.querySelector('.sh i').style.transform = `scale(${press ? 0.86 : 1})`;
+    vf.querySelector('.fl').style.opacity = lt < SNAP ? 0 : cl(1 - (lt - SNAP) / 0.35, 0, 1) * 0.9;
+    const tp = out(cl((lt - SNAP - 0.1) / 0.5, 0, 1)), th = vf.querySelector('.th');
+    th.style.opacity = lt > SNAP ? 1 : 0; th.style.transform = `scale(${1 + (1 - tp) * 2})`; th.style.transformOrigin = '0 100%';
+    const ts = vf.querySelector('.ts'), tq = out(cl((lt - SNAP - 0.6) / 0.4, 0, 1));
+    ts.style.opacity = tq; ts.style.transform = `translateY(${(1 - tq) * -20}px)`;
+    return;
+  }
+  const f = s.el.querySelector('.fr'), fh = H - top - 70;
+  Object.assign(f.style, { top: top + 'px', height: fh + 'px', width: FW + 'px', transform: `translateY(${(1 - u) * 120}px)` });
+  let [, x, y, w] = camAt(WIDE && s.camW || s.cam, lt);
+  const wv = w * FW / 960; x += (w - wv) / 2; const k = 960 / w;
+  s.el.querySelector('.cam').style.transform = `scale(${k}) translate(${-x}px,${-y}px)`;
+  const imgs = s.el.querySelectorAll('.cam > img:not(.ty)');
+  s.layers.forEach(([, d, dur], i) => { if (i) imgs[i].style.opacity = dur ? cl((lt - d) / dur, 0, 1) : 1; });
+  // typing: the filled shot is revealed left to right inside each red field
+  s.el.querySelectorAll('.ty').forEach((im, i) => {
+    const [fx, fy, fw, fhh, a0, a1] = s.type[i], p = cl((lt - a0) / (a1 - a0), 0, 1);
+    const right = p >= 1 ? fx + fw + 3 : fx + 4 + p * 70;
+    im.style.clipPath = `inset(${fy - 3}px ${1440 - right}px ${1400 - fy - fhh - 3}px ${fx - 3}px)`; im.style.opacity = p > 0 ? 1 : 0;
+  });
+  s.el.querySelectorAll('.mark').forEach((m, i) => { const d = s.marks[i][5]; m.style.opacity = cl((lt - d) / 0.3, 0, 1); });
+  if (s.cursor) {
+    const [, cx, cy] = camAt(s.cursor, lt), c = s.el.querySelector('.cur');
+    Object.assign(c.style, { left: cx + 'px', top: cy + 'px', opacity: cl((lt - 0.3) / 0.3, 0, 1), transform: `scale(${1 / k * 1.6})`, transformOrigin: '0 0' });
+    const [ct, kx, ky] = s.click, r = s.el.querySelector('.clk'), p = cl((lt - ct) / 0.5, 0, 1);
+    Object.assign(r.style, { left: kx - 20 + 'px', top: ky - 20 + 'px', opacity: lt < ct ? 0 : 1 - p, transform: `scale(${0.6 + p * 1.6})` });
+  }
+}
+// smooth slide: next card pushes the current one left
+function render(t) {
+  S.forEach((s, i) => {
+    const next = S[i + 1];
+    let x = null;
+    if (t >= s.t0 && t < s.t1) x = 0;
+    if (i && t >= s.t0 && t < s.t0 + SL) x = W * (1 - ease((t - s.t0) / SL));
+    if (next && t >= next.t0 && t < next.t0 + SL) x = -W * 0.35 * ease((t - next.t0) / SL);
+    if (t >= LEN && !next) x = 0;
+    s.el.style.display = x === null ? 'none' : 'block';
+    if (x !== null) { s.el.style.transform = `translateX(${x}px)`; draw(s, Math.min(t, s.t1) - s.t0); }
+  });
+}
+window.CLIP = { fps: FPS, len: LEN }; window.render = render;
+const imgs = ['os-av.png', 'trip-quote.png', 'trip-flow-a.png', 'trip-flow-b.png', 'trip-flow-c.png', 'trip-dash-0.png', 'trip-dash.png'];
+window.ready = Promise.all([document.fonts.ready, ...imgs.map(n => new Promise(r => { const i = new Image(); i.onload = r; i.onerror = r; i.src = CAP + n; }))]);
+render(Number(Q.get('t') || 0));
+</script>
+</body></html>

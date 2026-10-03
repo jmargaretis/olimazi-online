@@ -8,7 +8,10 @@ const FIX = 'file:///C:/Users/jmarg/work/olimazi-tracker/fixtures/sample-propert
 // The mail page is built from the sample property by make_fixture_pages.py.
 const LOCALFIX = 'file:///' + path.join(__dirname, '../../.design-loop/clips/fixture/').split(path.sep).join('/') + '/';
 
-// [id, url, prep(page), targets {name: [text, closestSelector?]}]
+const TRIP_FLOW = { proposed: ['Proposed rows — one click books', 'h2,h3'], row: ['SAMPLE-P1-01 repair invoice.pdf', 'tr'],
+  date: ['2026-08-01', null], amount: ['625.00', null], book: ['Book', 'button'] };
+
+// [id, url, prep(page), targets {name: [text, closestSelector?]}, viewport height?]
 const SCENES = [
   ['rm-dash', FIX + 'SchE_Dashboard.html', null, {
     nav_flow: ['Flow', 'a'], bottom: ['SCH. E BOTTOM LINE', 'section,div.card,.panel,article'],
@@ -33,6 +36,52 @@ const SCENES = [
     export: ['Export preparer package', 'button,a'], qs: ['question(s) unanswered', 'span,b,a'],
     needed: ['Still needed for your preparer (3)', 'section,div.card,.panel,article'] }],
 
+  // RM "one receipt's trip": the plumber invoice before, during and after Book.
+  // Served over http the Book buttons show; from file:// they stay hidden.
+  // $625.00 is the fixture invoice's own amount; the dashboard sums follow it.
+  // Same invoice on its work order, checked against the approved quote. The page is
+  // rendered by management_page.py from a fixture copy whose faucet order carries a
+  // $550 approved quote and the $625 invoice (the quote figure is illustrative).
+  ['trip-quote', LOCALFIX + 'SchE_Management_quote.html', async p => {
+      await p.evaluate(() => { const a = [...document.querySelectorAll('article')].find(e => e.textContent.includes('Kitchen faucet'));
+        window.scrollTo(0, a.getBoundingClientRect().top + scrollY - 330); }); await p.waitForTimeout(400); }, {
+    card: ['Kitchen faucet replacement', 'article'], agreed: ['Agreed price', 'p'], invoice: ['over the agreed', 'p'] }, 1400],
+  ['trip-flow-a', FIX + 'SchE_Flow.html', async p => {
+      await p.evaluate(() => document.querySelectorAll('button[hidden]').forEach(b => b.hidden = false)); }, TRIP_FLOW, 1400],
+  ['trip-flow-b', FIX + 'SchE_Flow.html', async p => {
+      await p.evaluate(() => {
+        document.querySelectorAll('button[hidden]').forEach(b => b.hidden = false);
+        const tr = [...document.querySelectorAll('tr')].find(t => t.textContent.includes('repair invoice') && t.querySelector('input'));
+        const set = (f, v) => { const e = tr.querySelector(`[data-field="${f}"]`); e.value = v; e.classList.remove('gap'); };
+        set('date', '2026-08-01'); set('amount', '625.00'); }); }, TRIP_FLOW, 1400],
+  ['trip-flow-c', FIX + 'SchE_Flow.html', async p => {
+      await p.evaluate(() => {
+        document.querySelectorAll('button[hidden]').forEach(b => b.hidden = false);
+        [...document.querySelectorAll('tr')].find(t => t.textContent.includes('repair invoice') && t.querySelector('input')).remove();
+        const h = [...document.querySelectorAll('h2')].find(e => e.textContent.startsWith('Proposed rows')); h.textContent = h.textContent.replace('(3)', '(2)');
+        const hp = document.querySelector('.hero p'); hp.textContent = hp.textContent.replace('3 proposed row(s)', '2 proposed row(s)'); }); }, {
+    proposed: ['Proposed rows — one click books', 'h2,h3'], hero: ['proposed row(s) waiting', 'p'], next: ['7002 property tax receipt.pdf', 'tr'] }, 1400],
+  ['trip-dash-0', FIX + 'SchE_Dashboard.html', null, { line14: ['14 — Repairs', 'tr'] }, 1400],
+  ['trip-dash', FIX + 'SchE_Dashboard.html', async p => {
+      await p.evaluate(() => {
+        const cell = re => [...document.querySelectorAll('td')].find(td => re.test(td.textContent.trim())).nextElementSibling;
+        cell(/^14 — Repairs/).textContent = '$1,580'; cell(/^20 — Total expenses/).textContent = '$4,480'; cell(/^21 — Net income/).textContent = '$2,670'; cell(/^Grand total/).textContent = '$2,670'; }); }, {
+    bottom: ['SCH. E BOTTOM LINE', 'section,div.card,.panel,article'], line14: ['14 — Repairs', 'tr'],
+    line20: ['20 — Total expenses', 'tr'], line21: ['21 — Net income', 'tr'] }, 1400],
+
+  // Private lanes and errands never reach a frame: the job-search lane and any
+  // family-laptop ticket are removed before the shot.
+  ['ops-front', 'http://127.0.0.1:8643/', async p => {
+      await p.evaluate(() => {
+        // climb from the private text until the next parent also holds a sibling we keep, then hide that box
+        const hide = (re, keep) => [...document.querySelectorAll('body *')].filter(e => e.children.length === 0 && re.test(e.textContent)).forEach(e => {
+          let c = e; while (c.parentElement && !c.parentElement.textContent.includes(keep)) c = c.parentElement; c.style.display = 'none'; });
+        hide(/sent this week/, 'Rental'); hide(/^T-104$/, 'T-096'); });
+      await p.waitForTimeout(400); }, {
+    brief: ['Morning brief', 'section,div.card,.panel,article'], lanes: ['Lanes in the order they clear work', 'div,p,span'],
+    needs: ['Needs you', 'section,div.card,.panel,article'], services: ['Services', 'section,div.card,.panel,article'] }],
+  ['ops-ideas', 'http://127.0.0.1:8643/ideas', null, {
+    heat: ['Heat', 'section,div.card,.panel,article'], notes: ['Your notes', 'section,div'], tryit: ['Try it', 'section,div'] }],
   ['ops-flow', 'http://127.0.0.1:8643/flow', null, {
     tab_review: ['REVIEW', 'a'], firing: ['FIRING NOW', 'section,div.card,.panel,article'],
     drop: ['The Drop', 'a,div'], queue: ['Review queue', 'a,div'], pub: ['Publisher', 'a,div'],
@@ -113,9 +162,9 @@ const FIND = `(targets) => {
   fs.mkdirSync(OUT, { recursive: true });
   const b = await chromium.launch();
   const only = process.argv[2];
-  for (const [id, url, prep, targets] of SCENES) {
+  for (const [id, url, prep, targets, vh] of SCENES) {
     if (only && !id.startsWith(only)) continue;
-    const p = await b.newPage({ viewport: { width: 1440, height: 1008 }, deviceScaleFactor: 2 });
+    const p = await b.newPage({ viewport: { width: 1440, height: vh || 1008 }, deviceScaleFactor: 2 });
     try {
       await p.goto(url, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
       await p.waitForTimeout(id === 'ops-flow' ? 6000 : 2500);
