@@ -6,8 +6,8 @@ const { chromium } = require('C:/Users/jmarg/.claude/skills/design-loop/node_mod
 const { spawn } = require('child_process'), path = require('path'), fs = require('fs');
 const clip = process.argv[2] || 'rm', si = process.argv.indexOf('--stills'), wide = process.argv.includes('--wide');
 const VW = wide ? 1600 : 1080, VH = wide ? 1150 : 1350, SFX = wide ? '-wide' : '';
-// The OS clip has its own stage (storyboard v2 styles); the others share stage.html.
-const STAGE = 'file:///' + path.join(__dirname, clip === 'os' ? 'stage-os.html' : 'stage.html').split(path.sep).join('/') + '?clip=' + clip + (wide ? '&wide=1' : '');
+// A clip with its own stage-<clip>.html uses it (os, os-appstore); the others share stage.html.
+const STAGE = 'file:///' + path.join(__dirname, fs.existsSync(path.join(__dirname, `stage-${clip}.html`)) ? `stage-${clip}.html` : 'stage.html').split(path.sep).join('/') + '?clip=' + clip + (wide ? '&wide=1' : '');
 (async () => {
   const b = await chromium.launch();
   const p = await b.newPage({ viewport: { width: VW, height: VH }, deviceScaleFactor: 1 });
