@@ -1,20 +1,20 @@
-# Codex completion report — packet #11
+# Codex completion report — packet #13
 
 ## Status
-COMPLETE — added the Client Organizer and Management view slides and verified all five acceptance items.
+PARTIAL — Codex (gpt-6-astra) did the first pass and hit its usage limit before committing; Claude verified, committed and finished the content compare. Awaiting an Opus review.
 
 ## Changes
-index.html — Added two Rental Manager carousel figures using the supplied Organizer and Management screenshots, required alt text, and first-person operator captions.
-sol/REPORT.md — Replaced the packet #10 report with this packet #11 completion report and acceptance results.
+index.html — hero tiles, preview card and "Details" links open their pane directly (no "Open" step); one shared `#x` close button for pane, library viewer, contact card and story; `body.locked .s7` stacking fix so dialogs are never under the hero; duplicate library ids removed; Rental Manager viewer captions added; AI app names removed from copy; second red replaced with #C0392B; old overview card (Name / Say it / Prior work / Current / Loop / Status) ported into the story pane.
+sol/REPORT.md — this report.
 
 ## Deviations
-None
+Loop row reads "Planned → built → reviewed, each in its own pass" instead of naming the tools (faceless-brand and no-app-names rule).
 
 ## Skipped / unverified
-None. Acceptance results: (1) source parsing found exactly two new matching `figure.carousel-slide` entries, one reference to each required PNG, and the index.html diff is confined to the Rental Manager carousel block; (2) inspection confirmed the existing script discovers every `[data-slide]`, wraps arrow, keyboard, and touch navigation using `slides.length`, updates the status from that count, and initializes the carousel through `show(0)`, so it automatically handles all five slides without a control change; (3) both required meaningful alt strings are present; (4) both captions use fixture-neutral language and contain no real personal data; (5) `python -m http.server` served index.html and both new images successfully on localhost with HTTP 200, and the served carousel markup plus its dynamically counted controls make both new slides reachable.
+Slide-by-slide visual compare of every library deck against index-s7.html: counts and every image path match; not eyeballed one by one.
 
 ## Blocked / questions
-No commit was attempted because the user explicitly requested working-tree changes for review and the environment exposes `.git` as read-only.
+None.
 
 ## Proposals
-None
+None.

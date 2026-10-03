@@ -185,7 +185,8 @@ body.locked{overflow:hidden}
 .s7 .hero .kicker{font:700 11px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--ox);margin-bottom:22px;opacity:0;animation:wordup .8s var(--ease) .02s forwards}
 .s7 .hero .hgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.9fr);gap:clamp(36px,5vw,80px);align-items:start}
 .s7 .hero .lead{max-width:52ch}
-.s7 .brandcard{border-top:1px solid var(--hair);opacity:0;animation:wordup .9s var(--ease) 1.15s forwards}
+.s7 .brandcard{border-top:1px solid var(--hair);margin-bottom:28px}
+.s7 .pane.dark .brandcard .row{color:inherit;opacity:.82;border-color:rgba(255,255,255,.12)}.s7 .pane.dark .brandcard{border-color:rgba(255,255,255,.12)}.s7 .pane.dark .brandcard .k{color:inherit;opacity:1}
 .s7 .brandcard .row{display:grid;grid-template-columns:78px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--hair);font-size:13.5px;line-height:1.5;color:var(--ink-soft)}
 .s7 .brandcard .k{font-weight:700;color:var(--ink);letter-spacing:-.01em}
 .s7 section{padding:clamp(72px,9vw,112px) 0}
@@ -1229,6 +1230,14 @@ body.locked{overflow:hidden}
   <div class="inner">
     <div class="bar"><span>Story</span></div>
     <!-- content:story:start -->
+    <aside class="brandcard" aria-label="Olimazi overview">
+      <div class="row"><span class="k" data-c="Name Label">Name</span><span data-c="Name">Olimazi &middot; Greek-derived, &ldquo;all of us&rdquo;</span></div>
+      <div class="row"><span class="k" data-c="Pronunciation Label">Say it</span><span data-c="Pronunciation">( oh-lee &middot; mah-zee )</span></div>
+      <div class="row"><span class="k" data-c="Prior Work Label">Prior work</span><span data-c="Prior Work">Method Effects &middot; 2017&ndash;2024</span></div>
+      <div class="row"><span class="k" data-c="Current Work Label">Current</span><span data-c="Current Work">Rental Manager (Sch.&nbsp;E) &middot; Business Manager (Sch.&nbsp;C) next</span></div>
+      <div class="row"><span class="k" data-c="Current Loop Label">Loop</span><span data-c="Current Loop">Planned &rarr; built &rarr; reviewed, each in its own pass</span></div>
+      <div class="row"><span class="k" data-c="Status Label">Status</span><span data-c="Status">Not technical by background &middot; learning in public</span></div>
+    </aside>
     <p class="verdict" data-c="Verdict">The honest answer is the one nobody asked for:
     <span class="jw">I didn’t take on enough risk if anyone were to ask.</span></p>
     <p class="verdict-note" data-c="Verdict Note">That is not regret about the product. It is the verdict on the position.</p>
