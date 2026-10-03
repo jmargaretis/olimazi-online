@@ -31,7 +31,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
  background:rgba(36,21,9,.12);border:1px solid var(--line);overflow:hidden;transition:left .6s var(--e),top .6s var(--e),width .6s var(--e),height .6s var(--e),background .6s,opacity .3s}
 .pn .ph{flex:1 1 0;min-height:0;display:flex;gap:10px}
 .pn .mn{flex:1;min-width:0;border-radius:5px;overflow:hidden}
-.pn .mn img,.pn .mn video{width:100%;height:100%;object-fit:cover;display:block;opacity:.85;transition:opacity .25s}.pn .mn video{object-position:top center}.pn .mn [hidden]{display:none}.pn{cursor:pointer}#hi[src$="story-text.jpg"]{object-fit:contain}.pn:hover .mn img,.pn:hover .mn video{opacity:1}
+.pn .mn img,.pn .mn video{width:100%;height:100%;object-fit:cover;display:block;opacity:.85;transition:opacity .25s}.pn .mn video{object-position:top center}.pn .mn [hidden]{display:none}.pn{cursor:pointer}#hi[src$="story-text.jpg"]{object-fit:contain}#hv[src*="library-kairos"]{object-fit:contain;object-position:center}.pn:hover .mn img,.pn:hover .mn video{opacity:1}
 .pn .th{display:none;flex-direction:column;gap:10px;width:0;transition:width .6s var(--e)}
 .pn .th button{flex:1;min-height:0;border-radius:4px;overflow:hidden;opacity:.55}.pn .th button.on{opacity:1;box-shadow:0 0 0 2px var(--ox)}
 .pn .th img{width:100%;height:100%;object-fit:cover;display:block}
@@ -86,9 +86,9 @@ footer .cta:hover{background:none;color:var(--ink);box-shadow:inset 0 0 0 1.5px 
 .gx::after{content:attr(data-t);position:absolute;inset:0;display:flex;align-items:center;background:var(--bg);color:var(--ox);clip-path:inset(50% 0 50% 0);text-shadow:-2px 0 var(--ox);pointer-events:none;white-space:pre}
 footer .gx::after{background:#170D05}
 footer .cta.gx::after{justify-content:center;border-radius:8px;box-shadow:inset 0 0 0 1.5px var(--ox)}
-.gx:is(:hover,:focus-visible)::after{animation:gl .42s steps(2,end) forwards}
+.gx.fl::after{animation:gl .42s steps(2,end) forwards}
 @keyframes gl{0%{clip-path:inset(12% 0 62% 0);transform:translateX(-4px)}35%{clip-path:inset(56% 0 14% 0);transform:translateX(4px)}70%{clip-path:inset(32% 0 40% 0);transform:translateX(-2px)}100%{clip-path:inset(0);transform:none;text-shadow:none}}
-@media (prefers-reduced-motion:reduce){.gx:is(:hover,:focus-visible)::after{animation:none;clip-path:inset(0);text-shadow:none}.t,.pn,.pn .th,.pn .mn img{transition:none!important}}
+@media (prefers-reduced-motion:reduce){.gx.fl::after{animation:none;clip-path:inset(0);text-shadow:none}.t,.pn,.pn .th,.pn .mn img{transition:none!important}}
 /* phone: one column */
 @media (max-width:860px){
  .hero{height:auto;min-height:0;padding:16px 16px 28px;display:flex;flex-direction:column;gap:20px}
@@ -1882,5 +1882,14 @@ var seen=true;if('IntersectionObserver' in window)new IntersectionObserver(funct
 if(reduced){frame(1.3)}else{(function fr(ms){if(!document.hidden&&seen)frame(ms/1000);requestAnimationFrame(fr)})(0)}
 
 })();
+</script>
+<script>
+/* link flips run on their own random timer, one at a time, never from touch or hover */
+(function(){var G=[].slice.call(document.querySelectorAll('.gx')),last=null;if(!G.length)return;
+function seen(e){var r=e.getBoundingClientRect();return r.width&&r.bottom>0&&r.top<innerHeight}
+function next(){setTimeout(flip,7000+Math.random()*8000)}
+function flip(){var c=G.filter(function(e){return e!==last&&seen(e)});if(document.hidden||!c.length){next();return}
+var e=c[Math.floor(Math.random()*c.length)];last=e;e.classList.add('fl');setTimeout(function(){e.classList.remove('fl');next()},2600)}
+next()})();
 </script>
 </body></html>
