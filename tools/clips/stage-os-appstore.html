@@ -28,12 +28,12 @@ document.documentElement.style.height = document.body.style.height = H + 'px';
 // ui: [img, x, y, w (crop in 1440 coords), drift px]  tiles: [img, x, y, w, h, rot, delay]
 const S = [
   { t0: 0, t1: 4, title: 'The day starts in one place<span class=r>.</span>', sub: 'What waits on me sits on top.', ui: ['os-front', 252, 30, 1170, 40] },
-  { t0: 4, t1: 8, title: 'Saves become ideas<span class=r>.</span>', sub: 'Watch later, playlists and bookmarks. Pulled each week.', ui: ['os-ideas-top', 266, 55, 1170, 60] },
-  { t0: 8, t1: 12.2, title: 'It reads the whole video<span class=r>.</span>', sub: 'A router picks the model. Then it tags the lane.', ui: ['os-ideas-card', 266, 50, 760, 50], uiW: ['os-ideas-card', 266, 40, 1145, 40] },
+  { t0: 4, t1: 8, title: 'Saves become ideas<span class=r>.</span>', sub: 'Watch later, playlists and bookmarks. Pulled each week.', ui: ['os-ideas-top', 240, 40, 1200, 15] },
+  { t0: 8, t1: 12.2, title: 'It reads the whole video<span class=r>.</span>', sub: 'A router picks the model. Then it tags the lane.', ui: ['os-ideas-card', 266, 50, 760, 10], uiW: ['os-ideas-card', 266, 40, 1145, 20] },
   { t0: 12.2, t1: 16.6, title: 'Photo in. Post out<span class=r>.</span>', sub: 'My yes, then the scheduler.',
     tiles: [['wall-2', 70, 330, 420, 525, -4, 0.3], ['wall-9', 570, 310, 420, 525, 3, 0.55], ['wall-6', 250, 790, 580, 526, -1.5, 1.1]],
     tilesW: [['wall-2', 90, 330, 520, 650, -4, 0.3], ['wall-9', 560, 300, 520, 650, 3, 0.55], ['wall-6', 1000, 420, 540, 490, -1.5, 1.1]] },
-  { t0: 16.6, t1: 20.6, title: 'One kit. One site<span class=r>.</span>', sub: 'The brand card reads the live site.', ui: ['os-brand', 266, 80, 1160, 70] },
+  { t0: 16.6, t1: 20.6, title: 'One kit. One site<span class=r>.</span>', sub: 'The brand card reads the live site.', ui: ['os-brand', 266, 40, 1160, 40] },
   { t0: 20.6, t1: LEN, end: 1 },
 ];
 const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
