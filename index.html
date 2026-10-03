@@ -17,7 +17,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .nav{position:absolute;right:4vw;top:3.4vh;display:flex;gap:26px;align-items:center;font-weight:600;font-size:14px;color:var(--soft);z-index:5}
 .nav a{color:inherit;text-decoration:none}.nav .hm{font-weight:700;color:var(--ink);margin-right:6px}.nav a:hover{color:var(--ink)}
 .nav a:not(.hm){border:1px solid transparent;border-radius:999px;padding:8px 14px;transition:border-color .3s,color .3s}
-.nav a.on{color:var(--ink);border-color:var(--ox)}
+.nav a.on{color:var(--ink);border-color:var(--ox)}.nr{display:contents}
 /* the menu stays put while the page scrolls; the backdrop is the page colour so it vanishes at the top */
 .nav{position:fixed;z-index:30;left:0;right:0;top:0;padding:10px 4vw;background:rgba(23,13,5,.38);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06)}.nav .hm{margin-right:auto}
 .story{position:absolute;left:3.3vw;top:14vh;width:26vw;z-index:2}
@@ -100,7 +100,9 @@ footer .cta.gx::after{justify-content:center;border-radius:8px;box-shadow:inset 
  .lg{width:44px;height:44px}
  .nav{position:static;order:1;overflow-x:auto;white-space:nowrap;gap:18px;font-size:14px;max-width:100%}.nav a{display:inline-flex;align-items:center;min-height:44px}
  .story{width:auto;margin-top:6px}.story h1{font-size:44px}
- .hero{position:relative}.nav{padding:0;border-radius:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none}.nav .hm{position:fixed;left:0;right:0;top:0;min-height:52px;z-index:30;padding:0 16px;background:rgba(23,13,5,.38);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06)}.hero{padding-top:60px}
+ .hero{position:relative}.nav{padding:0;border-radius:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none}.nav .hm{position:fixed;left:16px;top:10px;min-height:44px;z-index:30;transition:opacity .35s}body.scr .nav .hm{opacity:.3}
+ /* phone menu: Contact stays put; Work..Story slide like the carousel, the lit one centred */
+ .nav{overflow:visible;gap:6px}.nr{display:flex;position:relative;flex:1;min-width:0;overflow:hidden;gap:6px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}.nr:before,.nr:after{content:'';flex:0 0 30%}.nr a{flex:none;transition:opacity .3s,border-color .3s,color .3s}.nr a:not(.on){opacity:.6}
  .pn{width:auto;height:58vh;order:4}
  .cf{--cw:30vw;position:relative;left:auto;top:auto;width:100%;height:250px;order:3;touch-action:pan-y}
  body.open .pn{position:fixed;left:0;top:0;width:100vw;height:100vh;border-radius:0;z-index:50;background:rgba(36,21,9,.94)}
@@ -1004,7 +1006,7 @@ body.locked{overflow:hidden}
  <canvas class="oc"></canvas>
  <a class="skip" href="#cf">Skip to content</a>
  <a class="lg" href="#top" aria-label="Olimazi home"></a>
- <nav class="nav"><a class="hm" href="#top"><img class="av" src="assets/hero-av.png" alt="" width="34" height="34">olimazi<span style="color:#C0392B">.online</span></a><a class="ct" href="#contact" data-contact>Contact</a><a href="#top">Work</a><a href="#learning" data-pane="learning">Learning</a><a href="#library" data-pane="library">Library</a><a href="#story" data-pane="story">Story</a></nav>
+ <nav class="nav"><a class="hm" href="#top"><img class="av" src="assets/hero-av.png" alt="" width="34" height="34">olimazi<span style="color:#C0392B">.online</span></a><a class="ct" href="#contact" data-contact>Contact</a><span class="nr"><a href="#top">Work</a><a href="#learning" data-pane="learning">Learning</a><a href="#library" data-pane="library">Library</a><a href="#story" data-pane="story">Story</a></span></nav>
  <div class="story"><p class="kk">Presenting my experiences</p><h1 aria-label="Sharing vision, aided by Ai?">Sharing vision,<br>aided by A<span class="i">i</span>?</h1><div class="sb"><p>Olimazi is an ongoing, growing personal brand meant to share past experiences along with builds from a non-technical scope &mdash; using AI as a tool to express human elements, and hopefully the missing context you only get from being &ldquo;in it&rdquo;.</p><button class="gx sl" type="button" data-t="Read it &rarr;" data-pane="story">The short story &rarr;</button><span class="as">faceless by design &mdash; the work is the portrait.</span></div></div>
  <div class="pn" role="button" tabindex="0" aria-label="View project details">
   <div class="ph"><div class="mn"><img id="hi" alt=""><video id="hv" muted loop playsinline preload="none" hidden></video></div><div class="th" id="th"></div></div>
@@ -1654,7 +1656,10 @@ body.locked{overflow:hidden}
       var h = a.getAttribute('href').slice(1), m = a.hasAttribute('data-contact') ? 'contact' : (a.getAttribute('data-pane') || 'work');
       a.classList.toggle('on', m === k || (m === 'work' && ['learning', 'library', 'story', 'contact'].indexOf(k) < 0));
     });
+    var nr = document.querySelector('.nr'), on = nr && nr.querySelector('a.on');   // phone: slide the lit item to the middle
+    if (on && nr.scrollWidth > nr.clientWidth && nr._on !== on) { nr._on = on; nr.scrollTo({ left: on.offsetLeft - (nr.clientWidth - on.offsetWidth) / 2, behavior: nr._k ? 'smooth' : 'auto' }); nr._k = 1; }
   }
+  var scrt; addEventListener('scroll', function(){ document.body.classList.add('scr'); clearTimeout(scrt); scrt = setTimeout(function(){ document.body.classList.remove('scr'); }, 450); }, { passive: true });   // the logo fades while the page moves
   addEventListener('scroll', navmark, { passive: true }); addEventListener('DOMContentLoaded', navmark); window.navmark = navmark;
   /* ---- contact card - it pops up, it never sits on the page ---- */
   var cmodal = document.getElementById('cmodal'), csub = document.getElementById('csub'),
@@ -1905,7 +1910,7 @@ if(reduced){frame(1.3)}else{(function fr(ms){if(!document.hidden&&seen)frame(ms/
 /* link flips run on their own random timer, one at a time, never from touch or hover */
 (function(){var G=[].slice.call(document.querySelectorAll('.gx')),last=null;if(!G.length)return;
 function seen(e){var r=e.getBoundingClientRect();if(!r.width||r.bottom<=0||r.top>=innerHeight)return false;var t=document.elementFromPoint(r.left+r.width/2,Math.min(Math.max(r.top+r.height/2,1),innerHeight-1));return !!t&&e.contains(t)}   // the footer sits under the hero; a covered link is not seen
-function next(){setTimeout(flip,7000+Math.random()*8000)}
+function next(){setTimeout(flip,matchMedia('(max-width:860px)').matches?3000+Math.random()*3500:7000+Math.random()*8000)}
 function flip(){var c=G.filter(seen);if(c.length>1)c=c.filter(function(e){return e!==last});if(document.hidden||!c.length){next();return}
 var e=c[Math.floor(Math.random()*c.length)];last=e;e.classList.add('fl');setTimeout(function(){e.classList.remove('fl');next()},2600)}
 next()})();
