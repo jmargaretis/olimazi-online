@@ -8,6 +8,9 @@ const FIX = 'file:///C:/Users/jmarg/work/olimazi-tracker/fixtures/sample-propert
 // The mail page is built from the sample property by make_fixture_pages.py.
 const LOCALFIX = 'file:///' + path.join(__dirname, '../../.design-loop/clips/fixture/').split(path.sep).join('/') + '/';
 
+const STORY = LOCALFIX + 'story/';
+const UNHIDE = async p => p.evaluate(() => document.querySelectorAll('button[hidden]').forEach(b => b.hidden = false));
+const WO = ['Outdoor unit failed; replace the condenser.', 'article'];
 const TRIP_FLOW = { proposed: ['Proposed rows — one click books', 'h2,h3'], row: ['SAMPLE-P1-01 repair invoice.pdf', 'tr'],
   date: ['2026-08-01', null], amount: ['625.00', null], book: ['Book', 'button'] };
 
@@ -68,6 +71,27 @@ const SCENES = [
         cell(/^14 — Repairs/).textContent = '$1,580'; cell(/^20 — Total expenses/).textContent = '$4,480'; cell(/^21 — Net income/).textContent = '$2,670'; cell(/^Grand total/).textContent = '$2,670'; }); }, {
     bottom: ['SCH. E BOTTOM LINE', 'section,div.card,.panel,article'], line14: ['14 — Repairs', 'tr'],
     line20: ['20 — Total expenses', 'tr'], line21: ['21 — Net income', 'tr'] }, 1400],
+
+  // RM story: one AC replacement from the tenant's email to the preparer. Pages are
+  // rendered from the sample property by make_story_pages.py, one per state.
+  ['st-mail', STORY + 'mail.html', UNHIDE, {
+    vendor: ['Quote request: Replace AC condenser', 'article'], send: ['Send this one', 'button'],
+    tenant: ['Re: AC unit stopped working', 'article'], last: ['Sam Tenant (tenant)', 'p'] }, 1400],
+  ['st-wo-ask', STORY + 'wo-ask.html', UNHIDE, { card: WO, ask: ['Ask for a quote', 'button'] }, 1400],
+  ['st-wo-quote', STORY + 'wo-quote.html', UNHIDE, { card: WO, approve: ['Approve', 'button'], quote: ['Quote in, waiting on you', 'span'] }, 1400],
+  ['st-wo-approved', STORY + 'wo-approved.html', UNHIDE, { card: WO, agreed: ['Agreed price', 'p'], wait: ['Waiting on invoice', 'span'] }, 1400],
+  ['st-wo-invoice', STORY + 'wo-invoice.html', UNHIDE, { card: WO, invoice: ['over the agreed', 'p'], close: ['Close it', 'button'] }, 1400],
+  ['st-wo-closed', STORY + 'wo-closed.html', async p => { await UNHIDE(p); await p.evaluate(() => document.querySelectorAll('details').forEach(d => d.open = true)); }, {
+    card: WO, head: ['Work orders (0 open)', 'h2'] }, 1400],
+  ['st-assets', STORY + 'assets.html', null, { orders: ['From closed work orders', 'div.card'], use: ['Use this', 'button'], add: ['2 · Add something from this year', 'div.card'] }, 1400],
+  ['st-assets-b', STORY + 'assets.html', async p => {
+      const sug = fs.readFileSync(path.join(__dirname, '../../.design-loop/clips/fixture/story/assets-suggest.json'), 'utf8');
+      await p.evaluate(sug => { window.fetch = async () => ({ json: async () => JSON.parse(sug) }); Element.prototype.scrollIntoView = () => {};
+        document.querySelector('.woasset').click(); }, sug);
+      await p.waitForTimeout(900); }, {
+    add: ['2 · Add something from this year', 'div.card'], why: ['Proposed:', 'div'], use: ['Use this', 'button'], addbtn: ['Add to Assets', 'button'] }, 1400],
+  ['st-assets-added', STORY + 'assets-added.html', null, { row: ['Replace AC condenser', 'tr'], tab: ['On the Assets tab now', 'div.card'] }, 1400],
+  ['st-org', FIX + 'SchE_Organizer.html', null, { export: ['Export preparer package', 'button,a'] }, 1400],
 
   // Private lanes and errands never reach a frame: the job-search lane and any
   // family-laptop ticket are removed before the shot.
@@ -169,7 +193,7 @@ const FIND = `(targets) => {
       await p.goto(url, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
       await p.waitForTimeout(id === 'ops-flow' ? 6000 : 2500);
       // The trip clip shows the app, not the OS around it: the OS strip and side nav are removed and the app fills the width.
-      if (id.startsWith('trip-')) { await p.addStyleTag({ content: '.opsnav,.side{display:none!important}.app{display:block!important;min-height:0!important}:root{--strip-h:0px!important}' }); await p.waitForTimeout(300); }
+      if (/^(trip|st)-/.test(id)) { await p.addStyleTag({ content: '.opsnav,.side{display:none!important}.app{display:block!important;min-height:0!important}:root{--strip-h:0px!important}' }); await p.waitForTimeout(300); }
       if (prep) await prep(p);
       await p.evaluate(SCRUB, CFG);
       await p.waitForTimeout(300);
