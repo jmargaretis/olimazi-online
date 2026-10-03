@@ -1801,7 +1801,7 @@ var P=[
  {n:'The short story',m:'Read it',d:'Why it was built, in plain words.',im:['av']}];
 var destinations=['method','rental','learning',null,'story'];
 var cf=document.getElementById('cf');P.forEach(function(p,i){var b=document.createElement('button');b.className='t'+(p.im[0]==='av'?' av':'');b.setAttribute('aria-label',p.n);if(destinations[i])b.setAttribute('data-pane',destinations[i]);else b.setAttribute('data-library','');b.innerHTML='<img alt="">';cf.appendChild(b)});
-var T=[].slice.call(document.querySelectorAll('.t')),hi=document.getElementById('hi'),hn=document.getElementById('hn'),hm=document.getElementById('hm'),hd=document.getElementById('hd'),th=document.getElementById('th'),cur=-1,hov=false;
+var T=[].slice.call(document.querySelectorAll('.t')),hi=document.getElementById('hi'),hn=document.getElementById('hn'),hm=document.getElementById('hm'),hd=document.getElementById('hd'),th=document.getElementById('th'),cur=-1;
 T.forEach(function(t,i){t.querySelector('img').src=IMG[P[i].im[0]]});
 var pn=document.querySelector('.pn');
 var TF={cw:14,gap:107,depth:84,tilt:60,sA:1.43,s1:.98,s2:.82,dim:.37,fade:1,shadow:2};document.documentElement.style.setProperty('--cw',TF.cw+'vw');
@@ -1817,9 +1817,9 @@ function mute(keep){document.querySelectorAll('.cf,.story,.lg').forEach(function
 T.forEach(function(t,i){t.addEventListener('click',function(){show(i)})});
 pn.addEventListener('keydown',function(e){if(e.target===pn&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pn.click()}});
 T.forEach(function(t,i){t.addEventListener('focus',function(){if(!isOpen())show(i)})});
-cf.addEventListener('pointerenter',function(){if(isOpen())return;hov=true;mute(cf)});cf.addEventListener('pointerleave',function(){hov=false;if(!isOpen())mute(null)});
+cf.addEventListener('pointerenter',function(){if(isOpen())return;mute(cf)});cf.addEventListener('pointerleave',function(){if(!isOpen())mute(null)});
 cf.addEventListener('wheel',function(e){if(isOpen())return;e.preventDefault();if(Math.abs(e.deltaY)<4||cf._w)return;cf._w=1;setTimeout(function(){cf._w=0},350);show((cur+(e.deltaY>0?1:-1)+T.length)%T.length)},{passive:false});
-show(0);setInterval(function(){if(!hov&&!isOpen()&&document.activeElement!==pn&&!cf.contains(document.activeElement))show((cur+1)%P.length)},3800);
+show(0);
 (function tick(){try{document.getElementById('clk').textContent='Pacific time • '+new Date().toLocaleTimeString('en-US',{timeZone:'America/Los_Angeles',hour:'numeric',minute:'2-digit'})}catch(e){}setTimeout(tick,20000)})();
 // dot octopus panel: body alpha in the top half of the mask video, eye in the bottom half
 function octo(cv,src,S,eye,vw,vh){var g=cv.getContext('2d'),off=document.createElement('canvas'),o=off.getContext('2d',{willReadFrequently:true}),W=0,H=0,F=0,Ft=1,
