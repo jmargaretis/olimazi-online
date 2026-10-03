@@ -16,7 +16,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .oc{position:absolute;pointer-events:none;z-index:1;left:-22.9vw;top:.3vh;width:120vw;height:88.2vw;transform:scaleX(-1)}
 .nav{position:absolute;right:4vw;top:3.4vh;display:flex;gap:26px;align-items:center;font-weight:600;font-size:14px;color:var(--soft);z-index:5}
 .nav a{color:inherit;text-decoration:none}.nav .hm{font-weight:700;color:var(--ink);margin-right:6px}.nav a:hover{color:var(--ink)}
-.nav .ct{color:var(--ink);border:1px solid var(--ox);border-radius:999px;padding:8px 18px}
+.nav a:not(.hm){border:1px solid transparent;border-radius:999px;padding:8px 14px;transition:border-color .3s,color .3s}
+.nav a.on{color:var(--ink);border-color:var(--ox)}
 /* the menu stays put while the page scrolls; the backdrop is the page colour so it vanishes at the top */
 .nav{position:fixed;z-index:30;padding:0 6px 0 10px;border-radius:999px;background:rgba(23,13,5,.86);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .story{position:absolute;left:3.3vw;top:14vh;width:26vw;z-index:2}
@@ -1139,7 +1140,7 @@ body.locked{overflow:hidden}
         <span class="k">The build behind the work</span>
         <h3>One hub, running.</h3>
         <p>The lessons came out of this: the ops hub that runs the brand and the Rental Manager beside it. A photo in a folder becomes a draft, then waits for a yes. Every number is read from its own source. <b>Planned, built, and reviewed in separate passes.</b></p>
-        <small>55 seconds &middot; no sound needed</small>
+        <small>23 seconds &middot; no sound needed</small>
       </div>
     </div>
     </div>
@@ -1606,7 +1607,7 @@ body.locked{overflow:hidden}
     document.body.classList.add('locked'); document.body.style.overflow = 'hidden';
     open = el;
     if (push !== false && location.hash !== '#' + k) history.pushState({ pane: k }, '', '#' + k);
-    syncClose(); closeButton.focus({ preventScroll: true });
+    syncClose(); closeButton.focus({ preventScroll: true }); navmark();
   }
   function hide(el, popped, keepLock){
     if (!el) return;
@@ -1619,7 +1620,7 @@ body.locked{overflow:hidden}
     closing = el;
     el._t = setTimeout(function(){ el.hidden = true; el._t = null; if (closing === el) closing = null; }, wait);
     if (open === el) open = null;
-    syncClose();
+    syncClose(); navmark();
     if (!popped && location.hash && !keepLock) history.pushState(null, '', location.pathname + location.search);
     if (lastFocus && !keepLock) { try { lastFocus.focus({ preventScroll: true }); } catch (x) {} }
   }
@@ -1642,6 +1643,18 @@ body.locked{overflow:hidden}
     var a = e.target.closest('a[href^="#"]'), sec = a && document.getElementById(a.getAttribute('href').slice(1));
     if (sec) { e.preventDefault(); sec.scrollIntoView({ block: 'start', behavior: rm ? 'auto' : 'smooth' }); history.pushState(null, '', a.getAttribute('href')); }
   });
+  /* the red pill in the menu marks where you are: the open pane, the contact card or footer, else Work */
+  function navmark(){
+    var k = open ? open.id.replace('pane-', '') : '', g = document.querySelector('footer h2, footer .gx'), r = g && g.getBoundingClientRect(),
+        t = r && r.bottom > 0 && r.top < innerHeight && document.elementFromPoint(r.left + 4, Math.min(Math.max(r.top + r.height / 2, 1), innerHeight - 1));   // the footer sits under the hero; count it only when it shows
+    if (cmodal && cmodal.classList.contains('on')) k = 'contact';
+    else if (!k && t && g.contains(t)) k = 'contact';
+    document.querySelectorAll('.nav a:not(.hm)').forEach(function(a){
+      var h = a.getAttribute('href').slice(1), m = a.hasAttribute('data-contact') ? 'contact' : (a.getAttribute('data-pane') || 'work');
+      a.classList.toggle('on', m === k || (m === 'work' && ['learning', 'library', 'story', 'contact'].indexOf(k) < 0));
+    });
+  }
+  addEventListener('scroll', navmark, { passive: true }); addEventListener('DOMContentLoaded', navmark);
   /* ---- contact card - it pops up, it never sits on the page ---- */
   var cmodal = document.getElementById('cmodal'), csub = document.getElementById('csub'),
       cgo = document.getElementById('cgo'), cnote = document.getElementById('cnote'), clast = null, ct = null;
@@ -1655,14 +1668,14 @@ body.locked{overflow:hidden}
     clast = document.activeElement;
     if (ct) { clearTimeout(ct); ct = null; }
     csub.value = sub || ''; cpaint(); csent = false;
-    cmodal.hidden = false; void cmodal.offsetWidth; cmodal.classList.add('on'); syncClose();
+    cmodal.hidden = false; void cmodal.offsetWidth; cmodal.classList.add('on'); syncClose(); navmark();
     backdrop.classList.add('on');
     document.body.classList.add('locked'); document.body.style.overflow = 'hidden';
     setTimeout(function(){ (sub ? cgo : csub).focus({ preventScroll: true }); }, rm ? 0 : 80);
   }
   function chide(){
     if (cmodal.hidden) return;
-    cmodal.classList.remove('on'); syncClose();
+    cmodal.classList.remove('on'); syncClose(); navmark();
     if (open) {
       backdrop.classList.add('on');
       document.body.classList.add('locked'); document.body.style.overflow = 'hidden';
