@@ -3,7 +3,7 @@
 <title>Olimazi — oh-lee mah-zee — what one person can build</title>
 <meta name="description" content="Olimazi is a personal brand exploring what one person can build with AI, real context, and files they own.">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Doto:wght@800&family=Inter+Tight:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#241509;--bg2:#2E1C0E;--ink:#F3E6D8;--soft:#BFA995;--line:rgba(243,230,216,.16);--ox:#C0392B;--d:"Anton",Impact,sans-serif;--e:cubic-bezier(.2,.8,.2,1)}
 *{box-sizing:border-box;margin:0}
@@ -105,7 +105,7 @@ footer .cta.gx::after{justify-content:center;border-radius:8px;box-shadow:inset 
  .hero{position:relative}.nav{padding:0;border-radius:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none}.nav .hm{position:fixed;left:16px;top:10px;min-height:44px;z-index:30;transition:opacity .35s}body.scr .nav .hm{opacity:.3}
  /* phone menu: Contact stays put; Work..Story slide like the carousel, the lit one centred */
  .nav{overflow:visible;gap:6px}.nr{display:flex;position:relative;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;touch-action:pan-x;gap:6px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent);mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent)}.nr::-webkit-scrollbar{display:none}.nr:before,.nr:after{content:'';flex:0 0 30%}.nr a{flex:none;transition:opacity .3s,border-color .3s,color .3s}.nr a:not(.on){opacity:.6}
- .pn{width:auto;height:58vh;order:4}
+ .pn{width:auto;height:58vh;order:2}
  .cf{--cw:min(30vw,130px);position:relative;left:auto;top:auto;width:100%;height:250px;order:3;touch-action:pan-y}
  body.open .pn{position:fixed;left:0;top:0;width:100vw;height:100vh;border-radius:0;z-index:50;background:rgba(36,21,9,.94)}
  body.open .pn .th.has{display:flex;flex-direction:row;width:auto;height:64px;flex:0 0 64px}
@@ -602,6 +602,22 @@ body.locked{overflow:hidden}
 .s7 #pane-story .cost{border-left:2px solid var(--ox);padding-left:20px}
 .s7 #pane-story .close{margin-top:40px;font-size:20px;line-height:1.6;color:var(--plate);max-width:46ch}
 @media(max-width:640px){.s7 #pane-story p{font-size:16px}}
+
+/* phone: no menu row. Contact sits alone top right; the slide carries its own label (dot-matrix pill + position dots) */
+.cl{display:none}
+@media (max-width:860px){
+ .nav .nr{display:none}.nav{min-height:0}
+ .nav .ct{position:fixed;right:16px;top:10px;z-index:30;min-height:44px;transition:opacity .35s,border-color .3s,color .3s}body.scr .nav .ct{opacity:.3}
+ .nav .ct.gx::after{background:none;justify-content:center}.nav .ct.gx.fl{animation:glo .42s forwards}
+ .cf{height:262px}
+ .cl{display:block;position:absolute;left:0;right:0;top:calc(50% - var(--cw)*.894 - 34px);text-align:center;pointer-events:none;z-index:20}
+ .cl span{display:inline-flex;align-items:center;gap:8px;font:800 12px/1 Doto,monospace;letter-spacing:.14em;text-transform:uppercase;animation:clin .45s var(--e) both}
+ @keyframes clin{from{opacity:0;transform:translateY(-5px)}}
+ .cl span{padding:6px 12px 6px 14px;border:1px dashed rgba(255,255,255,.35);border-radius:999px;color:var(--ink);background:rgba(23,13,5,.6)}
+ .cl .dd{display:inline-flex;gap:4px}
+ .cl .dd b{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.22)}
+ .cl .dd b.on{background:var(--ox);box-shadow:0 0 6px var(--ox)}
+}
 </style></head><body>
 <section class="hero" id="top"><div class="oc2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" style="width:100%;height:100%;display:block">
 <g id="octopus" fill="currentColor">
@@ -1005,13 +1021,13 @@ body.locked{overflow:hidden}
  <canvas class="oc"></canvas>
  <a class="skip" href="#cf">Skip to content</a>
  <a class="lg" href="#top" aria-label="Olimazi home"></a>
- <nav class="nav"><a class="hm" href="#top"><img class="av" src="assets/hero-av.png" alt="" width="34" height="34">olimazi<span style="color:#C0392B">.online</span></a><a class="ct" href="#contact" data-contact>Contact</a><span class="nr"><a href="#top">Work</a><a href="#learning" data-pane="learning">Learning</a><a href="#library" data-pane="library">Library</a><a href="#story" data-pane="story">Story</a></span></nav>
+ <nav class="nav"><a class="hm" href="#top"><img class="av" src="assets/hero-av.png" alt="" width="34" height="34">olimazi<span style="color:#C0392B">.online</span></a><a class="ct" href="#contact" data-contact data-t="Say hello">Contact</a><span class="nr"><a href="#top">Work</a><a href="#learning" data-pane="learning">Learning</a><a href="#library" data-pane="library">Library</a><a href="#story" data-pane="story">Story</a></span></nav>
  <div class="story"><p class="kk">Presenting my experiences</p><h1 aria-label="Sharing vision, aided by Ai?">Sharing vision,<br>aided by A<span class="i">i</span>?</h1><div class="sb"><p>Olimazi is an ongoing, growing personal brand meant to share past experiences along with builds from a non-technical scope &mdash; using AI as a tool to express human elements, and hopefully the missing context you only get from being &ldquo;in it&rdquo;.</p><button class="gx sl" type="button" data-t="Read it &rarr;" data-pane="story">The short story &rarr;</button><span class="as">faceless by design &mdash; the work is the portrait.</span></div></div>
  <div class="pn" role="button" tabindex="0" aria-label="View project details">
   <div class="ph"><div class="mn"><img id="hi" alt=""><video id="hv" muted loop playsinline preload="none" hidden></video></div><div class="th" id="th"></div></div>
   <div><small id="hm"></small><h2 id="hn"></h2><p id="hd"></p></div>
  </div>
- <div class="cf" id="cf" aria-label="Projects"></div>
+ <div class="cf" id="cf" aria-label="Projects"><div class="cl" id="cl" aria-hidden="true"><span></span></div></div>
 </section>
 <div class="s7">
 <button class="x xmark" id="x" type="button" aria-label="Close" hidden><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4.9 5.1 C9.6 7.9 14.6 13.4 19.1 19"/><path d="M19 5 C15.1 9.6 9.3 14.8 5 18.9"/></g></svg></button>
@@ -1822,6 +1838,7 @@ var P=[
  {n:'Library',m:'Kept along the way',d:'Art, clips and notes kept as the work went.',im:['sketch','wheel'],c:{v:'assets/library-kairos.mp4',p:'assets/library-kairos-poster.jpg'}},
  {n:'The short story',m:'Read it',d:'Why it was built, in plain words.',im:['av'],c:'assets/story-text.jpg'}];
 var destinations=['method','rental','learning',null,'story'];
+if(matchMedia('(max-width:860px)').matches)document.querySelector('.nav .ct').classList.add('gx');   // phone: Contact flips like the footer links
 var cf=document.getElementById('cf');P.forEach(function(p,i){var b=document.createElement('button');b.className='t'+(p.im[0]==='av'?' av':'');b.setAttribute('aria-label',p.n);if(destinations[i])b.setAttribute('data-pane',destinations[i]);else b.setAttribute('data-library','');b.innerHTML='<img alt="">';cf.appendChild(b)});
 var T=[].slice.call(document.querySelectorAll('.t')),hi=document.getElementById('hi'),hn=document.getElementById('hn'),hm=document.getElementById('hm'),hd=document.getElementById('hd'),th=document.getElementById('th'),cur=-1;
 T.forEach(function(t,i){t.querySelector('img').src=IMG[P[i].im[0]]});
@@ -1837,7 +1854,7 @@ var hv=document.getElementById('hv');
 function still(src){hv.pause();hv.hidden=true;hi.hidden=false;photo(src)}
 function card(p){var c=p.c||IMG[p.im[0]];if(!c.v){still(c);return}hi.hidden=true;hv.hidden=false;hv.poster=c.p;if(hv.getAttribute('src')!==c.v)hv.src=c.v;if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var pr=hv.play();if(pr)pr.catch(function(){})}}
 function photo(src){hi.style.opacity=0;setTimeout(function(){hi.src=src;hi.style.opacity=''},180)}
-function show(i){if(i===cur)return;cur=i;var p=P[i];pn.removeAttribute('data-pane');pn.removeAttribute('data-library');pn.removeAttribute('data-cat');if(destinations[i])pn.setAttribute('data-pane',destinations[i]);else pn.setAttribute('data-library','');pn.setAttribute('aria-label','View '+p.n+' details');T.forEach(function(t,j){t.classList.toggle('on',j===i)});flow();if(window.navmark)navmark();card(p);scram(hn,p.n);hm.textContent=p.m;hd.textContent=p.d;
+function show(i){if(i===cur)return;cur=i;var p=P[i];pn.removeAttribute('data-pane');pn.removeAttribute('data-library');pn.removeAttribute('data-cat');if(destinations[i])pn.setAttribute('data-pane',destinations[i]);else pn.setAttribute('data-library','');pn.setAttribute('aria-label','View '+p.n+' details');T.forEach(function(t,j){t.classList.toggle('on',j===i)});flow();var cl=document.getElementById('cl');if(cl){var L={method:'Work',rental:'Work',learning:'Learning',story:'Story'};var k=L[destinations[i]]||'Library';cl.innerHTML='<span>'+k+'<i class="dd">'+['Work','Learning','Library','Story'].map(function(o){return '<b'+(o==k?' class="on"':'')+'></b>'}).join('')+'</i></span>'}if(window.navmark)navmark();card(p);scram(hn,p.n);hm.textContent=p.m;hd.textContent=p.d;
  th.innerHTML='';th.classList.toggle('has',p.im.length>1);if(p.im.length>1)p.im.forEach(function(k,j){var b=document.createElement('button');b.innerHTML='<img alt="">';b.firstChild.src=IMG[k];if(!j&&!p.c)b.classList.add('on');b.onclick=function(){still(IMG[k]);[].forEach.call(th.children,function(c){c.classList.toggle('on',c===b)})};th.appendChild(b)})}
 function mute(keep){document.querySelectorAll('.cf,.story,.lg').forEach(function(e){e.classList.toggle('mu',!!keep&&e!==keep)})}
 /* phone: first tap selects, second tap opens. Focus selects before click fires, so read the state at pointerdown */
