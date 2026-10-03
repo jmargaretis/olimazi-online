@@ -21,16 +21,15 @@ body{font-family:"Satoshi",system-ui,sans-serif;color:var(--ink);position:relati
 </style></head>
 <body>
 <script>
-const CAP = '../../.design-loop/clips/cap/', FPS = 30, LEN = 26.2, SL = 0.6, W = 1080, H = 1350;
+const CAP = '../../.design-loop/clips/cap/', FPS = 30, LEN = 23, SL = 0.6, W = 1080, H = 1350;
 // ui: [img, x, y, w (crop in 1440 coords), drift px]  tiles: [img, x, y, w, h, rot, delay]
 const S = [
   { t0: 0, t1: 3.8, title: 'Your Schedule E, reconciled<span class=r>.</span>', sub: 'From a spreadsheet you own. Sample property shown.', ui: ['rm-dash', 250, 100, 760, 80] },
-  { t0: 3.8, t1: 7.6, title: 'Receipts from your phone<span class=r>.</span>', sub: 'Shoot a receipt. It lands in the inbox.', ui: ['rm-phone', 230, 80, 1090, 30] },
-  { t0: 7.6, t1: 11.6, title: 'Receipts in. One click books<span class=r>.</span>', sub: 'Nothing is booked until you click.', ui: ['rm-flow', 270, 380, 1000, 40] },
-  { t0: 11.6, t1: 15.4, title: 'Repairs, tenants, vendors<span class=r>.</span>', sub: 'Each issue keeps its thread.', ui: ['rm-manage', 260, 230, 760, 40] },
-  { t0: 15.4, t1: 19.4, title: 'Replies drafted. You send each one<span class=r>.</span>', sub: 'Money words get a flag.', ui: ['rm-mail', 280, 300, 800, 60] },
-  { t0: 19.4, t1: 23.2, title: 'Ready for your preparer<span class=r>.</span>', sub: 'Still needed, read from this workbook.', ui: ['rm-org', 230, 80, 1080, 60] },
-  { t0: 23.2, t1: LEN, end: 1 },
+  { t0: 3.8, t1: 7.8, title: 'Receipts in. One click books<span class=r>.</span>', sub: 'Nothing is booked until you click.', ui: ['rm-flow', 270, 380, 1000, 40] },
+  { t0: 7.8, t1: 11.6, title: 'Repairs, tenants, vendors<span class=r>.</span>', sub: 'Each issue keeps its thread.', ui: ['rm-manage', 260, 230, 760, 40] },
+  { t0: 11.6, t1: 15.6, title: 'Replies drafted. You send each one<span class=r>.</span>', sub: 'Money words get a flag.', ui: ['rm-mail', 280, 300, 800, 60] },
+  { t0: 15.6, t1: 19.4, title: 'Ready for your preparer<span class=r>.</span>', sub: 'Still needed, read from this workbook.', ui: ['rm-org', 230, 80, 1080, 60] },
+  { t0: 19.4, t1: LEN, end: 1 },
 ];
 const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 const out = x => 1 - Math.pow(1 - x, 3), back = x => 1 + 2.2 * Math.pow(x - 1, 3) + 1.2 * Math.pow(x - 1, 2);
@@ -39,8 +38,8 @@ S.forEach((s, i) => {
   const el = s.el = document.createElement('div'); el.className = 'sc'; el.style.zIndex = i; document.body.appendChild(el);
   let h = '';
   if (s.end) h = `<img class="av" src="${CAP}os-av.png" style="left:${W / 2 - 110}px;top:400px;width:220px">`
-    + `<div class="tt" style="top:690px;text-align:center;left:64px">Rental Manager<span class=r>.</span><br><span style="font-size:40px;font-weight:500;color:var(--soft);letter-spacing:0">Local files. Replies wait for your click.</span></div>`
-    + `<div class="mk" style="left:0;width:${W}px;text-align:center;top:930px;font-size:40px">olimazi<span class=r>.online</span></div>`;
+    + `<div class="tt" style="top:690px;text-align:center;left:64px">Rental Manager<span class=r>.</span><span style="display:block;margin-top:28px;line-height:1.35;font-size:40px;font-weight:500;color:var(--soft);letter-spacing:0">A workbook you own.<br>Built by an owner for owners.</span></div>`
+    + `<div class="mk" style="left:0;width:${W}px;text-align:center;top:1010px;font-size:40px">olimazi<span class=r>.online</span></div>`;
   else {
     h = `<div class="tt">${s.title}</div><div class="sb"></div>`;
     if (s.ui) h += `<div class="fr" style="top:470px;height:${H}px"><img src="${CAP}${s.ui[0]}.png"></div>`;
