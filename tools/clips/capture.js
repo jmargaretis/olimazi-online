@@ -37,11 +37,17 @@ const SCENES = [
     tab_review: ['REVIEW', 'a'], firing: ['FIRING NOW', 'section,div.card,.panel,article'],
     drop: ['The Drop', 'a,div'], queue: ['Review queue', 'a,div'], pub: ['Publisher', 'a,div'],
     surfaces: ['Surfaces', 'div'] }],
-  ['ops-queue', 'http://127.0.0.1:8766/', null, {
+  // A readable plate never reaches a frame: blur the photo on any card that shows one.
+  ['ops-queue', 'http://127.0.0.1:8766/', async p => {
+      await p.evaluate(() => { const t = [...document.querySelectorAll('body *')].find(e => e.children.length === 0 && /^From the Back$/.test(e.textContent.trim()));
+        let c = t; while (c && !c.querySelector('img')) c = c.parentElement; if (c) c.querySelectorAll('img').forEach(i => i.style.filter = 'blur(18px)'); }); await p.waitForTimeout(300); }, {
     how: ['HOW THIS WORKS', 'section,div,pre,aside'], needs: ['Needs my click', 'a,button'],
     pending: ['Pending', 'a,button'], nav_slides: ['Slides', 'a'] }],
   ['ops-slides', 'http://127.0.0.1:8766/slides', async p => {
-      await p.selectOption('#tw-deck', '2026-09-01/orange-creamsicle.json'); await p.waitForTimeout(2500); }, {
+      await p.selectOption('#tw-deck', '2026-09-01/orange-creamsicle.json'); await p.waitForTimeout(2500);
+      await p.evaluate(() => document.querySelectorAll('img').forEach(i => i.loading = 'eager')); await p.waitForFunction(() => [...document.images].every(i => i.complete), null, { timeout: 30000 }).catch(() => {});
+      for (let k = 0; k < 6; k++) { await p.evaluate(k => { const th = [...document.querySelectorAll('body *')].filter(e => /^\d · /.test((e.textContent||'').trim()) && e.children.length === 0); if (th[k]) th[k].scrollIntoView({ block: 'center' }); }, k); await p.waitForTimeout(700); }
+      await p.evaluate(() => { document.querySelectorAll('*').forEach(e => { if (e.scrollTop) e.scrollTop = 0; }); window.scrollTo(0, 0); }); await p.waitForTimeout(1200); }, {
     tab_ops: ['OPS', 'a'], lines: ['lines', 'label,div,span'], canvas: ['Slide 1 of', 'div'],
     thumbs: ['1 · cover', 'div,button,a'], live: ['live', 'label'] }],
   // Same screen after the click on "guessing": the chip is on and the live

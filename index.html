@@ -31,7 +31,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
  background:rgba(36,21,9,.12);border:1px solid var(--line);overflow:hidden;transition:left .6s var(--e),top .6s var(--e),width .6s var(--e),height .6s var(--e),background .6s,opacity .3s}
 .pn .ph{flex:1 1 0;min-height:0;display:flex;gap:10px}
 .pn .mn{flex:1;min-width:0;border-radius:5px;overflow:hidden}
-.pn .mn img,.pn .mn video{width:100%;height:100%;object-fit:cover;display:block;opacity:.85;transition:opacity .25s}.pn .mn video{object-position:top center}.pn .mn [hidden]{display:none}.pn{cursor:pointer}#hi[src$="story-text.jpg"]{object-fit:contain}#hv[src*="library-kairos"]{object-fit:contain;object-position:center}.pn:hover .mn img,.pn:hover .mn video{opacity:1}
+.pn .mn img,.pn .mn video{width:100%;height:100%;object-fit:cover;display:block;opacity:.85;transition:opacity .25s}.pn .mn video{object-position:center}.pn .mn [hidden]{display:none}.pn{cursor:pointer}#hi[src$="story-text.jpg"]{object-fit:contain}#hv[src*="library-kairos"]{object-fit:contain;object-position:center}.pn:hover .mn img,.pn:hover .mn video{opacity:1}
 .pn .th{display:none;flex-direction:column;gap:10px;width:0;transition:width .6s var(--e)}
 .pn .th button{flex:1;min-height:0;border-radius:4px;overflow:hidden;opacity:.55}.pn .th button.on{opacity:1;box-shadow:0 0 0 2px var(--ox)}
 .pn .th img{width:100%;height:100%;object-fit:cover;display:block}
@@ -219,9 +219,9 @@ body.locked{overflow:hidden}
 .s7 .card:hover .foot .u::after{transform:scaleX(1)}
 .s7 .card .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ox);margin-right:8px;vertical-align:2px}
 .s7 .card .dot.prev{background:rgba(242,246,248,.6)}
-.s7 video.clip{display:block;width:100%;aspect-ratio:4/5;height:auto;background:var(--paper);border-radius:var(--r);object-fit:cover}
+.s7 video.clip{display:block;width:100%;aspect-ratio:32/23;height:auto;background:var(--paper);border-radius:var(--r);object-fit:cover}
 .s7 .card .ph video.cardclip{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
-.s7 .pane .clipfig{margin:4px 0 36px;max-width:420px}
+.s7 .pane .clipfig{margin:4px 0 36px;max-width:640px}
 .s7 .pane .clipfig .cap{display:block;padding:11px 3px 0;font-size:13px;line-height:1.55;color:var(--ink-soft)}
 .s7 .pane .clipfig .cap b{color:var(--ink);font-weight:600}
 .s7 .fx #work{position:relative;z-index:3;background:var(--paper);border-radius:24px 24px 0 0;box-shadow:0 -1px 0 var(--hair)}
@@ -1130,7 +1130,7 @@ body.locked{overflow:hidden}
     <h2 id="t-learning">How the work runs.</h2>
     <div class="learn">
     <div class="hub">
-      <figure><video class="clip" src="assets/clip-ops.mp4" poster="assets/clip-ops-poster.jpg" muted loop playsinline preload="none" aria-label="A 55-second tour of the Olimazi ops hub: the live flow, the review queue, the slide editor, the site launchpad, the skill buttons, the finished-work record and the second brain"></video></figure>
+      <figure><video class="clip" src="assets/clip-ops.mp4" poster="assets/clip-ops-poster.jpg" muted loop playsinline preload="none" aria-label="A 43-second tour of the Olimazi ops hub: the live flow, the review queue, the slide editor, the finished-work record and the second brain"></video></figure>
       <div>
         <span class="k">The build behind the work</span>
         <h3>One hub, running.</h3>

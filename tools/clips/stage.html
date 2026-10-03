@@ -36,8 +36,20 @@ svg.ov{position:absolute;left:0;top:0;width:1000px;height:700px;overflow:visible
 .end .cta b{font:900 48px/1 "Satoshi";color:var(--ox)}
 .end .cta span{font:900 48px/1 "Satoshi"}
 .end .cta span i{font-style:normal;color:var(--ox)}
+/* wide: landscape cut for the site cards */
+.wide,.wide body{width:1600px;height:1150px}
+.wide .kick{left:40px;top:40px}
+.wide .head{left:40px;top:74px;width:1520px;font-size:58px}
+.wide .head br{display:none}
+.wide .screen{left:40px;top:170px;width:1200px;height:840px}
+.wide svg.ov{width:1200px;height:840px}
+.wide .cap{left:1276px;top:186px;width:290px;flex-direction:column;gap:14px}
+.wide .cap .t{font-size:34px}
+.wide .foot{left:40px;right:40px;bottom:30px;padding-top:16px}
+.wide .end{padding:0 120px}
 </style></head>
 <body>
+<script>if (/[?&]wide=1/.test(location.search)) document.documentElement.className = 'wide';</script>
 <div class="kick" id="kick"></div>
 <div class="head" id="head"></div>
 <div class="screen" id="screen">
@@ -54,7 +66,7 @@ svg.ov{position:absolute;left:0;top:0;width:1000px;height:700px;overflow:visible
 <script>
 const Q = new URLSearchParams(location.search), C = CLIPS[Q.get('clip') || 'rm'];
 const CAP = '../../.design-loop/clips/cap/';
-const UW = 1440, UH = 1008, SW = 1000, SH = 700;
+const WIDE = Q.get('wide') === '1', UW = 1440, UH = 1008, SW = WIDE ? 1200 : 1000, SH = WIDE ? 840 : 700;
 const $ = id => document.getElementById(id);
 $('kick').innerHTML = C.kicker.replace(' · ', ' <b>·</b> ');
 $('ticks').innerHTML = C.scenes.map(() => '<i></i>').join('');
@@ -81,7 +93,7 @@ function place(img, s, c, op, t) {
   img.style.transform = `translate(${-c.x0 * c.k}px,${-c.y0 * c.k}px) scale(${c.k})`;
   img.style.opacity = op;
 }
-function headHTML(h) { return h[0] + '<br><span class="r">' + h[1] + '</span>'; }
+function headHTML(h) { return h[0] + ' <br><span class="r">' + h[1] + '</span>'; }
 let lastHead = '', lastCap = '';
 function render(t) {
   const si = Math.max(0, C.scenes.findIndex(s => t >= s.t0 && t < s.t1) === -1 ? C.scenes.length - 1 : C.scenes.findIndex(s => t >= s.t0 && t < s.t1));
