@@ -438,9 +438,6 @@ body.locked{overflow:hidden}
 .s7 .backdrop.on{opacity:1;pointer-events:auto}
 .s7 .pane{position:fixed;top:0;right:0;bottom:0;width:min(960px,100%);background:var(--sheet);color:var(--ink);overflow-y:auto;overflow-x:hidden;z-index:50;transform:translateX(100%);transition:transform .44s var(--ease);overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .s7 .pane.on{transform:none}
-.s7 .pane.left{right:auto;left:0;transform:translateX(-100%)}
-.s7 .pane.left.on{transform:none}
-.s7 .pane.left .edge{left:auto;right:0}
 .s7 .pane .edge{position:absolute;left:0;top:0;width:1px;height:100%;background:var(--ink);transform:scaleY(0);transform-origin:top;transition:transform .9s var(--ease) .25s;opacity:.55}
 .s7 .pane.on .edge{transform:none}
 .s7 .pane .inner{padding:28px clamp(24px,5vw,56px) 72px}
@@ -560,8 +557,6 @@ body.locked{overflow:hidden}
 .s7 .shelf.note{width:220px;height:calc(var(--hm) + 34px);padding-bottom:24px}
 .s7 .shelf.note p{font-size:17px}
 .s7 .pane{width:100%;top:auto;height:92%;border-radius:var(--r) var(--r) 0 0;transform:translateY(100%)}
-.s7 .pane.left{left:0;right:0;transform:translateY(100%)}
-.s7 .pane.left.on{transform:none}
 .s7 .pane .edge{display:none}
 .s7 .pane .gal{grid-template-columns:1fr}
 .s7 .pane .gal .sq{aspect-ratio:4/3}
@@ -1160,7 +1155,7 @@ body.locked{overflow:hidden}
   </div>
 </aside>
 
-<aside class="pane left" id="pane-rental" hidden role="dialog" aria-modal="true" aria-labelledby="t-rental">
+<aside class="pane" id="pane-rental" hidden role="dialog" aria-modal="true" aria-labelledby="t-rental">
   <i class="edge" aria-hidden="true"></i>
   <div class="inner">
     <div class="bar"><span>Current work · first Olimazi build · working prototype</span></div>
