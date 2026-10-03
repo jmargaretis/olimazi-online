@@ -1,0 +1,91 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>RM app-store comp</title>
+<style>
+@font-face{font-family:"Satoshi";src:url("../../assets/Satoshi-Black.otf");font-weight:900}
+@font-face{font-family:"Satoshi";src:url("../../assets/Satoshi-Medium.otf");font-weight:500}
+:root{--paper:#E9EEF1;--ink:#16202A;--soft:#4E5C68;--ox:#C0392B}
+*{box-sizing:border-box;margin:0}
+html,body{width:1080px;height:1350px;overflow:hidden;background:var(--paper)}
+body{font-family:"Satoshi",system-ui,sans-serif;color:var(--ink);position:relative}
+.sc{position:absolute;inset:0;background:var(--paper);overflow:hidden}
+.tt{position:absolute;left:64px;top:120px;width:952px;font-weight:900;font-size:92px;line-height:1;letter-spacing:-.025em}
+.sb{position:absolute;left:68px;width:940px;font-weight:500;font-size:36px;line-height:1.3;color:var(--soft)}
+.r{color:var(--ox)}
+.fr{position:absolute;left:60px;width:960px;overflow:hidden;border-radius:28px;background:#fff;box-shadow:0 30px 80px rgba(22,32,42,.18),0 0 0 1px rgba(22,32,42,.06)}
+.fr img{position:absolute;left:0;top:0;transform-origin:0 0;width:1440px}
+.tile{position:absolute;border-radius:16px;box-shadow:0 26px 60px rgba(22,32,42,.22);overflow:hidden}
+.tile img{display:block;width:100%;height:100%}
+.av{position:absolute;border-radius:28px;-webkit-mask:radial-gradient(circle,#000 62%,transparent 100%)}
+.mk{position:absolute;font-weight:900}
+</style></head>
+<body>
+<script>
+const CAP = '../../.design-loop/clips/cap/', FPS = 30, LEN = 23, SL = 0.6, W = 1080, H = 1350;
+// ui: [img, x, y, w (crop in 1440 coords), drift px]  tiles: [img, x, y, w, h, rot, delay]
+const S = [
+  { t0: 0, t1: 3.8, title: 'Your Schedule E, reconciled<span class=r>.</span>', sub: 'From a spreadsheet you own. Sample property shown.', ui: ['rm-dash', 250, 100, 760, 80] },
+  { t0: 3.8, t1: 7.8, title: 'Receipts in. One click books<span class=r>.</span>', sub: 'Nothing is booked until you click.', ui: ['rm-flow', 270, 380, 1000, 40] },
+  { t0: 7.8, t1: 11.6, title: 'Repairs, tenants, vendors<span class=r>.</span>', sub: 'Each issue keeps its thread.', ui: ['rm-manage', 260, 230, 760, 40] },
+  { t0: 11.6, t1: 15.6, title: 'Replies drafted. You send each one<span class=r>.</span>', sub: 'Money words get a flag.', ui: ['rm-mail', 280, 300, 800, 60] },
+  { t0: 15.6, t1: 19.4, title: 'Ready for your preparer<span class=r>.</span>', sub: 'Still needed, read from this workbook.', ui: ['rm-org', 230, 80, 1080, 60] },
+  { t0: 19.4, t1: LEN, end: 1 },
+];
+const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const out = x => 1 - Math.pow(1 - x, 3), back = x => 1 + 2.2 * Math.pow(x - 1, 3) + 1.2 * Math.pow(x - 1, 2);
+const cl = (v, a, b) => Math.max(a, Math.min(b, v));
+S.forEach((s, i) => {
+  const el = s.el = document.createElement('div'); el.className = 'sc'; el.style.zIndex = i; document.body.appendChild(el);
+  let h = '';
+  if (s.end) h = `<img class="av" src="${CAP}os-av.png" style="left:${W / 2 - 110}px;top:400px;width:220px">`
+    + `<div class="tt" style="top:690px;text-align:center;left:64px">Rental Manager<span class=r>.</span><span style="display:block;margin-top:28px;line-height:1.35;font-size:40px;font-weight:500;color:var(--soft);letter-spacing:0">A workbook you own.<br>Built by an owner for owners.</span></div>`
+    + `<div class="mk" style="left:0;width:${W}px;text-align:center;top:1010px;font-size:40px">olimazi<span class=r>.online</span></div>`;
+  else {
+    h = `<div class="tt">${s.title}</div><div class="sb"></div>`;
+    if (s.ui) h += `<div class="fr" style="top:470px;height:${H}px"><img src="${CAP}${s.ui[0]}.png"></div>`;
+    (s.tiles || []).forEach(([img, x, y, w, hh, rot]) => { h += `<div class="tile" style="left:${x}px;top:${y}px;width:${w}px;height:${hh}px;transform:rotate(${rot}deg)"><img src="${CAP}${img}.png"></div>`; });
+  }
+  el.innerHTML = h;
+  if (!s.end) el.querySelector('.sb').innerHTML = s.sub;
+});
+function draw(s, lt) {
+  if (s.end) {
+    const a = back(cl((lt - 0.3) / 0.6, 0, 1)), b = out(cl((lt - 0.7) / 0.5, 0, 1)), c = out(cl((lt - 1.0) / 0.5, 0, 1));
+    const av = s.el.querySelector('.av'); av.style.transform = `scale(${0.6 + 0.4 * a})`; av.style.opacity = cl(lt / 0.3, 0, 1) * (lt > 0.3 ? 1 : 0);
+    const tt = s.el.querySelector('.tt'); tt.style.opacity = b; tt.style.transform = `translateY(${(1 - b) * 24}px)`;
+    s.el.querySelector('.mk').style.opacity = c;
+    return;
+  }
+  const tt = s.el.querySelector('.tt'), sb = s.el.querySelector('.sb'), a = out(cl((lt - 0.2) / 0.5, 0, 1)), b = out(cl((lt - 0.4) / 0.5, 0, 1));
+  tt.style.opacity = a; tt.style.transform = `translateY(${(1 - a) * 30}px)`;
+  sb.style.top = (tt.offsetTop + tt.offsetHeight + 24) + 'px'; sb.style.opacity = b; sb.style.transform = `translateY(${(1 - b) * 20}px)`;
+  if (s.ui) {
+    const [, x, y, w, drift] = s.ui, k = 960 / w, f = s.el.querySelector('.fr'), u = out(cl((lt - 0.15) / 0.8, 0, 1));
+    f.style.height = ((1008 - y - drift) * k) + 'px'; f.style.top = (sb.offsetTop + sb.offsetHeight + 56) + 'px'; f.style.transform = `translateY(${(1 - u) * 120}px)`;
+    const dy = drift * cl(lt / (s.t1 - s.t0), 0, 1);
+    f.querySelector('img').style.transform = `translate(${-x * k}px,${-(y + dy) * k}px) scale(${k})`;
+  }
+  s.el.querySelectorAll('.tile').forEach((t, i) => {
+    const [, , , , , rot, d] = s.tiles[i], p = out(cl((lt - d) / 0.6, 0, 1));
+    t.style.opacity = cl((lt - d) / 0.2, 0, 1); t.style.transform = `translateY(${(1 - p) * 160}px) rotate(${rot}deg)`;
+  });
+}
+// smooth slide: next card pushes the current one left
+function render(t) {
+  S.forEach((s, i) => {
+    const next = S[i + 1];
+    let x = null;
+    if (t >= s.t0 && t < s.t1) x = 0;
+    if (i && t >= s.t0 && t < s.t0 + SL) x = W * (1 - ease((t - s.t0) / SL));
+    if (next && t >= next.t0 && t < next.t0 + SL) x = -W * 0.35 * ease((t - next.t0) / SL);
+    if (t >= LEN && !next) x = 0;
+    s.el.style.display = x === null ? 'none' : 'block';
+    if (x !== null) { s.el.style.transform = `translateX(${x}px)`; draw(s, Math.min(t, s.t1) - s.t0); }
+  });
+}
+window.CLIP = { fps: FPS, len: LEN }; window.render = render;
+const imgs = ['os-av.png', ...new Set(S.flatMap(s => [s.ui && s.ui[0], ...(s.tiles || []).map(t => t[0])]).filter(Boolean).map(n => n + '.png'))];
+window.ready = Promise.all([document.fonts.ready, ...imgs.map(n => new Promise(r => { const i = new Image(); i.onload = r; i.onerror = r; i.src = CAP + n; }))]);
+render(Number(new URLSearchParams(location.search).get('t') || 0));
+</script>
+</body></html>

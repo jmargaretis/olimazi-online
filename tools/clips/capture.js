@@ -8,7 +8,13 @@ const FIX = 'file:///C:/Users/jmarg/work/olimazi-tracker/fixtures/sample-propert
 // The mail page is built from the sample property by make_fixture_pages.py.
 const LOCALFIX = 'file:///' + path.join(__dirname, '../../.design-loop/clips/fixture/').split(path.sep).join('/') + '/';
 
-// [id, url, prep(page), targets {name: [text, closestSelector?]}]
+const STORY = LOCALFIX + 'story/';
+const UNHIDE = async p => p.evaluate(() => document.querySelectorAll('button[hidden]').forEach(b => b.hidden = false));
+const WO = ['Outdoor unit failed; replace the condenser.', 'article'];
+const TRIP_FLOW = { proposed: ['Proposed rows — one click books', 'h2,h3'], row: ['SAMPLE-P1-01 repair invoice.pdf', 'tr'],
+  date: ['2026-08-01', null], amount: ['625.00', null], book: ['Book', 'button'] };
+
+// [id, url, prep(page), targets {name: [text, closestSelector?]}, viewport height?]
 const SCENES = [
   ['rm-dash', FIX + 'SchE_Dashboard.html', null, {
     nav_flow: ['Flow', 'a'], bottom: ['SCH. E BOTTOM LINE', 'section,div.card,.panel,article'],
@@ -33,15 +39,88 @@ const SCENES = [
     export: ['Export preparer package', 'button,a'], qs: ['question(s) unanswered', 'span,b,a'],
     needed: ['Still needed for your preparer (3)', 'section,div.card,.panel,article'] }],
 
+  // RM "one receipt's trip": the plumber invoice before, during and after Book.
+  // Served over http the Book buttons show; from file:// they stay hidden.
+  // $625.00 is the fixture invoice's own amount; the dashboard sums follow it.
+  // Same invoice on its work order, checked against the approved quote. The page is
+  // rendered by management_page.py from a fixture copy whose faucet order carries a
+  // $550 approved quote and the $625 invoice (the quote figure is illustrative).
+  ['trip-quote', LOCALFIX + 'SchE_Management_quote.html', async p => {
+      await p.evaluate(() => { const a = [...document.querySelectorAll('article')].find(e => e.textContent.includes('Kitchen faucet'));
+        window.scrollTo(0, a.getBoundingClientRect().top + scrollY - 330); }); await p.waitForTimeout(400); }, {
+    card: ['Kitchen faucet replacement', 'article'], agreed: ['Agreed price', 'p'], invoice: ['over the agreed', 'p'] }, 1400],
+  ['trip-flow-a', FIX + 'SchE_Flow.html', async p => {
+      await p.evaluate(() => document.querySelectorAll('button[hidden]').forEach(b => b.hidden = false)); }, TRIP_FLOW, 1400],
+  ['trip-flow-b', FIX + 'SchE_Flow.html', async p => {
+      await p.evaluate(() => {
+        document.querySelectorAll('button[hidden]').forEach(b => b.hidden = false);
+        const tr = [...document.querySelectorAll('tr')].find(t => t.textContent.includes('repair invoice') && t.querySelector('input'));
+        const set = (f, v) => { const e = tr.querySelector(`[data-field="${f}"]`); e.value = v; e.classList.remove('gap'); };
+        set('date', '2026-08-01'); set('amount', '625.00'); }); }, TRIP_FLOW, 1400],
+  ['trip-flow-c', FIX + 'SchE_Flow.html', async p => {
+      await p.evaluate(() => {
+        document.querySelectorAll('button[hidden]').forEach(b => b.hidden = false);
+        [...document.querySelectorAll('tr')].find(t => t.textContent.includes('repair invoice') && t.querySelector('input')).remove();
+        const h = [...document.querySelectorAll('h2')].find(e => e.textContent.startsWith('Proposed rows')); h.textContent = h.textContent.replace('(3)', '(2)');
+        const hp = document.querySelector('.hero p'); hp.textContent = hp.textContent.replace('3 proposed row(s)', '2 proposed row(s)'); }); }, {
+    proposed: ['Proposed rows — one click books', 'h2,h3'], hero: ['proposed row(s) waiting', 'p'], next: ['7002 property tax receipt.pdf', 'tr'] }, 1400],
+  ['trip-dash-0', FIX + 'SchE_Dashboard.html', null, { line14: ['14 — Repairs', 'tr'] }, 1400],
+  ['trip-dash', FIX + 'SchE_Dashboard.html', async p => {
+      await p.evaluate(() => {
+        const cell = re => [...document.querySelectorAll('td')].find(td => re.test(td.textContent.trim())).nextElementSibling;
+        cell(/^14 — Repairs/).textContent = '$1,580'; cell(/^20 — Total expenses/).textContent = '$4,480'; cell(/^21 — Net income/).textContent = '$2,670'; cell(/^Grand total/).textContent = '$2,670'; }); }, {
+    bottom: ['SCH. E BOTTOM LINE', 'section,div.card,.panel,article'], line14: ['14 — Repairs', 'tr'],
+    line20: ['20 — Total expenses', 'tr'], line21: ['21 — Net income', 'tr'] }, 1400],
+
+  // RM story: one AC replacement from the tenant's email to the preparer. Pages are
+  // rendered from the sample property by make_story_pages.py, one per state.
+  ['st-mail', STORY + 'mail.html', UNHIDE, {
+    vendor: ['Quote request: Replace AC condenser', 'article'], send: ['Send this one', 'button'],
+    tenant: ['Re: AC unit stopped working', 'article'], last: ['Sam Tenant (tenant)', 'p'] }, 1400],
+  ['st-wo-ask', STORY + 'wo-ask.html', UNHIDE, { card: WO, ask: ['Ask for a quote', 'button'] }, 1400],
+  ['st-wo-quote', STORY + 'wo-quote.html', UNHIDE, { card: WO, approve: ['Approve', 'button'], quote: ['Quote in, waiting on you', 'span'] }, 1400],
+  ['st-wo-approved', STORY + 'wo-approved.html', UNHIDE, { card: WO, agreed: ['Agreed price', 'p'], wait: ['Waiting on invoice', 'span'] }, 1400],
+  ['st-wo-invoice', STORY + 'wo-invoice.html', UNHIDE, { card: WO, invoice: ['over the agreed', 'p'], close: ['Close it', 'button'] }, 1400],
+  ['st-wo-closed', STORY + 'wo-closed.html', async p => { await UNHIDE(p); await p.evaluate(() => document.querySelectorAll('details').forEach(d => d.open = true)); }, {
+    card: WO, head: ['Work orders (0 open)', 'h2'] }, 1400],
+  ['st-assets', STORY + 'assets.html', null, { orders: ['From closed work orders', 'div.card'], use: ['Use this', 'button'], add: ['2 · Add something from this year', 'div.card'] }, 1400],
+  ['st-assets-b', STORY + 'assets.html', async p => {
+      const sug = fs.readFileSync(path.join(__dirname, '../../.design-loop/clips/fixture/story/assets-suggest.json'), 'utf8');
+      await p.evaluate(sug => { window.fetch = async () => ({ json: async () => JSON.parse(sug) }); Element.prototype.scrollIntoView = () => {};
+        document.querySelector('.woasset').click(); }, sug);
+      await p.waitForTimeout(900); }, {
+    add: ['2 · Add something from this year', 'div.card'], why: ['Proposed:', 'div'], use: ['Use this', 'button'], addbtn: ['Add to Assets', 'button'] }, 1400],
+  ['st-assets-added', STORY + 'assets-added.html', null, { row: ['Replace AC condenser', 'tr'], tab: ['On the Assets tab now', 'div.card'] }, 1400],
+  ['st-org', FIX + 'SchE_Organizer.html', null, { export: ['Export preparer package', 'button,a'] }, 1400],
+
+  // Private lanes and errands never reach a frame: the job-search lane and any
+  // family-laptop ticket are removed before the shot.
+  ['ops-front', 'http://127.0.0.1:8643/', async p => {
+      await p.evaluate(() => {
+        // climb from the private text until the next parent also holds a sibling we keep, then hide that box
+        const hide = (re, keep) => [...document.querySelectorAll('body *')].filter(e => e.children.length === 0 && re.test(e.textContent)).forEach(e => {
+          let c = e; while (c.parentElement && !c.parentElement.textContent.includes(keep)) c = c.parentElement; c.style.display = 'none'; });
+        hide(/sent this week/, 'Rental'); hide(/^T-104$/, 'T-096'); });
+      await p.waitForTimeout(400); }, {
+    brief: ['Morning brief', 'section,div.card,.panel,article'], lanes: ['Lanes in the order they clear work', 'div,p,span'],
+    needs: ['Needs you', 'section,div.card,.panel,article'], services: ['Services', 'section,div.card,.panel,article'] }],
+  ['ops-ideas', 'http://127.0.0.1:8643/ideas', null, {
+    heat: ['Heat', 'section,div.card,.panel,article'], notes: ['Your notes', 'section,div'], tryit: ['Try it', 'section,div'] }],
   ['ops-flow', 'http://127.0.0.1:8643/flow', null, {
     tab_review: ['REVIEW', 'a'], firing: ['FIRING NOW', 'section,div.card,.panel,article'],
     drop: ['The Drop', 'a,div'], queue: ['Review queue', 'a,div'], pub: ['Publisher', 'a,div'],
     surfaces: ['Surfaces', 'div'] }],
-  ['ops-queue', 'http://127.0.0.1:8766/', null, {
+  // A readable plate never reaches a frame: blur the photo on any card that shows one.
+  ['ops-queue', 'http://127.0.0.1:8766/', async p => {
+      await p.evaluate(() => { const t = [...document.querySelectorAll('body *')].find(e => e.children.length === 0 && /^From the Back$/.test(e.textContent.trim()));
+        let c = t; while (c && !c.querySelector('img')) c = c.parentElement; if (c) c.querySelectorAll('img').forEach(i => i.style.filter = 'blur(18px)'); }); await p.waitForTimeout(300); }, {
     how: ['HOW THIS WORKS', 'section,div,pre,aside'], needs: ['Needs my click', 'a,button'],
     pending: ['Pending', 'a,button'], nav_slides: ['Slides', 'a'] }],
   ['ops-slides', 'http://127.0.0.1:8766/slides', async p => {
-      await p.selectOption('#tw-deck', '2026-09-01/orange-creamsicle.json'); await p.waitForTimeout(2500); }, {
+      await p.selectOption('#tw-deck', '2026-09-01/orange-creamsicle.json'); await p.waitForTimeout(2500);
+      await p.evaluate(() => document.querySelectorAll('img').forEach(i => i.loading = 'eager')); await p.waitForFunction(() => [...document.images].every(i => i.complete), null, { timeout: 30000 }).catch(() => {});
+      for (let k = 0; k < 6; k++) { await p.evaluate(k => { const th = [...document.querySelectorAll('body *')].filter(e => /^\d · /.test((e.textContent||'').trim()) && e.children.length === 0); if (th[k]) th[k].scrollIntoView({ block: 'center' }); }, k); await p.waitForTimeout(700); }
+      await p.evaluate(() => { document.querySelectorAll('*').forEach(e => { if (e.scrollTop) e.scrollTop = 0; }); window.scrollTo(0, 0); }); await p.waitForTimeout(1200); }, {
     tab_ops: ['OPS', 'a'], lines: ['lines', 'label,div,span'], canvas: ['Slide 1 of', 'div'],
     thumbs: ['1 · cover', 'div,button,a'], live: ['live', 'label'] }],
   // Same screen after the click on "guessing": the chip is on and the live
@@ -107,12 +186,14 @@ const FIND = `(targets) => {
   fs.mkdirSync(OUT, { recursive: true });
   const b = await chromium.launch();
   const only = process.argv[2];
-  for (const [id, url, prep, targets] of SCENES) {
+  for (const [id, url, prep, targets, vh] of SCENES) {
     if (only && !id.startsWith(only)) continue;
-    const p = await b.newPage({ viewport: { width: 1440, height: 1008 }, deviceScaleFactor: 2 });
+    const p = await b.newPage({ viewport: { width: 1440, height: vh || 1008 }, deviceScaleFactor: 2 });
     try {
       await p.goto(url, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
       await p.waitForTimeout(id === 'ops-flow' ? 6000 : 2500);
+      // The trip clip shows the app, not the OS around it: the OS strip and side nav are removed and the app fills the width.
+      if (/^(trip|st)-/.test(id)) { await p.addStyleTag({ content: '.opsnav,.side{display:none!important}.app{display:block!important;min-height:0!important}:root{--strip-h:0px!important}' }); await p.waitForTimeout(300); }
       if (prep) await prep(p);
       await p.evaluate(SCRUB, CFG);
       await p.waitForTimeout(300);
