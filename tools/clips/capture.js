@@ -168,6 +168,8 @@ const FIND = `(targets) => {
     try {
       await p.goto(url, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
       await p.waitForTimeout(id === 'ops-flow' ? 6000 : 2500);
+      // The trip clip shows the app, not the OS around it: the OS strip and side nav are removed and the app fills the width.
+      if (id.startsWith('trip-')) { await p.addStyleTag({ content: '.opsnav,.side{display:none!important}.app{display:block!important;min-height:0!important}:root{--strip-h:0px!important}' }); await p.waitForTimeout(300); }
       if (prep) await prep(p);
       await p.evaluate(SCRUB, CFG);
       await p.waitForTimeout(300);

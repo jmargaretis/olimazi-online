@@ -49,21 +49,21 @@ document.documentElement.style.height = document.body.style.height = H + 'px';
 const S = [
   { t0: 0, t1: 4, title: 'Snap the receipt<span class=r>.</span>', sub: 'The phone sends it to the tracker. No email.', phone: 1 },
   { t0: 4, t1: 8.4, title: 'Checked against the quote<span class=r>.</span>', sub: 'The invoice lands on its work order. Over the agreed price shows red.',
-    layers: [['trip-quote', 0, 0]], cam: [[0, 292, 318, 540], [4.4, 292, 326, 540]],
-    marks: [['ring', 297, 512, 306, 30, 1.1]] },
+    layers: [['trip-quote', 0, 0]], cam: [[0, 40, 318, 540], [4.4, 40, 326, 540]],
+    marks: [['ring', 61, 512, 306, 30, 1.1]] },
   { t0: 8.4, t1: 12.3, title: 'It drafts the row<span class=r>.</span>', sub: 'Vendor and line 14 come from the invoice. Red is what it could not read.',
-    layers: [['trip-flow-a', 0, 0]], cam: [[0, 286, 676, 600]],
-    marks: [['ring', 506, 701, 160, 28, 1.0], ['ring', 522, 759, 160, 28, 1.25]] },
+    layers: [['trip-flow-a', 0, 0]], cam: [[0, 50, 635, 600]],
+    marks: [['ring', 270, 660, 160, 28, 1.0], ['ring', 286, 718, 160, 28, 1.25]] },
   { t0: 12.3, t1: 17.1, title: 'Fill the red. Click Book<span class=r>.</span>', sub: 'Nothing books until I say so.',
-    layers: [['trip-flow-a', 0, 0]], type: [[508, 703, 156, 24, 0.7, 1.6], [524, 761, 156, 24, 1.8, 2.5]],
-    cam: [[0, 286, 676, 600], [2.7, 286, 676, 600], [3.4, 720, 676, 600]],
-    cursor: [[0, 690, 790], [2.6, 690, 790], [3.5, 1104, 718]], click: [3.7, 1101, 714] },
+    layers: [['trip-flow-a', 0, 0]], type: [[272, 662, 156, 24, 0.7, 1.6], [288, 720, 156, 24, 1.8, 2.5]],
+    cam: [[0, 50, 635, 600], [2.7, 50, 635, 600], [3.4, 484, 635, 600]],
+    cursor: [[0, 454, 749], [2.6, 454, 749], [3.5, 868, 677]], click: [3.7, 865, 673] },
   { t0: 17.1, t1: 20.4, title: 'Off the list<span class=r>.</span>', sub: 'Three rows waiting. Now two.',
-    layers: [['trip-flow-b', 0, 0], ['trip-flow-c', 0.8, 0.5]], cam: [[0, 280, 380, 700]],
-    marks: [['dot', 597, 389, 42, 36, 1.3]] },
+    layers: [['trip-flow-b', 0, 0], ['trip-flow-c', 0.8, 0.5]], cam: [[0, 44, 339, 700]],
+    marks: [['dot', 361, 348, 42, 36, 1.3]] },
   { t0: 20.4, t1: 25, title: 'Line 14 updates<span class=r>.</span>', sub: 'Repairs $955 to $1,580. Net income follows.',
-    layers: [['trip-dash-0', 0, 0], ['trip-dash', 1.2, 0.5]], cam: [[0, 250, 525, 540], [4.6, 250, 545, 540]], camW: [[0, 250, 635, 540], [4.6, 250, 650, 540]],
-    marks: [['ring', 280, 680, 484, 38, 1.4], ['chip', 640, 652, 0, 0, 1.6, '+$625.00'], ['ring', 280, 921, 484, 76, 2.2]] },
+    layers: [['trip-dash-0', 0, 0], ['trip-dash', 1.2, 0.5]], cam: [[0, 14, 484, 540], [4.6, 14, 504, 540]], camW: [[0, 14, 594, 540], [4.6, 14, 609, 540]],
+    marks: [['ring', 44, 639, 484, 38, 1.4], ['chip', 404, 611, 0, 0, 1.6, '+$625.00'], ['ring', 44, 880, 484, 76, 2.2]] },
   { t0: 25, t1: LEN, end: 1 },
 ];
 const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
@@ -135,7 +135,8 @@ function draw(s, lt) {
   const f = s.el.querySelector('.fr'), fh = H - top - 70;
   Object.assign(f.style, { top: top + 'px', height: fh + 'px', width: FW + 'px', transform: `translateY(${(1 - u) * 120}px)` });
   let [, x, y, w] = camAt(WIDE && s.camW || s.cam, lt);
-  const wv = w * FW / 960; x += (w - wv) / 2; const k = 960 / w;
+  // the app column ends at 1084; the camera never leaves it, so no blank page shows at either side
+  const wv = w * FW / 960; x = cl(x + (w - wv) / 2, 0, 1084 - wv); const k = 960 / w;
   s.el.querySelector('.cam').style.transform = `scale(${k}) translate(${-x}px,${-y}px)`;
   const imgs = s.el.querySelectorAll('.cam > img:not(.ty)');
   s.layers.forEach(([, d, dur], i) => { if (i) imgs[i].style.opacity = dur ? cl((lt - d) / dur, 0, 1) : 1; });
