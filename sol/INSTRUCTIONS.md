@@ -1,58 +1,55 @@
 # Codex work packet — active
 
-**Packet:** #11 · issued 2026-07-21 · authored by Claude (planning side)
-**Packet #10 (tester page): ACCEPTED** — tester.html live at olimazi.online/tester.html.
-**Numbering note:** "Trace the transaction" (reserved as #11 in the #10 notes) shifts
-to packet #12 — this small gallery packet takes #11 since it ships first.
-**Protocol:** AGENTS.md (Codex operating contract); report in required REPORT.md format.
+**Packet:** #13 · issued 2026-10-02 · authored by Claude (planning side)
+**Branch:** `port-everything` — commit there. Never touch `main`, never push.
+**Protocol:** AGENTS.md; report in the required REPORT.md format. Stage by file name, never `git add -A`.
 
-## Packet #11 scope — Rental Manager carousel: Organizer + Management slides
+## Packet #13 scope — click-through audit of the ported site, then fix
 
-The tracker product now has four surfaces; the site's Rental Manager section only
-shows the old summary view. Add the two new product pages to the existing
-carousel in index.html.
+`index.html` is the new dark hero build with the OLD site ported below it inside
+`<div class="s7">` (old CSS scoped with the `.s7` prefix, old inline script). The
+reference for what must be present is `index-s7.html` in this folder (the old site,
+also live at https://olimazi.online/index-s7.html). `notes/rebuild-diff-2026-10-02.md`
+lists what was already known to be missing.
 
-### 1. New assets (already in olimazi-assets/ — do NOT regenerate)
-- `rental-manager-organizer.png` (952×1190) — the Client Organizer page: filing
-  flags with confirmed/unconfirmed chips, extension callout, owner/preparer cards.
-- `rental-manager-management.png` (952×1190) — the Management page: issue board
-  (AC repair sample case), documents table with expiry badge.
-Both are framed fixture screenshots (fake "12 Sample Street" data only — same
-family as `rental-manager-dashboard.png`).
+### 1. Click through everything, both files
+Playwright is installed (python and node). Open
+`file:///C:/Users/jmarg/work/olimazi-online/index.html` at desktop 1440x900 and phone
+390x844, then `index-s7.html` the same way. Click every nav link, every hero tile and
+the detail pane, every Open / arrow / `data-pane` / `data-contact` control, the library
+viewer and its thumbnails, the rental manager pane, the story pane, the contact card,
+the footer links. Write down what the old site has that the port lacks or breaks.
 
-### 2. Carousel slides (index.html, Rental Manager section)
-Add two `figure.carousel-slide` entries after the existing summary/dashboard
-slides, matching the existing slide markup pattern exactly (img.carousel-media +
-figcaption.carousel-caption with a <b> lead):
-- **Organizer slide** — caption lead "Client Organizer". Body (match the site's
-  first-person operator voice, 2–3 sentences): the trust layer — the page shows
-  what the workbook believes (addresses, contacts, filing status) so the owner
-  confirms it before trusting the numbers; built in the spirit of a CPA client
-  organizer, ready to hand to a preparer.
-- **Management slide** — caption lead "Management view". Body: the day-to-day side
-  of the same records — tenant issues, vendors, and documents with expiry
-  warnings, kept next to the books instead of in a separate app.
-If the carousel uses dot/arrow controls driven by slide count, confirm they pick
-up the new slides automatically; adjust only what the existing mechanism requires.
+### 2. Fix the owner's findings (all four are required)
+1. **"Slides missing details. Slides missing."** Slide sets, decks, captions and image
+   references in the library and viewer are incomplete versus `index-s7.html`. Make
+   every one of them exist and render in the port. Check every image path resolves on disk.
+2. **"No links."** Links in the old site (external, GitHub, social, mailto, the rental
+   manager tester invite, LinkedIn, library items) are missing or dead in the port.
+   Restore all of them. Every href must resolve; no `#` stubs unless the old site had them.
+3. **"Rental manager missing a bunch of items."** Compare the rental pane/section in
+   `index-s7.html` with the port and restore everything missing: feature list, tester
+   invitation, screenshots, buttons, text.
+4. **"Don't like having to click on 'open'. I want the 'x' I have for closing."**
+   Content shows directly on a tile click, with no extra "Open" step. Closing stays the
+   existing "x" (`#x`) pattern the hero pane already uses. Remove "Open" buttons in the
+   ported sections where they only gate content that can simply be shown; reuse the same
+   close behaviour and markup. Do not invent a new close control.
 
-### 3. Alt text
-Meaningful alts: "Client Organizer page — filing flags and preparer card, sample
-property" / "Management page — tenant issue board and documents, sample property".
+### 3. Hard rules
+- `#C0392B` is the only red.
+- These two lines stay byte-identical: the CSS line starting
+  `.oc2{position:absolute;left:-2.2vw;` and
+  `var TF={cw:14,gap:107,depth:84,tilt:60,sA:1.43,s1:.98,s2:.82,dim:.37,fade:1,shadow:2};`.
+  Do not change hero layout numbers.
+- Keep the HubSpot contact form wiring as is.
+- Never name Claude or any AI app in site copy. Faceless brand: no owner name anywhere.
 
-## Out of scope
-Any copy change outside the two new captions (hero copy is a separate pending
-decision); tester.html; any other section; image regeneration; new dependencies;
-this file.
-
-## Acceptance test (results → REPORT.md)
-1. index.html contains exactly two new carousel-slide figures referencing the two
-   new PNGs, matching existing markup pattern; git diff confined to the carousel
-   block.
-2. Slide count/controls work with the added slides (inspect the carousel JS/CSS
-   mechanism and state how it handles the count).
-3. Alt text present on both images.
-4. No real personal data in captions (fixture/sample framing only).
-5. Serve locally (python -m http.server) and confirm the section renders with the
-   new slides reachable via the carousel controls.
-You cannot commit (read-only .git — expected); leave working-tree changes for
-Claude to verify, John to accept, then commit/push.
+### 4. Verify, then report
+Playwright after fixing: zero page errors; every control opens its content; every local
+href/src resolves on disk; external hrefs are http(s). Save screenshots of the fixed
+states to `C:\Users\jmarg\My Drive\Claude\Site plan 2026-09-27\` with prefix `codex-`.
+Commit on `port-everything`; end the commit message with
+`Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`.
+REPORT.md must list: the diff (found / fixed / still open), the commit hash, the
+screenshot paths.

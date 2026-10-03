@@ -17,7 +17,7 @@ diff for his first name and for any byline, signature or personal attribution.
 
 When the owner says “check the site for instructions” (or names the olimazi-online repo), read the active packet in `sol/INSTRUCTIONS.md`.
 
-Execute only that packet’s stated scope, commit the completed work to `main`, then overwrite `sol/REPORT.md` with the required completion report.
+Execute only that packet’s stated scope, commit the completed work to the branch the packet names (`main` when it names none), then overwrite `sol/REPORT.md` with the required completion report. A task handed to you directly in chat that names a branch and a scope is a packet too: run it the same way, never answer "I'll wait".
 
 Direct changes are authorized only within the packet. Put any out-of-scope idea in `sol/REPORT.md` as a proposal instead of implementing it.
 
