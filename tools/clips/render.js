@@ -6,12 +6,13 @@ const { chromium } = require('C:/Users/jmarg/.claude/skills/design-loop/node_mod
 const { spawn } = require('child_process'), path = require('path'), fs = require('fs');
 const clip = process.argv[2] || 'rm', si = process.argv.indexOf('--stills'), wide = process.argv.includes('--wide');
 const VW = wide ? 1600 : 1080, VH = wide ? 1150 : 1350, SFX = wide ? '-wide' : '';
-const STAGE = 'file:///' + path.join(__dirname, 'stage.html').split(path.sep).join('/') + '?clip=' + clip + (wide ? '&wide=1' : '');
+// The OS clip has its own stage (storyboard v2 styles); the others share stage.html.
+const STAGE = 'file:///' + path.join(__dirname, clip === 'os' ? 'stage-os.html' : 'stage.html').split(path.sep).join('/') + '?clip=' + clip + (wide ? '&wide=1' : '');
 (async () => {
   const b = await chromium.launch();
   const p = await b.newPage({ viewport: { width: VW, height: VH }, deviceScaleFactor: 1 });
   await p.goto(STAGE); await p.evaluate(() => window.ready);
-  const { fps, len } = await p.evaluate(() => ({ fps: CLIPS[new URLSearchParams(location.search).get('clip')].fps, len: CLIPS[new URLSearchParams(location.search).get('clip')].len }));
+  const { fps, len } = await p.evaluate(() => window.CLIP || ({ fps: CLIPS[new URLSearchParams(location.search).get('clip')].fps, len: CLIPS[new URLSearchParams(location.search).get('clip')].len }));
   if (si > 0) {
     const dir = path.join(__dirname, '../../.design-loop/clips/stills'); fs.mkdirSync(dir, { recursive: true });
     for (const t of process.argv.slice(si + 1).map(Number)) {
