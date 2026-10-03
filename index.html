@@ -1799,7 +1799,7 @@ var P=[
  {n:'Rental Manager',m:'Sch. E',d:'A workbook you own for running a rental. The spreadsheet stays the source of truth.',im:['rm'],c:{v:'assets/clip-rm.mp4',p:'assets/clip-rm-poster.jpg'}},
  {n:'How the work runs',m:'The loop',d:'Context, constraints, handoff, record. The weekly loop behind every build.',im:['ops'],c:{v:'assets/clip-ops.mp4',p:'assets/clip-ops-poster.jpg'}},
  {n:'Library',m:'Kept along the way',d:'Art, clips and notes kept as the work went.',im:['sketch','wheel'],c:{v:'assets/library-kairos.mp4',p:'assets/library-kairos-poster.jpg'}},
- {n:'The short story',m:'Read it',d:'Why it was built, in plain words.',im:['av']}];
+ {n:'The short story',m:'Read it',d:'Why it was built, in plain words.',im:['av'],c:'assets/story-text.jpg'}];
 var destinations=['method','rental','learning',null,'story'];
 var cf=document.getElementById('cf');P.forEach(function(p,i){var b=document.createElement('button');b.className='t'+(p.im[0]==='av'?' av':'');b.setAttribute('aria-label',p.n);if(destinations[i])b.setAttribute('data-pane',destinations[i]);else b.setAttribute('data-library','');b.innerHTML='<img alt="">';cf.appendChild(b)});
 var T=[].slice.call(document.querySelectorAll('.t')),hi=document.getElementById('hi'),hn=document.getElementById('hn'),hm=document.getElementById('hm'),hd=document.getElementById('hd'),th=document.getElementById('th'),cur=-1;
@@ -1824,7 +1824,7 @@ T.forEach(function(t,i){t.addEventListener('pointerdown',function(){t._sel=i===c
 pn.addEventListener('keydown',function(e){if(e.target===pn&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pn.click()}});
 T.forEach(function(t,i){t.addEventListener('focus',function(){if(!isOpen())show(i)})});
 cf.addEventListener('pointerenter',function(){if(isOpen())return;mute(cf)});cf.addEventListener('pointerleave',function(){if(!isOpen())mute(null)});
-cf.addEventListener('wheel',function(e){if(isOpen())return;e.preventDefault();if(Math.abs(e.deltaY)<4||cf._w)return;cf._w=1;setTimeout(function(){cf._w=0},350);show((cur+(e.deltaY>0?1:-1)+T.length)%T.length)},{passive:false});
+cf.addEventListener('wheel',function(e){if(isOpen())return;e.preventDefault();/* one step per scroll gesture; a long scroll steps at most once a second */var n=Date.now(),q=n-(cf._l||0);cf._l=n;if(Math.abs(e.deltaY)<4||(q<250&&n-(cf._s||0)<1000))return;cf._s=n;show((cur+(e.deltaY>0?1:-1)+T.length)%T.length)},{passive:false});
 show(0);
 var sx=null;cf.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});cf.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;sx=null;if(PH.matches&&Math.abs(dx)>40)show((cur+(dx<0?1:-1)+T.length)%T.length)},{passive:true});
 (function tick(){try{document.getElementById('clk').textContent='Pacific time • '+new Date().toLocaleTimeString('en-US',{timeZone:'America/Los_Angeles',hour:'numeric',minute:'2-digit'})}catch(e){}setTimeout(tick,20000)})();
