@@ -1819,7 +1819,8 @@ function photo(src){hi.style.opacity=0;setTimeout(function(){hi.src=src;hi.style
 function show(i){if(i===cur)return;cur=i;var p=P[i];pn.removeAttribute('data-pane');pn.removeAttribute('data-library');pn.removeAttribute('data-cat');if(destinations[i])pn.setAttribute('data-pane',destinations[i]);else pn.setAttribute('data-library','');pn.setAttribute('aria-label','View '+p.n+' details');T.forEach(function(t,j){t.classList.toggle('on',j===i)});flow();card(p);scram(hn,p.n);hm.textContent=p.m;hd.textContent=p.d;
  th.innerHTML='';th.classList.toggle('has',p.im.length>1);if(p.im.length>1)p.im.forEach(function(k,j){var b=document.createElement('button');b.innerHTML='<img alt="">';b.firstChild.src=IMG[k];if(!j&&!p.c)b.classList.add('on');b.onclick=function(){still(IMG[k]);[].forEach.call(th.children,function(c){c.classList.toggle('on',c===b)})};th.appendChild(b)})}
 function mute(keep){document.querySelectorAll('.cf,.story,.lg').forEach(function(e){e.classList.toggle('mu',!!keep&&e!==keep)})}
-T.forEach(function(t,i){t.addEventListener('click',function(){show(i)})});
+/* phone: first tap selects, second tap opens. Focus selects before click fires, so read the state at pointerdown */
+T.forEach(function(t,i){t.addEventListener('pointerdown',function(){t._sel=i===cur});t.addEventListener('click',function(e){var sel=t._sel;t._sel=undefined;if(PH.matches&&sel===false)e.stopPropagation();show(i)})});
 pn.addEventListener('keydown',function(e){if(e.target===pn&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pn.click()}});
 T.forEach(function(t,i){t.addEventListener('focus',function(){if(!isOpen())show(i)})});
 cf.addEventListener('pointerenter',function(){if(isOpen())return;mute(cf)});cf.addEventListener('pointerleave',function(){if(!isOpen())mute(null)});
