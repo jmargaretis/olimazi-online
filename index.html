@@ -12,7 +12,7 @@ body{background:var(--bg);color:var(--ink);font:400 15px/1.45 "Inter Tight","Seg
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* first screen */
 .hero{position:relative;height:100vh;min-height:640px;overflow:hidden}
-/* the octopus: John's placement 9/28 (hero-octo-place.html) */
+/* the octopus placement 9/28 (hero-octo-place.html) */
 .oc{position:absolute;pointer-events:none;z-index:1;left:-22.9vw;top:.3vh;width:120vw;height:88.2vw;transform:scaleX(-1)}
 .nav{position:absolute;right:4vw;top:3.4vh;display:flex;gap:26px;align-items:center;font-weight:600;font-size:14px;color:var(--soft);z-index:5}
 .nav a{color:inherit;text-decoration:none}.nav a:hover{color:var(--ink)}
@@ -105,6 +105,9 @@ footer .cta.gx::after{justify-content:center;border-radius:8px;box-shadow:inset 
 @media (max-width:860px){.oc2{left:-50vw;top:40px;width:220vw;opacity:.28}}
 /* ---- old site sections, scoped ---- */
 .s7{position:relative;z-index:1}
+body.locked .s7{z-index:10}
+.s7 #x{position:fixed;right:16px;top:16px;z-index:70;background:#F3E6D8;color:#241509;font-weight:700;font-size:13px;border-radius:999px;padding:8px 16px}
+.s7 #x[hidden]{display:none}
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Black.otf") format("opentype");font-weight:900;font-display:swap}
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Bold.otf") format("opentype");font-weight:700;font-display:swap}
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Medium.otf") format("opentype");font-weight:500;font-display:swap}
@@ -203,7 +206,7 @@ body.locked{overflow:hidden}
 .s7 .card .on h3{font:700 24px/1.1 var(--disp);letter-spacing:-.02em}
 .s7 .card .on h3 small{color:rgba(242,246,248,.72)}
 .s7 .card .on>small{display:block;font-size:14px;color:rgba(242,246,248,.78);margin-top:6px}
-.s7 .card .on b{color:#E2705C}
+.s7 .card .on b{color:#C0392B}
 .s7 .card .foot{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:16px 2px 0}
 .s7 .card .foot p{color:var(--ink-soft);font-size:15px;max-width:40ch}
 .s7 .card .foot .u{font-weight:500;white-space:nowrap;color:var(--ink)}
@@ -591,7 +594,7 @@ body.locked{overflow:hidden}
 .s7 #pane-story .close{margin-top:40px;font-size:20px;line-height:1.6;color:var(--plate);max-width:46ch}
 @media(max-width:640px){.s7 #pane-story p{font-size:16px}}
 </style></head><body>
-<section class="hero"><div class="oc2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" style="width:100%;height:100%;display:block">
+<section class="hero" id="top"><div class="oc2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" style="width:100%;height:100%;display:block">
 <g id="octopus" fill="currentColor">
 <circle cx="500.0" cy="87.0" r="1.6"/>
 <circle cx="500.0" cy="116.2" r="5.8"/>
@@ -991,18 +994,18 @@ body.locked{overflow:hidden}
 <circle cx="84.0" cy="646.0" r="1.6"/>
 </g></svg></div>
  <canvas class="oc"></canvas>
- <div class="lg" role="img" aria-label="Olimazi"></div>
- <nav class="nav"><a class="ct" href="#contact" data-contact>Contact</a><a href="#work">Work</a><a href="#library">Library</a><a href="#" data-pane="story">Story</a></nav>
+ <a class="lg" href="#top" aria-label="Olimazi home"></a>
+ <nav class="nav"><a class="ct" href="#contact" data-contact>Contact</a><a href="#work">Work</a><a href="#learning">Learning</a><a href="#library">Library</a><a href="#story" data-pane="story">Story</a></nav>
  <div class="story"><p class="kk">Presenting my experiences</p><h1 aria-label="Sharing vision, aided by Ai?">Sharing vision,<br>aided by Ai<span class="q">?</span></h1><div class="sb"><p>Olimazi is an ongoing, growing personal brand meant to share past experiences along with builds from a non-technical scope &mdash; using AI as a tool to express human elements, and hopefully the missing context you only get from being &ldquo;in it&rdquo;.</p><button class="gx sl" type="button" data-t="Read it &rarr;" data-pane="story">The short story &rarr;</button><span class="as">faceless by design &mdash; the work is the portrait.</span></div></div>
- <div class="pn" aria-live="polite">
-  <button class="x" id="x">Close &times;</button>
+ <div class="pn" aria-live="polite" role="button" tabindex="0" aria-label="View project details">
   <div class="ph"><div class="mn"><img id="hi" alt=""></div><div class="th" id="th"></div></div>
-  <div><small id="hm"></small><h2 id="hn"></h2><p id="hd"></p><button class="go" id="go">Open</button></div>
+  <div><small id="hm"></small><h2 id="hn"></h2><p id="hd"></p></div>
  </div>
  <div class="cf" id="cf" aria-label="Projects"></div>
 </section>
 <div class="s7">
-<div id="navbar" hidden></div><div id="prog" hidden></div><div id="strip" hidden></div>
+<button class="x" id="x" type="button" hidden>Close &times;</button>
+<div id="navbar" hidden></div>
 <section id="work">
   <div class="wrap">
     <!-- content:main-work:start -->
@@ -1013,11 +1016,11 @@ body.locked{overflow:hidden}
     <div class="work">
       <button class="card rv" type="button" data-pane="method" aria-label="Open Method Effects">
         <div class="ph"><img src="assets/method-s3-profile.jpg" alt="Method Effects — S3 profile, carbon splitter fitted" width="2000" height="1333"><div class="on"><h3 data-c="Method Title">Method Effects</h3><small><i class="dot prev"></i>Previous · 2017–2024 · automotive aero</small></div></div>
-        <div class="foot"><p data-c="Method Body">Designed and made in the US. Around 50% margins. Wound down because it could not scale on a cash basis.</p><span class="u" data-c="Method CTA">Open &rarr;</span></div>
+        <div class="foot"><p data-c="Method Body">Designed and made in the US. Around 50% margins. Wound down because it could not scale on a cash basis.</p><span class="u" data-c="Method CTA">Details &rarr;</span></div>
       </button>
       <button class="card next rv" type="button" data-pane="rental" aria-label="Open Rental Manager" style="transition-delay:.08s">
         <div class="ph"><video class="cardclip" src="assets/clip-rm.mp4" poster="assets/clip-rm-poster.jpg" muted loop playsinline preload="none" aria-label="Rental Manager on the sample property: the Schedule E dashboard, receipts from a phone, repairs, drafted tenant replies and the preparer checklist"></video><div class="on"><h3>Rental Manager <small style="display:inline;font:400 14px/1 var(--body)">Sch.&nbsp;E</small></h3><small><i class="dot"></i>Current · first Olimazi build · <b style="color:var(--ox);font-weight:700">testers wanted</b></small></div></div>
-        <div class="foot"><p data-c="Rental Body">A workbook you own. Local files, deterministic math, open items visible. Business Manager (Sch. C) is next.</p><span class="u" data-c="Rental CTA">Open &rarr;</span></div>
+        <div class="foot"><p data-c="Rental Body">A workbook you own. Local files, deterministic math, open items visible. Business Manager (Sch. C) is next.</p><span class="u" data-c="Rental CTA">Details &rarr;</span></div>
       </button>
     </div>
     <!-- content:main-work:end -->
@@ -1032,7 +1035,7 @@ body.locked{overflow:hidden}
       <div class="rv">
         <span class="k">The build behind the work</span>
         <h2>One hub, running.</h2>
-        <p>The lessons came out of this: the ops hub that runs the brand and the Rental Manager beside it. A photo in a folder becomes a draft, then waits for a yes. Every number is read from its own source. <b>Planned in Claude Code, executed in Codex, reviewed in Claude Code.</b></p>
+        <p>The lessons came out of this: the ops hub that runs the brand and the Rental Manager beside it. A photo in a folder becomes a draft, then waits for a yes. Every number is read from its own source. <b>Planned, built, and reviewed in separate passes.</b></p>
         <small>55 seconds &middot; no sound needed</small>
       </div>
     </div>
@@ -1093,7 +1096,7 @@ body.locked{overflow:hidden}
 
 <div class="cmodal" id="cmodal" hidden role="dialog" aria-modal="true" aria-labelledby="ct-title">
   <div class="ccard">
-    <div class="cbar"><span id="ct-title" class="ctitle">olimazi<i>.online</i></span><button type="button" class="xmark" data-cclose aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4.9 5.1 C9.6 7.9 14.6 13.4 19.1 19"/><path d="M19 5 C15.1 9.6 9.3 14.8 5 18.9"/></g></svg></button></div>
+    <div class="cbar"><span id="ct-title" class="ctitle">olimazi<i>.online</i></span></div>
     <div class="crow"><span class="k">To</span><span class="v">hello@olimazi.online</span></div>
     <div class="crow" id="crow-name" hidden><span class="k">Name</span><span class="v">
       <input id="cname" type="text" name="name" autocomplete="name" placeholder="Your name">
@@ -1123,7 +1126,6 @@ body.locked{overflow:hidden}
 </div>
 
 <div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="Image viewer">
-  <button class="vclose xmark" type="button" data-vclose aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4.9 5.1 C9.6 7.9 14.6 13.4 19.1 19"/><path d="M19 5 C15.1 9.6 9.3 14.8 5 18.9"/></g></svg></button>
   <figure>
     <div class="vstage">
       <div class="vshot">
@@ -1149,7 +1151,7 @@ body.locked{overflow:hidden}
 <aside class="pane" id="pane-method" hidden role="dialog" aria-modal="true" aria-labelledby="t-method">
   <i class="edge" aria-hidden="true"></i>
   <div class="inner">
-    <div class="bar"><span>Previous work · 2017–2024</span><button type="button" class="xmark" data-close aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4.9 5.1 C9.6 7.9 14.6 13.4 19.1 19"/><path d="M19 5 C15.1 9.6 9.3 14.8 5 18.9"/></g></svg></button></div>
+    <div class="bar"><span>Previous work · 2017–2024</span></div>
     <h2 id="t-method">Method Effects</h2>
     <p class="meta"><b>Automotive aero.</b> Designed and made in the US.</p>
     <p>Splitters, lips and bucks for cars people actually drove. Every part was tooled, coated and shipped from one shop, and the first overseas order went to Japan.</p>
@@ -1159,7 +1161,7 @@ body.locked{overflow:hidden}
       <li><b>~50%</b><span>gross margin, made in the US</span></li>
       <li><b>Cash</b><span>the constraint that won</span></li>
     </ul>
-    <div class="gal">
+    <div class="gal" id="method-gallery">
       <figure class="sq"><button type="button" data-view="assets/method-splitter-mural.jpg" data-title="Splitter, mural" data-sub="Method Effects, 2017–2024" data-cap="Free marketing — being tagged in posts. The mural is the kind of art this whole page borrows from."><img src="assets/method-splitter-mural.jpg" alt="Blue Audi RS3 with Method Effects splitter parked in front of a painted mural"></button><figcaption class="cap">Free marketing — being tagged in posts. The mural is the kind of art this whole page borrows from.</figcaption></figure>
       <figure class="sq"><button type="button" data-view="assets/method-splitter-product.jpg" data-title="Splitter, fitted" data-sub="Method Effects, 2017–2024" data-cap="The RS3 splitter fitted — one piece across the front fascia."><img src="assets/method-splitter-product.jpg" alt="Blue Audi RS3 front end with the Method Effects splitter fitted"></button><figcaption class="cap">The RS3 splitter fitted — one piece across the front fascia.</figcaption></figure>
       <figure class="wide w32"><button type="button" data-view="assets/method-tooling-buck.jpg" data-title="Tooling buck" data-sub="Method Effects, 2017–2024" data-cap="Second-version tooling buck for the RS3 splitter — <a href='https://akra-plastics.com/' target='_blank' rel='noopener'>Akra Plastics</a>, So-Cal / Ontario CA. A straightforward outfit to work with."><img src="assets/method-tooling-buck.jpg" alt="Composite tooling buck for the Method Effects RS3 splitter"></button><figcaption class="cap">Second-version tooling buck for the RS3 splitter — <a href='https://akra-plastics.com/' target='_blank' rel='noopener'>Akra Plastics</a>, So-Cal / Ontario CA. A straightforward outfit to work with.</figcaption></figure>
@@ -1175,7 +1177,7 @@ body.locked{overflow:hidden}
 <aside class="pane left" id="pane-rental" hidden role="dialog" aria-modal="true" aria-labelledby="t-rental">
   <i class="edge" aria-hidden="true"></i>
   <div class="inner">
-    <div class="bar"><span>Current work · first Olimazi build · working prototype</span><button type="button" class="xmark" data-close aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4.9 5.1 C9.6 7.9 14.6 13.4 19.1 19"/><path d="M19 5 C15.1 9.6 9.3 14.8 5 18.9"/></g></svg></button></div>
+    <div class="bar"><span>Current work · first Olimazi build · working prototype</span></div>
     <h2 id="t-rental">Rental Manager <small style="font:inherit;font-size:.5em;color:var(--ink-soft)">Sch.&nbsp;E</small></h2>
     <p class="meta"><b>A workbook you own.</b> Built by an owner for owners: Ai is your intake and organizer.</p>
     <p class="note"><b>Rental Manager (Sch. E)</b> is a local-file organizer shaped by business-tax work and active rental-property management: portable records, deterministic math, and open items kept visible.</p>
@@ -1205,18 +1207,18 @@ body.locked{overflow:hidden}
 <aside class="pane" id="pane-learning" hidden role="dialog" aria-modal="true" aria-labelledby="t-learning">
   <i class="edge" aria-hidden="true"></i>
   <div class="inner">
-    <div class="bar"><span>Learning in public</span><button type="button" class="xmark" data-close aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4.9 5.1 C9.6 7.9 14.6 13.4 19.1 19"/><path d="M19 5 C15.1 9.6 9.3 14.8 5 18.9"/></g></svg></button></div>
+    <div class="bar"><span>Learning in public</span></div>
     <h2 id="t-learning">How the work runs.</h2>
     <p class="meta">The five lessons are on the page. This is the loop they came out of.</p>
     <ol class="loopsteps">
       <li><span class="step">Context</span><h3>Something I want to build on</h3><p>A rental-property filing problem, a product process, or an interest I can judge for myself gives the Ai work real context.</p></li>
-      <li><span class="step">Constraints</span><h3>Work around the gaps</h3><p>Gemini in November 2025 wasn&rsquo;t sufficient, then came Claude in April 2026 &mdash; YouTube and X, Claude Code planning, and practical workarounds to fill gaps in technical background.</p></li>
-      <li><span class="step">Handoff</span><h3>Plan, execute, review</h3><p>Planned in Claude Code, executed in Codex, reviewed in Claude Code. Around it: MCP setups like Zapier, Outlook workarounds, intake flows, and early Facebook and Instagram publishing systems.</p></li>
+      <li><span class="step">Constraints</span><h3>Work around the gaps</h3><p>The first tools in November 2025 weren&rsquo;t sufficient. By April 2026, one hub brought planning, research, and practical workarounds together to fill gaps in technical background.</p></li>
+      <li><span class="step">Handoff</span><h3>Plan, execute, review</h3><p>Planned, built, and reviewed in separate passes. Around it: MCP setups like Zapier, Outlook workarounds, intake flows, and early Facebook and Instagram publishing systems.</p></li>
       <li><span class="step">Record</span><h3>Keep the missing context</h3><p>A roughly weekly record of what worked, what did not, and details tutorials often leave out &mdash; without pretending the learning is finished.</p></li>
     </ol>
     <ul class="tl">
-      <li><b>Nov 2025</b><span>Gemini — not sufficient for the work</span></li>
-      <li><b>Apr 2026</b><span>Claude — the hub</span></li>
+      <li><b>Nov 2025</b><span>Early tools &mdash; not sufficient for the work</span></li>
+      <li><b>Apr 2026</b><span>One working hub</span></li>
       <li><b>2026</b><span>Rental Manager ships</span></li>
     </ul>
   </div>
@@ -1225,7 +1227,7 @@ body.locked{overflow:hidden}
 <aside class="pane dark" id="pane-story" hidden role="dialog" aria-modal="true" aria-labelledby="t-story">
   <i class="edge" aria-hidden="true"></i>
   <div class="inner">
-    <div class="bar"><span>Story</span><button type="button" class="xmark" data-close aria-label="Close"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4.9 5.1 C9.6 7.9 14.6 13.4 19.1 19"/><path d="M19 5 C15.1 9.6 9.3 14.8 5 18.9"/></g></svg></button></div>
+    <div class="bar"><span>Story</span></div>
     <!-- content:story:start -->
     <p class="verdict" data-c="Verdict">The honest answer is the one nobody asked for:
     <span class="jw">I didn’t take on enough risk if anyone were to ask.</span></p>
@@ -1280,6 +1282,19 @@ body.locked{overflow:hidden}
 <script>
 (function(){
   var rm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var closeButton = document.getElementById('x');
+  function syncClose(){
+    var root = viewer && viewer.classList.contains('on') ? viewer :
+               cmodal && cmodal.classList.contains('on') ? cmodal : open;
+    closeButton.hidden = !root;
+    (root || document.querySelector('.s7')).appendChild(closeButton);
+  }
+  closeButton.addEventListener('click', function(e){
+    e.stopPropagation();
+    if (viewer.classList.contains('on')) vhide();
+    else if (cmodal.classList.contains('on')) chide();
+    else hide(open);
+  });
 
   /* ---- reveal on scroll ---- */
   var rv = document.querySelectorAll('.rv');
@@ -1432,7 +1447,7 @@ body.locked{overflow:hidden}
     vsub.textContent = btn.getAttribute('data-sub') || '';
     vslides = slides || [{ src: btn.getAttribute('data-view'),
                            title: btn.getAttribute('data-title'),
-                           cap: btn.getAttribute('data-cap') || '',
+                           cap: btn.getAttribute('data-cap') || (btn.querySelector('.cap') ? btn.querySelector('.cap').innerHTML : ''),
                            video: btn.getAttribute('data-video') }];
     vi = atEnd ? vslides.length - 1 : 0;
     vthumbs.textContent = '';
@@ -1462,7 +1477,9 @@ body.locked{overflow:hidden}
     if (vside) vside.scrollTop = 0;
     requestAnimationFrame(vmorecheck);
   }
+  var vreturn = null;
   function vshow(btn){
+    vreturn = document.activeElement;
     var box = btn.closest('#strip, .gal, .shotgrid') || btn.parentNode;
     vpeers = [].slice.call(box.querySelectorAll('[data-view]'));
     vpi = Math.max(0, vpeers.indexOf(btn));
@@ -1470,15 +1487,15 @@ body.locked{overflow:hidden}
     if (vt) { clearTimeout(vt); vt = null; }
     viewer.hidden = false; void viewer.offsetWidth; viewer.classList.add('on');
     document.body.classList.add('locked'); document.body.style.overflow = 'hidden';
-    viewer.querySelector('[data-vclose]').focus({ preventScroll: true });
+    syncClose(); closeButton.focus({ preventScroll: true });
   }
   function vhide(){
     if (viewer.hidden) return;
-    viewer.classList.remove('on');
+    viewer.classList.remove('on'); syncClose();
     if (!open && cmodal.hidden) { document.body.classList.remove('locked'); document.body.style.overflow = ''; }
     vvid.pause();
     vt = setTimeout(function(){ viewer.hidden = true; vimg.removeAttribute('src'); vvid.removeAttribute('src'); vvid.load(); }, rm ? 0 : 380);
-    if (vlast) { try { vlast.focus({ preventScroll: true }); } catch (x) {} }
+    if (vreturn) { try { vreturn.focus({ preventScroll: true }); } catch (x) {} }
   }
   viewer.addEventListener('click', function(e){
     if (e.target.closest('[data-vstep],[data-vgo]')) return;
@@ -1594,7 +1611,7 @@ body.locked{overflow:hidden}
     document.body.classList.add('locked'); document.body.style.overflow = 'hidden';
     open = el;
     if (push !== false && location.hash !== '#' + k) history.pushState({ pane: k }, '', '#' + k);
-    var c = el.querySelector('[data-close]'); if (c) c.focus({ preventScroll: true });
+    syncClose(); closeButton.focus({ preventScroll: true });
   }
   function hide(el, popped, keepLock){
     if (!el) return;
@@ -1607,6 +1624,7 @@ body.locked{overflow:hidden}
     closing = el;
     el._t = setTimeout(function(){ el.hidden = true; el._t = null; if (closing === el) closing = null; }, wait);
     if (open === el) open = null;
+    syncClose();
     if (!popped && location.hash && !keepLock) history.pushState(null, '', location.pathname + location.search);
     if (lastFocus && !keepLock) { try { lastFocus.focus({ preventScroll: true }); } catch (x) {} }
   }
@@ -1617,6 +1635,7 @@ body.locked{overflow:hidden}
     if (vg) { e.preventDefault(); vi = +vg.getAttribute('data-vgo'); vpaint(); return; }
     var v = e.target.closest('[data-view]');
     if (v) { e.preventDefault(); if (moved < 8) vshow(v); moved = 0; return; }
+    if (e.target.closest('[data-library]')) { e.preventDefault(); vshow(strip.querySelector('[data-view]')); return; }
     var t = e.target.closest('[data-pane]');
     if (t) {
       e.preventDefault(); show(t.getAttribute('data-pane'));
@@ -1641,14 +1660,14 @@ body.locked{overflow:hidden}
     clast = document.activeElement;
     if (ct) { clearTimeout(ct); ct = null; }
     csub.value = sub || ''; cpaint(); csent = false;
-    cmodal.hidden = false; void cmodal.offsetWidth; cmodal.classList.add('on');
+    cmodal.hidden = false; void cmodal.offsetWidth; cmodal.classList.add('on'); syncClose();
     backdrop.classList.add('on');
     document.body.classList.add('locked'); document.body.style.overflow = 'hidden';
     setTimeout(function(){ (sub ? cgo : csub).focus({ preventScroll: true }); }, rm ? 0 : 80);
   }
   function chide(){
     if (cmodal.hidden) return;
-    cmodal.classList.remove('on');
+    cmodal.classList.remove('on'); syncClose();
     if (open) {
       backdrop.classList.add('on');
       document.body.classList.add('locked'); document.body.style.overflow = 'hidden';
@@ -1659,7 +1678,7 @@ body.locked{overflow:hidden}
     if (ct) clearTimeout(ct);
     ct = setTimeout(function(){ cmodal.hidden = true; ct = null; }, rm ? 0 : 340);
     var target = clast;
-    if (open && (!target || !open.contains(target))) target = open.querySelector('[data-close]');
+    if (open && (!target || !open.contains(target))) target = closeButton;
     if (target) { try { target.focus({ preventScroll: true }); } catch (x) {} }
   }
   /* ---- lead capture ----------------------------------------------------
@@ -1791,36 +1810,27 @@ var P=[
  {n:'Library',m:'Kept along the way',d:'Art, clips and notes kept as the work went.',im:['sketch','wheel']},
  {n:'The shop',m:'2017\u20132024',d:'Where the parts were made.',im:['garage']},
  {n:'The short story',m:'Read it',d:'Why it was built, in plain words.',im:['av']}];
-var cf=document.getElementById('cf');P.forEach(function(p){var b=document.createElement('button');b.className='t'+(p.im[0]==='av'?' av':'');b.setAttribute('aria-label',p.n);b.innerHTML='<img alt="">';cf.appendChild(b)});
+var destinations=['method','rental','learning',null,'method','story'];
+var cf=document.getElementById('cf');P.forEach(function(p,i){var b=document.createElement('button');b.className='t'+(p.im[0]==='av'?' av':'');b.setAttribute('aria-label',p.n);if(destinations[i])b.setAttribute('data-pane',destinations[i]);else b.setAttribute('data-library','');if(i===4)b.setAttribute('data-cat','method-gallery');b.innerHTML='<img alt="">';cf.appendChild(b)});
 var T=[].slice.call(document.querySelectorAll('.t')),hi=document.getElementById('hi'),hn=document.getElementById('hn'),hm=document.getElementById('hm'),hd=document.getElementById('hd'),th=document.getElementById('th'),cur=-1,hov=false;
 T.forEach(function(t,i){t.querySelector('img').src=IMG[P[i].im[0]]});
-var pn=document.querySelector('.pn'),phone=matchMedia('(max-width:860px)');
+var pn=document.querySelector('.pn');
 var TF={cw:14,gap:107,depth:84,tilt:60,sA:1.43,s1:.98,s2:.82,dim:.37,fade:1,shadow:2};document.documentElement.style.setProperty('--cw',TF.cw+'vw');
 function flow(){var n=T.length,F=TF;T.forEach(function(t,i){var r=((i-cur)%n+n)%n;if(r>n/2)r-=n;var a=Math.abs(r);var sc=a===0?F.sA:a===1?F.s1:F.s2*Math.pow(.9,a-2);
  t.style.transform='translateY('+r*F.gap+'%) translateZ('+(-a*F.depth)+'px) rotateX('+(r?(r<0?F.tilt:-F.tilt):0)+'deg) scale('+sc+')';t.style.opacity=a>F.fade?0:1;t.style.filter=a?'brightness('+F.dim+')':'';t.style.zIndex=10-a;t.tabIndex=a>F.fade?-1:0;
  t.style.boxShadow=a===0?(t.classList.contains('av')?'0 ':'0 0 0 2px var(--ox),0 ')+(18*F.shadow)+'px '+(40*F.shadow)+'px rgba(0,0,0,.6)':''})}
-function isOpen(){return document.body.classList.contains('open')}
+function isOpen(){return document.body.classList.contains('locked')}
 function scram(e,txt){var ch='ABCDEFGHJKLMNPRSTUVWXYZ#%&',n=0;clearInterval(e._s);e._s=setInterval(function(){n++;var k=n>>1;e.textContent=txt.split('').map(function(c,i){return i<k||c===' '?c:ch[Math.random()*ch.length|0]}).join('');if(k>=txt.length)clearInterval(e._s)},28)}
 function photo(src){hi.style.opacity=0;setTimeout(function(){hi.src=src;hi.style.opacity=''},180)}
-function show(i){if(i===cur)return;cur=i;var p=P[i];T.forEach(function(t,j){t.classList.toggle('on',j===i)});flow();photo(IMG[p.im[0]]);scram(hn,p.n);hm.textContent=p.m;hd.textContent=p.d;
+function show(i){if(i===cur)return;cur=i;var p=P[i];pn.removeAttribute('data-pane');pn.removeAttribute('data-library');pn.removeAttribute('data-cat');if(destinations[i])pn.setAttribute('data-pane',destinations[i]);else pn.setAttribute('data-library','');if(i===4)pn.setAttribute('data-cat','method-gallery');pn.setAttribute('aria-label','View '+p.n+' details');T.forEach(function(t,j){t.classList.toggle('on',j===i)});flow();photo(IMG[p.im[0]]);scram(hn,p.n);hm.textContent=p.m;hd.textContent=p.d;
  th.innerHTML='';th.classList.toggle('has',p.im.length>1);if(p.im.length>1)p.im.forEach(function(k,j){var b=document.createElement('button');b.innerHTML='<img alt="">';b.firstChild.src=IMG[k];if(!j)b.classList.add('on');b.onclick=function(){photo(IMG[k]);[].forEach.call(th.children,function(c){c.classList.toggle('on',c===b)})};th.appendChild(b)})}
 function mute(keep){document.querySelectorAll('.cf,.story,.lg').forEach(function(e){e.classList.toggle('mu',!!keep&&e!==keep)})}
-// #2 grow from tile: the detail starts as the card you clicked and grows to fill the screen, then shrinks back into it
-function rectOf(t){var r=t.getBoundingClientRect();if(phone.matches)return r;var h=pn.offsetParent.getBoundingClientRect();return {left:r.left-h.left,top:r.top-h.top,width:r.width,height:r.height}}
-function pin(r){pn.style.left=r.left+'px';pn.style.top=r.top+'px';pn.style.width=r.width+'px';pn.style.height=r.height+'px';if(phone.matches)pn.style.position='fixed'}
-function unpin(){pn.style.left=pn.style.top=pn.style.width=pn.style.height=pn.style.position=''}
-function openD(){if(isOpen())return;var r=rectOf(T[cur]);pn.style.transition='none';pin(r);pn.getBoundingClientRect();pn.style.transition='';
- document.body.classList.add('open');document.querySelectorAll('.cf,.story').forEach(function(e){e.classList.add('mu')});
- requestAnimationFrame(function(){var keep=phone.matches;pn.style.left=pn.style.top=pn.style.width=pn.style.height='';if(!keep)pn.style.position=''});document.getElementById('x').focus({preventScroll:true})}
-function closeD(){if(!isOpen())return;pin(rectOf(T[cur]));setTimeout(function(){pn.style.transition='none';pn.style.opacity=0;unpin();document.body.classList.remove('open');mute(null);
- pn.getBoundingClientRect();pn.style.transition='';pn.style.opacity='';T[cur].focus({preventScroll:true})},620)}
-T.forEach(function(t,i){t.addEventListener('click',function(){if(i===cur)openD();else show(i)})});
+T.forEach(function(t,i){t.addEventListener('click',function(){show(i)})});
+pn.addEventListener('keydown',function(e){if(e.target===pn&&(e.key==='Enter'||e.key===' ')){e.preventDefault();pn.click()}});
 T.forEach(function(t,i){t.addEventListener('focus',function(){if(!isOpen())show(i)})});
 cf.addEventListener('pointerenter',function(){if(isOpen())return;hov=true;mute(cf)});cf.addEventListener('pointerleave',function(){hov=false;if(!isOpen())mute(null)});
 cf.addEventListener('wheel',function(e){if(isOpen())return;e.preventDefault();if(Math.abs(e.deltaY)<4||cf._w)return;cf._w=1;setTimeout(function(){cf._w=0},350);show((cur+(e.deltaY>0?1:-1)+T.length)%T.length)},{passive:false});
-document.getElementById('go').onclick=openD;document.getElementById('x').onclick=closeD;
-addEventListener('keydown',function(e){if(e.key==='Escape'&&isOpen())closeD()});
-show(0);setInterval(function(){if(!hov&&!isOpen())show((cur+1)%P.length)},3800);
+show(0);setInterval(function(){if(!hov&&!isOpen()&&document.activeElement!==pn&&!cf.contains(document.activeElement))show((cur+1)%P.length)},3800);
 (function tick(){try{document.getElementById('clk').textContent='Pacific time • '+new Date().toLocaleTimeString('en-US',{timeZone:'America/Los_Angeles',hour:'numeric',minute:'2-digit'})}catch(e){}setTimeout(tick,20000)})();
 // dot octopus panel: body alpha in the top half of the mask video, eye in the bottom half
 function octo(cv,src,S,eye,vw,vh){var g=cv.getContext('2d'),off=document.createElement('canvas'),o=off.getContext('2d',{willReadFrequently:true}),W=0,H=0,F=0,Ft=1,
