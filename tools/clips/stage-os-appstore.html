@@ -21,14 +21,18 @@ body{font-family:"Satoshi",system-ui,sans-serif;color:var(--ink);position:relati
 </style></head>
 <body>
 <script>
-const CAP = '../../.design-loop/clips/cap/', FPS = 30, LEN = 23.5, SL = 0.6, W = 1080, H = 1350;
+const CAP = '../../.design-loop/clips/cap/', FPS = 30, LEN = 23.5, SL = 0.6;
+const Q = new URLSearchParams(location.search), WIDE = Q.get('wide') === '1', W = WIDE ? 1600 : 1080, H = WIDE ? 1150 : 1350, FW = W - 120;
+document.documentElement.style.width = document.body.style.width = W + 'px';
+document.documentElement.style.height = document.body.style.height = H + 'px';
 // ui: [img, x, y, w (crop in 1440 coords), drift px]  tiles: [img, x, y, w, h, rot, delay]
 const S = [
   { t0: 0, t1: 4, title: 'The day starts in one place<span class=r>.</span>', sub: 'What waits on me sits on top.', ui: ['os-front', 252, 30, 1170, 40] },
   { t0: 4, t1: 8, title: 'Saves become ideas<span class=r>.</span>', sub: 'Watch later, playlists and bookmarks. Pulled each week.', ui: ['os-ideas-top', 266, 55, 1170, 60] },
-  { t0: 8, t1: 12.2, title: 'It reads the whole video<span class=r>.</span>', sub: 'A router picks the model. Then it tags the lane.', ui: ['os-ideas-card', 266, 50, 760, 50] },
+  { t0: 8, t1: 12.2, title: 'It reads the whole video<span class=r>.</span>', sub: 'A router picks the model. Then it tags the lane.', ui: ['os-ideas-card', 266, 50, 760, 50], uiW: ['os-ideas-card', 266, 40, 1145, 40] },
   { t0: 12.2, t1: 16.6, title: 'Photo in. Post out<span class=r>.</span>', sub: 'My yes, then the scheduler.',
-    tiles: [['wall-2', 70, 330, 420, 525, -4, 0.3], ['wall-9', 570, 310, 420, 525, 3, 0.55], ['wall-6', 250, 790, 580, 526, -1.5, 1.1]] },
+    tiles: [['wall-2', 70, 330, 420, 525, -4, 0.3], ['wall-9', 570, 310, 420, 525, 3, 0.55], ['wall-6', 250, 790, 580, 526, -1.5, 1.1]],
+    tilesW: [['wall-2', 90, 330, 520, 650, -4, 0.3], ['wall-9', 560, 300, 520, 650, 3, 0.55], ['wall-6', 1000, 420, 540, 490, -1.5, 1.1]] },
   { t0: 16.6, t1: 20.6, title: 'One kit. One site<span class=r>.</span>', sub: 'The brand card reads the live site.', ui: ['os-brand', 266, 80, 1160, 70] },
   { t0: 20.6, t1: LEN, end: 1 },
 ];
@@ -38,15 +42,17 @@ const cl = (v, a, b) => Math.max(a, Math.min(b, v));
 S.forEach((s, i) => {
   const el = s.el = document.createElement('div'); el.className = 'sc'; el.style.zIndex = i; document.body.appendChild(el);
   let h = '';
-  if (s.end) h = `<img class="av" src="${CAP}os-av.png" style="left:${W / 2 - 110}px;top:400px;width:220px">`
-    + `<div class="tt" style="top:690px;text-align:center;left:64px">One person<br>runs a brand<span class=r>.</span></div>`
-    + `<div class="mk" style="left:0;width:${W}px;text-align:center;top:930px;font-size:40px">olimazi<span class=r>.online</span></div>`;
+  if (s.end) h = `<img class="av" src="${CAP}os-av.png" style="left:${W / 2 - 110}px;top:${WIDE ? 250 : 400}px;width:220px">`
+    + `<div class="tt" style="top:${WIDE ? 530 : 690}px;text-align:center;left:64px">One person<br>runs a brand<span class=r>.</span></div>`
+    + `<div class="mk" style="left:0;width:${W}px;text-align:center;top:${WIDE ? 790 : 930}px;font-size:40px">olimazi<span class=r>.online</span></div>`;
   else {
     h = `<div class="tt">${s.title}</div><div class="sb"></div>`;
-    if (s.ui) h += `<div class="fr" style="top:470px;height:${H}px"><img src="${CAP}${s.ui[0]}.png"></div>`;
-    (s.tiles || []).forEach(([img, x, y, w, hh, rot]) => { h += `<div class="tile" style="left:${x}px;top:${y}px;width:${w}px;height:${hh}px;transform:rotate(${rot}deg)"><img src="${CAP}${img}.png"></div>`; });
+    if (s.ui) h += `<div class="fr" style="top:470px;width:${FW}px;height:${H}px"><img src="${CAP}${s.ui[0]}.png"></div>`;
+    (s.tiles = WIDE && s.tilesW || s.tiles, s.tiles || []).forEach(([img, x, y, w, hh, rot]) => { h += `<div class="tile" style="left:${x}px;top:${y}px;width:${w}px;height:${hh}px;transform:rotate(${rot}deg)"><img src="${CAP}${img}.png"></div>`; });
   }
+  if (WIDE && s.uiW) s.ui = s.uiW;
   el.innerHTML = h;
+  el.querySelectorAll('.tt').forEach(t => { t.style.width = (W - 128) + 'px'; if (WIDE) t.style.fontSize = '88px'; });
   if (!s.end) el.querySelector('.sb').innerHTML = s.sub;
 });
 function draw(s, lt) {
@@ -61,7 +67,7 @@ function draw(s, lt) {
   tt.style.opacity = a; tt.style.transform = `translateY(${(1 - a) * 30}px)`;
   sb.style.top = (tt.offsetTop + tt.offsetHeight + 24) + 'px'; sb.style.opacity = b; sb.style.transform = `translateY(${(1 - b) * 20}px)`;
   if (s.ui) {
-    const [, x, y, w, drift] = s.ui, k = 960 / w, f = s.el.querySelector('.fr'), u = out(cl((lt - 0.15) / 0.8, 0, 1));
+    const [, x, y, w, drift] = s.ui, k = FW / w, f = s.el.querySelector('.fr'), u = out(cl((lt - 0.15) / 0.8, 0, 1));
     f.style.height = ((1008 - y - drift) * k) + 'px'; f.style.top = (sb.offsetTop + sb.offsetHeight + 56) + 'px'; f.style.transform = `translateY(${(1 - u) * 120}px)`;
     const dy = drift * cl(lt / (s.t1 - s.t0), 0, 1);
     f.querySelector('img').style.transform = `translate(${-x * k}px,${-(y + dy) * k}px) scale(${k})`;
