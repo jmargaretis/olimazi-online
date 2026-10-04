@@ -118,6 +118,8 @@ footer .cta.gx::after{justify-content:center;border-radius:8px;box-shadow:inset 
 body.locked .s7{z-index:10}
 .s7 #x{position:fixed;right:16px;top:16px;z-index:70;width:44px;height:44px;margin:0;padding:0;display:flex;align-items:center;justify-content:center;background:#F3E6D8;color:#241509;border-radius:50%;box-shadow:0 2px 10px rgba(23,13,5,.25)}
 .s7 #x[hidden]{display:none}
+.s7 .ccard .cbar #x{position:static;width:32px;height:32px;margin:-6px -8px -6px 0;background:none;box-shadow:none;color:var(--ink-soft)}
+.s7 .ccard .cbar #x:hover{color:var(--ox)}
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Black.otf") format("opentype");font-weight:900;font-display:swap}
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Bold.otf") format("opentype");font-weight:700;font-display:swap}
 @font-face{font-family:"Satoshi";src:url("assets/Satoshi-Medium.otf") format("opentype");font-weight:500;font-display:swap}
@@ -346,6 +348,10 @@ body.locked{overflow:hidden}
 .s7 .ccard .btn:hover{background:var(--ox)}
 .s7 .ccard .btn.off{background:var(--steel)}
 .s7 .ccard .chint{font-size:13px;color:var(--ink-soft);max-width:34ch;line-height:1.45}
+.s7 .ccard{--paper:#241509;--ink:#F3E6D8;--ink-soft:rgba(243,230,216,.72);--ink-faint:#BFA995;--hair:rgba(243,230,216,.16);color:var(--ink)}   /* contact card wears the story pane's dark scheme */
+.s7 .ccard .btn.off{background:rgba(243,230,216,.16);color:rgba(243,230,216,.5)}
+.s7 .ccard select option{background:#241509;color:#F3E6D8}
+.s7 .ccard .cfoot img{mix-blend-mode:normal;border-radius:8px}
 .s7 .page{position:relative;z-index:2;background:var(--paper);border-radius:0 0 24px 24px;will-change:transform}
 .s7 footer{position:sticky;bottom:0;z-index:0;background:none}
 .s7 footer .wrap{padding:clamp(52px,6vw,76px) var(--pad) clamp(36px,4vw,60px)}
@@ -1062,7 +1068,7 @@ body.locked{overflow:hidden}
       <a class="btn off" id="cgo" href="mailto:hello@olimazi.online">Open in your mail app &rarr;</a>
       <span class="chint" id="chint">No form, no tracking. It opens your own mail client with the subject filled in.</span>
     </div>
-    <div class="cfoot"><img src="assets/avatar-h2.png" alt="Olimazi"></div>
+    <div class="cfoot"><img src="assets/hero-av.png" alt="Olimazi"></div>
   </div>
 </div>
 
@@ -1297,7 +1303,7 @@ body.locked{overflow:hidden}
     var root = viewer && viewer.classList.contains('on') ? viewer :
                cmodal && cmodal.classList.contains('on') ? cmodal : open;
     closeButton.hidden = !root;
-    (root || document.querySelector('.s7')).appendChild(closeButton);
+    (root === cmodal ? cmodal.querySelector('.cbar') : root || document.querySelector('.s7')).appendChild(closeButton);   // contact: the X sits on the card, not the screen corner
   }
   closeButton.addEventListener('click', function(e){
     e.stopPropagation();

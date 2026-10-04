@@ -10,16 +10,16 @@
     @font-face { font-family:"Satoshi"; src:url("assets/Satoshi-Bold.otf") format("opentype"); font-weight:700; font-style:normal; font-display:swap; }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      /* STEEL — same tokens as styles.css :root (2026-08-17) */
-      --wall: #16202A; --wall-2: #1C2731;
-      --paper: #DDE3E6; --paper-2: #D3DADE; --kraft: #B5C0C8;
-      --ink: #16202A; --ink-soft: #4E5C68;
-      --plate: #E6EBEE; --plate-2: #D8DFE3;
+      /* Story pane scheme — same as the home page story and contact card (2026-10-04) */
+      --wall: #1A0F06; --wall-2: #20140A;
+      --paper: #241509; --paper-2: #2B1A0C; --kraft: #BFA995;
+      --ink: #F3E6D8; --ink-soft: rgba(243,230,216,.72);
+      --plate: #2B1A0C; --plate-2: #33200F;
       --coral: #C0392B; --coral-bright: #C0392B;
-      --tape: rgba(220, 228, 232, .55); --stamp: rgba(22, 32, 42, .78);
+      --tape: rgba(243,230,216,.16); --stamp: rgba(243,230,216,.72);
       --display: "Satoshi", "Segoe UI", system-ui, sans-serif;
       --type: "Courier New", Courier, monospace;
-      --line: var(--kraft); --line-soft: rgba(22,32,42,.12);
+      --line: rgba(243,230,216,.16); --line-soft: rgba(243,230,216,.12);
     }
     html { scroll-behavior:smooth; background:var(--paper); }
     body { color:var(--ink); background:var(--paper); font-family:"Segoe UI",system-ui,sans-serif; overflow-x:hidden; }
@@ -61,12 +61,12 @@
     .steps li { counter-increment:step; display:grid; grid-template-columns:42px 1fr; gap:14px; padding:20px 0; border-top:1px solid var(--line-soft); color:var(--ink-soft); line-height:1.65; }
     .steps li::before { content:counter(step,decimal-leading-zero); color:var(--coral); font:700 11px/1.65 var(--type); letter-spacing:.1em; }
     .steps strong { display:block; color:var(--ink); }
-    .honesty { padding:clamp(64px,9vw,96px) 0; color:var(--paper); background:var(--wall); border-top:1px solid var(--line); }
+    .honesty { padding:clamp(64px,9vw,96px) 0; color:var(--ink); background:var(--wall); border-top:1px solid var(--line); }
     .honesty .section-grid { align-items:start; }
-    .honesty h2 { color:var(--paper); }
+    .honesty h2 { color:var(--ink); }
     .honesty p { color:var(--kraft); }
     .honesty-list { margin-top:24px; display:flex; flex-wrap:wrap; gap:8px; }
-    .honesty-list span { padding:8px 10px; border:1px solid var(--kraft); color:var(--paper); font:700 10px/1.3 var(--type); letter-spacing:.06em; }
+    .honesty-list span { padding:8px 10px; border:1px solid var(--line); color:var(--ink); font:700 10px/1.3 var(--type); letter-spacing:.06em; }
     .signup { background:var(--paper-2); }
     .apply-box { padding:clamp(24px,5vw,44px); background:var(--plate); border:1px solid var(--kraft); border-top:3px solid var(--ink); }
     .apply-box p { max-width:580px; color:var(--ink-soft); font-size:16px; line-height:1.7; }
@@ -163,7 +163,7 @@
         <h2>Your books stay yours.</h2>
         <div class="section-body">
           <p>No cloud service, no account to create. Rental Manager reads and writes files on your own machine. Olimazi never sees your books unless you choose to send a redacted screenshot — names, addresses, account numbers and anything else identifying removed first.</p>
-          <p style="margin-top:18px"><strong style="color:var(--paper)">This is an organizer, not tax advice.</strong> Confirm figures and tax treatment with your tax preparer.</p>
+          <p style="margin-top:18px"><strong style="color:var(--ink)">This is an organizer, not tax advice.</strong> Confirm figures and tax treatment with your tax preparer.</p>
           <div class="honesty-list" aria-label="Privacy summary"><span>NO CLOUD</span><span>NO ACCOUNT</span><span>FILES ARE YOURS</span><span>SHARING IS OPTIONAL</span></div>
         </div>
       </div>
