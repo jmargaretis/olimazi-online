@@ -77,6 +77,9 @@ const SCENES = [
   ['st-mail', STORY + 'mail.html', UNHIDE, {
     vendor: ['Quote request: Replace AC condenser', 'article'], send: ['Send this one', 'button'],
     tenant: ['Re: AC unit stopped working', 'article'], last: ['Sam Tenant (tenant)', 'p'] }, 1400],
+  ['st-mail-b', STORY + 'mail.html', UNHIDE, {
+    vendor: ['Quote request: Replace AC condenser', 'article'], send: ['Send this one', 'button'],
+    tenant: ['Re: AC unit stopped working', 'article'], last: ['Sam Tenant (tenant)', 'p'] }, 1400],
   ['st-wo-ask', STORY + 'wo-ask.html', UNHIDE, { card: WO, ask: ['Ask for a quote', 'button'] }, 1400],
   ['st-wo-quote', STORY + 'wo-quote.html', UNHIDE, { card: WO, approve: ['Approve', 'button'], quote: ['Quote in, waiting on you', 'span'] }, 1400],
   ['st-wo-approved', STORY + 'wo-approved.html', UNHIDE, { card: WO, agreed: ['Agreed price', 'p'], wait: ['Waiting on invoice', 'span'] }, 1400],
@@ -92,6 +95,12 @@ const SCENES = [
     add: ['2 · Add something from this year', 'div.card'], why: ['Proposed:', 'div'], use: ['Use this', 'button'], addbtn: ['Add to Assets', 'button'] }, 1400],
   ['st-assets-added', STORY + 'assets-added.html', null, { row: ['Replace AC condenser', 'tr'], tab: ['On the Assets tab now', 'div.card'] }, 1400],
   ['st-org', FIX + 'SchE_Organizer.html', null, { export: ['Export preparer package', 'button,a'] }, 1400],
+  // Same screen after a successful export: the page's own success path (organizer_page.py exportPackage) sets these exact texts.
+  ['st-org-built', FIX + 'SchE_Organizer.html', async p => { await p.evaluate(() => {
+      const b = document.querySelector('button.pdfbtn'); b.textContent = 'Package built';
+      const z = document.getElementById('pkglink'); z.style.display = 'inline'; z.href = '#'; z.textContent = 'Download the zip for your preparer';
+      const f = document.getElementById('pdflink'); f.style.display = 'inline'; f.href = '#'; f.textContent = 'Open the PDF pack'; }); },
+    { export: ['Package built', 'button'], zip: ['Download the zip for your preparer', 'a'], pdf: ['Open the PDF pack', 'a'] }, 1400],
 
   // Private lanes and errands never reach a frame: the job-search lane and any
   // family-laptop ticket are removed before the shot.

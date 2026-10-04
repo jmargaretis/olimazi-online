@@ -97,7 +97,7 @@ def main() -> int:
         import mail_queue
         mail_queue.CONFIG_PATH = str(ini)
         subject, body = wo.quote_request_draft({"title": TITLE, "vendor": VENDOR},
-                                               property_name="12 Sample Street", owner="Sam Owner")
+                                               property_name="12 Sample Street", owner="Pat Owner")
         drafts = [TENANT_REPLY, dict(to="dispatch@example.com", subject=subject, body=body, thread_subject=subject,
                                      last_speaker="", in_reply_to="", created="2026-09-23T08:05:00")]
         for n, d in enumerate(drafts):
