@@ -12,6 +12,7 @@ body{font-family:"Satoshi",system-ui,sans-serif;color:var(--ink);position:relati
 .sc{position:absolute;inset:0;background:var(--paper);overflow:hidden}
 .tt{position:absolute;left:64px;font-weight:900;line-height:1;letter-spacing:-.025em}
 .sb{position:absolute;left:68px;font-weight:500;line-height:1.3;color:var(--soft)}
+.sb b{color:var(--ink);font-weight:700}
 .r{color:var(--ox)}
 .fr{position:absolute;left:60px;overflow:hidden;border-radius:28px;background:#fff;box-shadow:0 30px 80px rgba(22,32,42,.18),0 0 0 1px rgba(22,32,42,.06)}
 .cam{position:absolute;left:0;top:0;width:1440px;height:1400px;transform-origin:0 0}
@@ -134,7 +135,7 @@ const S = [
     cursor: [[0, 520, 860], [2.4, 520, 860], [3.4, 622, 754]], click: [3.6, 624, 752] },
   { step: 2, d: 7, fh: 640, title: 'The invoice comes in by email<span class=r>.</span>', sub: 'The tracker reads the inbox and pulls it out. I do nothing.', mail: 'inv',
     lift: [['Pulled from the inbox<span class=r>:</span> the PDF and the total.', 1.0, 3.6], ['Matched to the AC work order<span class=r>.</span><small>Same vendor, same job. It goes on the quote it belongs to.</small>', 3.9]] },
-  { step: 2, d: 10.6, fh: 640, title: 'Paper invoice? Snap it<span class=r>.</span>', sub: 'The phone is the backup. It lands in the same place.', phone: 1,
+  { step: 2, d: 10.6, fh: 640, title: 'Paper invoice? Snap it<span class=r>.</span>', sub: '<b>An email watcher reads the inbox.</b> The phone covers what never came by email: a vendor on paper, a quick Home Depot run.', phone: 1,
     lift: [['Open Receipts<span class=r>.</span> Snap the invoice.', 0.9, 4.7], ['Give it a title<span class=r>.</span> No file names.', 5.3, 7.5], ['Sent<span class=r>.</span> Saved to the tracker as a proposed row.', 8.0]] },
   { step: 2, d: 6, fh: 640, title: 'Checked against the quote<span class=r>.</span>', sub: 'Email or photo, the tracker puts the invoice on its quote and compares.', compare: 1 },
   { step: 2, d: 5.5, fh: 600, title: 'It shows on the work order<span class=r>.</span>', sub: 'The difference is in red, next to the invoice.',
