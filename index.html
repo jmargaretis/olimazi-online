@@ -1129,7 +1129,7 @@ body.locked{overflow:hidden}
     <p class="meta"><b>A workbook you own.</b> Built by an owner for owners: Ai is your intake and organizer.</p>
     <p class="note"><b>Rental Manager (Sch. E)</b> is a local-file organizer shaped by business-tax work and active rental-property management: portable records, deterministic math, and open items kept visible.</p>
     <p>The spreadsheet stays the source of truth. The manager reads it, reconciles every Schedule E line, and shows the bottom line with every gap it still needs answered. Nothing leaves the machine.</p>
-    <figure class="clipfig"><video class="clip" src="assets/clip-rm.mp4" poster="assets/clip-rm-poster.jpg" muted loop playsinline preload="none" aria-label="A 42-second story of one AC repair on the sample property: the tenant writes in, the vendor is asked for a quote, the invoice is snapped and checked against the quote, the order closes, the new condenser goes on the Assets tab, and the package goes to the preparer"></video><figcaption class="cap"><b>One AC repair, start to finish.</b> Tenant email, vendor quote, invoice checked, order closed, asset booked, preparer package. On the sample property.</figcaption></figure>
+    <figure class="clipfig"><video class="clip" src="assets/clip-rm.mp4?v=2" poster="assets/clip-rm-poster.jpg?v=2" muted loop playsinline preload="none" aria-label="A 42-second story of one AC repair on the sample property: the tenant writes in, the vendor is asked for a quote, the invoice is snapped and checked against the quote, the order closes, the new condenser goes on the Assets tab, and the package goes to the preparer"></video><figcaption class="cap"><b>One AC repair, start to finish.</b> Tenant email, vendor quote, invoice checked, order closed, asset booked, preparer package. On the sample property.</figcaption></figure>
     <div class="shotgrid">
       <button type="button" class="shot" data-view="assets/rm-dashboard.png" data-title="Dashboard" data-sub="Rental Manager (Sch. E)"><span class="frame"><img src="assets/rm-dashboard.png" alt="Rental Manager dashboard — the Schedule E bottom line beside the open items" width="2160" height="6406"></span><span class="cap"><b>Dashboard.</b> The workbook's front page, sample property. Every Schedule E line beside the gaps it is still waiting on.</span></button>
       <button type="button" class="shot" data-view="assets/rm-organizer.png" data-title="Organizer" data-sub="Rental Manager (Sch. E)"><span class="frame"><img src="assets/rm-organizer.png" alt="Rental Organizer — addresses, contacts and filing status to confirm" width="2160" height="3442"></span><span class="cap"><b>Organizer.</b> A trust layer showing what the workbook believes about addresses, contacts and filing status, so the owner can confirm it before trusting the numbers. Built in the spirit of a CPA client organizer.</span></button>
@@ -1158,7 +1158,7 @@ body.locked{overflow:hidden}
     <h2 id="t-learning">How the work runs.</h2>
     <div class="learn">
     <div class="hub">
-      <figure><video class="clip" src="assets/clip-ops.mp4" poster="assets/clip-ops-poster.jpg" muted loop playsinline preload="none" aria-label="A 23-second tour of the Olimazi ops hub: the front page, saved videos turned into ideas, photos turned into scheduled posts, and the brand kit"></video></figure>
+      <figure><video class="clip" src="assets/clip-ops.mp4?v=2" poster="assets/clip-ops-poster.jpg?v=2" muted loop playsinline preload="none" aria-label="A 23-second tour of the Olimazi ops hub: the front page, saved videos turned into ideas, photos turned into scheduled posts, and the brand kit"></video></figure>
       <div>
         <span class="k">The build behind the work</span>
         <h3>One hub, running.</h3>
@@ -1558,7 +1558,7 @@ body.locked{overflow:hidden}
       grid.classList.add('await');
       var items = [
         { el: cards[0], src: cards[0].querySelector('img').currentSrc || cards[0].querySelector('img').src },
-        { el: cards[1], src: 'assets/clip-rm-poster.jpg', top: true },
+        { el: cards[1], src: 'assets/clip-rm-poster.jpg?v=2', top: true },
         { el: hub, src: hub.getAttribute('poster') }
       ];
       var ease = { out: function(t){ return 1 - Math.pow(1 - t, 3); }, inn: function(t){ return t * t * t; } };
@@ -1839,8 +1839,8 @@ body.locked{overflow:hidden}
 var IMG={av:'assets/hero-av.png',split:'assets/hero-split.jpg',s3:'assets/hero-s3.jpg',buck:'assets/hero-buck.jpg',garage:'assets/hero-garage.jpg',rm:'assets/hero-rm.jpg',ops:'assets/hero-ops.jpg',sketch:'assets/hero-sketch.jpg',wheel:'assets/hero-wheel.jpg'};
 var P=[
  {n:'Method Effects',m:'2017–2024',d:'Automotive aero parts: splitters and bucks, designed and made in the US.',im:['split','s3','buck','garage'],c:'assets/method-s3-profile.jpg'},
- {n:'Rental Manager',m:'Sch. E',d:'A workbook you own for running a rental. The spreadsheet stays the source of truth.',im:['rm'],c:{v:'assets/clip-rm.mp4',p:'assets/clip-rm-poster.jpg'}},
- {n:'How the work runs',m:'The loop',d:'Context, constraints, handoff, record. The weekly loop behind every build.',im:['ops'],c:{v:'assets/clip-ops.mp4',p:'assets/clip-ops-poster.jpg'}},
+ {n:'Rental Manager',m:'Sch. E',d:'A workbook you own for running a rental. The spreadsheet stays the source of truth.',im:['rm'],c:{v:'assets/clip-rm.mp4?v=2',p:'assets/clip-rm-poster.jpg?v=2'}},
+ {n:'How the work runs',m:'The loop',d:'Context, constraints, handoff, record. The weekly loop behind every build.',im:['ops'],c:{v:'assets/clip-ops.mp4?v=2',p:'assets/clip-ops-poster.jpg?v=2'}},
  {n:'Library',m:'Kept along the way',d:'Art, clips and notes kept as the work went.',im:['sketch','wheel'],c:{v:'assets/library-kairos.mp4',p:'assets/library-kairos-poster.jpg'}},
  {n:'The short story',m:'Read it',d:'Why it was built, in plain words.',im:['av'],c:'assets/story-text.jpg'}];
 var destinations=['method','rental','learning',null,'story'];
@@ -1934,7 +1934,9 @@ if(reduced){frame(1.3)}else{(function fr(ms){if(!document.hidden&&seen)frame(ms/
 function seen(e){var r=e.getBoundingClientRect();if(!r.width||r.bottom<=0||r.top>=innerHeight)return false;var t=document.elementFromPoint(r.left+r.width/2,Math.min(Math.max(r.top+r.height/2,1),innerHeight-1));return !!t&&e.contains(t)}   // the footer sits under the hero; a covered link is not seen
 function next(){setTimeout(flip,matchMedia('(max-width:860px)').matches?3000+Math.random()*3500:7000+Math.random()*8000)}
 function flip(){var c=G.filter(seen);if(c.length>1)c=c.filter(function(e){return e!==last});if(document.hidden||!c.length){next();return}
-var e=c[Math.floor(Math.random()*c.length)];last=e;e.classList.add('fl');setTimeout(function(){e.classList.remove('fl');next()},2600)}
+var e=c[Math.floor(Math.random()*c.length)];last=e;e.classList.add('fl');setTimeout(function(){if(!e._h)e.classList.remove('fl');next()},2600)}
+var HOV=matchMedia('(hover:hover) and (pointer:fine) and (min-width:861px)');   // desktop: hover flips too and holds while the mouse stays
+G.forEach(function(e){e.addEventListener('pointerenter',function(){if(!HOV.matches)return;e._h=true;e.classList.add('fl')});e.addEventListener('pointerleave',function(){if(!e._h)return;e._h=false;e.classList.remove('fl')})});
 next()})();
 </script>
 </body></html>
