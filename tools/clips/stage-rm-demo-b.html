@@ -62,12 +62,43 @@ body{font-family:"Satoshi",system-ui,sans-serif;color:var(--ink);position:relati
 .sh{position:absolute;left:50%;bottom:34px;width:84px;height:84px;margin-left:-42px;border-radius:50%;border:5px solid #fff}
 .sh i{position:absolute;inset:6px;border-radius:50%;background:#fff}
 .fl{position:absolute;inset:0;background:#fff;opacity:0}
-.th{position:absolute;left:30px;bottom:44px;width:62px;height:62px;border-radius:12px;border:3px solid #fff;overflow:hidden;opacity:0;background:#FBFAF6}
-.ts{position:absolute;left:20px;right:20px;top:26px;background:rgba(255,255,255,.96);border-radius:16px;padding:14px 16px;font-weight:500;font-size:18px;line-height:1.3;color:var(--ink);opacity:0}
-.ts b{display:block;color:var(--ink);font-weight:700;font-size:15px;margin-bottom:2px}
 .av{position:absolute;border-radius:28px;-webkit-mask:radial-gradient(circle,#000 62%,transparent 100%)}
 .stamp{position:absolute;background:#fff;border-radius:28px;-webkit-mask:radial-gradient(circle,#000 62%,transparent 100%);transform-origin:center;opacity:0}
 .mk{position:absolute;font-weight:900}
+/* Receipts app screens (1.3.1) */
+.scr{position:absolute;inset:0;background:#F4F7F9;color:var(--ink);opacity:0;display:flex;flex-direction:column;padding:0 22px 22px}
+.scr .hd2{display:flex;align-items:center;gap:10px;padding:48px 0 10px}
+.scr .hd2 img{width:30px;height:30px;border-radius:8px}
+.scr .hd2 b{font-size:25px;font-weight:900}
+.scr .hd2 .pr{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:17px;font-weight:500;color:var(--soft)}
+.scr .hd2 .pr i{width:9px;height:9px;border-radius:50%;background:#2E7D32}
+.scr .mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px}
+.scr .snapb{width:160px;height:160px;border-radius:50%;background:var(--ox);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:24px;font-weight:900;box-shadow:0 12px 28px rgba(192,57,43,.35)}
+.scr .snapb svg{width:50px;height:50px}
+.scr .lnk{font-size:20px;font-weight:500;color:var(--soft);text-align:center}
+.scr .ft{font-size:20px;font-weight:500;color:var(--soft);text-align:center;margin-top:auto}
+.scr .thumb{height:170px;border-radius:14px;background:#fff;border:1px solid rgba(22,32,42,.12);overflow:hidden;position:relative}
+.scr .thumb .rc{left:10%;top:6%;width:80%;transform:rotate(-2deg) scale(.78);transform-origin:50% 0;font-size:15px;padding:18px 18px}
+.scr .lb{font-size:16px;font-weight:700;color:var(--soft);letter-spacing:.06em;margin-top:18px}
+.scr .fld{border:1.5px solid rgba(22,32,42,.25);border-radius:12px;padding:12px 14px;background:#fff;font-size:21px;font-weight:500;margin-top:8px;min-height:50px;position:relative}
+.scr .fld .ht{color:#9AA6B0}
+.scr .fld .ct{display:inline-block;width:2px;height:22px;background:var(--ink);vertical-align:-4px;margin-left:1px}
+.scr .chips{display:flex;gap:8px;margin-top:10px}
+.scr .chip{font-size:16px;font-weight:500;border:1px solid rgba(22,32,42,.2);border-radius:999px;padding:5px 10px;color:var(--soft)}
+.scr .btn{margin-top:auto;border-radius:14px;padding:16px;font-size:20px;font-weight:700;color:#fff;background:var(--ox);text-align:center}
+.scr .btn + .lnk{margin-top:12px}
+.scr .toast{position:absolute;left:16px;right:16px;top:104px;background:#fff;border-radius:16px;padding:16px 18px;box-shadow:0 14px 30px rgba(22,32,42,.18);display:flex;align-items:center;gap:12px;opacity:0}
+.scr .toast .tb{width:52px;height:52px;border-radius:10px;background:#D6DEE3;overflow:hidden;position:relative;flex:none}
+.scr .toast .tb .rc{left:4%;top:4%;width:150%;transform:scale(.3);transform-origin:0 0;font-size:17px;padding:14px 12px}
+.scr .toast b{display:block;font-size:22px;font-weight:700}
+.scr .toast span{font-size:16px;color:var(--soft)}
+.scr .toast .ok{margin-left:auto;font-size:18px;font-weight:700;color:#2E7D32}
+.vf .tap{position:absolute;width:44px;height:44px;border:3px solid #fff;border-radius:50%;opacity:0;z-index:5}
+.scr.s0{background:linear-gradient(180deg,#2b3a48,#16202A);padding:70px 18px 0;display:grid;grid-template-columns:repeat(4,1fr);gap:22px 8px;align-content:start}
+.scr.s0 .tile{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:13px;font-weight:500;color:rgba(255,255,255,.7)}
+.scr.s0 .tile i{width:56px;height:56px;border-radius:15px;background:rgba(255,255,255,.16);display:block}
+.scr.s0 .tile.app i{background:url(../../.design-loop/clips/cap/rm-app-icon.png) center/cover}
+.scr.s0 .tile.app{color:#fff;font-weight:700}
 </style></head>
 <body>
 <script>
@@ -103,8 +134,8 @@ const S = [
     cursor: [[0, 520, 860], [2.4, 520, 860], [3.4, 622, 754]], click: [3.6, 624, 752] },
   { step: 2, d: 7, fh: 640, title: 'The invoice comes in by email<span class=r>.</span>', sub: 'The tracker reads the inbox and pulls it out. I do nothing.', mail: 'inv',
     lift: [['Pulled from the inbox<span class=r>:</span> the PDF and the total.', 1.0, 3.6], ['Matched to the AC work order<span class=r>.</span><small>Same vendor, same job. It goes on the quote it belongs to.</small>', 3.9]] },
-  { step: 2, d: 5.5, fh: 640, title: 'Paper invoice? Snap it<span class=r>.</span>', sub: 'The phone is the backup. It lands in the same place.', phone: 1,
-    lift: [['Invoice: <span class=r>$4,350.00</span>', 1.0, 2.8], ['Saved to the tracker as a proposed row<span class=r>.</span>', 3.1]] },
+  { step: 2, d: 10.6, fh: 640, title: 'Paper invoice? Snap it<span class=r>.</span>', sub: 'The phone is the backup. It lands in the same place.', phone: 1,
+    lift: [['Open Receipts<span class=r>.</span> Snap the invoice.', 0.9, 4.7], ['Give it a title<span class=r>.</span> No file names.', 5.3, 7.5], ['Sent<span class=r>.</span> Saved to the tracker as a proposed row.', 8.0]] },
   { step: 2, d: 6, fh: 640, title: 'Checked against the quote<span class=r>.</span>', sub: 'Email or photo, the tracker puts the invoice on its quote and compares.', compare: 1 },
   { step: 2, d: 5.5, fh: 600, title: 'It shows on the work order<span class=r>.</span>', sub: 'The difference is in red, next to the invoice.',
     layers: [['st-wo-invoice', 0, 0]], cam: [[0, 40, 600, 560]], cut: [[0, 874]],
@@ -162,7 +193,20 @@ S.forEach((s, i) => {
       + `<div class="mk" style="left:0;width:${W}px;text-align:center;top:${ay + 640}px;font-size:40px">olimazi<span class=r>.online</span></div>`;
   } else {
     h = `<div class="tt" style="top:${RAIL + 40}px;width:${W - 128}px;font-size:${TS}px">${s.title}</div><div class="sb" style="width:${W - 140}px;font-size:${SS}px">${s.sub}</div>`;
-    if (s.phone) h += `<div class="ph"><div class="vf">${RECEIPT}<div class="gd" style="left:9%;top:8%;border-right:0;border-bottom:0"></div><div class="gd" style="right:9%;top:8%;border-left:0;border-bottom:0"></div><div class="gd" style="left:9%;bottom:24%;border-right:0;border-top:0"></div><div class="gd" style="right:9%;bottom:24%;border-left:0;border-top:0"></div><div class="sh"><i></i></div><div class="th">${RECEIPT.replace('class="rc"', 'class="rc" style="transform:scale(.18);transform-origin:0 0;left:0;top:0;width:320px"')}</div><div class="fl"></div><div class="ts"><b>Receipts</b>IMG_4188.jpg — saved to the tracker</div></div></div>`;
+    if (s.phone) {
+      const CAM_G = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 8h4l2-3h6l2 3h4v11H3z"/><circle cx="12" cy="13" r="4"/></svg>';
+      const HD = p => `<div class="hd2"><img src="${CAP}rm-app-icon.png"><b>Receipts</b>${p ? '<span class="pr"><i></i>Paired</span>' : ''}</div>`;
+      const SNAPSCR = n => `<div class="scr s1">${HD(1)}<div class="mid"><div class="snapb">${CAM_G}Snap</div><div class="lnk">or pick from the gallery</div></div><div class="ft">Today: ${n} sent</div>`
+        + `<div class="toast"><div class="tb">${RECEIPT}</div><div><b>HVAC invoice</b><span>Today</span></div><span class="ok">Sent</span></div></div>`;
+      const VIEW = `<div class="vf"><div class="s2" style="position:absolute;inset:0">${RECEIPT}<div class="gd" style="left:9%;top:8%;border-right:0;border-bottom:0"></div><div class="gd" style="right:9%;top:8%;border-left:0;border-bottom:0"></div><div class="gd" style="left:9%;bottom:24%;border-right:0;border-top:0"></div><div class="gd" style="right:9%;bottom:24%;border-left:0;border-top:0"></div><div class="sh"><i></i></div><div class="fl"></div></div>`
+        + SNAPSCR(1)
+        + `<div class="scr s3">${HD(0)}<div class="thumb">${RECEIPT}</div><div class="lb">TITLE (OPTIONAL)</div><div class="fld"><span class="ht">What is it? e.g. Home Depot paint</span><span class="ty"></span></div>`
+        + `<div class="chips"><span class="chip">Home Depot</span><span class="chip">Plumber</span><span class="chip">Lowe's</span></div><div class="btn">Send</div><div class="lnk">Send without a title</div></div>`
+        + `<div class="tap"></div></div>`;
+      const TILE = '<div class="tile"><i></i>App</div>';
+      const HOME = `<div class="scr s0">${TILE.repeat(5)}<div class="tile app"><i></i>Receipts</div>${TILE.repeat(6)}</div>`;
+      h += `<div class="ph">${VIEW.replace('<div class="tap"></div></div>', HOME + '<div class="tap"></div></div>')}</div>`;
+    }
     else if (s.mail) h += `<div class="fr">${s.mail === 'inv' ? MAIL_INV : MAIL}</div>`;
     else if (s.compare) h += `<div class="fr">${COMPARE}</div>`;
     else {
@@ -216,19 +260,40 @@ function draw(s, lt) {
     m.style.top = (s.fh ? Math.min(top + fh + 28, H - m.offsetHeight - 30) : top + fh - m.offsetHeight - 30) + 'px'; m.style.opacity = p; m.style.transform = `translateY(${(1 - p) * 24}px)`;
   });
   if (s.phone) {
-    const ph = s.el.querySelector('.ph'), hh = fh, ww = hh * 0.52;
+    const ph = s.el.querySelector('.ph'), hh = fh, ww = hh * 0.56;
     Object.assign(ph.style, { top: top + 'px', height: hh + 'px', width: ww + 'px', left: (W - ww) / 2 + 'px', transform: `translateY(${(1 - u) * 120}px)` });
-    const SNAP = 1.9, vf = ph.querySelector('.vf');
-    const settle = out(cl(lt / 1.6, 0, 1));
-    vf.querySelector('.rc').style.transform = `translate(${(1 - settle) * 30}px,${(1 - settle) * -24}px) rotate(${-3 - (1 - settle) * 5}deg) scale(${1.08 - 0.08 * settle})`;
-    vf.querySelectorAll('.gd').forEach(g => g.style.borderColor = lt > 1.4 ? 'rgba(255,255,255,.95)' : 'rgba(255,255,255,.55)');
+    const vf = ph.querySelector('.vf'), T_APP = 1.2, T_CAM = 2.85, SNAP = 4.1, T_TTL = 5.0, T_SENT = 7.65;
+    const s0 = vf.querySelector('.s0'), s1 = vf.querySelector('.s1'), s2 = vf.querySelector('.s2'), s3 = vf.querySelector('.s3');
+    // beat 0: the home screen; a tap on the Receipts icon opens the app
+    s0.style.opacity = lt < T_APP ? 1 : 0;
+    // beat 1: the Snap screen; a tap on the red bubble opens the camera
+    s1.style.opacity = (lt >= T_APP && lt < T_CAM) || lt >= T_SENT ? 1 : 0;
+    s1.querySelectorAll('.mid, .ft').forEach(e => e.style.opacity = lt >= T_SENT ? 0.5 : 1);
+    s1.querySelector('.ft').textContent = lt >= T_SENT ? 'Today: 2 sent' : 'Today: 1 sent';
+    const tst = s1.querySelector('.toast'), tq = out(cl((lt - T_SENT - 0.25) / 0.4, 0, 1));
+    tst.style.opacity = tq; tst.style.transform = `translateY(${(1 - tq) * -16}px)`;
+    // beat 2: the viewfinder; the receipt settles, the shutter fires
+    s2.style.opacity = lt >= T_CAM && lt < T_TTL ? 1 : 0;
+    const settle = out(cl((lt - T_CAM) / 0.9, 0, 1));
+    s2.querySelector('.rc').style.transform = `translate(${(1 - settle) * 30}px,${(1 - settle) * -24}px) rotate(${-3 - (1 - settle) * 5}deg) scale(${1.08 - 0.08 * settle})`;
+    s2.querySelectorAll('.gd').forEach(g => g.style.borderColor = lt > T_CAM + 0.7 ? 'rgba(255,255,255,.95)' : 'rgba(255,255,255,.55)');
     const press = lt > SNAP - 0.12 && lt < SNAP + 0.1;
-    vf.querySelector('.sh i').style.transform = `scale(${press ? 0.86 : 1})`;
-    vf.querySelector('.fl').style.opacity = lt < SNAP ? 0 : cl(1 - (lt - SNAP) / 0.35, 0, 1) * 0.9;
-    const tp = out(cl((lt - SNAP - 0.1) / 0.5, 0, 1)), th = vf.querySelector('.th');
-    th.style.opacity = lt > SNAP ? 1 : 0; th.style.transform = `scale(${1 + (1 - tp) * 2})`; th.style.transformOrigin = '0 100%';
-    const ts = vf.querySelector('.ts'), tq = out(cl((lt - SNAP - 0.6) / 0.4, 0, 1));
-    ts.style.opacity = tq; ts.style.transform = `translateY(${(1 - tq) * -20}px)`;
+    s2.querySelector('.sh i').style.transform = `scale(${press ? 0.86 : 1})`;
+    s2.querySelector('.fl').style.opacity = lt < SNAP ? 0 : cl(1 - (lt - SNAP) / 0.35, 0, 1) * 0.9;
+    // beat 3: the title screen; the title is typed, Send is tapped
+    s3.style.opacity = lt >= T_TTL && lt < T_SENT ? 1 : 0;
+    const TITLE = 'HVAC invoice', n = cl(Math.floor((lt - T_TTL - 0.5) / 0.09), 0, TITLE.length);
+    s3.querySelector('.ty').innerHTML = TITLE.slice(0, n) + (lt >= T_TTL + 0.2 && lt < T_SENT ? '<span class="ct"></span>' : '');
+    s3.querySelector('.ht').style.display = n ? 'none' : 'inline';
+    // taps: the icon, Snap, the shutter, Send. White ring on red targets, red ring on the white shutter; the target presses.
+    const tap = vf.querySelector('.tap'), taps = [[0.9, s0.querySelector('.tile.app i'), '#C0392B'], [2.6, s1.querySelector('.snapb'), '#fff'], [SNAP, s2.querySelector('.sh'), '#C0392B'], [7.4, s3.querySelector('.btn'), '#fff']];
+    let tv = 0, tx = 0, ty = 0;
+    taps.forEach(([t, el, col]) => {
+      const p = cl((lt - t) / 0.4, 0, 1), pr = lt > t - 0.12 && lt < t + 0.12;
+      if (el !== s2.querySelector('.sh')) el.style.transform = `scale(${pr ? 0.9 : 1})`;
+      if (lt >= t && p < 1) { tv = 1 - p; tap.style.borderColor = col; const r = el.getBoundingClientRect(), v = vf.getBoundingClientRect(); tx = r.left - v.left + r.width / 2; ty = r.top - v.top + r.height / 2; tap.style.transform = `translate(-50%,-50%) scale(${0.6 + p * 1.6})`; }
+    });
+    Object.assign(tap.style, { opacity: tv, left: tx + 'px', top: ty + 'px' });
     return;
   }
   const f = s.el.querySelector('.fr');
@@ -276,7 +341,7 @@ function render(t) {
   rail.querySelectorAll('span').forEach((e, i) => e.className = i < st ? 'dn' : i === st ? 'on' : '');
 }
 window.CLIP = { fps: FPS, len: LEN }; window.render = render;
-const imgs = ['os-av.png', 'os-stamp.png', ...new Set(S.flatMap(s => (s.layers || []).map(l => l[0] + '.png')))];
+const imgs = ['os-av.png', 'os-stamp.png', 'rm-app-icon.png', ...new Set(S.flatMap(s => (s.layers || []).map(l => l[0] + '.png')))];
 window.ready = Promise.all([document.fonts.ready, ...imgs.map(n => new Promise(r => { const i = new Image(); i.onload = r; i.onerror = r; i.src = CAP + n; }))]);
 render(Number(Q.get('t') || 0));
 </script>
