@@ -1836,7 +1836,7 @@ body.locked{overflow:hidden}
  </div>
 </footer>
 <script>
-var IMG={av:'assets/hero-av.png',split:'assets/hero-split.jpg',s3:'assets/hero-s3.jpg',buck:'assets/hero-buck.jpg',garage:'assets/hero-garage.jpg',rm:'assets/hero-rm.jpg?v=2',ops:'assets/hero-ops.jpg?v=2',sketch:'assets/hero-sketch.jpg',wheel:'assets/hero-wheel.jpg'};
+var IMG={av:'assets/hero-av.png',split:'assets/hero-split.jpg',s3:'assets/hero-s3.jpg',buck:'assets/hero-buck.jpg',garage:'assets/hero-garage.jpg',rm:'assets/hero-rm.jpg?v=3',ops:'assets/hero-ops.jpg?v=3',sketch:'assets/hero-sketch.jpg',wheel:'assets/hero-wheel.jpg'};
 var P=[
  {n:'Method Effects',m:'2017–2024',d:'Automotive aero parts: splitters and bucks, designed and made in the US.',im:['split','s3','buck','garage'],c:'assets/method-s3-profile.jpg'},
  {n:'Rental Manager',m:'Sch. E',d:'A workbook you own for running a rental. The spreadsheet stays the source of truth.',im:['rm'],c:{v:'assets/clip-rm.mp4?v=5',p:'assets/clip-rm-poster.jpg?v=5'}},
@@ -1932,7 +1932,7 @@ if(reduced){frame(1.3)}else{(function fr(ms){if(!document.hidden&&seen)frame(ms/
 /* link flips run on their own random timer, one at a time, never from touch or hover */
 (function(){var G=[].slice.call(document.querySelectorAll('.gx')),last=null;if(!G.length)return;
 function seen(e){var r=e.getBoundingClientRect();if(!r.width||r.bottom<=0||r.top>=innerHeight)return false;var t=document.elementFromPoint(r.left+r.width/2,Math.min(Math.max(r.top+r.height/2,1),innerHeight-1));return !!t&&e.contains(t)}   // the footer sits under the hero; a covered link is not seen
-function next(){setTimeout(flip,matchMedia('(max-width:860px)').matches?3000+Math.random()*3500:7000+Math.random()*8000)}
+function next(){setTimeout(flip,matchMedia('(max-width:860px)').matches?3000+Math.random()*3500:5000+Math.random()*6000)}
 function flip(){var c=G.filter(seen);if(c.length>1)c=c.filter(function(e){return e!==last});if(document.hidden||!c.length){next();return}
 var e=c[Math.floor(Math.random()*c.length)];last=e;e.classList.add('fl');setTimeout(function(){if(!e._h)e.classList.remove('fl');next()},2600)}
 var HOV=matchMedia('(hover:hover) and (pointer:fine) and (min-width:861px)');   // desktop: hover flips too and holds while the mouse stays
