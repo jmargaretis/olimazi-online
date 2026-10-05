@@ -617,12 +617,20 @@ body.locked{overflow:hidden}
  .nav .ct.gx::after{background:none;justify-content:center}.nav .ct.gx.fl{animation:glo .42s forwards}
  .cf{height:262px}
  .cl{display:block;position:absolute;left:0;right:0;top:calc(50% - var(--cw)*.894 - 34px);text-align:center;pointer-events:none;z-index:20}
- .cl span{display:inline-flex;align-items:center;gap:8px;font:800 12px/1 Doto,monospace;letter-spacing:.14em;text-transform:uppercase;animation:clin .45s var(--e) both}
- @keyframes clin{from{opacity:0;transform:translateY(-5px)}}
- .cl span{padding:6px 12px 6px 14px;border:1px dashed rgba(255,255,255,.35);border-radius:999px;color:var(--ink);background:rgba(23,13,5,.6)}
- .cl .dd{display:inline-flex;gap:4px}
- .cl .dd b{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.22)}
- .cl .dd b.on{background:var(--ox);box-shadow:0 0 6px var(--ox)}
+}
+.cl span{display:inline-flex;align-items:center;gap:8px;font:800 12px/1 Doto,monospace;letter-spacing:.14em;text-transform:uppercase;animation:clin .45s var(--e) both}
+@keyframes clin{from{opacity:0;transform:translateY(-5px)}}
+.cl span{padding:6px 12px 6px 14px;border:1px dashed rgba(255,255,255,.35);border-radius:999px;color:var(--ink);background:rgba(23,13,5,.6)}
+.cl .dd{display:inline-flex;gap:4px}
+.cl .dd b{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.22)}
+.cl .dd b.on{background:var(--ox);box-shadow:0 0 6px var(--ox)}
+/* desktop = phone menu (John 10/5): no menu row, no bar; logo left and Contact right fade while scrolling; the pill labels the slide */
+@media (min-width:861px){
+ .nav{background:none;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom:0;pointer-events:none}.nav a{pointer-events:auto}
+ .nav .nr{display:none}
+ .nav .hm,.nav .ct{transition:opacity .35s,border-color .3s,color .3s}body.scr .nav .hm,body.scr .nav .ct{opacity:.3}
+ .nav .ct.gx::after{background:none;justify-content:center}.nav .ct.gx.fl{animation:glo .42s forwards}
+ .cl{display:block;position:absolute;left:calc(50% + var(--cw)*.78 + 14px);top:50%;transform:translateY(-50%);pointer-events:none;z-index:20;white-space:nowrap}
 }
 </style></head><body>
 <section class="hero" id="top"><div class="oc2"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" style="width:100%;height:100%;display:block">
@@ -1844,7 +1852,7 @@ var P=[
  {n:'Library',m:'Kept along the way',d:'Art, clips and notes kept as the work went.',im:['sketch','wheel'],c:{v:'assets/library-kairos.mp4',p:'assets/library-kairos-poster.jpg'}},
  {n:'The short story',m:'Read it',d:'Why it was built, in plain words.',im:['av'],c:'assets/story-text.jpg'}];
 var destinations=['method','rental','learning',null,'story'];
-if(matchMedia('(max-width:860px)').matches)document.querySelector('.nav .ct').classList.add('gx');   // phone: Contact flips like the footer links
+document.querySelector('.nav .ct').classList.add('gx');   // Contact flips like the footer links
 var cf=document.getElementById('cf');P.forEach(function(p,i){var b=document.createElement('button');b.className='t'+(p.im[0]==='av'?' av':'');b.setAttribute('aria-label',p.n);if(destinations[i])b.setAttribute('data-pane',destinations[i]);else b.setAttribute('data-library','');b.innerHTML='<img alt="">';cf.appendChild(b)});
 var T=[].slice.call(document.querySelectorAll('.t')),hi=document.getElementById('hi'),hn=document.getElementById('hn'),hm=document.getElementById('hm'),hd=document.getElementById('hd'),th=document.getElementById('th'),cur=-1;
 T.forEach(function(t,i){t.querySelector('img').src=IMG[P[i].im[0]]});
