@@ -1,0 +1,273 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>RM AC demo</title>
+<style>
+@font-face{font-family:"Satoshi";src:url("../../assets/Satoshi-Black.otf");font-weight:900}
+@font-face{font-family:"Satoshi";src:url("../../assets/Satoshi-Bold.otf");font-weight:700}
+@font-face{font-family:"Satoshi";src:url("../../assets/Satoshi-Medium.otf");font-weight:500}
+:root{--paper:#E9EEF1;--ink:#16202A;--soft:#4E5C68;--ox:#C0392B}
+*{box-sizing:border-box;margin:0}
+html,body{overflow:hidden;background:var(--paper)}
+body{font-family:"Satoshi",system-ui,sans-serif;color:var(--ink);position:relative}
+.sc{position:absolute;inset:0;background:var(--paper);overflow:hidden}
+.tt{position:absolute;left:64px;font-weight:900;line-height:1;letter-spacing:-.025em}
+.sb{position:absolute;left:68px;font-weight:500;line-height:1.3;color:var(--soft)}
+.r{color:var(--ox)}
+.fr{position:absolute;left:60px;overflow:hidden;border-radius:28px;background:#fff;box-shadow:0 30px 80px rgba(22,32,42,.18),0 0 0 1px rgba(22,32,42,.06)}
+.cam{position:absolute;left:0;top:0;width:1440px;height:1400px;transform-origin:0 0}
+.cam img{position:absolute;left:0;top:0;width:1440px}
+.cut{position:absolute;left:0;width:1440px;height:3000px;background:#D6DEE3}
+.spot{position:absolute;border:3px solid var(--ox);border-radius:10px}
+.dot{position:absolute;border:3px solid var(--ox);border-radius:50%}
+.cur{position:absolute;width:22px;height:30px}
+.lift{position:absolute;left:96px;background:#fff;border-left:10px solid var(--ox);border-radius:16px;padding:22px 30px;font-weight:700;line-height:1.25;box-shadow:0 24px 60px rgba(22,32,42,.28);opacity:0}
+.lift small{display:block;font-weight:500;color:var(--soft);font-size:.62em;margin-top:6px}
+/* step rail */
+.rail{position:absolute;left:0;top:0;z-index:999;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;white-space:nowrap}
+.rail span{display:flex;align-items:center;gap:8px;color:#9AA6B0}
+.rail span i{font-style:normal;width:30px;height:30px;border-radius:50%;border:2px solid currentColor;display:grid;place-items:center;font-size:16px}
+.rail span.dn{color:var(--ink)}
+.rail span.on{color:var(--ox)}
+.rail span.on i{background:var(--ox);color:#fff;border-color:var(--ox)}
+.rail b{width:18px;height:2px;background:#C3CCD3}
+/* tenant email */
+.ml{position:absolute;inset:0;padding:44px 50px;font-size:30px;line-height:1.4}
+.ml .hd{display:flex;gap:20px;align-items:center;padding-bottom:26px;border-bottom:2px solid #E3E8EC}
+.ml .ic{width:76px;height:76px;border-radius:50%;background:#D7DEE3;display:grid;place-items:center;font-weight:900;font-size:34px;color:var(--soft);flex:none}
+.ml .fm{font-weight:700}.ml .em{color:var(--soft);font-size:24px}
+.ml .sj{font-weight:900;font-size:40px;margin:30px 0 22px;letter-spacing:-.01em}
+.ml .at{display:flex;gap:18px;margin-top:30px}
+.ml .at div{flex:1;height:150px;border-radius:14px;background:linear-gradient(135deg,#6E7B85,#3E4A53);position:relative}
+.ml .at div::after{content:"photo";position:absolute;left:14px;bottom:10px;color:#fff;font-size:20px;font-weight:700;opacity:.85}
+/* compare */
+.cp{position:absolute;inset:0;padding:50px 44px;display:flex;flex-direction:column;gap:30px}
+.cp .row{display:flex;gap:26px}
+.cp .tl{flex:1;border-radius:20px;background:#F3F6F8;padding:30px 30px 34px;border:2px solid #E1E7EB}
+.cp .tl h4{font-size:24px;font-weight:700;color:var(--soft);text-transform:none;margin-bottom:12px}
+.cp .tl p{font-size:26px;font-weight:500;color:var(--soft);line-height:1.35}
+.cp .tl .am{font-size:60px;font-weight:900;color:var(--ink);letter-spacing:-.02em;margin:10px 0 6px}
+.cp .res{border-radius:20px;background:var(--ox);color:#fff;padding:30px 34px;font-weight:900;font-size:46px;line-height:1.15;opacity:0}
+.cp .res small{display:block;font-weight:500;font-size:26px;margin-top:10px;opacity:.92}
+/* phone */
+.ph{position:absolute;background:#0E1419;border-radius:56px;padding:14px;box-shadow:0 40px 90px rgba(22,32,42,.28)}
+.vf{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:radial-gradient(120% 90% at 40% 35%,#8C735C 0%,#5E4A39 55%,#3B2E24 100%)}
+.rc{position:absolute;left:14%;top:12%;width:72%;background:#FBFAF6;box-shadow:0 18px 30px rgba(0,0,0,.35);padding:26px 24px 30px;font-family:"Courier New",monospace;color:#222;font-size:17px;line-height:1.45;transform:rotate(-3deg)}
+.rc b{font-family:"Satoshi",sans-serif;font-weight:900;font-size:21px;white-space:nowrap;letter-spacing:.02em;display:block;margin-bottom:6px}
+.rc hr{border:0;border-top:2px dashed #999;margin:12px 0}
+.rc .tot{display:flex;justify-content:space-between;font-weight:700;font-size:21px}
+.gd{position:absolute;width:44px;height:44px;border:4px solid rgba(255,255,255,.92)}
+.sh{position:absolute;left:50%;bottom:34px;width:84px;height:84px;margin-left:-42px;border-radius:50%;border:5px solid #fff}
+.sh i{position:absolute;inset:6px;border-radius:50%;background:#fff}
+.fl{position:absolute;inset:0;background:#fff;opacity:0}
+.th{position:absolute;left:30px;bottom:44px;width:62px;height:62px;border-radius:12px;border:3px solid #fff;overflow:hidden;opacity:0;background:#FBFAF6}
+.ts{position:absolute;left:20px;right:20px;top:26px;background:rgba(255,255,255,.96);border-radius:16px;padding:14px 16px;font-weight:500;font-size:18px;line-height:1.3;color:#1E7A3C;opacity:0}
+.ts b{display:block;color:var(--ink);font-weight:700;font-size:15px;margin-bottom:2px}
+.av{position:absolute;border-radius:28px;-webkit-mask:radial-gradient(circle,#000 62%,transparent 100%)}
+.stamp{position:absolute;background:#fff;border-radius:28px;-webkit-mask:radial-gradient(circle,#000 62%,transparent 100%);transform-origin:center;opacity:0}
+.mk{position:absolute;font-weight:900}
+</style></head>
+<body>
+<script>
+const CAP = '../../.design-loop/clips/cap/', FPS = 30, SL = 0.6;
+const Q = new URLSearchParams(location.search), WIDE = Q.get('wide') === '1';
+const W = WIDE ? 1600 : 1080, H = WIDE ? 1150 : 1350, FW = W - 120, TS = WIDE ? 76 : 80, SS = WIDE ? 32 : 32, RAIL = WIDE ? 104 : 112;
+document.documentElement.style.width = document.body.style.width = W + 'px';
+document.documentElement.style.height = document.body.style.height = H + 'px';
+const STEPS = ['Tenant', 'Vendor', 'Quote vs receipt', 'Done', 'Asset', 'Preparer'];
+// d: scene length. cam: [lt, x, y, w] in 1440 UI coords. spot: [lt, x, y, w, h, alpha] keyframes (UI coords).
+// lift: [html, in, out] big readable callouts. layers: [img, fadeIn lt, fadeDur].
+const S = [
+  { step: 0, d: 6, title: 'A tenant emails<span class=r>.</span>', sub: 'The AC stopped working. Photos are attached.', mail: 1 },
+  { step: 0, d: 6.5, title: 'The reply is drafted<span class=r>.</span>', sub: 'It waits for me. Nothing goes out until I click Send.',
+    layers: [['st-mail', 0, 0]], cam: [[0, 40, 700, 700], [1.0, 40, 840, 520]], cut: [[0, 1092]],
+    spot: [[0, 46, 712, 1008, 372, 0], [0.8, 46, 712, 1008, 372, 1]],
+    lift: [['“I am asking Sample HVAC Co to quote a replacement.”', 1.4, 4.2], ['Send<span class=r>.</span> The tenant has an answer.', 4.6]],
+    cursor: [[0, 600, 1250], [2.6, 600, 1250], [3.8, 112, 1050]], click: [4.0, 114, 1048] },
+  { step: 1, d: 5.5, title: 'The vendor is already saved<span class=r>.</span>', sub: 'One click asks Sample HVAC Co for a quote.',
+    layers: [['st-wo-ask', 0, 0]], cam: [[0, 40, 560, 640], [0.9, 40, 600, 480]], cut: [[0, 786]],
+    spot: [[0, 46, 607, 1008, 170, 0], [0.8, 46, 607, 1008, 170, 1], [2.2, 146, 731, 120, 34, 1]],
+    lift: [['Work order: Replace AC condenser<small>Vendor: Sample HVAC Co</small>', 1.0, 2.4]],
+    cursor: [[0, 520, 980], [1.6, 520, 980], [2.6, 205, 749]], click: [2.8, 207, 747] },
+  { step: 1, d: 6.5, title: 'The quote request is drafted<span class=r>.</span>', sub: 'It goes to the vendor when I click Send.',
+    layers: [['st-mail', 0, 0]], cam: [[0, 40, 262, 700], [0.9, 40, 440, 480]],
+    spot: [[0, 46, 268, 1008, 440, 0], [0.8, 46, 268, 1008, 440, 1]],
+    lift: [['“Could you send me a written quote for this job?”', 1.2, 3.6], ['Sent to Sample HVAC Co<span class=r>.</span>', 4.2]],
+    cursor: [[0, 600, 820], [2.4, 600, 820], [3.4, 112, 674]], click: [3.6, 114, 672] },
+  { step: 2, d: 7.5, title: 'The quote comes in<span class=r>.</span>', sub: '$4,200.00 from Sample HVAC Co. I approve it.',
+    layers: [['st-wo-ask', 0, 0], ['st-wo-quote', 0.9, 0.4], ['st-wo-approved', 4.2, 0.3]], cam: [[0, 40, 590, 640], [1.0, 60, 604, 600]], cut: [[0, 786], [4.2, 850]],
+    spot: [[0, 46, 607, 1008, 170, 0], [1.3, 312, 622, 196, 32, 1], [2.4, 60, 736, 616, 32, 1], [4.4, 60, 727, 560, 32, 1]],
+    lift: [['Quote received: <span class=r>$4,200.00</span>', 1.6, 3.9], ['Approved<span class=r>.</span> $4,200.00 is the agreed price.', 4.6]],
+    cursor: [[0, 520, 1000], [2.6, 520, 1000], [3.6, 622, 754]], click: [3.8, 624, 752] },
+  { step: 2, d: 5, title: 'The work is done<span class=r>.</span>', sub: 'I snap the invoice with my phone. It goes to the tracker.', phone: 1 },
+  { step: 2, d: 6, title: 'Checked against the quote<span class=r>.</span>', sub: 'The tracker compares the invoice to the agreed price.', compare: 1 },
+  { step: 2, d: 5.5, title: 'It shows on the work order<span class=r>.</span>', sub: 'The difference is in red, next to the invoice.',
+    layers: [['st-wo-invoice', 0, 0]], cam: [[0, 40, 596, 640], [1.6, 60, 650, 560]], cut: [[0, 874]],
+    spot: [[0, 46, 607, 1008, 254, 0], [0.8, 46, 607, 1008, 254, 1], [1.8, 60, 792, 590, 32, 1]],
+    lift: [['Invoice $4,350.00 · <span class=r>$150.00 over</span> the agreed $4,200.00', 2.2]] },
+  { step: 3, d: 6, title: 'Tracked to done<span class=r>.</span>', sub: 'I close the work order.',
+    layers: [['st-wo-invoice', 0, 0], ['st-wo-closed', 2.0, 0.4]], cam: [[0, 600, 596, 480], [2.3, 600, 596, 480], [3.1, 40, 680, 520]], cut: [[0, 874], [2.0, 874], [2.4, 1400]],
+    spot: [[0, 898, 619, 92, 36, 0], [0.9, 898, 619, 92, 36, 1], [2.2, 898, 619, 92, 36, 0], [2.8, 46, 692, 1008, 200, 0], [3.4, 46, 692, 1008, 200, 1]],
+    lift: [['Closed<span class=r>.</span> It moves to closed work orders.', 3.6]],
+    cursor: [[0, 700, 900], [0.6, 700, 900], [1.5, 939, 640]], click: [1.7, 941, 638] },
+  { step: 4, d: 7.5, title: 'A new AC is an asset<span class=r>.</span>', sub: 'The tracker proposes the class and the life, and says why.',
+    layers: [['st-assets-b', 0, 0]], cam: [[0, 30, 380, 700], [1.4, 30, 470, 640]],
+    spot: [[0, 30, 371, 1040, 347, 0], [0.8, 30, 371, 1040, 347, 1], [1.6, 44, 512, 612, 76, 1], [3.2, 44, 589, 1012, 68, 1], [4.8, 46, 663, 130, 36, 1]],
+    lift: [['Class: 27.5-year residential rental', 1.8, 3.2], ['Why: a part of the building takes the building’s life.<small>27.5 years (Pub. 527). The preparer confirms it.</small>', 3.4, 5.3], ['Added to Assets<span class=r>.</span>', 5.8]],
+    cursor: [[0, 600, 1000], [4.4, 600, 1000], [5.2, 108, 680]], click: [5.4, 110, 678] },
+  { step: 4, d: 6, title: 'Depreciation starts<span class=r>.</span>', sub: 'The cost, the 27.5 years, and this year’s share.',
+    layers: [['st-assets-added', 0, 0]], cam: [[0, 40, 880, 560], [2.0, 40, 880, 560], [3.2, 500, 880, 560]],
+    spot: [[0, 46, 916, 1008, 58, 0], [0.8, 46, 916, 1008, 58, 1]],
+    lift: [['Replace AC condenser · $4,350.00 · 27.5 yrs<small>This year’s share: $32.95 (estimate)</small>', 1.4]] },
+  { step: 5, d: 6, title: 'Booked for the preparer<span class=r>.</span>', sub: 'One click exports the year for my tax preparer.',
+    layers: [['st-org', 0, 0]], cam: [[0, 20, 176, 440]], dim: 0.8,
+    spot: [[0, 30, 178, 181, 34, 0], [0.8, 30, 178, 181, 34, 1]],
+    lift: [['The whole year, in one package for the preparer<span class=r>.</span>', 2.8]],
+    cursor: [[0, 420, 420], [1.0, 420, 420], [1.8, 118, 197]], click: [2.0, 120, 195] },
+  { d: 5, end: 1 },
+];
+let T = 0; S.forEach(s => { s.t0 = T; T += s.d; s.t1 = T; });
+const LEN = T;
+const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const out = x => 1 - Math.pow(1 - x, 3);
+const cl = (v, a, b) => Math.max(a, Math.min(b, v));
+const CURSOR = '<svg class="cur" viewBox="0 0 22 30"><path d="M2 2 L2 24 L8 18.5 L12 28 L16 26.3 L12 17 L20 17 Z" fill="#16202A" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
+const RECEIPT = `<div class="rc"><b>SAMPLE HVAC CO</b>Invoice SAMPLE-HV-07<br>12 Sample Street<hr>Replace AC condenser<br>Unit, labor, haul-away<hr><div class="tot"><span>TOTAL</span><span>$4,350.00</span></div></div>`;
+const MAIL = `<div class="ml"><div class="hd"><div class="ic">S</div><div><div class="fm">Sam Tenant</div><div class="em">sam.tenant@example.com · Sep 22</div></div></div>`
+  + `<div class="sj">AC unit stopped working</div><div>Hi, the AC stopped working last night. The outdoor unit is not running at all. Photos attached.</div><div style="margin-top:18px">Thanks, Sam</div>`
+  + `<div class="at"><div></div><div></div></div></div>`;
+const COMPARE = `<div class="cp"><div class="row"><div class="tl"><h4>The quote</h4><div class="am">$4,200.00</div><p>Sample HVAC Co<br>Approved Sep 26</p></div>`
+  + `<div class="tl"><h4>The invoice</h4><div class="am">$4,350.00</div><p>Snapped on the phone<br>Invoice SAMPLE-HV-07</p></div></div>`
+  + `<div class="res">$150.00 over the agreed price<small>Flagged before it is booked. I decide if it is OK.</small></div></div>`;
+const rail = document.createElement('div'); rail.className = 'rail';
+Object.assign(rail.style, { width: W + 'px', height: RAIL + 'px', fontSize: (WIDE ? 22 : 19) + 'px' });
+rail.innerHTML = STEPS.map((n, i) => `<span><i>${i + 1}</i>${n}</span>`).join('<b></b>');
+document.body.appendChild(rail);
+S.forEach((s, i) => {
+  const el = s.el = document.createElement('div'); el.className = 'sc'; el.style.zIndex = i; document.body.appendChild(el);
+  let h = '';
+  if (s.end) {
+    const ay = WIDE ? 230 : 330;
+    h = `<img class="av" src="${CAP}os-av.png" style="left:${W / 2 - 110}px;top:${ay}px;width:220px">`
+      + `<img class="stamp" src="${CAP}os-stamp.png" style="left:${W / 2 - 110}px;top:${ay}px;width:220px;height:220px">`
+      + `<div class="tt" style="top:${ay + 290}px;text-align:center;width:${W - 128}px;font-size:${WIDE ? 88 : 92}px">Rental Manager<span class=r>.</span><span style="display:block;margin-top:28px;line-height:1.35;font-size:40px;font-weight:500;color:var(--soft);letter-spacing:0">Tenant email to tax preparer.<br>A workbook you own.</span></div>`
+      + `<div class="mk" style="left:0;width:${W}px;text-align:center;top:${ay + 640}px;font-size:40px">olimazi<span class=r>.online</span></div>`;
+  } else {
+    h = `<div class="tt" style="top:${RAIL + 40}px;width:${W - 128}px;font-size:${TS}px">${s.title}</div><div class="sb" style="width:${W - 140}px;font-size:${SS}px">${s.sub}</div>`;
+    if (s.phone) h += `<div class="ph"><div class="vf">${RECEIPT}<div class="gd" style="left:9%;top:8%;border-right:0;border-bottom:0"></div><div class="gd" style="right:9%;top:8%;border-left:0;border-bottom:0"></div><div class="gd" style="left:9%;bottom:24%;border-right:0;border-top:0"></div><div class="gd" style="right:9%;bottom:24%;border-left:0;border-top:0"></div><div class="sh"><i></i></div><div class="th">${RECEIPT.replace('class="rc"', 'class="rc" style="transform:scale(.18);transform-origin:0 0;left:0;top:0;width:320px"')}</div><div class="fl"></div><div class="ts"><b>Receipts</b>IMG_4188.jpg — saved to the AC work order</div></div></div>`;
+    else if (s.mail) h += `<div class="fr">${MAIL}</div>`;
+    else if (s.compare) h += `<div class="fr">${COMPARE}</div>`;
+    else {
+      let c = '';
+      s.layers.forEach(([img]) => { c += `<img src="${CAP}${img}.png">`; });
+      if (s.cut) c += `<div class="cut"></div>`;
+      if (s.spot) c += `<div class="spot"></div>`;
+      if (s.click) c += `<div class="dot clk" style="width:40px;height:40px"></div>`;
+      if (s.cursor) c += CURSOR;
+      h += `<div class="fr"><div class="cam">${c}</div></div>`;
+    }
+    (s.lift || []).forEach(([txt]) => { h += `<div class="lift" style="width:${FW - 72}px;font-size:${WIDE ? 38 : 36}px">${txt}</div>`; });
+  }
+  el.innerHTML = h;
+});
+function camAt(keys, lt) {
+  let k = keys[0];
+  for (let i = 1; i < keys.length; i++) {
+    const a = keys[i - 1], b = keys[i];
+    if (lt >= b[0]) { k = b; continue; }
+    if (lt > a[0]) { const p = ease(cl((lt - a[0]) / Math.min(b[0] - a[0], 0.7), 0, 1)); k = a.map((v, j) => v + (b[j] - v) * p); }
+    break;
+  }
+  return k;
+}
+function draw(s, lt) {
+  if (s.end) {
+    // logo stamp (same as the OS clip): slams in big, shudders, then settles into the mark
+    const st = s.el.querySelector('.stamp'), av = s.el.querySelector('.av');
+    const big = Math.min(W, H) * 0.8 / 220, cy = H / 2 - (st.offsetTop + 110);
+    const T0 = 0.05, T1 = T0 + 0.38, T2 = T0 + 0.7, T3 = T0 + 1.1, T4 = T0 + 1.7;
+    let sc = big, dx = 0, dy = cy, rot = 0, op = 1;
+    if (lt < T0) op = 0;
+    else if (lt < T1) { const k = (lt - T0) / (T1 - T0); sc = big * (1.9 + (1 - 1.9) * k * k * k); rot = -8 * (1 - k); op = cl(k * 4, 0, 1); }
+    else if (lt < T3) { const k = cl((lt - T1) / (T2 - T1), 0, 1), amp = 14 * (1 - k); sc = big * (1 - 0.03 * Math.sin(k * Math.PI)); dx += amp * Math.sin(lt * 111); dy += amp * Math.cos(lt * 143); }
+    else { const u = cl((lt - T3) / (T4 - T3), 0, 1), c3 = 1.70158, k = (c3 + 1) * u * u * u - c3 * u * u; sc = big + (1 - big) * Math.min(1, k); dy = cy * (1 - k); rot = 360 * cl(k, 0, 1); }
+    st.style.opacity = lt >= T4 ? 0 : op; st.style.transform = `translate(${dx}px,${dy}px) rotate(${rot}deg) scale(${sc})`;
+    av.style.opacity = lt >= T4 ? 1 : 0;
+    const b = out(cl((lt - T4) / 0.5, 0, 1)), c = out(cl((lt - T4 - 0.3) / 0.5, 0, 1));
+    const tt = s.el.querySelector('.tt'); tt.style.opacity = b; tt.style.transform = `translateY(${(1 - b) * 24}px)`;
+    s.el.querySelector('.mk').style.opacity = c;
+    return;
+  }
+  const tt = s.el.querySelector('.tt'), sb = s.el.querySelector('.sb'), a = out(cl((lt - 0.2) / 0.5, 0, 1)), b = out(cl((lt - 0.4) / 0.5, 0, 1));
+  tt.style.opacity = a; tt.style.transform = `translateY(${(1 - a) * 30}px)`;
+  sb.style.top = (tt.offsetTop + tt.offsetHeight + 20) + 'px'; sb.style.opacity = b; sb.style.transform = `translateY(${(1 - b) * 20}px)`;
+  const top = sb.offsetTop + sb.offsetHeight + 44, u = out(cl((lt - 0.15) / 0.8, 0, 1)), fh = H - top - 60;
+  s.el.querySelectorAll('.lift').forEach((m, i) => {
+    const [, t0, t1 = 1e9] = s.lift[i], p = Math.min(out(cl((lt - t0) / 0.4, 0, 1)), cl((t1 - lt) / 0.3, 0, 1));
+    m.style.top = (top + fh - m.offsetHeight - 30) + 'px'; m.style.opacity = p; m.style.transform = `translateY(${(1 - p) * 24}px)`;
+  });
+  if (s.phone) {
+    const ph = s.el.querySelector('.ph'), hh = fh, ww = hh * 0.52;
+    Object.assign(ph.style, { top: top + 'px', height: hh + 'px', width: ww + 'px', left: (W - ww) / 2 + 'px', transform: `translateY(${(1 - u) * 120}px)` });
+    const SNAP = 1.9, vf = ph.querySelector('.vf');
+    const settle = out(cl(lt / 1.6, 0, 1));
+    vf.querySelector('.rc').style.transform = `translate(${(1 - settle) * 30}px,${(1 - settle) * -24}px) rotate(${-3 - (1 - settle) * 5}deg) scale(${1.08 - 0.08 * settle})`;
+    vf.querySelectorAll('.gd').forEach(g => g.style.borderColor = lt > 1.4 ? 'rgba(255,255,255,.95)' : 'rgba(255,255,255,.55)');
+    const press = lt > SNAP - 0.12 && lt < SNAP + 0.1;
+    vf.querySelector('.sh i').style.transform = `scale(${press ? 0.86 : 1})`;
+    vf.querySelector('.fl').style.opacity = lt < SNAP ? 0 : cl(1 - (lt - SNAP) / 0.35, 0, 1) * 0.9;
+    const tp = out(cl((lt - SNAP - 0.1) / 0.5, 0, 1)), th = vf.querySelector('.th');
+    th.style.opacity = lt > SNAP ? 1 : 0; th.style.transform = `scale(${1 + (1 - tp) * 2})`; th.style.transformOrigin = '0 100%';
+    const ts = vf.querySelector('.ts'), tq = out(cl((lt - SNAP - 0.6) / 0.4, 0, 1));
+    ts.style.opacity = tq; ts.style.transform = `translateY(${(1 - tq) * -20}px)`;
+    return;
+  }
+  const f = s.el.querySelector('.fr');
+  Object.assign(f.style, { top: top + 'px', height: fh + 'px', width: FW + 'px', transform: `translateY(${(1 - u) * 120}px)` });
+  if (s.compare) {
+    const r = f.querySelector('.res'), p = out(cl((lt - 2.0) / 0.45, 0, 1));
+    r.style.opacity = p; r.style.transform = `scale(${0.92 + 0.08 * p})`;
+    f.querySelectorAll('.tl').forEach((e, i) => { const q = out(cl((lt - 0.6 - i * 0.5) / 0.45, 0, 1)); e.style.opacity = q; e.style.transform = `translateY(${(1 - q) * 30}px)`; });
+    return;
+  }
+  if (s.mail) return;
+  let [, x, y, w] = camAt(s.cam, lt);
+  // the app column ends at 1084; the camera never leaves it, so no blank page shows at either side
+  const wv = w * FW / 960; x = cl(x + (w - wv) / 2, 0, 1084 - wv); const k = 960 / w;
+  s.el.querySelector('.cam').style.transform = `scale(${k}) translate(${-x}px,${-y}px)`;
+  const imgs = s.el.querySelectorAll('.cam > img');
+  s.layers.forEach(([, d, dur], i) => { if (i) imgs[i].style.opacity = dur ? cl((lt - d) / dur, 0, 1) : (lt >= d ? 1 : 0); });
+  if (s.cut) s.el.querySelector('.cut').style.top = camAt(s.cut, lt)[1] + 'px';
+  if (s.spot) {
+    const [, sx, sy, sw, sh, sa] = camAt(s.spot, lt), sp = s.el.querySelector('.spot');
+    Object.assign(sp.style, { left: sx + 'px', top: sy + 'px', width: sw + 'px', height: sh + 'px', borderColor: `rgba(192,57,43,${sa})`, boxShadow: `0 0 0 4000px rgba(22,32,42,${sa * (s.dim || 0.62)})` });
+  }
+  if (s.cursor) {
+    const [, cx, cy] = camAt(s.cursor, lt), c = s.el.querySelector('.cur');
+    Object.assign(c.style, { left: cx + 'px', top: cy + 'px', opacity: cl((lt - 0.3) / 0.3, 0, 1), transform: `scale(${1 / k * 1.6})`, transformOrigin: '0 0' });
+    const [ct, kx, ky] = s.click, r = s.el.querySelector('.clk'), p = cl((lt - ct) / 0.5, 0, 1);
+    Object.assign(r.style, { left: kx - 20 + 'px', top: ky - 20 + 'px', opacity: lt < ct ? 0 : 1 - p, transform: `scale(${0.6 + p * 1.6})` });
+  }
+}
+// smooth slide: next card pushes the current one left; the step rail stays put
+function render(t) {
+  S.forEach((s, i) => {
+    const next = S[i + 1];
+    let x = null;
+    if (t >= s.t0 && t < s.t1) x = 0;
+    if (i && t >= s.t0 && t < s.t0 + SL) x = W * (1 - ease((t - s.t0) / SL));
+    if (next && t >= next.t0 && t < next.t0 + SL) x = -W * 0.35 * ease((t - next.t0) / SL);
+    if (t >= LEN && !next) x = 0;
+    s.el.style.display = x === null ? 'none' : 'block';
+    if (x !== null) { s.el.style.transform = `translateX(${x}px)`; draw(s, Math.min(t, s.t1) - s.t0); }
+  });
+  const cur = S.filter(s => t >= s.t0).pop() || S[0];
+  rail.style.opacity = cur.end ? cl(1 - (t - cur.t0) / 0.4, 0, 1) : 1;
+  const st = cur.end ? 6 : cur.step;
+  rail.querySelectorAll('span').forEach((e, i) => e.className = i < st ? 'dn' : i === st ? 'on' : '');
+}
+window.CLIP = { fps: FPS, len: LEN }; window.render = render;
+const imgs = ['os-av.png', 'os-stamp.png', ...new Set(S.flatMap(s => (s.layers || []).map(l => l[0] + '.png')))];
+window.ready = Promise.all([document.fonts.ready, ...imgs.map(n => new Promise(r => { const i = new Image(); i.onload = r; i.onerror = r; i.src = CAP + n; }))]);
+render(Number(Q.get('t') || 0));
+</script>
+</body></html>
