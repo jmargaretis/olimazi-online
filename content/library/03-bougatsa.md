@@ -28,13 +28,18 @@ Recipes are also a way to share something with my family. I tried this again to 
 
 Galaktoboureko is King — next: a syrup variation closer to galaktoboureko, a small custard-learning series, and draft posts.
 
+Ribeye — the process: Followed the video below: “funny guy to watch; the drying/brining was definitely a home run!”
+
 # Links
 
 [Original Mia Kouppa recipe](https://miakouppa.com/bougatsa/#recipe)
+[The dry-brine video I followed](https://youtu.be/lVcTvHTn6Dw)
 
 # Images
 
 assets/bougatsa.jpg
+assets/mind-ribeye-process.jpg | Ribeye — the process | Mid-preparation.
+assets/mind-ribeye-result.jpg | Ribeye — the result | Finished sear.
 
 # Height
 

@@ -18,6 +18,7 @@ From the family archive.
 # Images
 
 assets/library-brothers-truck.jpg
+assets/library-67-bug.jpg | The '67 Bug | From the family archive.
 
 # Height
 

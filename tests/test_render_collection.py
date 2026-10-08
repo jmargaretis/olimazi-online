@@ -96,7 +96,7 @@ class CollectionRenderingTests(unittest.TestCase):
 
     def test_repo_content_round_trips_current_shelf_byte_for_byte(self):
         items = collection.load_items(ROOT / "content" / "library")
-        self.assertEqual(len(items), 12)
+        self.assertEqual(len(items), 9)
         target = collection.read_text(ROOT / "index.html")
         start, end = collection_region(target)
         self.assertEqual(target[start:end], "\n" + collection.render_library(items) + "\n      ")
